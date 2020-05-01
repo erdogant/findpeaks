@@ -1,0 +1,2 @@
+include XXX/data/*.zip
+include XXX/data/*.txt
