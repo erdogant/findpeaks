@@ -74,7 +74,7 @@ Please cite findpeaks in your publications if this is useful for your research. 
 @misc{erdogant2020findpeaks,
   title={findpeaks},
   author={Erdogan Taskesen},
-  year={2019},
+  year={2020},
   howpublished={\url{https://github.com/erdogant/findpeaks}},
 }
 ```
