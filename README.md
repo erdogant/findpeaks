@@ -52,8 +52,8 @@ out = findpeaks.fit(X)
 findpeaks.plot(out)
 ```
 <p align="center">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_raw.png" width="600" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="600" />  
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_raw.png" width="400" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="400" />  
 </p>
 
 #### Example 2:
@@ -63,8 +63,26 @@ out = findpeaks.fit(X)
 findpeaks.plot(out)
 ```
 <p align="center">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_raw.png" width="600" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_interpol.png" width="600" />  
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_raw.png" width="400" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_interpol.png" width="400" />  
+</p>
+
+
+#### Example 3:
+```python
+i = 10000
+xs = np.linspace(0,3.7*pi,i)
+X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * 
+np.random.randn(i))
+y *= -1
+
+# Findpeaks
+out = findpeaks.fit(X)
+findpeaks.plot(out)
+
+```
+<p align="center">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
 </p>
 
 
