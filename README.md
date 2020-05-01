@@ -4,8 +4,6 @@
 [![PyPI Version](https://img.shields.io/pypi/v/findpeaks)](https://pypi.org/project/findpeaks/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/findpeaks/blob/master/LICENSE)
 [![Downloads](https://pepy.tech/badge/findpeaks/month)](https://pepy.tech/project/findpeaks/month)
-[![Donate](https://img.shields.io/badge/donate-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)
-[![Sphinx](https://img.shields.io/badge/Sphinx-Docs-blue)](https://erdogant.github.io/findpeaks/)
 
 * findpeaks is Python package
 
@@ -88,4 +86,3 @@ Please cite findpeaks in your publications if this is useful for your research. 
 	Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
 	Contributions are welcome.
 	See [LICENSE](LICENSE) for details.
-	This work is created and maintained in my free time. If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated.
