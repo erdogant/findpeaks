@@ -18,8 +18,8 @@ Description
 -----------
 findpeaks is for the detection of peaks and valleys in a 1D vector.
 
-Example
--------
+Examples
+--------
 >>> import findpeaks
 >>> X = [10,11,9,23,21,11,45,20,11,12]
 >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
