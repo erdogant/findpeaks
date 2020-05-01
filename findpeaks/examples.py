@@ -1,7 +1,7 @@
 
 # %%
 import matplotlib.pyplot as plt
-import findpeaks as findpeaks
+import findpeaks
 print(dir(findpeaks))
 print(findpeaks.__version__)
 
