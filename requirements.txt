@@ -1,9 +1,0 @@
-#conda create -n env_XXX python=3.6
-#conda activate env_XXX
-#conda install spyder
-
-wget
-matplotlib 
-numpy 
-pandas 
-tqdm
