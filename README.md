@@ -42,7 +42,7 @@ python setup.py install
 
 #### Import findpeaks package
 ```python
-import findpeaks as findpeaks
+import findpeaks
 ```
 
 #### Example 1:
