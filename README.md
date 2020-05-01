@@ -48,7 +48,10 @@ import findpeaks
 #### Example 1:
 ```python
 X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-out = findpeaks.fit(X)
+out = findpeaks.fit(X, lookahead=1)
+findpeaks.plot(out)
+
+out = findpeaks.fit(X, lookahead=1, smooth=10)
 findpeaks.plot(out)
 ```
 <p align="center">
@@ -59,7 +62,10 @@ findpeaks.plot(out)
 #### Example 2:
 ```python
 X = [10,11,9,23,21,11,45,20,11,12]
-out = findpeaks.fit(X)
+out = findpeaks.fit(X, lookahead=1)
+findpeaks.plot(out)
+
+out = findpeaks.fit(X, lookahead=1, smooth=10)
 findpeaks.plot(out)
 ```
 <p align="center">
