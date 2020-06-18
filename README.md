@@ -76,8 +76,9 @@ findpeaks.plot(out)
 
 #### Example 3:
 ```python
+import numpy as np
 i = 10000
-xs = np.linspace(0,3.7*pi,i)
+xs = np.linspace(0,3.7*np.pi,i)
 X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * 
 np.random.randn(i))
 y *= -1
