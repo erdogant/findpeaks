@@ -6,12 +6,13 @@
 # Licence     : MIT
 # ----------------------------------------------------
 
+from findpeaks.utils.smoothline import smooth_line1d
+from peakdetect import peakdetect
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from peakdetect import peakdetect
-# from findpeaks.utils.peakdetect import peakdetect
-from findpeaks.utils.smoothline import smooth_line1d
-import matplotlib.pyplot as plt
+import wget
+import os
 
 def fit(X, xs=None, lookahead=200, smooth=None, verbose=3):
     """Detection of peaks and valleys in a 1D vector.
@@ -140,3 +141,51 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, figsize=(15,8)
         plt.legend(loc=0)
     plt.title(title)
     plt.grid(True)
+
+# %% Import example dataset from github.
+def import_example(data='2dpeaks', url=None, sep=';', verbose=3):
+    """Import example dataset from github source.
+    
+    Description
+    -----------
+    Import one of the few datasets from github source or specify your own download url link.
+
+    Parameters
+    ----------
+    data : str
+        Name of datasets: '2dpeaks'
+    url : str
+        url link to to dataset.
+    verbose : int, (default: 3)
+        Print message to screen.
+
+    Returns
+    -------
+    pd.DataFrame()
+        Dataset containing mixed features.
+
+    """
+    if url is None:
+        url='https://erdogant.github.io/datasets/'+data+'.zip'
+    else:
+        data = wget.filename_from_url(url)
+
+    if url is None:
+        if verbose>=3: print('[findpeaks] >Nothing to download.')
+        return None
+
+    curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    PATH_TO_DATA = os.path.join(curpath, wget.filename_from_url(url))
+    if not os.path.isdir(curpath):
+        os.makedirs(curpath, exist_ok=True)
+
+    # Check file exists.
+    if not os.path.isfile(PATH_TO_DATA):
+        if verbose>=3: print('[findpeaks] >Downloading [%s] dataset from github source..' %(data))
+        wget.download(url, curpath)
+
+    # Import local dataset
+    if verbose>=3: print('[findpeaks] >Import dataset [%s]' %(data))
+    df = pd.read_csv(PATH_TO_DATA, sep=sep)
+    # Return
+    return df

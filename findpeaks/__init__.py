@@ -1,6 +1,7 @@
 from findpeaks.findpeaks import (
     fit,
 	plot,
+    import_example,
 )
 
 from findpeaks.utils.smoothline import smooth_line1d, smooth_line2d

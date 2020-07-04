@@ -1,0 +1,7 @@
+peakdetect
+scipy
+matplotlib
+numpy
+pandas
+tqdm
+peakdetect
