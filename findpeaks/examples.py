@@ -1,8 +1,3 @@
-# %% TODO 2D-peaks
-# https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array
-# https://www.sthu.org/code/codesnippets/imagepers.html
-# https://stackoverflow.com/questions/46000842/detecting-peaks-in-images/47191052#47191052
-
 # %%
 import findpeaks
 print(dir(findpeaks))
@@ -13,40 +8,24 @@ import cv2
 import matplotlib.pyplot as plt
 f = 'D://GITLAB/DATA/tmp/0421_2012_001_cropped.png'
 # f = 'D://GITLAB/DATA/tmp/0411_2012_001_cropped_met_rood.png'
+# f = 'D://GITLAB/DATA/tmp/6272_2012_002_cropped.png'
 img = cv2.imread(f)
-# img = cv2.resize(img, (200, 200))
-# img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-# plt.figure()
-# plt.imshow(img)
-# img = img.astype(np.uint8)
-# img = img / 255
-# plt.imshow(img, cmap='gray')
-# img = cv2.blur(img,(3,3))
-# plt.figure()
-# plt.imshow(img)
-
-# img = cv2.fastNlMeansDenoisingColored(img, h=20)
-# plt.figure()
-# plt.imshow(img)
-
-# convert all to grayscale
-# img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-# img = cv2.fastNlMeansDenoising(img, h=20)
-# plt.figure()
-# plt.imshow(img, cmap='gray')
 
 # %%
-results = findpeaks.fit(img, mask=0, scale=True, denoise=30, togray=True, resize=(300,300), verbose=3)
-# findpeaks.plot(results)
+results = findpeaks.fit(img, mask=0, scale=True, denoise=30, togray=False, resize=(300,300), verbose=3)
+# results = findpeaks.fit(img, mask=0, scale=False, denoise=None, togray=True, resize=(300,300), verbose=3)
+findpeaks.plot(results)
+
+# Plot each seperately
 findpeaks.plot_preprocessing(results)
 findpeaks.plot_mask(results)
 findpeaks.plot_mesh(results)
 findpeaks.plot_peristence(results)
-
+    
 # %%
 df = findpeaks.import_example()
 results = findpeaks.fit(df.values, mask=0, verbose=3)
-results = findpeaks.fit(df.values, mask=0, scale=True, togray=True, denoise=None, verbose=3)
+results = findpeaks.fit(df.values, mask=0, scale=True, togray=False, denoise=3, verbose=3)
 findpeaks.plot(results)
 
 # findpeaks.plot_preprocessing(results)
