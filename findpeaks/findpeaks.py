@@ -190,31 +190,31 @@ def peaks2d(X, mask=0, scale=True, denoise=10, togray=False, resize=None, verbos
     return results
 
 # %%
-def preprocessing(X, mask=0, scale=True, denoise=10, togray=False, resize=None, showfig=False, verbose=3):
+def preprocessing(X, mask=0, scale=True, denoise=10, togray=False, resize=None, showfig=False, figsize=(15,8), verbose=3):
     # Resize
     if resize:
         X = _resize(X, resize=resize)
         if showfig:
-            plt.figure()
+            plt.figure(figsize=figsize)
             plt.imshow(X)
     # Scaling
     if scale:
         X = _scale(X, verbose=verbose)
         if showfig:
-            plt.figure()
+            plt.figure(figsize=figsize)
             plt.imshow(X)
     # Convert to gray image
     if togray:
         X = _togray(X, verbose=verbose)
         if showfig:
-            plt.figure()
-            plt.imshow(X, cmap='gray' if togray else None)
+            plt.figure(figsize=figsize)
+            plt.imshow(X, cmap=('gray' if togray else None))
     # Denoising
     if denoise is not None:
         X = _denoise(X, h=denoise, verbose=verbose)
         if showfig:
-            plt.figure()
-            plt.imshow(X, cmap='gray' if togray else None)
+            plt.figure(figsize=figsize)
+            plt.imshow(X, cmap=('gray' if togray else None))
     # Return
     return X
 
@@ -368,37 +368,41 @@ def plot1d(out, figsize=(15,8)):
 
 def plot2d(out, figsize=(15,8)):
     # Plot preprocessing steps
-    plot_preprocessing(out)
+    plot_preprocessing(out, figsize=figsize)
     # Setup figure
-    ax1,ax2,ax3 = plot_mask(out)
+    ax1,ax2,ax3 = plot_mask(out, figsize=figsize)
     # Plot persistence
-    ax3,ax4 = plot_peristence(out)
+    ax3,ax4 = plot_peristence(out, figsize=figsize)
     # Plot mesh
-    ax5 = plot_mesh(out)
+    ax5,ax6 = plot_mesh(out, figsize=figsize)
 
 # %%
 def plot_preprocessing(results, verbose=3):
     _ = preprocessing(results['Xorig'], mask=results['args']['mask'], scale=results['args']['scale'], denoise=results['args']['denoise'], togray=results['args']['togray'], resize=results['args']['resize'], showfig=True, verbose=3)
 
 # %%
-def plot_mask(results, verbose=3):
-    fig, (ax1,ax2,ax3) = plt.subplots(1,3)
+def plot_mask(results, verbose=3, figsize=(15,8)):
+    # Setup figure
+    fig, (ax1,ax2,ax3) = plt.subplots(1,3, figsize=figsize)
     # Original image
-    togray = cmap='gray' if results['args']['togray'] else None
-    
-    ax1.imshow(results['Xorig'], cmap=togray, interpolation="nearest")
+    cmap = 'gray' if results['args']['togray'] else None
+
+    # Plot input image
+    ax1.imshow(results['Xorig'], cmap=cmap, interpolation="nearest")
     ax1.invert_yaxis()
     ax1.set_title('Original')
 
     # Preprocessing
-    ax2.imshow(results['Xproc'], cmap=togray, interpolation="nearest")
+    ax2.imshow(results['Xproc'], cmap=cmap, interpolation="nearest")
     ax2.invert_yaxis()
     ax2.set_title('Processed image')
 
     # Masking
-    ax3.imshow(results['Xmask'], cmap=togray, interpolation="nearest")
+    ax3.imshow(results['Xmask'], cmap=cmap, interpolation="nearest")
     ax3.invert_yaxis()
     ax3.set_title('After Masking')
+
+    # Return
     return ax1,ax2,ax3
 
 # %%
@@ -409,22 +413,23 @@ def plot_mesh(results, rstride=2, cstride=2, figsize=(15,8), cmap=plt.cm.hot_r, 
     if verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
     # Plot the figure
     fig = plt.figure(figsize=figsize)
-    ax = fig.gca(projection='3d')
-    ax.plot_wireframe(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
-    ax.set_xlabel('x-axis')
-    ax.set_ylabel('y-axis')
-    ax.set_zlabel('z-axis')
+    ax1 = fig.gca(projection='3d')
+    ax1.plot_wireframe(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
+    ax1.set_xlabel('x-axis')
+    ax1.set_ylabel('y-axis')
+    ax1.set_zlabel('z-axis')
     plt.show()
 
     # Plot the figure
     fig = plt.figure(figsize=figsize)
-    ax = fig.gca(projection='3d')
-    ax.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0)
-    ax.set_xlabel('x-axis')
-    ax.set_ylabel('y-axis')
-    ax.set_zlabel('z-axis')
+    ax2 = fig.gca(projection='3d')
+    ax2.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0)
+    ax2.set_xlabel('x-axis')
+    ax2.set_ylabel('y-axis')
+    ax2.set_zlabel('z-axis')
     plt.show()
-    return ax
+
+    return ax1,ax2
 
 # %%
 def plot_peristence(results, figsize=(15,8), verbose=3):
