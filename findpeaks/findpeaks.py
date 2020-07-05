@@ -90,8 +90,9 @@ def fit(X, xs=None, lookahead=200, smooth=None, mask=0, resize=None, scale=True,
 # %%
 def peaks1d(X, xs=None, lookahead=200, smooth=None, verbose=3):
     # Here we extend the data by factor 3 interpolation and then we can nicely smoothen the data.
+    Xo = X.copy()
     out = {}
-    Xo = X
+    out['Xorig'] = Xo
     if smooth:
         X = smooth_line1d(X, nboost=len(X)*smooth, method=2, showfig=False)
 
@@ -135,10 +136,9 @@ def peaks1d(X, xs=None, lookahead=200, smooth=None, verbose=3):
 
         # Store based on original locations
         out['labx'] = labx
+        out['xs'] = np.arange(0,len(Xo))
         out['min_peaks'] = np.c_[min_peaks_corr, Xo[min_peaks_corr]]
         out['max_peaks'] = np.c_[max_peaks_corr, Xo[max_peaks_corr]]
-        out['Xorig'] = Xo
-        out['xs'] = np.arange(0,len(Xo))
 
     # Store
     if xs is None: xs = np.arange(0,len(X))
@@ -351,10 +351,11 @@ def plot(out, figsize=(15,8)):
         ax = plot2d(out, figsize=figsize)
 
 def plot1d(out, figsize=(15,8)):
-    ax1 = _plot_original(out['Xorig'], out['xs'], out['labx'], out['min_peaks'][:,0].astype(int), out['max_peaks'][:,0].astype(int), title='Data', figsize=figsize)
-    ax1.set_title('Original')
+    if out.get('min_peaks',None) is not None:
+        ax1 = _plot_original(out['Xorig'], out['xs'], out['labx'], out['min_peaks'][:,0].astype(int), out['max_peaks'][:,0].astype(int), title='Data', figsize=figsize)
+        # ax1.set_title('Original')
     ax2 = _plot_original(out['X_s'], out['xs_s'], out['labx_s'], out['min_peaks_s'][:,0].astype(int), out['max_peaks_s'][:,0].astype(int), title='Data', figsize=figsize)
-    ax2.set_title('Final')
+    # ax2.set_title('Final')
 
 def plot2d(out, figsize=(15,8)):
     # Plot preprocessing steps

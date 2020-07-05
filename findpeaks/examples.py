@@ -45,6 +45,7 @@ findpeaks.plot_peristence(results)
 
 # %%
 df = findpeaks.import_example()
+results = findpeaks.fit(df.values, mask=0, verbose=3)
 results = findpeaks.fit(df.values, mask=0, scale=True, togray=True, denoise=None, verbose=3)
 findpeaks.plot(results)
 
@@ -76,7 +77,7 @@ i = 10000
 xs = np.linspace(0,3.7*pi,i)
 X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * 
 np.random.randn(i))
-y *= -1
+# y *= -1
 
 # Findpeaks
 out = findpeaks.fit(X)
