@@ -292,7 +292,7 @@ def _compute_with_topology(X, verbose=3):
     * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
 
     """
-    if verbose>=3: print('[findpeaks] >Compute using topology method..')
+    if verbose>=3: print('[findpeaks] >Detect peaks using topology method.')
     # Compute meshgrid
     xx, yy = np.mgrid[0:X.shape[0], 0:X.shape[1]]
     # Compute persistence
@@ -327,7 +327,7 @@ def _compute_with_mask(X, mask=0, verbose=3):
     * https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array
 
     """
-    if verbose>=3: print('[findpeaks] >Compute using mask (=%d) method..' %(mask))
+    if verbose>=3: print('[findpeaks] >Detect peaks using the masking (=%d) method.' %(mask))
     # define an 8-connected neighborhood
     neighborhood = generate_binary_structure(2,2)
 
