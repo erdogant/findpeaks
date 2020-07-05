@@ -23,7 +23,10 @@ findpeaks
 
 Description
 -----------
-findpeaks is for the detection of peaks and valleys in a 1D vector.
+findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
+In case of 2D-array, the image can be processed by resizing, scaling, and denoising.
+Peaks are detected using the masking and the topology method.
+Results can be plotted for the preprocessing steps, the persistence of peaks, the final masking plot and a mesh 3d-plot.
 
 Examples
 --------
@@ -38,6 +41,8 @@ Examples
 References
 ----------
 * https://github.com/erdogant/findpeaks
+* https://www.sthu.org/code/codesnippets/imagepers.html
+* H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
 * https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
 
 """
