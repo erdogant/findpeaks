@@ -163,6 +163,7 @@ def peaks1d(X, xs=None, lookahead=200, smooth=None, verbose=3):
 
 # %%
 def peaks2d(X, mask=0, scale=True, denoise=10, togray=False, resize=None, verbose=3):
+    if not togray and len(X.shape)==3: raise Exception('[findpeaks] >Error:  Topology method requires 2D array. Your input is 3D. Hint: set togray=True.')
     # Preprocessing the iamge
     Xproc = preprocessing(X, mask=mask, scale=scale, denoise=denoise, togray=togray, resize=resize, showfig=False, verbose=verbose)
     # Compute mesh-grid and persistance
@@ -377,8 +378,8 @@ def plot2d(out, figsize=(15,8)):
     ax5,ax6 = plot_mesh(out, figsize=figsize)
 
 # %%
-def plot_preprocessing(results, verbose=3):
-    _ = preprocessing(results['Xorig'], mask=results['args']['mask'], scale=results['args']['scale'], denoise=results['args']['denoise'], togray=results['args']['togray'], resize=results['args']['resize'], showfig=True, verbose=3)
+def plot_preprocessing(results, figsize=(15,8), verbose=3):
+    _ = preprocessing(results['Xorig'], mask=results['args']['mask'], scale=results['args']['scale'], denoise=results['args']['denoise'], togray=results['args']['togray'], resize=results['args']['resize'], showfig=True, figsize=figsize, verbose=3)
 
 # %%
 def plot_mask(results, verbose=3, figsize=(15,8)):
@@ -389,24 +390,55 @@ def plot_mask(results, verbose=3, figsize=(15,8)):
 
     # Plot input image
     ax1.imshow(results['Xorig'], cmap=cmap, interpolation="nearest")
-    ax1.invert_yaxis()
+    # ax1.invert_yaxis()
     ax1.set_title('Original')
 
     # Preprocessing
     ax2.imshow(results['Xproc'], cmap=cmap, interpolation="nearest")
-    ax2.invert_yaxis()
+    # ax2.invert_yaxis()
     ax2.set_title('Processed image')
 
     # Masking
     ax3.imshow(results['Xmask'], cmap=cmap, interpolation="nearest")
-    ax3.invert_yaxis()
+    # ax3.invert_yaxis()
     ax3.set_title('After Masking')
 
     # Return
     return ax1,ax2,ax3
 
 # %%
-def plot_mesh(results, rstride=2, cstride=2, figsize=(15,8), cmap=plt.cm.hot_r, verbose=3):
+def plot_mesh(results, rstride=2, cstride=2, figsize=(15,8), view=None, cmap=plt.cm.hot_r, verbose=3):
+    """
+
+    Parameters
+    ----------
+    results : dict.
+        output of the fit function.
+    rstride : int, (default is 2)
+        Array row stride (step size).
+    cstride : int, (default is 2)
+        Array column stride (step size).
+    figsize : TYPE, optional
+        DESCRIPTION. The default is (15,8).
+    view : tuple, (default : None)
+        Rotate the mesh plot.
+        (0, 0) : y vs z
+        (0, 90) : x vs z
+        (90, 0) : y vs x
+        (90, 90) : x vs y
+    cmap : TYPE, optional
+        DESCRIPTION. The default is plt.cm.hot_r.
+    verbose : TYPE, optional
+        DESCRIPTION. The default is 3.
+
+    Returns
+    -------
+    ax1 : TYPE
+        DESCRIPTION.
+    ax2 : TYPE
+        DESCRIPTION.
+
+    """
     if not isinstance(results, dict):
         if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
 
@@ -418,16 +450,31 @@ def plot_mesh(results, rstride=2, cstride=2, figsize=(15,8), cmap=plt.cm.hot_r, 
     ax1.set_xlabel('x-axis')
     ax1.set_ylabel('y-axis')
     ax1.set_zlabel('z-axis')
+    if view is not None:
+        ax1.view_init(view[0], view[1])
+        # ax1.view_init(50, -10) # x vs y
     plt.show()
 
     # Plot the figure
     fig = plt.figure(figsize=figsize)
     ax2 = fig.gca(projection='3d')
-    ax2.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0)
+    ax2.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
+    if view is not None:
+        ax2.view_init(view[0], view[1])
     ax2.set_xlabel('x-axis')
     ax2.set_ylabel('y-axis')
     ax2.set_zlabel('z-axis')
     plt.show()
+
+    # Plot with contours
+    # fig = plt.figure(figsize=figsize)
+    # ax3 = fig.gca(projection='3d')
+    # X, Y, Z = results['xx'], results['yy'], results['Xproc']
+    # ax3.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=plt.cm.coolwarm, linewidth=0, shade=True, alpha=0.3)
+    # cset = ax3.contour(X, Y, Z, zdir='z', offset=-100, cmap=plt.cm.coolwarm)
+    # cset = ax3.contour(X, Y, Z, zdir='x', offset=-40, cmap=plt.cm.coolwarm)
+    # cset = ax3.contour(X, Y, Z, zdir='y', offset=40, cmap=plt.cm.coolwarm)
+    # plt.show()
 
     return ax1,ax2
 

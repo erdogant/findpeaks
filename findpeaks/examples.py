@@ -6,19 +6,22 @@ print(findpeaks.__version__)
 # %%
 import cv2
 import matplotlib.pyplot as plt
-f = 'D://GITLAB/DATA/tmp/0421_2012_001_cropped.png'
+# f = 'D://GITLAB/DATA/tmp/0421_2012_001_cropped.png'
 # f = 'D://GITLAB/DATA/tmp/0411_2012_001_cropped_met_rood.png'
 # f = 'D://GITLAB/DATA/tmp/6272_2012_002_cropped.png'
+f = 'D://GITLAB/DATA/tmp/6353_2012_001_cropped.png'
+
 img = cv2.imread(f)
 
 # %%
-results = findpeaks.fit(img, mask=0, scale=True, denoise=30, togray=False, resize=(300,300), verbose=3)
+results = findpeaks.fit(img, mask=0, scale=True, denoise=30, togray=True, resize=(300,300), verbose=3)
 # results = findpeaks.fit(img, mask=0, scale=False, denoise=None, togray=True, resize=(300,300), verbose=3)
 findpeaks.plot(results)
 
 # Plot each seperately
 findpeaks.plot_preprocessing(results)
 findpeaks.plot_mask(results)
+findpeaks.plot_mesh(results, view=(90,0))
 findpeaks.plot_mesh(results)
 findpeaks.plot_peristence(results)
     
