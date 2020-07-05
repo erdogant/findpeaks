@@ -20,7 +20,7 @@ import os
 from tqdm import tqdm
 import cv2 # Only for 2D images required
 
-def fit(X, xs=None, lookahead=200, smooth=None, mask=0, resize=None, scale=True, togray=False, denoise=10, verbose=3):
+def fit(X, xs=None, lookahead=200, smooth=None, mask=0, resize=None, scale=True, togray=True, denoise=10, verbose=3):
     """Detection of peaks and valleys in a 1D vector.
 
     Parameters 1D
@@ -61,14 +61,23 @@ def fit(X, xs=None, lookahead=200, smooth=None, mask=0, resize=None, scale=True,
     --------
     >>> import findpeaks
     >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-    >>> out = findpeaks.fit(X, lookahead=2)
-    >>> findpeaks.plot(out)
+    >>> results = findpeaks.fit(X, smooth=10, lookahead=2)
+    >>> findpeaks.plot(results)
+    >>>
+    >>> # 2D array example
+    >>> X = findpeaks.import_example()
+    >>> results = findpeaks.fit(X, mask=0, denoise=None)
+    >>> findpeaks.plot(results)
     >>>
     >>> # Image example
-    >>> f = 'image.png'
-    >>> img = cv2.imread(f)
-    >>> img = cv2.resize(img, (200, 200))
+    >>> X = cv2.imread('image.png')
+    >>> results = findpeaks.fit(X, mask=0, scale=True, denoise=10, togray=True, resize=(300,300), verbose=3)
+    >>> findpeaks.plot(results)
 
+    References
+    ----------
+    * https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html
+    * https://www.sthu.org/code/codesnippets/imagepers.html
 
     """
     # Check datatype
