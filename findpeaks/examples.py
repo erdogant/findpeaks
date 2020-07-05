@@ -10,39 +10,48 @@ print(findpeaks.__version__)
 
 # %%
 import cv2
+import matplotlib.pyplot as plt
 f = 'D://GITLAB/DATA/tmp/0421_2012_001_cropped.png'
+# f = 'D://GITLAB/DATA/tmp/0411_2012_001_cropped_met_rood.png'
 img = cv2.imread(f)
-img = cv2.resize(img, (200, 200))
-img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-plt.figure()
-plt.imshow(img)
+# img = cv2.resize(img, (200, 200))
+# img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# plt.figure()
+# plt.imshow(img)
 # img = img.astype(np.uint8)
 # img = img / 255
 # plt.imshow(img, cmap='gray')
-img = cv2.blur(img,(3,3))
-plt.figure()
-plt.imshow(img)
-
-# plt.figure();plt.hist(img.ravel(), bins=50)
-# img[img<np.median(img)]=0
+# img = cv2.blur(img,(3,3))
 # plt.figure()
 # plt.imshow(img)
 
-results = findpeaks.fit(img, mask=0)
-# findpeaks.plot(results)
+# img = cv2.fastNlMeansDenoisingColored(img, h=20)
+# plt.figure()
+# plt.imshow(img)
 
+# convert all to grayscale
+# img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# img = cv2.fastNlMeansDenoising(img, h=20)
+# plt.figure()
+# plt.imshow(img, cmap='gray')
+
+# %%
+results = findpeaks.fit(img, mask=0, scale=True, denoise=30, togray=True, resize=(300,300), verbose=3)
+# findpeaks.plot(results)
+findpeaks.plot_preprocessing(results)
 findpeaks.plot_mask(results)
 findpeaks.plot_mesh(results)
 findpeaks.plot_peristence(results)
 
-
 # %%
 df = findpeaks.import_example()
-results = findpeaks.fit(df, mask=25)
+results = findpeaks.fit(df.values, mask=0, scale=True, togray=True, denoise=None, verbose=3)
 findpeaks.plot(results)
 
-findpeaks.plot_mesh(df.values)
-findpeaks.plot_peristence(df.values)
+# findpeaks.plot_preprocessing(results)
+# findpeaks.plot_mask(results)
+# findpeaks.plot_mesh(results)
+# findpeaks.plot_peristence(results)
 
 # %%
 X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]

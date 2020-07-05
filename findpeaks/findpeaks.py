@@ -18,19 +18,35 @@ import numpy as np
 import wget
 import os
 from tqdm import tqdm
+import cv2 # Only for 2D images required
 
-def fit(X, xs=None, lookahead=200, smooth=None, mask=0, verbose=3):
+def fit(X, xs=None, lookahead=200, smooth=None, mask=0, resize=None, scale=True, togray=False, denoise=10, verbose=3):
     """Detection of peaks and valleys in a 1D vector.
 
-    Parameters
-    ----------
-    X : array-like
+    Parameters 1D
+    -------------
+    X : array-like 1D vector
         Input data.
     lookahead : int, (default : 200)
         Looking ahead for peaks. For very small 1d arrays, lets say up to 50 datapoints, set low numbers such as 1 or 2.
     smooth : int, (default : 10)
-        Smoothing factor. The higher the number, the more smoothing will occur.
+        Smoothing factor by interpolation. The higher the number, the more smoothing will occur.
 
+    Parameters 2D-array
+    -------------------
+    X : array-like RGB or 2D-array
+        Input image data.
+    mask : float, (default : 0)
+        Values <= mask are set as background.
+    scale : bool, (default : False)
+        Scaling in range [0-255] by img*(255/max(img))
+    denoise : int, (default : 10 or None to disable)
+        Denoising image, where the first value is the  filter strength. Higher value removes noise better, but removes details of image also.
+    togray : bool, (default : False)
+        Conversion to gray scale.
+    resize : tuple, (default : None)
+        Resize to desired (width,length).
+        
     Returns
     -------
     dict.
@@ -47,6 +63,12 @@ def fit(X, xs=None, lookahead=200, smooth=None, mask=0, verbose=3):
     >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
     >>> out = findpeaks.fit(X, lookahead=2)
     >>> findpeaks.plot(out)
+    >>>
+    >>> # Image example
+    >>> f = 'image.png'
+    >>> img = cv2.imread(f)
+    >>> img = cv2.resize(img, (200, 200))
+
 
     """
     # Check datatype
@@ -57,7 +79,7 @@ def fit(X, xs=None, lookahead=200, smooth=None, mask=0, verbose=3):
 
     if len(X.shape)>1:
         if verbose>=3: print('[findpeaks] >2D array is detected, finding 2d peaks..')
-        out = peaks2d(X, mask=mask, verbose=verbose)
+        out = peaks2d(X, mask=mask, scale=scale, denoise=denoise, togray=togray, resize=resize, verbose=verbose)
     else:
         if verbose>=3: print('[findpeaks] >1D array is detected, finding 1d peaks..')
         out = peaks1d(X, xs=xs, lookahead=lookahead, smooth=smooth, verbose=verbose)
@@ -115,7 +137,7 @@ def peaks1d(X, xs=None, lookahead=200, smooth=None, verbose=3):
         out['labx'] = labx
         out['min_peaks'] = np.c_[min_peaks_corr, Xo[min_peaks_corr]]
         out['max_peaks'] = np.c_[max_peaks_corr, Xo[max_peaks_corr]]
-        out['X'] = Xo
+        out['Xorig'] = Xo
         out['xs'] = np.arange(0,len(Xo))
 
     # Store
@@ -131,32 +153,106 @@ def peaks1d(X, xs=None, lookahead=200, smooth=None, verbose=3):
     return(out)
 
 # %%
-def peaks2d(X, mask=0, verbose=3):
-    # Scale
-    X = _scale(X)
+def peaks2d(X, mask=0, scale=True, denoise=10, togray=False, resize=None, verbose=3):
+    # Preprocessing the iamge
+    Xproc = preprocessing(X, mask=mask, scale=scale, denoise=denoise, togray=togray, resize=resize, showfig=False, verbose=verbose)
     # Compute mesh-grid and persistance
-    g0, xx, yy = _compute_with_topology(X)
+    g0, xx, yy = _compute_with_topology(Xproc)
     # Compute peaks using local maximum filter.
-    peaks_mask = _compute_with_mask(X, mask=mask)
+    Xmask = _compute_with_mask(Xproc, mask=mask)
 
     # Store
     results = {}
-    results['method'] = 'peaks2d'
-    results['peaks_mask'] = peaks_mask
-    results['X'] = X
+    results['Xorig'] = X
+    results['Xproc'] = Xproc
+    results['Xmask'] = Xmask
     results['g0'] = g0
     results['xx'] = xx
     results['yy'] = yy
-
-
+    results['args'] = {}
+    results['args']['mask']=mask
+    results['args']['scale']=scale
+    results['args']['denoise']=denoise
+    results['args']['togray']=togray
+    results['args']['resize']=resize
+    results['method'] = 'peaks2d'
     # Return
+    if verbose>=3: print('[findpeaks] >Fin.')
     return results
 
 # %%
-def _scale(X):
-    X = X * (255 / np.max(X))
+def preprocessing(X, mask=0, scale=True, denoise=10, togray=False, resize=None, showfig=False, verbose=3):
+    # Resize
+    if resize:
+        X = _resize(X, resize=resize)
+        if showfig:
+            plt.figure()
+            plt.imshow(X)
+    # Scaling
+    if scale:
+        X = _scale(X, verbose=verbose)
+        if showfig:
+            plt.figure()
+            plt.imshow(X)
+    # Convert to gray image
+    if togray:
+        X = _togray(X, verbose=verbose)
+        if showfig:
+            plt.figure()
+            plt.imshow(X, cmap='gray' if togray else None)
+    # Denoising
+    if denoise is not None:
+        X = _denoise(X, h=denoise, verbose=verbose)
+        if showfig:
+            plt.figure()
+            plt.imshow(X, cmap='gray' if togray else None)
+    # Return
     return X
-    
+
+
+# %%
+def _scale(X, verbose=3):
+    if verbose>=3: print('[findpeaks] >Scaling image between [0-255] and to uint8')
+    try:
+        X = X * (255 / np.max(X))
+        # Downscale typing
+        X = np.uint8(X)
+    except:
+        if verbose>=2: print('[findpeaks] >Warning: Scaling not possible.')
+    return X
+
+# %%
+def _togray(X, verbose=3):
+    try:
+        if verbose>=3: print('[findpeaks] >Conversion to gray image.')
+        X = cv2.cvtColor(X, cv2.COLOR_BGR2GRAY)
+    except:
+        if verbose>=2: print('[findpeaks] >Warning: Conversion to gray not possible.')
+    return X
+
+# %%
+def _denoise(X, h=10, verbose=3):
+    try:
+        if len(X.shape)==2:
+            if verbose>=3: print('[findpeaks] >Denoising gray image.')
+            X = cv2.fastNlMeansDenoising(X, h=h)
+        if len(X.shape)==3:
+            if verbose>=3: print('[findpeaks] >Denoising color image.')
+            X = cv2.fastNlMeansDenoisingColored(X, h=h)
+    except:
+        if verbose>=2: print('[findpeaks] >Warning: Denoising not possible.')
+    return X
+
+# %%
+def _resize(X, resize=None, verbose=3):
+    try:
+        if resize is not None:
+            if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(resize)))
+            X = cv2.resize(X, resize)
+    except:
+        if verbose>=2: print('[findpeaks] >Warning: Resizing not possible.')
+    return X
+
 # %%
 def _compute_with_topology(X, verbose=3):
     """Determine peaks in 2d-array using toplogy method.
@@ -255,56 +351,65 @@ def plot(out, figsize=(15,8)):
         ax = plot2d(out, figsize=figsize)
 
 def plot1d(out, figsize=(15,8)):
-    ax1 = _plot_original(out['X'], out['xs'], out['labx'], out['min_peaks'][:,0].astype(int), out['max_peaks'][:,0].astype(int), title='Data', figsize=figsize)
+    ax1 = _plot_original(out['Xorig'], out['xs'], out['labx'], out['min_peaks'][:,0].astype(int), out['max_peaks'][:,0].astype(int), title='Data', figsize=figsize)
+    ax1.set_title('Original')
     ax2 = _plot_original(out['X_s'], out['xs_s'], out['labx_s'], out['min_peaks_s'][:,0].astype(int), out['max_peaks_s'][:,0].astype(int), title='Data', figsize=figsize)
+    ax2.set_title('Final')
 
 def plot2d(out, figsize=(15,8)):
+    # Plot preprocessing steps
+    plot_preprocessing(out)
     # Setup figure
-    ax1,ax2 = plot_mask(out)
+    ax1,ax2,ax3 = plot_mask(out)
     # Plot persistence
     ax3,ax4 = plot_peristence(out)
     # Plot mesh
     ax5 = plot_mesh(out)
 
 # %%
-def plot_mask(results, verbose=3):
-    fig, (ax1,ax2) = plt.subplots(1,2)
-    ax1.imshow(results['X'], interpolation="nearest")
-    ax1.invert_yaxis()
-    ax2.imshow(results['peaks_mask'])
-    ax2.invert_yaxis()
-    # ax1.imshow(results['X'])
-    # ax1.colorbar()
-    return ax1,ax2
+def plot_preprocessing(results, verbose=3):
+    _ = preprocessing(results['Xorig'], mask=results['args']['mask'], scale=results['args']['scale'], denoise=results['args']['denoise'], togray=results['args']['togray'], resize=results['args']['resize'], showfig=True, verbose=3)
 
 # %%
-def plot_mesh(results, verbose=3):
-    if not isinstance(results, dict):
-        # Scale
-        X = _scale(results)
-        # Compute mesh-grid and persistance
-        g0, xx, yy = _compute_with_topology(X, verbose=3)
-        results={}
-        results['X'] = X
-        results['g0'] = g0
-        results['xx'] = xx
-        results['yy'] = yy
+def plot_mask(results, verbose=3):
+    fig, (ax1,ax2,ax3) = plt.subplots(1,3)
+    # Original image
+    togray = cmap='gray' if results['args']['togray'] else None
     
-    if verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
+    ax1.imshow(results['Xorig'], cmap=togray, interpolation="nearest")
+    ax1.invert_yaxis()
+    ax1.set_title('Original')
 
+    # Preprocessing
+    ax2.imshow(results['Xproc'], cmap=togray, interpolation="nearest")
+    ax2.invert_yaxis()
+    ax2.set_title('Processed image')
+
+    # Masking
+    ax3.imshow(results['Xmask'], cmap=togray, interpolation="nearest")
+    ax3.invert_yaxis()
+    ax3.set_title('After Masking')
+    return ax1,ax2,ax3
+
+# %%
+def plot_mesh(results, rstride=2, cstride=2, figsize=(15,8), cmap=plt.cm.hot_r, verbose=3):
+    if not isinstance(results, dict):
+        if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+
+    if verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
     # Plot the figure
-    fig = plt.figure()
+    fig = plt.figure(figsize=figsize)
     ax = fig.gca(projection='3d')
-    ax.plot_wireframe(results['xx'], results['yy'], results['X'], rstride=2, cstride=2, cmap=plt.cm.hot_r, linewidth=0.8)
+    ax.plot_wireframe(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
     ax.set_xlabel('x-axis')
     ax.set_ylabel('y-axis')
     ax.set_zlabel('z-axis')
     plt.show()
-    
+
     # Plot the figure
-    fig = plt.figure()
+    fig = plt.figure(figsize=figsize)
     ax = fig.gca(projection='3d')
-    ax.plot_surface(results['xx'], results['yy'], results['X'] ,rstride=2, cstride=2, cmap=plt.cm.hot_r, linewidth=0)
+    ax.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0)
     ax.set_xlabel('x-axis')
     ax.set_ylabel('y-axis')
     ax.set_zlabel('z-axis')
@@ -312,20 +417,12 @@ def plot_mesh(results, verbose=3):
     return ax
 
 # %%
-def plot_peristence(results, verbose=3):
+def plot_peristence(results, figsize=(15,8), verbose=3):
     if not isinstance(results, dict):
-        # Scale
-        X = _scale(results)
-        # Compute mesh-grid and persistance
-        g0, xx, yy = _compute_with_topology(X, verbose=3)
-        results={}
-        results['X'] = X
-        results['g0'] = g0
-        results['xx'] = xx
-        results['yy'] = yy
+        if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
 
     # Make the figure
-    fig, (ax1,ax2) = plt.subplots(1,2)
+    fig, (ax1,ax2) = plt.subplots(1,2, figsize=figsize)
     # Plot the detected loci
     if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
     ax1.set_title("Loci of births")
@@ -337,8 +434,8 @@ def plot_peristence(results, verbose=3):
         ax1.plot([x], [y], '.', c='b')
         ax1.text(x, y+0.25, str(i+1), color='b')
 
-    ax1.set_xlim((0,results['X'].shape[1]))
-    ax1.set_ylim((0,results['X'].shape[0]))
+    ax1.set_xlim((0,results['Xproc'].shape[1]))
+    ax1.set_ylim((0,results['Xproc'].shape[0]))
     plt.gca().invert_yaxis()
     ax1.grid(True)
 

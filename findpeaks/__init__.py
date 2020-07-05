@@ -7,6 +7,7 @@ from findpeaks.findpeaks import (
     plot_mesh,
     plot_peristence,
     plot_mask,
+    plot_preprocessing,
 )
 
 from findpeaks.utils.smoothline import smooth_line1d, smooth_line2d
