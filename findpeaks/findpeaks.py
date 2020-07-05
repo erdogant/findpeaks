@@ -5,16 +5,21 @@
 # github      : https://github.com/erdogant/findpeaks
 # Licence     : MIT
 # ----------------------------------------------------
-
 from findpeaks.utils.smoothline import smooth_line1d
+import findpeaks.utils.imagepers as imagepers
 from peakdetect import peakdetect
+from scipy.ndimage.filters import maximum_filter
+from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
+from scipy import misc
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd
 import numpy as np
 import wget
 import os
+from tqdm import tqdm
 
-def fit(X, xs=None, lookahead=200, smooth=None, verbose=3):
+def fit(X, xs=None, lookahead=200, smooth=None, mask=0, verbose=3):
     """Detection of peaks and valleys in a 1D vector.
 
     Parameters
@@ -45,13 +50,25 @@ def fit(X, xs=None, lookahead=200, smooth=None, verbose=3):
 
     """
     # Check datatype
-    out = {}
     if isinstance(X, list):
         X=np.array(X)
     if isinstance(X, type(pd.DataFrame())):
         X=X.values
 
+    if len(X.shape)>1:
+        if verbose>=3: print('[findpeaks] >2D array is detected, finding 2d peaks..')
+        out = peaks2d(X, mask=mask, verbose=verbose)
+    else:
+        if verbose>=3: print('[findpeaks] >1D array is detected, finding 1d peaks..')
+        out = peaks1d(X, xs=xs, lookahead=lookahead, smooth=smooth, verbose=verbose)
+
+    return(out)
+
+
+# %%
+def peaks1d(X, xs=None, lookahead=200, smooth=None, verbose=3):
     # Here we extend the data by factor 3 interpolation and then we can nicely smoothen the data.
+    out = {}
     Xo = X
     if smooth:
         X = smooth_line1d(X, nboost=len(X)*smooth, method=2, showfig=False)
@@ -64,7 +81,7 @@ def fit(X, xs=None, lookahead=200, smooth=None, verbose=3):
         if verbose>=3: print('[findpeaks] >No peaks detected. Tip: try lowering lookahead value.')
         return(None)
 
-    [idx_peaks,_] = zip(*max_peaks)
+    idx_peaks, _ = zip(*max_peaks)
     idx_peaks = np.array(list(idx_peaks))
     idx_valleys, _ = zip(*min_peaks)
     idx_valleys = np.append(np.array(list(idx_valleys)), len(X) - 1)
@@ -104,6 +121,7 @@ def fit(X, xs=None, lookahead=200, smooth=None, verbose=3):
     # Store
     if xs is None: xs = np.arange(0,len(X))
 
+    out['method'] = 'peaks1d'
     out['labx_s'] = labx_s
     out['min_peaks_s'] = np.c_[idx_valleys, X[idx_valleys]]
     out['max_peaks_s'] = np.c_[idx_peaks, X[idx_peaks]]
@@ -113,15 +131,239 @@ def fit(X, xs=None, lookahead=200, smooth=None, verbose=3):
     return(out)
 
 # %%
+def peaks2d(X, mask=0, verbose=3):
+    # Scale
+    X = _scale(X)
+    # Compute mesh-grid and persistance
+    g0, xx, yy = _compute_with_topology(X)
+    # Compute peaks using local maximum filter.
+    peaks_mask = _compute_with_mask(X, mask=mask)
+
+    # Store
+    results = {}
+    results['method'] = 'peaks2d'
+    results['peaks_mask'] = peaks_mask
+    results['X'] = X
+    results['g0'] = g0
+    results['xx'] = xx
+    results['yy'] = yy
+
+
+    # Return
+    return results
+
+# %%
+def _scale(X):
+    X = X * (255 / np.max(X))
+    return X
+    
+# %%
+def _compute_with_topology(X, verbose=3):
+    """Determine peaks in 2d-array using toplogy method.
+    
+    Description
+    -----------
+    A simple Python implementation of the 0-th dimensional persistent homology for 2D images.
+    It is based on a two-dimensional persistent topology for peak detection.
+
+
+    Parameters
+    ----------
+    X : numpy array
+        2D array.
+
+    Returns
+    -------
+    g0 : list
+        Detected peaks.
+    xx : numpy-array
+        Meshgrid coordinates.
+    yy : numpy-array
+        Meshgrid coordinates.
+    
+    References
+    ----------
+    * https://www.sthu.org/code/codesnippets/imagepers.html
+    * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
+
+    """
+    if verbose>=3: print('[findpeaks] >Compute using topology method..')
+    # Compute meshgrid
+    xx, yy = np.mgrid[0:X.shape[0], 0:X.shape[1]]
+    # Compute persistence
+    g0 = imagepers.persistence(X)
+    # Return
+    return g0, xx, yy
+
+# %%
+def _compute_with_mask(X, mask=0, verbose=3):
+    """Determine peaks in 2d-array using a mask.
+    
+    Description
+    -----------
+    Takes an image and detect the peaks using the local maximum filter.
+    Returns a boolean mask of the peaks (i.e. 1 when
+    the pixel's value is the neighborhood maximum, 0 otherwise)
+
+    Parameters
+    ----------
+    X : numpy array
+        2D array.
+    mask : float, (default : 0)
+        Values <= mask are set as background.
+
+    Returns
+    -------
+    detected_peaks : numpy array
+        2D boolean array. True represents the detected peaks.
+    
+    References
+    ----------
+    * https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array
+
+    """
+    if verbose>=3: print('[findpeaks] >Compute using mask (=%d) method..' %(mask))
+    # define an 8-connected neighborhood
+    neighborhood = generate_binary_structure(2,2)
+
+    # apply the local maximum filter; all pixel of maximal value in their neighborhood are set to 1
+    local_max = maximum_filter(X, footprint=neighborhood)==X
+    # local_max is a mask that contains the peaks we are looking for, but also the background.
+    # In order to isolate the peaks we must remove the background from the mask.
+
+    # we create the mask of the background
+    background = (X<=mask)
+
+    # Erode the background in order to successfully subtract it form local_max, otherwise a line will 
+    # appear along the background border (artifact of the local maximum filter)
+    eroded_background = binary_erosion(background, structure=neighborhood, border_value=1)
+
+    # We obtain the final mask, containing only peaks, by removing the background from the local_max mask (xor operation)
+    detected_peaks = local_max ^ eroded_background
+    
+    # Return
+    return detected_peaks
+
+# %%
 def plot(out, figsize=(15,8)):
     if out is None:
         print('[findpeaks] Nothing to plot.')
         return
-    # Make figure
-    if out.get('X', None) is not None:
-        ax = _plot_original(out['X'], out['xs'], out['labx'], out['min_peaks'][:,0].astype(int), out['max_peaks'][:,0].astype(int), title='Data', figsize=figsize)
-    ax = _plot_original(out['X_s'], out['xs_s'], out['labx_s'], out['min_peaks_s'][:,0].astype(int), out['max_peaks_s'][:,0].astype(int), title='Data', figsize=figsize)
+    elif out['method']=='peaks1d':
+        ax = plot1d(out, figsize=figsize)
+    elif out['method']=='peaks2d':
+        ax = plot2d(out, figsize=figsize)
 
+def plot1d(out, figsize=(15,8)):
+    ax1 = _plot_original(out['X'], out['xs'], out['labx'], out['min_peaks'][:,0].astype(int), out['max_peaks'][:,0].astype(int), title='Data', figsize=figsize)
+    ax2 = _plot_original(out['X_s'], out['xs_s'], out['labx_s'], out['min_peaks_s'][:,0].astype(int), out['max_peaks_s'][:,0].astype(int), title='Data', figsize=figsize)
+
+def plot2d(out, figsize=(15,8)):
+    # Setup figure
+    ax1,ax2 = plot_mask(out)
+    # Plot persistence
+    ax3,ax4 = plot_peristence(out)
+    # Plot mesh
+    ax5 = plot_mesh(out)
+
+# %%
+def plot_mask(results, verbose=3):
+    fig, (ax1,ax2) = plt.subplots(1,2)
+    ax1.imshow(results['X'], interpolation="nearest")
+    ax1.invert_yaxis()
+    ax2.imshow(results['peaks_mask'])
+    ax2.invert_yaxis()
+    # ax1.imshow(results['X'])
+    # ax1.colorbar()
+    return ax1,ax2
+
+# %%
+def plot_mesh(results, verbose=3):
+    if not isinstance(results, dict):
+        # Scale
+        X = _scale(results)
+        # Compute mesh-grid and persistance
+        g0, xx, yy = _compute_with_topology(X, verbose=3)
+        results={}
+        results['X'] = X
+        results['g0'] = g0
+        results['xx'] = xx
+        results['yy'] = yy
+    
+    if verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
+
+    # Plot the figure
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    ax.plot_wireframe(results['xx'], results['yy'], results['X'], rstride=2, cstride=2, cmap=plt.cm.hot_r, linewidth=0.8)
+    ax.set_xlabel('x-axis')
+    ax.set_ylabel('y-axis')
+    ax.set_zlabel('z-axis')
+    plt.show()
+    
+    # Plot the figure
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    ax.plot_surface(results['xx'], results['yy'], results['X'] ,rstride=2, cstride=2, cmap=plt.cm.hot_r, linewidth=0)
+    ax.set_xlabel('x-axis')
+    ax.set_ylabel('y-axis')
+    ax.set_zlabel('z-axis')
+    plt.show()
+    return ax
+
+# %%
+def plot_peristence(results, verbose=3):
+    if not isinstance(results, dict):
+        # Scale
+        X = _scale(results)
+        # Compute mesh-grid and persistance
+        g0, xx, yy = _compute_with_topology(X, verbose=3)
+        results={}
+        results['X'] = X
+        results['g0'] = g0
+        results['xx'] = xx
+        results['yy'] = yy
+
+    # Make the figure
+    fig, (ax1,ax2) = plt.subplots(1,2)
+    # Plot the detected loci
+    if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
+    ax1.set_title("Loci of births")
+    for i, homclass in tqdm(enumerate(results['g0'])):
+        p_birth, bl, pers, p_death = homclass
+        if pers <= 20.0:
+            continue
+        y, x = p_birth
+        ax1.plot([x], [y], '.', c='b')
+        ax1.text(x, y+0.25, str(i+1), color='b')
+
+    ax1.set_xlim((0,results['X'].shape[1]))
+    ax1.set_ylim((0,results['X'].shape[0]))
+    plt.gca().invert_yaxis()
+    ax1.grid(True)
+
+    # Plot the persistence
+    if verbose>=3: print('[findpeaks] >Plotting Peristence..')
+    ax2.set_title("Peristence diagram")
+    ax2.plot([0,255], [0,255], '-', c='grey')
+    for i, homclass in tqdm(enumerate(results['g0'])):
+        p_birth, bl, pers, p_death = homclass
+        if pers <= 1.0:
+            continue
+
+        x, y = bl, bl-pers
+        ax2.plot([x], [y], '.', c='b')
+        ax2.text(x, y+2, str(i+1), color='b')
+
+    ax2.set_xlabel("Birth level")
+    ax2.set_ylabel("Death level")
+    ax2.set_xlim((-5,260))
+    ax2.set_ylim((-5,260))
+    ax2.grid(True)
+    return ax1, ax2
+
+
+# %%
 def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, figsize=(15,8)):
     uilabx = np.unique(labx)
     uilabx = uilabx[~np.isnan(uilabx)]

@@ -2,6 +2,11 @@ from findpeaks.findpeaks import (
     fit,
 	plot,
     import_example,
+    peaks1d,
+    peaks2d,
+    plot_mesh,
+    plot_peristence,
+    plot_mask,
 )
 
 from findpeaks.utils.smoothline import smooth_line1d, smooth_line2d

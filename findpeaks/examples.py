@@ -1,18 +1,57 @@
+# %% TODO 2D-peaks
+# https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array
+# https://www.sthu.org/code/codesnippets/imagepers.html
+# https://stackoverflow.com/questions/46000842/detecting-peaks-in-images/47191052#47191052
 
 # %%
-import matplotlib.pyplot as plt
 import findpeaks
 print(dir(findpeaks))
 print(findpeaks.__version__)
 
+# %%
+import cv2
+f = 'D://GITLAB/DATA/tmp/0421_2012_001_cropped.png'
+img = cv2.imread(f)
+img = cv2.resize(img, (200, 200))
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+plt.figure()
+plt.imshow(img)
+# img = img.astype(np.uint8)
+# img = img / 255
+# plt.imshow(img, cmap='gray')
+img = cv2.blur(img,(3,3))
+plt.figure()
+plt.imshow(img)
+
+# plt.figure();plt.hist(img.ravel(), bins=50)
+# img[img<np.median(img)]=0
+# plt.figure()
+# plt.imshow(img)
+
+results = findpeaks.fit(img, mask=0)
+# findpeaks.plot(results)
+
+findpeaks.plot_mask(results)
+findpeaks.plot_mesh(results)
+findpeaks.plot_peristence(results)
+
 
 # %%
-X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
+df = findpeaks.import_example()
+results = findpeaks.fit(df, mask=25)
+findpeaks.plot(results)
+
+findpeaks.plot_mesh(df.values)
+findpeaks.plot_peristence(df.values)
+
+# %%
+X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 out = findpeaks.fit(X, lookahead=1)
 findpeaks.plot(out)
 
 out = findpeaks.fit(X, lookahead=1, smooth=10)
 findpeaks.plot(out)
+
 
 
 # %%
