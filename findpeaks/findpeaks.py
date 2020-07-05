@@ -496,10 +496,11 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, figsize=(15,8)
     plt.title(title)
     plt.grid(True)
 
+
 # %% Import example dataset from github.
 def import_example(data='2dpeaks', url=None, sep=';', verbose=3):
     """Import example dataset from github source.
-    
+
     Description
     -----------
     Import one of the few datasets from github source or specify your own download url link.
@@ -540,6 +541,6 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3):
 
     # Import local dataset
     if verbose>=3: print('[findpeaks] >Import dataset [%s]' %(data))
-    df = pd.read_csv(PATH_TO_DATA, sep=sep)
+    X = pd.read_csv(PATH_TO_DATA, sep=sep).values
     # Return
-    return df
+    return X
