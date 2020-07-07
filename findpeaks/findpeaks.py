@@ -5,13 +5,12 @@
 # github      : https://github.com/erdogant/findpeaks
 # Licence     : See Licences
 # ----------------------------------------------------
-# from findpeaks.utils.utils import _compute_with_topology, _compute_with_mask
-import findpeaks.utils.utils as utils
+
+import findpeaks.utils.compute as compute
 from findpeaks.utils.smoothline import smooth_line1d
 from peakdetect import peakdetect
 import cv2  # Only for 2D images required
 import matplotlib.pyplot as plt
-# from mpl_toolkits.mplot3d import Axes3D
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
@@ -71,6 +70,10 @@ class findpeaks():
         Returns
         -------
         dict.
+        Xraw : array-like
+            Input array
+        X : array-like
+            Processed array
         labx : array-like
             Labels of the detected distributions.
         max_peaks : list
@@ -131,7 +134,7 @@ class findpeaks():
         # Here we extend the data by factor 3 interpolation and then we can nicely smoothen the data.
         Xo = X.copy()
         results = {}
-        results['Xorig'] = Xo
+        results['Xraw'] = Xo
         if self.smooth:
             X = smooth_line1d(X, nboost=len(X) * self.smooth, method=2, showfig=False)
 
@@ -225,9 +228,9 @@ class findpeaks():
         # Preprocessing the iamge
         Xproc = self.preprocessing(X, showfig=False)
         # Compute mesh-grid and persistance
-        g0, xx, yy = utils._compute_with_topology(Xproc)
+        g0, xx, yy = compute._topology(Xproc)
         # Compute peaks using local maximum filter.
-        Xmask = utils._compute_with_mask(Xproc, mask=self.mask)
+        Xmask = compute._mask(Xproc, mask=self.mask)
         # Store
         self.results, self.args = self._store2d(X, Xproc, Xmask, g0, xx, yy)
         # Return
@@ -254,8 +257,8 @@ class findpeaks():
     # Store 2D-array
     def _store2d(self, X, Xproc, Xmask, g0, xx, yy):
         results = {}
-        results['Xorig'] = X
-        results['Xproc'] = Xproc
+        results['Xraw'] = X
+        results['X'] = Xproc
         results['Xmask'] = Xmask
         results['g0'] = g0
         results['xx'] = xx
@@ -299,25 +302,25 @@ class findpeaks():
 
         # Resize
         if self.resize:
-            X = utils._resize(X, resize=self.resize)
+            X = compute._resize(X, resize=self.resize)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
         # Scaling
         if self.scale:
-            X = utils._scale(X, verbose=self.verbose)
+            X = compute._scale(X, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
         # Convert to gray image
         if self.togray:
-            X = utils._togray(X, verbose=self.verbose)
+            X = compute._togray(X, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X, cmap=('gray' if self.togray else None))
         # Denoising
         if self.denoise is not None:
-            X = utils._denoise(X, h=self.denoise, verbose=self.verbose)
+            X = compute._denoise(X, h=self.denoise, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X, cmap=('gray' if self.togray else None))
@@ -367,7 +370,7 @@ class findpeaks():
         ax1, ax2 = None, None
         # Make second plot
         if self.results.get('min_peaks', None) is not None:
-            ax1 = _plot_original(self.results['Xorig'], self.results['xs'], self.results['labx'], self.results['min_peaks'][:, 0].astype(int), self.results['max_peaks'][:, 0].astype(int), title='Data', figsize=figsize)
+            ax1 = _plot_original(self.results['Xraw'], self.results['xs'], self.results['labx'], self.results['min_peaks'][:, 0].astype(int), self.results['max_peaks'][:, 0].astype(int), title='Data', figsize=figsize)
         # Make smoothed plot
         ax2 = _plot_original(self.results['X_s'], self.results['xs_s'], self.results['labx_s'], self.results['min_peaks_s'][:, 0].astype(int), self.results['max_peaks_s'][:, 0].astype(int), title='Data', figsize=figsize)
         # Return axis
@@ -406,8 +409,8 @@ class findpeaks():
         None.
 
         """
-        # _ = self.preprocessing(self.results['Xorig'], mask=self.args['mask'], scale=self.args['scale'], denoise=self.args['denoise'], togray=self.args['togray'], resize=self.args['resize'], showfig=True, figsize=figsize, verbose=self.args['verbose'])
-        _ = self.preprocessing(X=self.results['Xorig'], showfig=True)
+        # _ = self.preprocessing(self.results['Xraw'], mask=self.args['mask'], scale=self.args['scale'], denoise=self.args['denoise'], togray=self.args['togray'], resize=self.args['resize'], showfig=True, figsize=figsize, verbose=self.args['verbose'])
+        _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
     def plot_mask(self, figsize=None):
         """Plot the masking.
@@ -429,12 +432,12 @@ class findpeaks():
         cmap = 'gray' if self.args['togray'] else None
 
         # Plot input image
-        ax1.imshow(self.results['Xorig'], cmap=cmap, interpolation="nearest")
+        ax1.imshow(self.results['Xraw'], cmap=cmap, interpolation="nearest")
         # ax1.invert_yaxis()
         ax1.set_title('Original')
 
         # Preprocessing
-        ax2.imshow(self.results['Xproc'], cmap=cmap, interpolation="nearest")
+        ax2.imshow(self.results['X'], cmap=cmap, interpolation="nearest")
         # ax2.invert_yaxis()
         ax2.set_title('Processed image')
 
@@ -481,7 +484,7 @@ class findpeaks():
         # Plot the figure
         fig = plt.figure(figsize=figsize)
         ax1 = fig.gca(projection='3d')
-        ax1.plot_wireframe(self.results['xx'], self.results['yy'], self.results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
+        ax1.plot_wireframe(self.results['xx'], self.results['yy'], self.results['X'], rstride=rstride, cstride=cstride, linewidth=0.8)
         ax1.set_xlabel('x-axis')
         ax1.set_ylabel('y-axis')
         ax1.set_zlabel('z-axis')
@@ -493,7 +496,7 @@ class findpeaks():
         # Plot the figure
         fig = plt.figure(figsize=figsize)
         ax2 = fig.gca(projection='3d')
-        ax2.plot_surface(self.results['xx'], self.results['yy'], self.results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
+        ax2.plot_surface(self.results['xx'], self.results['yy'], self.results['X'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
         if view is not None:
             ax2.view_init(view[0], view[1])
         ax2.set_xlabel('x-axis')
@@ -504,8 +507,8 @@ class findpeaks():
         # Plot with contours
         # fig = plt.figure(figsize=figsize)
         # ax3 = fig.gca(projection='3d')
-        # X, Y, Z = results['xx'], results['yy'], results['Xproc']
-        # ax3.plot_surface(results['xx'], results['yy'], results['Xproc'], rstride=rstride, cstride=cstride, cmap=plt.cm.coolwarm, linewidth=0, shade=True, alpha=0.3)
+        # X, Y, Z = results['xx'], results['yy'], results['X']
+        # ax3.plot_surface(results['xx'], results['yy'], results['X'], rstride=rstride, cstride=cstride, cmap=plt.cm.coolwarm, linewidth=0, shade=True, alpha=0.3)
         # cset = ax3.contour(X, Y, Z, zdir='z', offset=-100, cmap=plt.cm.coolwarm)
         # cset = ax3.contour(X, Y, Z, zdir='x', offset=-40, cmap=plt.cm.coolwarm)
         # cset = ax3.contour(X, Y, Z, zdir='y', offset=40, cmap=plt.cm.coolwarm)
@@ -530,8 +533,8 @@ class findpeaks():
             ax1.plot([x], [y], '.', c='b')
             ax1.text(x, y + 0.25, str(i + 1), color='b')
 
-        ax1.set_xlim((0, self.results['Xproc'].shape[1]))
-        ax1.set_ylim((0, self.results['Xproc'].shape[0]))
+        ax1.set_xlim((0, self.results['X'].shape[1]))
+        ax1.set_ylim((0, self.results['X'].shape[0]))
         ax1.invert_yaxis()
         plt.gca().invert_yaxis()
         ax1.grid(True)
