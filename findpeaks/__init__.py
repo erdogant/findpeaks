@@ -14,9 +14,9 @@ findpeaks
 Description
 -----------
 findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
-In case of 2D-array, the image can be processed by resizing, scaling, and denoising.
+In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising.
 Peaks are detected using the masking and the topology method.
-Results can be plotted for the preprocessing steps, the persistence of peaks, the final masking plot and a mesh 3d-plot.
+The results can be plotted for the preprocessing steps, the persistence of peaks, the final masking plot and a 3d-mesh plot.
 
 Examples
 --------
