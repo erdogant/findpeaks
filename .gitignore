@@ -6,9 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
-findpeaks/*.png
-*.zip
-*.csv
+findpeaks/data/*.png
+findpeaks/data/*.zip
+findpeaks/data/*.csv
 
 # Distribution / packaging
 .pylint.*
