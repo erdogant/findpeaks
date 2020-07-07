@@ -4,18 +4,12 @@ print(dir(findpeaks))
 print(findpeaks.__version__)
 
 # %%
-import cv2
-f = 'D://GITLAB/DATA/tmp/0421_2012_001_cropped.png'
-# f = 'D://GITLAB/DATA/tmp/0411_2012_001_cropped_met_rood.png'
-# f = 'D://GITLAB/DATA/tmp/6272_2012_002_cropped.png'
-# f = 'D://GITLAB/DATA/tmp/6353_2012_001_cropped.png'
-
-img = cv2.imread(f)
-
-# %%
 from findpeaks import findpeaks
+
 fp = findpeaks(mask=0, scale=True, denoise=30, togray=True, resize=(300,300), verbose=3)
 # fp = findpeaks(mask=0, scale=True, denoise=None, togray=True, resize=(300,300), verbose=3)
+img = fp.import_example('2dpeaks_image')
+
 results = fp.fit(img)
 fp.plot()
 
@@ -30,16 +24,31 @@ fp.plot_mesh(view=(0,90))
 fp.plot_mesh(view=(90,0))
 
 # %%
-import findpeaks
-df = fp.import_example()
-results = findpeaks.fit(df.values, mask=0, verbose=3)
-results = findpeaks.fit(df.values, mask=0, scale=True, togray=False, denoise=3, verbose=3)
-findpeaks.plot(results)
+from findpeaks import findpeaks
 
-# findpeaks.plot_preprocessing(results)
-# findpeaks.plot_mask(results)
-# findpeaks.plot_mesh(results)
-# findpeaks.plot_peristence(results)
+# 2dpeaks example
+fp = findpeaks()
+img = fp.import_example('2dpeaks')
+fp.fit(img)
+fp.plot()
+
+# 2dpeaks example with other settings
+fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, resize=(300,300), verbose=3)
+img = fp.import_example('2dpeaks')
+fp.fit(img)
+fp.plot()
+
+# %%
+from findpeaks import findpeaks
+X = fp.import_example()
+fp = findpeaks(mask=0)
+fp.fit(X)
+fp.plot()
+
+findpeaks.plot_preprocessing(results)
+findpeaks.plot_mask(results)
+findpeaks.plot_mesh(results)
+findpeaks.plot_peristence(results)
 
 # %%
 from findpeaks import findpeaks
@@ -52,8 +61,6 @@ fp.plot()
 fp = findpeaks(lookahead=1, smooth=10, verbose=3)
 fp.fit(X)
 fp.plot()
-
-
 
 # %%
 X = [10,11,9,23,21,11,45,20,11,12]

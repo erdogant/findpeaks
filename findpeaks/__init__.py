@@ -1,22 +1,10 @@
 from findpeaks.findpeaks import findpeaks
 
-# from findpeaks.findpeaks import (
-#     fit,
-# 	plot,
-#     import_example,
-#     peaks1d,
-#     peaks2d,
-#     plot_mesh,
-#     plot_peristence,
-#     plot_mask,
-#     plot_preprocessing,
-# )
-
 from findpeaks.utils.smoothline import smooth_line1d, smooth_line2d
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '0.1.0'
+__version__ = '1.0.0'
 
 # module level doc-string
 __doc__ = """
@@ -32,13 +20,30 @@ Results can be plotted for the preprocessing steps, the persistence of peaks, th
 
 Examples
 --------
->>> import findpeaks
->>> X = [10,11,9,23,21,11,45,20,11,12]
+>>> from findpeaks import findpeaks
 >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
->>> out = findpeaks.fit(X, lookahead=1)
->>> findpeaks.plot(out)
->>> out = findpeaks.fit(X, lookahead=1, smooth=10)
->>> findpeaks.plot(out)
+>>> fp = findpeaks(smooth=10, lookahead=1)
+>>> results = fp.fit(X)
+>>> fp.plot()
+>>>
+>>> # 2D array example
+>>> from findpeaks import findpeaks
+>>> X = fp.import_example('2dpeaks')
+>>> results = fp.fit(X)
+>>> fp.plot()
+>>>
+>>> # Image example
+>>> from findpeaks import findpeaks
+>>> fp = findpeaks(denoise=30, resize=(300,300))
+>>> X = fp.import_example('2dpeaks_image')
+>>> results = fp.fit(X)
+>>> fp.plot()
+>>>
+>>> # Plot each seperately
+>>> fp.plot_preprocessing()
+>>> fp.plot_mask()
+>>> fp.plot_peristence()
+>>> fp.plot_mesh()
 
 References
 ----------

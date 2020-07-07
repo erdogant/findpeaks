@@ -3,7 +3,7 @@
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # github      : https://github.com/erdogant/findpeaks
-# Licence     : See Licences
+# Licence     : MIT
 # ----------------------------------------------------
 from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
 from scipy.ndimage.filters import maximum_filter

@@ -9,16 +9,15 @@ import numpy as np
 from scipy.interpolate import make_interp_spline, interp1d
 import matplotlib.pyplot as plt
 
-
 # %%
 def smooth_line1d(X, nboost=1000, method=2, showfig=False, verbose=3):
     if len(X)>nboost: raise Exception('nboost (n=%.0f) must be larger then input data (n=%.0f)' %(nboost, len(X)))
-    bootstdata=np.zeros(nboost)*np.nan
-    idx=np.unique(np.floor(np.linspace(0,len(bootstdata)-1,len(X))).astype(int))
+    bootstdata=np.zeros(nboost) * np.nan
+    idx=np.unique(np.floor(np.linspace(0, len(bootstdata) - 1, len(X))).astype(int))
     bootstdata[idx] = X
     X=interpolate_nans(bootstdata, method=method)
     if verbose>=3: print('[BOOSTDATA1D] Boosting data by interpolation with a maximum of %d' %(nboost))
-    
+
     if showfig:
         plot(X, bootstdata, method)
     return(X)
@@ -26,11 +25,11 @@ def smooth_line1d(X, nboost=1000, method=2, showfig=False, verbose=3):
 # %% Smooting of the line
 def smooth_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
     """Smoothing 1D vector.
-    
+
     Description
     -----------
     Smoothing a 1d vector can be challanging if the number of data is low sampled.
-    This smoothing function therefore contains two steps. First interpolation of the 
+    This smoothing function therefore contains two steps. First interpolation of the
     input line followed by a convolution.
 
     Parameters
@@ -66,7 +65,7 @@ def smooth_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
         # First smoothing on the raw input data
         ynew=None
         if ys is not None:
-            ys = _smooth(ys,window)
+            ys = _smooth(ys, window)
             # Interpolate ys line
             spl = make_interp_spline(range(0, len(ys)), ys, k=3)
             ynew = spl(extpoints)
@@ -121,8 +120,7 @@ def interpolate_nans(X, method='linear', replace_value_to_nan=None, verbose=3):
     >>> Xint2 = interpolate_nans(X, method=0)
 
     """
-    yhat  = []
-
+    yhat = []
     # Replace replace_value_to_nan by NaN value
     if replace_value_to_nan is not None: 
         X[X==replace_value_to_nan]=np.nan
