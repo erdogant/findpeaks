@@ -25,10 +25,10 @@ fp.plot_mesh(view=(90,0))
 
 # %%
 from findpeaks import findpeaks
+img = fp.import_example()
 
 # 2dpeaks example
 fp = findpeaks()
-img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()
 
@@ -45,10 +45,10 @@ fp = findpeaks(mask=0)
 fp.fit(X)
 fp.plot()
 
-findpeaks.plot_preprocessing(results)
-findpeaks.plot_mask(results)
-findpeaks.plot_mesh(results)
-findpeaks.plot_peristence(results)
+fp.plot_preprocessing()
+fp.plot_mask()
+fp.plot_mesh()
+fp.plot_peristence()
 
 # %%
 from findpeaks import findpeaks
@@ -74,9 +74,7 @@ import numpy as np
 
 i = 10000
 xs = np.linspace(0,3.7*pi,i)
-X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * 
-np.random.randn(i))
-# y *= -1
+X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
 
 # Findpeaks
 fp = findpeaks()
