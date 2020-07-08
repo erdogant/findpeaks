@@ -190,6 +190,13 @@ class findpeaks():
     # Find peaks in 2D-array
     def peaks2d(self, X):
         """Detect peaks and valleys in a 2D-array or image.
+        
+        Description
+        -----------
+        Methodology. The idea behind the topology method: Consider the function graph of the function that assigns each pixel its level.
+        Now consider a water level at height 255 that continuously descents to lower levels. At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death). The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands.
+        The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
+        The very first picture shows the locations of births of the islands. This method not only gives the local maxima but also quantifies their "significance" by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.
 
         Parameters
         ----------
@@ -211,8 +218,8 @@ class findpeaks():
         >>>
         >>> # Image example
         >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(denoise=30, resize=(300,300))
         >>> X = fp.import_example('2dpeaks_image')
+        >>> fp = findpeaks(denoise=30, resize=(300,300))
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
