@@ -78,5 +78,9 @@ X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.rand
 
 # Findpeaks
 fp = findpeaks()
-fp.fit(X)
+results=fp.fit(X)
 fp.plot()
+
+results['max_peaks_s']
+results['min_peaks_s']
+results['labx_s']
