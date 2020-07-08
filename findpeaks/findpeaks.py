@@ -9,7 +9,6 @@
 import findpeaks.utils.compute as compute
 from findpeaks.utils.smoothline import smooth_line1d
 from peakdetect import peakdetect
-import cv2  # Only for 2D images required
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import pandas as pd
@@ -637,8 +636,10 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
     # Import local dataset
     if verbose>=3: print('[findpeaks] >Import [%s]' %(PATH_TO_DATA))
     if data=='2dpeaks_image':
+        cv2 = compute._import_cv2()
         X = cv2.imread(PATH_TO_DATA)
     else:
         X = pd.read_csv(PATH_TO_DATA, sep=sep).values
     # Return
     return X
+

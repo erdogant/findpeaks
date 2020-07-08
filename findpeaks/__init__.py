@@ -1,6 +1,7 @@
 from findpeaks.findpeaks import findpeaks
 
 from findpeaks.utils.smoothline import smooth_line1d, smooth_line2d
+import findpeaks.utils.compute as compute
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'

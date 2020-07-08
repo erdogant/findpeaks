@@ -40,8 +40,8 @@ fp.plot()
 
 # %%
 from findpeaks import findpeaks
-X = fp.import_example()
 fp = findpeaks(mask=0)
+X = fp.import_example()
 fp.fit(X)
 fp.plot()
 

@@ -10,7 +10,15 @@ from scipy.ndimage.filters import maximum_filter
 from scipy import misc
 import findpeaks.utils.imagepers as imagepers
 import numpy as np
-import cv2 # Only for 2D images required
+
+# Import cv2
+def _import_cv2():
+    # Only for 2D images required
+    try:
+        import cv2
+        return cv2
+    except:
+        raise ImportError('open-cv must be installed manually. Try to: <pip install open-cv>')
 
 # %% Scaling
 def _scale(X, verbose=3):
@@ -28,6 +36,8 @@ def _scale(X, verbose=3):
 
 # %%
 def _togray(X, verbose=3):
+    # Import cv2
+    cv2 = _import_cv2()
     try:
         if verbose>=3: print('[findpeaks] >Conversion to gray image.')
         X = cv2.cvtColor(X, cv2.COLOR_BGR2GRAY)
@@ -37,6 +47,8 @@ def _togray(X, verbose=3):
 
 # %%
 def _denoise(X, h=10, verbose=3):
+    # Import cv2
+    cv2 = _import_cv2()
     try:
         if len(X.shape)==2:
             if verbose>=3: print('[findpeaks] >Denoising gray image.')
@@ -50,6 +62,8 @@ def _denoise(X, h=10, verbose=3):
 
 # %%
 def _resize(X, resize=None, verbose=3):
+    # Import cv2
+    cv2 = _import_cv2()
     try:
         if resize is not None:
             if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(resize)))

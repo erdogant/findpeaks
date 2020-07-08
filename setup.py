@@ -13,13 +13,13 @@ else:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['scipy','matplotlib','numpy','pandas','tqdm','peakdetect'],
+     install_requires=['scipy','matplotlib','numpy','pandas','tqdm','peakdetect','wget'],
      python_requires='>=3',
      name='findpeaks',
      version=new_version,
      author="Erdogan Taskesen",
      author_email="erdogant@gmail.com",
-     description="findpeaks is for the detection of peaks and valleys in a 1D vector.",
+     description="findpeaks is for the detection of peaks and valleys in a 1D vector and 2D array (image).",
      long_description=long_description,
      long_description_content_type="text/markdown",
      url="https://github.com/erdogant/findpeaks",
