@@ -341,15 +341,20 @@ class findpeaks():
         fig_axis : tuple containing (fig, ax)
 
         """
-        figsize = figsize if figsize is not None else self.args['figsize']
-
         if not hasattr(self, 'results'):
             print('[findpeaks] Nothing to plot.')
-            return
-        elif self.args['method']=='peaks1d':
+            return None
+
+        figsize = figsize if figsize is not None else self.args['figsize']
+
+        if self.args['method']=='peaks1d':
             fig_axis = self.plot1d(figsize=figsize)
         elif self.args['method']=='peaks2d':
             fig_axis = self.plot2d(figsize=figsize)
+        else:
+            print('[findpeaks] Nothing to plot for %s' %(self.args['method']))
+            return None
+
         # Return
         return fig_axis
 
