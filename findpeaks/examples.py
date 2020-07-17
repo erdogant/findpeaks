@@ -7,13 +7,13 @@ print(findpeaks.__version__)
 from findpeaks import findpeaks
 
 fp = findpeaks(mask=0, scale=True, denoise=None, togray=True, resize=(300,300), verbose=3)
+img = fp.import_example('2dpeaks_image')
 results = fp.fit(img)
 fp.plot()
 
 fp = findpeaks(mask=0, scale=True, denoise=30, togray=True, resize=(300,300), verbose=3)
 # fp = findpeaks(mask=0, scale=True, denoise=None, togray=True, resize=(300,300), verbose=3)
-img = fp.import_example('2dpeaks_image')
-
+# img = fp.import_example('2dpeaks_image')
 results = fp.fit(img)
 fp.plot()
 
