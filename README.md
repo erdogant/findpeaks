@@ -64,8 +64,8 @@ fp.plot()
 </p>
 
 ```python
-# Initialize with smoothing parameter
-fp = findpeaks(lookahead=1, smooth=10)
+# Initialize with interpolation parameter
+fp = findpeaks(lookahead=1, interpolate=10)
 results = fp.fit(X)
 fp.plot()
 ```
@@ -92,8 +92,8 @@ fp.plot()
 </p>
 
 ```python
-# Initialize with smoothing parameter
-fp = findpeaks(lookahead=1, smooth=10)
+# Initialize with interpolate parameter
+fp = findpeaks(lookahead=1, interpolate=10)
 results = fp.fit(X)
 fp.plot()
 ```
