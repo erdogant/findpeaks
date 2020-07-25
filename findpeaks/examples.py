@@ -1,7 +1,7 @@
 # %%
-# import findpeaks
-# print(dir(findpeaks))
-# print(findpeaks.__version__)
+import findpeaks
+print(dir(findpeaks))
+print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
@@ -21,6 +21,10 @@ img = fp.import_example('2dpeaks_image')
 results = fp.fit(img)
 fp.plot()
 
+fp = findpeaks(mask=0, scale=True, denoise='lee', h=20, togray=True, resize=(300,300), verbose=3)
+img = fp.import_example('2dpeaks_image')
+results = fp.fit(img)
+fp.plot()
 
 #%% Plot each seperately
 fp.plot_preprocessing()
