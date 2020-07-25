@@ -17,7 +17,7 @@ import wget
 import os
 
 class findpeaks():
-    def __init__(self, lookahead=200, smooth=None, mask=0, resize=None, scale=True, togray=True, denoise=10, figsize=(15, 8), verbose=3):
+    def __init__(self, lookahead=200, smooth=None, mask=0, resize=None, scale=True, togray=True, denoise='fastnl', h=10, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters 1D
@@ -35,8 +35,10 @@ class findpeaks():
             Values <= mask are set as background.
         scale : bool, (default : False)
             Scaling in range [0-255] by img*(255/max(img))
-        denoise : int, (default : 10 or None to disable)
-            Denoising image, where the first value is the  filter strength. Higher value removes noise better, but removes details of image also.
+        denoise : int, (default : 'bilateral', None to disable)
+            'bilateral','fastnl' or None to denoise images.
+        h : int, (default : 10)
+            Denoising filter strength. Higher value removes noise better, but also removes details of image.
         togray : bool, (default : False)
             Conversion to gray scale.
         resize : tuple, (default : None)
@@ -53,6 +55,7 @@ class findpeaks():
         self.scale = scale
         self.togray = togray
         self.denoise = denoise
+        self.h = h
         self.figsize = figsize
         self.verbose = verbose
 
@@ -159,7 +162,7 @@ class findpeaks():
         if self.smooth:
             # Scale back to original data
             min_peaks = np.minimum(np.ceil(((idx_valleys / len(X)) * len(Xo))).astype(int), len(Xo) - 1)
-            max_peaks =  np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xo))).astype(int), len(Xo) - 1)
+            max_peaks = np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xo))).astype(int), len(Xo) - 1)
             # Scaling is not accurate for indexing and therefore, a second wave of searching for peaks
             max_peaks_corr = []
             for max_peak in max_peaks:
@@ -219,7 +222,7 @@ class findpeaks():
         >>> # Image example
         >>> from findpeaks import findpeaks
         >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(denoise=30, resize=(300,300))
+        >>> fp = findpeaks(denoise='fastnl', h=30, resize=(300,300))
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -326,7 +329,7 @@ class findpeaks():
                 plt.imshow(X, cmap=('gray' if self.togray else None))
         # Denoising
         if self.denoise is not None:
-            X = compute._denoise(X, h=self.denoise, verbose=self.verbose)
+            X = compute.denoise(X, method=self.denoise, h=self.h, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X, cmap=('gray' if self.togray else None))

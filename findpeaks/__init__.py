@@ -35,7 +35,7 @@ Examples
 >>>
 >>> # Image example
 >>> from findpeaks import findpeaks
->>> fp = findpeaks(denoise=30, resize=(300,300))
+>>> fp = findpeaks(denoise='fastnl', h=30, resize=(300,300))
 >>> X = fp.import_example('2dpeaks_image')
 >>> results = fp.fit(X)
 >>> fp.plot()

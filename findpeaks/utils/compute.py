@@ -46,16 +46,31 @@ def _togray(X, verbose=3):
     return X
 
 # %%
-def _denoise(X, h=10, verbose=3):
-    # Import cv2
+def denoise(X, h=9, method='bilateral', verbose=3):
+    # https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html
+    # The bilateral filter uses a Gaussian filter in the space domain, 
+    # but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
+    # The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
+    # while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
+    # ensures that only those pixels with intensities similar to that of the central pixel (‘intensity neighbors’)
+    # are included to compute the blurred intensity value. As a result, this method preserves edges, since for pixels lying near edges,
+    # neighboring pixels placed on the other side of the edge, and therefore exhibiting large intensity variations when
+    # compared to the central pixel, will not be included for blurring.
+
+    # Import library
     cv2 = _import_cv2()
+
+    # Peform the denoising
     try:
-        if len(X.shape)==2:
-            if verbose>=3: print('[findpeaks] >Denoising gray image.')
-            X = cv2.fastNlMeansDenoising(X, h=h)
-        if len(X.shape)==3:
-            if verbose>=3: print('[findpeaks] >Denoising color image.')
-            X = cv2.fastNlMeansDenoisingColored(X, h=h)
+        if verbose>=3: print('[findpeaks] >Denoising with [%s] and filter strength: %d.' %(method, h))
+        if method=='fastnl':
+            if len(X.shape)==2:
+                X = cv2.fastNlMeansDenoising(X, h=h)
+            if len(X.shape)==3:
+                if verbose>=3: print('[findpeaks] >Denoising color image.')
+                X = cv2.fastNlMeansDenoisingColored(X, h=h)
+        elif method=='bilateral':
+            X = cv2.bilateralFilter(X, h, 75, 75)
     except:
         if verbose>=2: print('[findpeaks] >Warning: Denoising not possible.')
     return X
