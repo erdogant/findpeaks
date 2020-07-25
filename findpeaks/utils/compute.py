@@ -6,7 +6,7 @@
 # Licence     : MIT
 # ----------------------------------------------------
 from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
-from scipy.ndimage.filters import maximum_filter
+from scipy.ndimage.filters import maximum_filter, uniform_filter
 from scipy import misc
 import findpeaks.utils.imagepers as imagepers
 import numpy as np
@@ -44,6 +44,54 @@ def _togray(X, verbose=3):
     except:
         if verbose>=2: print('[findpeaks] >Warning: Conversion to gray not possible.')
     return X
+
+# %%
+def lee_filter(X, window, var_noise=0.25):
+    """Lee filter for speckle noise removal
+
+    Description
+    -----------
+    The Additive Noise Lee Despeckling Filter
+    Let's assume that the despeckling noise is additive with a constant mean of zero, a constant variance, and drawn from a Gaussian distribution. Use a window (I x J pixels) to scan the image with a stride of 1 pixels (and I will use reflective boundary conditions). The despeckled value of the pixel in the center of the window located in the ith row and jth column is, zhat_ij = mu_k + W*(z_ij = mu_z), where mu_k is the mean value of all pixels in the window centered on pixel i,j, z_ij is the unfiltered value of the pixel, and W is a weight calculated as, W = var_k / (var_k + var_noise), where var_k is the variance of all pixels in the window and var_noise is the variance of the speckle noise. A possible alternative to using the actual value of the center pixel for z_ij is to use the median pixel value in the window.
+    The parameters of the filter are the window/kernel size and the variance of the noise (which is unknown but can perhaps be estimated from the image as the variance over a uniform feature smooth like the surface of still water). Using a larger window size and noise variance will increase radiometric resolution at the expense of spatial resolution.
+    For more info on the Lee Filter and other despeckling filters see http://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/speckle-function.htm
+    Assumes noise mean = 0
+
+    If you don't want the window to be a square of size x size, just replace uniform_filter with something else (convolution with a disk, gaussian filter, etc). Any type of (weighted) averaging filter will do, as long as it is the same for calculating both img_mean and img_square_mean.
+    The Lee filter seems rather old-fashioned as a filter. It won't behave well at edges because for any window that has an edge in it, the variance is going to be much higher than the overall image variance, and therefore the weights (of the unfiltered image relative to the filtered image) are going to be close to 1.
+
+    Parameters
+    ----------
+    X : TYPE
+        SAR data to be despeckled (already reshaped into image dimensions).
+    window : (tuple)
+        descpeckling filter window.
+
+    Returns
+    -------
+    band_filtered : TYPE
+        DESCRIPTION.
+
+    """
+    from scipy.ndimage.measurements import variance
+
+    img_mean = uniform_filter(X, (window, window))
+    img_sqr_mean = uniform_filter(X**2, (window, window))
+    img_variance = img_sqr_mean - img_mean**2
+
+    overall_variance = variance(X)
+
+    img_weights = img_variance / (img_variance + overall_variance)
+    img_output = img_mean + img_weights * (X - img_mean)
+    return img_output
+
+    # mean_window = uniform_filter(X, window)
+    # mean_sqr_window = uniform_filter(X**2, window)
+    # var_window = mean_sqr_window - mean_window**2
+
+    # weights = var_window / (var_window + var_noise)
+    # X_filtered = mean_window + weights*(X - mean_window)
+    # return X_filtered
 
 # %%
 def denoise(X, h=9, method='bilateral', verbose=3):
