@@ -184,8 +184,12 @@ class findpeaks():
             results['min_peaks'] = np.c_[min_peaks_corr, Xo[min_peaks_corr]]
             results['max_peaks'] = np.c_[max_peaks_corr, Xo[max_peaks_corr]]
 
+        # Compute persistance using toplogy method
+        import findpeaks.utils.imagepers as imagepers
+        g0 = imagepers.persistence(np.c_[X,X])
+
         # Store
-        results_s, self.args = self._store1d(X, xs, results, idx_valleys, idx_peaks, labx_s)
+        results_s, self.args = self._store1d(X, xs, results, idx_valleys, idx_peaks, labx_s, g0)
         self.results = {**results, **results_s}
 
         return(self.results)
@@ -387,7 +391,7 @@ class findpeaks():
         # Make second plot
         if self.results.get('min_peaks', None) is not None:
             ax1 = _plot_original(self.results['Xraw'], self.results['xs'], self.results['labx'], self.results['min_peaks'][:, 0].astype(int), self.results['max_peaks'][:, 0].astype(int), title='Data', figsize=figsize)
-        # Make smoothed plot
+        # Make interpolated plot
         ax2 = _plot_original(self.results['X_s'], self.results['xs_s'], self.results['labx_s'], self.results['min_peaks_s'][:, 0].astype(int), self.results['max_peaks_s'][:, 0].astype(int), title='Data', figsize=figsize)
         # Return axis
         return (ax2, ax1)
@@ -548,12 +552,13 @@ class findpeaks():
             y, x = p_birth
             ax1.plot([x], [y], '.', c='b')
             ax1.text(x, y + 0.25, str(i + 1), color='b')
-
-        ax1.set_xlim((0, self.results['X'].shape[1]))
-        ax1.set_ylim((0, self.results['X'].shape[0]))
-        ax1.invert_yaxis()
-        plt.gca().invert_yaxis()
-        ax1.grid(True)
+            
+        if len(self.results['X'].shape)>1:
+            ax1.set_xlim((0, self.results['X'].shape[1]))
+            ax1.set_ylim((0, self.results['X'].shape[0]))
+            ax1.invert_yaxis()
+            plt.gca().invert_yaxis()
+            ax1.grid(True)
 
         # Plot the persistence
         if verbose>=3: print('[findpeaks] >Plotting Peristence..')
@@ -570,8 +575,13 @@ class findpeaks():
 
         ax2.set_xlabel("Birth level")
         ax2.set_ylabel("Death level")
-        ax2.set_xlim((-5, 260))
-        ax2.set_ylim((-5, 260))
+        # ax2.set_xlim((-5, self.results['X'].max().max()))
+        # ax2.set_ylim((-5, self.results['X'].max().max()))
+        ax2.set_xlim((self.results['X'].min().min(), self.results['X'].max().max()))
+        ax2.set_ylim((self.results['X'].min().min(), self.results['X'].max().max()))
+
+
+
         ax2.grid(True)
         return ax1, ax2
 
