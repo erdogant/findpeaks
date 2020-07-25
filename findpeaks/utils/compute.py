@@ -119,6 +119,8 @@ def denoise(X, h=9, method='bilateral', verbose=3):
                 X = cv2.fastNlMeansDenoisingColored(X, h=h)
         elif method=='bilateral':
             X = cv2.bilateralFilter(X, h, 75, 75)
+        elif method=='lee':
+            X = lee_filter(X, h, var_noise=0.25)
     except:
         if verbose>=2: print('[findpeaks] >Warning: Denoising not possible.')
     return X
