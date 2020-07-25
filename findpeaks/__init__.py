@@ -1,6 +1,6 @@
 from findpeaks.findpeaks import findpeaks
 
-from findpeaks.utils.smoothline import smooth_line1d, smooth_line2d
+from findpeaks.utils.smoothline import interpolate_line1d, interpolate_line2d
 import findpeaks.utils.compute as compute
 
 __author__ = 'Erdogan Tasksen'
@@ -23,7 +23,7 @@ Examples
 --------
 >>> from findpeaks import findpeaks
 >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
->>> fp = findpeaks(smooth=10, lookahead=1)
+>>> fp = findpeaks(interpolate=10, lookahead=1)
 >>> results = fp.fit(X)
 >>> fp.plot()
 >>>

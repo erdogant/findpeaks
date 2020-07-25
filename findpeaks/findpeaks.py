@@ -7,7 +7,7 @@
 # ----------------------------------------------------
 
 import findpeaks.utils.compute as compute
-from findpeaks.utils.smoothline import smooth_line1d
+from findpeaks.utils.smoothline import interpolate_line1d
 from peakdetect import peakdetect
 import matplotlib.pyplot as plt
 from tqdm import tqdm
@@ -17,15 +17,15 @@ import wget
 import os
 
 class findpeaks():
-    def __init__(self, lookahead=200, smooth=None, mask=0, resize=None, scale=True, togray=True, denoise='fastnl', h=10, figsize=(15, 8), verbose=3):
+    def __init__(self, lookahead=200, interpolate=None, mask=0, resize=None, scale=True, togray=True, denoise='fastnl', h=10, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters 1D
         -------------
         lookahead : int, (default : 200)
             Looking ahead for peaks. For very small 1d arrays, lets say up to 50 datapoints, set low numbers such as 1 or 2.
-        smooth : int, (default : 10)
-            Smoothing factor by interpolation. The higher the number, the more smoothing will occur.
+        interpolate : int, (default : 10)
+            Interpoliation factor. The higher the number, the less sharp the edges will be.
 
         Parameters 2D-array
         -------------------
@@ -49,7 +49,7 @@ class findpeaks():
         """
         # Store in object
         self.lookahead = lookahead
-        self.smooth = smooth
+        self.interpolate = interpolate
         self.mask = mask
         self.resize = resize
         self.scale = scale
@@ -87,7 +87,7 @@ class findpeaks():
         --------
         >>> from findpeaks import findpeaks
         >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(smooth=10, lookahead=1)
+        >>> fp = findpeaks(interpolate=10, lookahead=1)
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -133,12 +133,12 @@ class findpeaks():
 
     # Find peaks in 1D vector
     def peaks1d(self, X, xs=None):
-        # Here we extend the data by factor 3 interpolation and then we can nicely smoothen the data.
+        # Here we extend the data by factor 3 interpolation and then we can nicely interpolate the data.
         Xo = X.copy()
         results = {}
         results['Xraw'] = Xo
-        if self.smooth:
-            X = smooth_line1d(X, nboost=len(X) * self.smooth, method=2, showfig=False)
+        if self.interpolate:
+            X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False)
 
         # Peak detect
         max_peaks, min_peaks = peakdetect(np.array(X), lookahead=self.lookahead)
@@ -159,7 +159,7 @@ class findpeaks():
         for i in range(0, len(idx_valleys) - 1):
             labx_s[idx_valleys[i]:idx_valleys[i + 1] + 1] = i + 1
 
-        if self.smooth:
+        if self.interpolate:
             # Scale back to original data
             min_peaks = np.minimum(np.ceil(((idx_valleys / len(X)) * len(Xo))).astype(int), len(Xo) - 1)
             max_peaks = np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xo))).astype(int), len(Xo) - 1)
@@ -247,17 +247,19 @@ class findpeaks():
         return self.results
 
     # Store 1D vector
-    def _store1d(self, X, xs, results, idx_valleys, idx_peaks, labx_s):
+    def _store1d(self, X, xs, results, idx_valleys, idx_peaks, labx_s, g0):
         results = {}
         if xs is None: xs = np.arange(0, len(X))
         results['labx_s'] = labx_s
         results['min_peaks_s'] = np.c_[idx_valleys, X[idx_valleys]]
         results['max_peaks_s'] = np.c_[idx_peaks, X[idx_peaks]]
+        results['X'] = X
         results['X_s'] = X
         results['xs_s'] = xs
+        results['g0'] = g0
         args = {}
         args['lookahead'] = self.lookahead
-        args['smooth'] = self.smooth
+        args['interpolate'] = self.interpolate
         args['figsize'] = self.figsize
         args['method'] = 'peaks1d'
 

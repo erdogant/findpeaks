@@ -66,14 +66,15 @@ X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1
 fp = findpeaks(lookahead=1, verbose=3)
 fp.fit(X)
 fp.plot()
+fp.plot_peristence()
 
-fp = findpeaks(lookahead=1, smooth=10, verbose=3)
+fp = findpeaks(lookahead=1, interpolate=10, verbose=3)
 fp.fit(X)
 fp.plot()
 
 # %%
 X = [10,11,9,23,21,11,45,20,11,12]
-fp = findpeaks(lookahead=1, smooth=10)
+fp = findpeaks(lookahead=1, interpolate=10)
 fp.fit(X)
 fp.plot()
 

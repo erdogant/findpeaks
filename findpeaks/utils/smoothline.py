@@ -10,27 +10,26 @@ from scipy.interpolate import make_interp_spline, interp1d
 import matplotlib.pyplot as plt
 
 # %%
-def smooth_line1d(X, nboost=1000, method=2, showfig=False, verbose=3):
+def interpolate_line1d(X, nboost=1000, method=2, showfig=False, verbose=3):
     if len(X)>nboost: raise Exception('nboost (n=%.0f) must be larger then input data (n=%.0f)' %(nboost, len(X)))
     bootstdata=np.zeros(nboost) * np.nan
     idx=np.unique(np.floor(np.linspace(0, len(bootstdata) - 1, len(X))).astype(int))
     bootstdata[idx] = X
     X=interpolate_nans(bootstdata, method=method)
-    if verbose>=3: print('[BOOSTDATA1D] Boosting data by interpolation with a maximum of %d' %(nboost))
+    if verbose>=3: print('[findpeaks] Interpolating data by factor %d' %(nboost))
 
     if showfig:
         plot(X, bootstdata, method)
     return(X)
 
 # %% Smooting of the line
-def smooth_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
-    """Smoothing 1D vector.
+def interpolate_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
+    """interpolate 2D vector.
 
     Description
     -----------
-    Smoothing a 1d vector can be challanging if the number of data is low sampled.
-    This smoothing function therefore contains two steps. First interpolation of the
-    input line followed by a convolution.
+    Smoothing a 2d vector can be challanging if the number of data is low sampled.
+    This function contains two steps. First interpolation of the input line followed by a convolution.
 
     Parameters
     ----------
@@ -54,7 +53,7 @@ def smooth_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
 
     """
     if window is not None:
-        if verbose>=3: print('[smoothline] >Smoothing by interpolation..')
+        if verbose>=3: print('[findpeaks] >Boosting by interpolation..')
         # Specify number of points to interpolate the data
         # Interpolate xs line
         extpoints = np.linspace(0, len(xs), len(xs) * interpol)
