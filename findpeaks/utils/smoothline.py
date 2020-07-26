@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 # %%
 def interpolate_line1d(X, nboost=1000, method=2, showfig=False, verbose=3):
+    
     if len(X)>nboost: raise Exception('nboost (n=%.0f) must be larger then input data (n=%.0f)' %(nboost, len(X)))
     bootstdata=np.zeros(nboost) * np.nan
     idx=np.unique(np.floor(np.linspace(0, len(bootstdata) - 1, len(X))).astype(int))

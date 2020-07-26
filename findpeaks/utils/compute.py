@@ -227,7 +227,8 @@ def _mask(X, mask=0, verbose=3):
 
 def persistence(im):
     """A simple implementation of persistent homology on 2D images.
-    __author__ = "Stefan Huber <shuber@sthu.org>"
+    author: "Stefan Huber <shuber@sthu.org>"
+    editted: Erdogan Taskesen <erdogant@gmail.com>
     """
     h, w = im.shape
 

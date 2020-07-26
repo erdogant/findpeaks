@@ -6,7 +6,6 @@
 # Licence     : See Licences
 # ----------------------------------------------------
 
-import findpeaks.utils.imagepers as imagepers
 import findpeaks.utils.compute as compute
 from findpeaks.utils.smoothline import interpolate_line1d
 from peakdetect import peakdetect
@@ -134,22 +133,15 @@ class findpeaks():
 
     # Find peaks in 1D vector
     def peaks1d(self, X, x=None):
-        # Here we extend the data by factor 3 interpolation and then we can nicely interpolate the data.
         Xraw = X.copy()
-
         # Interpolation
-        if self.interpolate:
-            X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False)
-
+        if self.interpolate: X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False)
         # Peak detect
         max_peaks, min_peaks = peakdetect(np.array(X), lookahead=self.lookahead)
-
         # Post processing
         results = compute._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
-
         # Compute persistance using toplogy method
-        persist_score = imagepers.persistence(np.c_[X, X])
-
+        persist_score = compute.persistence(np.c_[X, X])
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, persist_score, results)
         # Return
