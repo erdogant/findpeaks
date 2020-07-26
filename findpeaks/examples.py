@@ -5,6 +5,17 @@ print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
+fp = findpeaks()
+X = fp.import_example('1dpeaks')
+
+fp = findpeaks(lookahead=1, interpolate=10, verbose=3)
+fp.fit(X[:,1])
+fp.plot()
+fp.plot_peristence()
+
+
+# %%
+from findpeaks import findpeaks
 
 fp = findpeaks(mask=0, scale=True, denoise=None, togray=True, resize=(300,300), verbose=3)
 img = fp.import_example('2dpeaks_image')
