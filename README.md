@@ -264,6 +264,7 @@ Please cite findpeaks in your publications if this is useful for your research. 
 #### References
 * https://github.com/erdogant/findpeaks
 * https://github.com/Anaxilaus/peakdetect
+* https://www.sthu.org/blog/13-perstopology-peakdetection/index.html
 
 ### Maintainer
 	Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
