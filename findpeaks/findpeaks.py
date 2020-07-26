@@ -138,7 +138,7 @@ class findpeaks():
         if self.interpolate: X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False)
         # Peak detect
         max_peaks, min_peaks = peakdetect(np.array(X), lookahead=self.lookahead)
-        # Post processing
+        # Post processing for the peak-detect
         results = compute._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
         # Compute persistance using toplogy method
         persist_score = compute.persistence(np.c_[X, X])
