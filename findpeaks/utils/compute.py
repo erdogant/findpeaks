@@ -8,7 +8,8 @@
 from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
 from scipy.ndimage.filters import maximum_filter, uniform_filter
 from scipy import misc
-import findpeaks.utils.imagepers as imagepers
+# import findpeaks.utils.imagepers as imagepers
+import findpeaks.utils.union_find as union_find
 import numpy as np
 
 # Import cv2
@@ -171,7 +172,7 @@ def _topology(X, verbose=3):
     # Compute meshgrid
     xx, yy = np.mgrid[0:X.shape[0], 0:X.shape[1]]
     # Compute persistence
-    g0 = imagepers.persistence(X)
+    g0 = persistence(X)
     # Return
     return g0, xx, yy
 
@@ -223,3 +224,110 @@ def _mask(X, mask=0, verbose=3):
 
     # Return
     return detected_peaks
+
+def persistence(im):
+    """A simple implementation of persistent homology on 2D images.
+    __author__ = "Stefan Huber <shuber@sthu.org>"
+    """
+    h, w = im.shape
+
+    # Get indices orderd by value from high to low
+    indices = [(i, j) for i in range(h) for j in range(w)]
+    indices.sort(key=lambda p: _get_indices(im, p), reverse=True)
+
+    # Maintains the growing sets
+    uf = union_find.UnionFind()
+
+    groups0 = {}
+
+    def get_comp_birth(p):
+        return _get_indices(im, uf[p])
+
+    # Process pixels from high to low
+    for i, p in enumerate(indices):
+        v = _get_indices(im, p)
+        ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
+        nc = sorted([(get_comp_birth(q), q) for q in set(ni)], reverse=True)
+
+        if i == 0:
+            groups0[p] = (v, v, None)
+
+        uf.add(p, -i)
+
+        if len(nc) > 0:
+            oldp = nc[0][1]
+            uf.union(oldp, p)
+
+            # Merge all others with oldp
+            for bl, q in nc[1:]:
+                if uf[q] not in groups0:
+                    # print(i, ": Merge", uf[q], "with", oldp, "via", p)
+                    groups0[uf[q]] = (bl, bl - v, p)
+                uf.union(oldp, q)
+
+    groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
+    groups0.sort(key=lambda g: g[2], reverse=True)
+
+    return groups0
+
+
+def _get_indices(im, p):
+    return im[p[0]][p[1]]
+
+
+def _iter_neighbors(p, w, h):
+    y, x = p
+
+    # 8-neighborship
+    neigh = [(y + j, x + i) for i in [-1, 0, 1] for j in [-1, 0, 1]]
+    # 4-neighborship
+    # neigh = [(y-1, x), (y+1, x), (y, x-1), (y, x+1)]
+
+    for j, i in neigh:
+        if j < 0 or j >= h:
+            continue
+        if i < 0 or i >= w:
+            continue
+        if j == y and i == x:
+            continue
+        yield j, i
+
+
+def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, results):
+    idx_peaks, _ = zip(*max_peaks)
+    idx_peaks = np.array(list(idx_peaks))
+    idx_valleys, _ = zip(*min_peaks)
+    idx_valleys = np.append(np.array(list(idx_valleys)), len(X) - 1)
+    idx_valleys = np.append(0, idx_valleys)
+
+    # Group distribution
+    labx_s = np.zeros((len(X))) * np.nan
+    for i in range(0, len(idx_valleys) - 1):
+        labx_s[idx_valleys[i]:idx_valleys[i + 1] + 1] = i + 1
+
+    if interpolate:
+        # Scale back to original data
+        min_peaks = np.minimum(np.ceil(((idx_valleys / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
+        max_peaks = np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
+        # Scaling is not accurate for indexing and therefore, a second wave of searching for peaks
+        max_peaks_corr = []
+        for max_peak in max_peaks:
+            getrange = np.arange(np.maximum(max_peak - lookahead, 0), np.minimum(max_peak + lookahead, len(Xraw)))
+            max_peaks_corr.append(getrange[np.argmax(Xraw[getrange])])
+        # Scaling is not accurate for indexing and therefore, a second wave of searching for peaks
+        min_peaks_corr = []
+        for min_peak in min_peaks:
+            getrange = np.arange(np.maximum(min_peak - lookahead, 0), np.minimum(min_peak + lookahead, len(Xraw)))
+            min_peaks_corr.append(getrange[np.argmin(Xraw[getrange])])
+        # Set the labels
+        labx = np.zeros((len(Xraw))) * np.nan
+        for i in range(0, len(min_peaks) - 1):
+            labx[min_peaks[i]:min_peaks[i + 1] + 1] = i + 1
+
+        # Store based on original locations
+        results['labx'] = labx
+        results['x'] = np.arange(0, len(Xraw))
+        results['min_peaks'] = np.c_[min_peaks_corr, Xraw[min_peaks_corr]]
+        results['max_peaks'] = np.c_[max_peaks_corr, Xraw[max_peaks_corr]]
+
+    return results, idx_valleys, idx_peaks, labx_s
