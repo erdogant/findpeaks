@@ -1,7 +1,80 @@
 # %%
+# import os
+# os.chdir(os.path.dirname(os.path.abspath('examples.py')))
 import findpeaks
 print(dir(findpeaks))
 print(findpeaks.__version__)
+
+# %%
+from findpeaks import findpeaks
+fp = findpeaks()
+img = fp.import_example('2dpeaks_image')
+import findpeaks
+
+# filters parameters
+# window size
+winsize = 9
+# damping factor for frost
+k_value1 = 2.0
+# damping factor for lee enhanced
+k_value2 = 1.0
+# coefficient of variation of noise
+cu_value = 0.25
+# coefficient of variation for lee enhanced of noise
+cu_lee_enhanced = 0.523
+# max coefficient of variation for lee enhanced
+cmax_value = 1.73
+
+# frost filter
+image_frost = findpeaks.frost_filter(img, damping_factor=k_value1, win_size=winsize)
+# kuan filter
+image_kuan = findpeaks.kuan_filter(img, win_size=winsize, cu=cu_value)
+# lee filter
+image_lee = findpeaks.lee_filter(img, win_size=winsize, cu=cu_value)
+# lee enhanced filter
+image_lee_enhanced = findpeaks.lee_enhanced_filter(img, win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
+# mean filter
+image_mean = findpeaks.mean_filter(img, win_size=winsize)
+# median filter
+image_median = findpeaks.median_filter(img, win_size=winsize)
+
+
+# %%
+from findpeaks import findpeaks
+savepath='D://GITLAB/PROJECTS/sonar/results/mesh/comparison_methods/'
+filters = ['fastnl','bilateral','frost','median','mean', None]
+windows = [3, 9, 15, 31, 63]
+cus = [0.25, 0.5, 0.75]
+
+for getfilter in filters:
+    for window in windows:
+            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, togray=True, resize=(300,300), verbose=3)
+            img = fp.import_example('2dpeaks_image')
+            results = fp.fit(img)
+            title = 'Method=' + str(getfilter) + ', window='+str(window)
+            _, ax1 = fp.plot_mesh(wireframe=False, title=title, savepath=savepath+title+'.png')
+
+filters = ['lee','lee_enhanced','kuan']
+for getfilter in filters:
+    for window in windows:
+        for cu in cus:
+            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, cu=cu, togray=True, resize=(300,300), verbose=3)
+            img = fp.import_example('2dpeaks_image')
+            results = fp.fit(img)
+            title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
+            _, ax1 = fp.plot_mesh(wireframe=False, title=title, savepath=savepath+title+'.png')
+
+
+#%% Plot each seperately
+fp.plot_preprocessing()
+fp.plot_mask()
+fp.plot_peristence()
+fp.plot_mesh()
+
+# Make mesh plot
+fp.plot_mesh(view=(0,90))
+fp.plot_mesh(view=(90,0))
+
 
 # %%
 from findpeaks import findpeaks
@@ -13,39 +86,6 @@ fp.fit(X[:,1])
 fp.plot()
 fp.plot_peristence()
 
-
-# %%
-from findpeaks import findpeaks
-
-fp = findpeaks(mask=0, scale=True, denoise=None, togray=True, resize=(300,300), verbose=3)
-img = fp.import_example('2dpeaks_image')
-results = fp.fit(img)
-fp.plot()
-
-fp = findpeaks(mask=0, scale=True, denoise='bilateral', h=30, togray=True, resize=(300,300), verbose=3)
-img = fp.import_example('2dpeaks_image')
-results = fp.fit(img)
-fp.plot()
-
-fp = findpeaks(mask=0, scale=True, denoise='fastnl', h=30, togray=True, resize=(300,300), verbose=3)
-img = fp.import_example('2dpeaks_image')
-results = fp.fit(img)
-fp.plot()
-
-fp = findpeaks(mask=0, scale=True, denoise='lee', h=20, togray=True, resize=(300,300), verbose=3)
-img = fp.import_example('2dpeaks_image')
-results = fp.fit(img)
-fp.plot()
-
-#%% Plot each seperately
-fp.plot_preprocessing()
-fp.plot_mask()
-fp.plot_peristence()
-fp.plot_mesh()
-
-# Make mesh plot
-fp.plot_mesh(view=(0,90))
-fp.plot_mesh(view=(90,0))
 
 # %%
 from findpeaks import findpeaks
