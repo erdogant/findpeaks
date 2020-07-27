@@ -35,10 +35,12 @@ class findpeaks():
             Values <= mask are set as background.
         scale : bool, (default : False)
             Scaling in range [0-255] by img*(255/max(img))
-        denoise : int, (default : 'bilateral', None to disable)
-            'bilateral','fastnl' or None to denoise images.
-        h : int, (default : 10)
-            Denoising filter strength. Higher value removes noise better, but also removes details of image.
+        denoise : string, (default : 'fastnl', None to disable)
+            Filtering method to remove noise: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+        window : int, (default : 3)
+            Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
+        cu : float, (default: 0.25)
+            The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
         togray : bool, (default : False)
             Conversion to gray scale.
         resize : tuple, (default : None)
