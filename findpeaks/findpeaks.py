@@ -6,7 +6,7 @@
 # Licence     : See Licences
 # ----------------------------------------------------
 
-import findpeaks.utils.compute as compute
+import findpeaks.utils.stats as stats
 from findpeaks.utils.smoothline import interpolate_line1d
 from peakdetect import peakdetect
 import matplotlib.pyplot as plt
@@ -17,7 +17,7 @@ import wget
 import os
 
 class findpeaks():
-    def __init__(self, lookahead=200, interpolate=None, mask=0, resize=None, scale=True, togray=True, denoise='fastnl', h=10, figsize=(15, 8), verbose=3):
+    def __init__(self, lookahead=200, interpolate=None, mask=0, resize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters 1D
@@ -57,7 +57,8 @@ class findpeaks():
         self.scale = scale
         self.togray = togray
         self.denoise = denoise
-        self.h = h
+        self.window = window
+        self.cu = cu
         self.figsize = figsize
         self.verbose = verbose
 
@@ -141,9 +142,9 @@ class findpeaks():
         # Peak detect
         max_peaks, min_peaks = peakdetect(np.array(X), lookahead=self.lookahead)
         # Post processing for the peak-detect
-        results = compute._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
+        results = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
         # Compute persistance using toplogy method
-        persist_score = compute.persistence(np.c_[X, X])
+        persist_score = stats.persistence(np.c_[X, X])
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, persist_score, results)
         # Return
@@ -181,7 +182,7 @@ class findpeaks():
         >>> # Image example
         >>> from findpeaks import findpeaks
         >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(denoise='fastnl', h=30, resize=(300,300))
+        >>> fp = findpeaks(denoise='fastnl', window=30, resize=(300,300))
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -196,9 +197,9 @@ class findpeaks():
         # Preprocessing the iamge
         Xproc = self.preprocessing(X, showfig=False)
         # Compute mesh-grid and persistance
-        g0, xx, yy = compute._topology(Xproc)
+        g0, xx, yy = stats._topology(Xproc)
         # Compute peaks using local maximum filter.
-        Xmask = compute._mask(Xproc, mask=self.mask)
+        Xmask = stats._mask(Xproc, mask=self.mask)
         # Store
         self.results, self.args = self._store2d(X, Xproc, Xmask, g0, xx, yy)
         # Return
@@ -271,25 +272,25 @@ class findpeaks():
 
         # Resize
         if self.resize:
-            X = compute._resize(X, resize=self.resize)
+            X = stats._resize(X, resize=self.resize)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
         # Scaling
         if self.scale:
-            X = compute._scale(X, verbose=self.verbose)
+            X = stats._scale(X, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
         # Convert to gray image
         if self.togray:
-            X = compute._togray(X, verbose=self.verbose)
+            X = stats._togray(X, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X, cmap=('gray' if self.togray else None))
         # Denoising
         if self.denoise is not None:
-            X = compute.denoise(X, method=self.denoise, h=self.h, verbose=self.verbose)
+            X = stats.denoise(X, method=self.denoise, window=self.window, cu=self.cu, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X, cmap=('gray' if self.togray else None))
@@ -426,11 +427,15 @@ class findpeaks():
         # Return
         return (ax1, ax2, ax3)
 
-    def plot_mesh(self, rstride=2, cstride=2, cmap=plt.cm.hot_r, figsize=None, view=None):
+    def plot_mesh(self, wireframe=True, surface=True, rstride=2, cstride=2, cmap=plt.cm.hot_r, title='', figsize=None, view=None, savepath=None):
         """Plot the 3d-mesh.
 
         Parameters
         ----------
+        wireframe : bool, (default is True)
+            Plot the wireframe
+        surface : bool, (default is True)
+            Plot the surface
         rstride : int, (default is 2)
             Array row stride (step size).
         cstride : int, (default is 2)
@@ -445,6 +450,8 @@ class findpeaks():
             (90, 90) : x vs y
         cmap : object
             Colormap. The default is plt.cm.hot_r.
+        savepath : bool (default : None)
+            Path with filename to save the figure, eg: './tmp/my_image.png'
         Verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
@@ -457,29 +464,45 @@ class findpeaks():
             if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
         figsize = figsize if figsize is not None else self.args['figsize']
         if self.verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
+        ax1, ax2 = None, None
+        if savepath is not None:
+            savepath = str.replace(savepath, ',', '_')
+            # savepath = str.replace(savepath, ':', '_')
+            savepath = str.replace(savepath, '=', '_')
+            # savepath = str.replace(savepath, ' ', '_')
 
         # Plot the figure
-        fig = plt.figure(figsize=figsize)
-        ax1 = fig.gca(projection='3d')
-        ax1.plot_wireframe(self.results['xx'], self.results['yy'], self.results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
-        ax1.set_xlabel('x-axis')
-        ax1.set_ylabel('y-axis')
-        ax1.set_zlabel('z-axis')
-        if view is not None:
-            ax1.view_init(view[0], view[1])
-            # ax1.view_init(50, -10) # x vs y
-        plt.show()
+        if wireframe:
+            fig = plt.figure(figsize=figsize)
+            ax1 = fig.gca(projection='3d')
+            ax1.plot_wireframe(self.results['xx'], self.results['yy'], self.results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
+            ax1.set_xlabel('x-axis')
+            ax1.set_ylabel('y-axis')
+            ax1.set_zlabel('z-axis')
+            if view is not None:
+                ax1.view_init(view[0], view[1])
+                # ax1.view_init(50, -10) # x vs y
+            ax1.set_title(title)
+            plt.show()
+            if savepath is not None:
+                if self.verbose>=3: print('[findpeaks] >Saving wireframe to disk..')
+                fig.savefig(savepath)
 
-        # Plot the figure
-        fig = plt.figure(figsize=figsize)
-        ax2 = fig.gca(projection='3d')
-        ax2.plot_surface(self.results['xx'], self.results['yy'], self.results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
-        if view is not None:
-            ax2.view_init(view[0], view[1])
-        ax2.set_xlabel('x-axis')
-        ax2.set_ylabel('y-axis')
-        ax2.set_zlabel('z-axis')
-        plt.show()
+        if surface:
+            # Plot the figure
+            fig = plt.figure(figsize=figsize)
+            ax2 = fig.gca(projection='3d')
+            ax2.plot_surface(self.results['xx'], self.results['yy'], self.results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
+            if view is not None:
+                ax2.view_init(view[0], view[1])
+            ax2.set_xlabel('x-axis')
+            ax2.set_ylabel('y-axis')
+            ax2.set_zlabel('z-axis')
+            ax2.set_title(title)
+            plt.show()
+            if savepath is not None:
+                if self.verbose>=3: print('[findpeaks] >Saving surface to disk..')
+                fig.savefig(savepath)
 
         # Plot with contours
         # fig = plt.figure(figsize=figsize)
@@ -620,7 +643,7 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
     # Import local dataset
     if verbose>=3: print('[findpeaks] >Import [%s]' %(PATH_TO_DATA))
     if data=='2dpeaks_image':
-        cv2 = compute._import_cv2()
+        cv2 = stats._import_cv2()
         X = cv2.imread(PATH_TO_DATA)
     else:
         X = pd.read_csv(PATH_TO_DATA, sep=sep).values
