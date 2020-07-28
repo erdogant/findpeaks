@@ -17,7 +17,7 @@ import wget
 import os
 
 class findpeaks():
-    def __init__(self, lookahead=200, interpolate=None, mask=0, resize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
+    def __init__(self, lookahead=200, interpolate=None, mask=0, size=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters 1D
@@ -387,7 +387,7 @@ class findpeaks():
         None.
 
         """
-        # _ = self.preprocessing(self.results['Xraw'], mask=self.args['mask'], scale=self.args['scale'], denoise=self.args['denoise'], togray=self.args['togray'], resize=self.args['resize'], showfig=True, figsize=figsize, verbose=self.args['verbose'])
+        # _ = self.preprocessing(self.results['Xraw'], mask=self.args['mask'], scale=self.args['scale'], denoise=self.args['denoise'], togray=self.args['togray'], size=self.args['size'], showfig=True, figsize=figsize, verbose=self.args['verbose'])
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
     def plot_mask(self, figsize=None):
