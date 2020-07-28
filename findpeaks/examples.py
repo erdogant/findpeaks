@@ -5,12 +5,13 @@ import findpeaks
 print(dir(findpeaks))
 print(findpeaks.__version__)
 
-# %%
+# %% Denoising example
 from findpeaks import findpeaks
 fp = findpeaks()
 img = fp.import_example('2dpeaks_image')
 import findpeaks
 
+    
 # filters parameters
 # window size
 winsize = 9
@@ -25,6 +26,19 @@ cu_lee_enhanced = 0.523
 # max coefficient of variation for lee enhanced
 cmax_value = 1.73
 
+# Some pre-processing
+# Resize
+img = findpeaks.stats.resize(img, size=(300,300))
+# Make grey image
+img = findpeaks.stats.togray(img)
+# Scale between [0-255]
+img = findpeaks.stats.scale(img)
+
+# Denoising
+# fastnl
+img_fastnl = findpeaks.stats.denoise(img, method='fastnl', window=winsize)
+# bilateral
+img_bilateral = findpeaks.stats.denoise(img, method='bilateral', window=winsize)
 # frost filter
 image_frost = findpeaks.frost_filter(img, damping_factor=k_value1, win_size=winsize)
 # kuan filter
@@ -38,10 +52,21 @@ image_mean = findpeaks.mean_filter(img, win_size=winsize)
 # median filter
 image_median = findpeaks.median_filter(img, win_size=winsize)
 
+# Plotting
+import matplotlib.pyplot as plt
+fig, ax =  plt.subplots(1,8, figsize=(8,20))
+ax[0].imshow(img_fastnl)
+ax[1].imshow(img_bilateral)
+ax[2].imshow(image_frost)
+ax[3].imshow(image_kuan)
+ax[4].imshow(image_lee)
+ax[5].imshow(image_lee_enhanced)
+ax[6].imshow(image_mean)
+ax[7].imshow(image_median)
 
-# %%
+# %% Run over all methods and many parameters
 from findpeaks import findpeaks
-savepath='D://GITLAB/PROJECTS/sonar/results/mesh/comparison_methods/'
+savepath='./comparison_methods/'
 filters = ['fastnl','bilateral','frost','median','mean', None]
 windows = [3, 9, 15, 31, 63]
 cus = [0.25, 0.5, 0.75]
