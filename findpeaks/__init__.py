@@ -1,4 +1,4 @@
-from findpeaks.findpeaks import findpeaks
+from .findpeaks import findpeaks
 
 from findpeaks.utils.smoothline import interpolate_line1d, interpolate_line2d
 import findpeaks.utils.stats as stats
