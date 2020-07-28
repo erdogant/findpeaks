@@ -57,6 +57,7 @@ def kuan_filter(img, win_size=3, cu=0.25):
     win_size x win_size.
     """
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
+    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
 
     # we process the entire img as float64 to avoid type overflow error
     img = np.float64(img)

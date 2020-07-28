@@ -56,6 +56,7 @@ def lee_filter(img, win_size=3, cu=0.25):
     Apply lee to a numpy matrix containing the image, with a window of
     win_size x win_size.
     """
+    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
 
     # we process the entire img as float64 to avoid type overflow error

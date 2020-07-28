@@ -75,6 +75,7 @@ def lee_enhanced_filter(img, win_size=3, k=K_DEFAULT, cu=CU_DEFAULT, cmax=CMAX_D
     Apply Enhanced Lee filter to a numpy matrix containing the image, with a
     window of win_size x win_size.
     """
+    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
     # assert_window_size(win_size)
     assert_parameters(win_size, k, cu, cmax)
 
