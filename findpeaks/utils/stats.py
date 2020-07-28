@@ -30,7 +30,7 @@ def _import_cv2():
         raise ImportError('cv2 must be installed manually. Try to: <pip install opencv-python>')
 
 # %% Scaling
-def _scale(X, verbose=3):
+def scale(X, verbose=3):
     if verbose>=3: print('[findpeaks] >Scaling image between [0-255] and to uint8')
     try:
         # Normalizing between 0-255
