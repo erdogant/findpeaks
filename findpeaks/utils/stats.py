@@ -44,7 +44,7 @@ def _scale(X, verbose=3):
     return X
 
 # %%
-def _togray(X, verbose=3):
+def togray(X, verbose=3):
     # Import cv2
     cv2 = _import_cv2()
     try:
@@ -109,13 +109,13 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
     return X
 
 # %%
-def _resize(X, resize=None, verbose=3):
+def resize(X, size=None, verbose=3):
     # Import cv2
     cv2 = _import_cv2()
     try:
-        if resize is not None:
-            if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(resize)))
-            X = cv2.resize(X, resize)
+        if size is not None:
+            if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(size)))
+            X = cv2.resize(X, size)
     except:
         if verbose>=2: print('[findpeaks] >Warning: Resizing not possible.')
     return X

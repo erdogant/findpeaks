@@ -43,8 +43,8 @@ class findpeaks():
             The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
         togray : bool, (default : False)
             Conversion to gray scale.
-        resize : tuple, (default : None)
-            Resize to desired (width,length).
+        size : tuple, (default : None)
+            size to desired (width,length).
         Verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
@@ -53,7 +53,7 @@ class findpeaks():
         self.lookahead = lookahead
         self.interpolate = interpolate
         self.mask = mask
-        self.resize = resize
+        self.size = size
         self.scale = scale
         self.togray = togray
         self.denoise = denoise
@@ -102,7 +102,7 @@ class findpeaks():
         >>>
         >>> # Image example
         >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(denoise=30, resize=(300,300))
+        >>> fp = findpeaks(denoise=30, size=(300,300))
         >>> X = fp.import_example('2dpeaks_image')
         >>> results = fp.fit(X)
         >>> fp.plot()
@@ -182,7 +182,7 @@ class findpeaks():
         >>> # Image example
         >>> from findpeaks import findpeaks
         >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(denoise='fastnl', window=30, resize=(300,300))
+        >>> fp = findpeaks(denoise='fastnl', window=30, size=(300,300))
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -237,7 +237,7 @@ class findpeaks():
         args['scale'] = self.scale
         args['denoise'] = self.denoise
         args['togray'] = self.togray
-        args['resize'] = self.resize
+        args['size'] = self.size
         args['figsize'] = self.figsize
         args['method'] = 'peaks2d'
         # Return
@@ -271,20 +271,20 @@ class findpeaks():
         showfig = showfig if showfig is not None else self.showfig
 
         # Resize
-        if self.resize:
-            X = stats._resize(X, resize=self.resize)
+        if self.size:
+            X = stats.size(X, size=self.size)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
         # Scaling
         if self.scale:
-            X = stats._scale(X, verbose=self.verbose)
+            X = stats.scale(X, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
         # Convert to gray image
         if self.togray:
-            X = stats._togray(X, verbose=self.verbose)
+            X = stats.togray(X, verbose=self.verbose)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X, cmap=('gray' if self.togray else None))
