@@ -14,7 +14,7 @@ import findpeaks
     
 # filters parameters
 # window size
-winsize = 9
+winsize = 15
 # damping factor for frost
 k_value1 = 2.0
 # damping factor for lee enhanced
@@ -36,33 +36,40 @@ img = findpeaks.stats.scale(img)
 
 # Denoising
 # fastnl
-img_fastnl = findpeaks.stats.denoise(img, method='fastnl', window=winsize)
+img_fastnl = findpeaks.stats.denoise(img.copy(), method='fastnl', window=winsize)
 # bilateral
-img_bilateral = findpeaks.stats.denoise(img, method='bilateral', window=winsize)
+img_bilateral = findpeaks.stats.denoise(img.copy(), method='bilateral', window=winsize)
 # frost filter
-image_frost = findpeaks.frost_filter(img, damping_factor=k_value1, win_size=winsize)
+image_frost = findpeaks.frost_filter(img.copy(), damping_factor=k_value1, win_size=winsize)
 # kuan filter
-image_kuan = findpeaks.kuan_filter(img, win_size=winsize, cu=cu_value)
+image_kuan = findpeaks.kuan_filter(img.copy(), win_size=winsize, cu=cu_value)
 # lee filter
-image_lee = findpeaks.lee_filter(img, win_size=winsize, cu=cu_value)
+image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
 # lee enhanced filter
-image_lee_enhanced = findpeaks.lee_enhanced_filter(img, win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
+image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
 # mean filter
-image_mean = findpeaks.mean_filter(img, win_size=winsize)
+image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
 # median filter
-image_median = findpeaks.median_filter(img, win_size=winsize)
+image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
 
 # Plotting
 import matplotlib.pyplot as plt
-fig, ax =  plt.subplots(1,8, figsize=(8,20))
-ax[0].imshow(img_fastnl)
-ax[1].imshow(img_bilateral)
-ax[2].imshow(image_frost)
-ax[3].imshow(image_kuan)
-ax[4].imshow(image_lee)
-ax[5].imshow(image_lee_enhanced)
-ax[6].imshow(image_mean)
-ax[7].imshow(image_median)
+plt.figure(); plt.imshow(img_fastnl, cmap='gray'); plt.title('Fastnl')
+plt.figure(); plt.imshow(img_bilateral, cmap='gray'); plt.title('Bilateral')
+plt.figure(); plt.imshow(image_frost, cmap='gray'); plt.title('Frost')
+plt.figure(); plt.imshow(image_kuan, cmap='gray'); plt.title('Kuan')
+plt.figure(); plt.imshow(image_lee, cmap='gray'); plt.title('Lee')
+plt.figure(); plt.imshow(image_lee_enhanced, cmap='gray'); plt.title('Lee Enhanced')
+plt.figure(); plt.imshow(image_mean, cmap='gray'); plt.title('Mean')
+plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
+
+
+from findpeaks import findpeaks
+fp = findpeaks(scale=False, denoise=None, togray=False, size=False, verbose=3)
+fp.fit(image_kuan)
+fp.plot_peristence()
+fp.plot_mesh(wireframe=False, title='Kuan')
+
 
 # %% Run over all methods and many parameters
 from findpeaks import findpeaks
@@ -73,7 +80,7 @@ cus = [0.25, 0.5, 0.75]
 
 for getfilter in filters:
     for window in windows:
-            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, togray=True, resize=(300,300), verbose=3)
+            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, togray=True, size=(300,300), verbose=3)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window)
@@ -83,7 +90,7 @@ filters = ['lee','lee_enhanced','kuan']
 for getfilter in filters:
     for window in windows:
         for cu in cus:
-            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, cu=cu, togray=True, resize=(300,300), verbose=3)
+            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, cu=cu, togray=True, size=(300,300), verbose=3)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
@@ -122,7 +129,7 @@ fp.fit(img)
 fp.plot()
 
 # 2dpeaks example with other settings
-fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, resize=(300,300), verbose=3)
+fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, size=(300,300), verbose=3)
 img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()
