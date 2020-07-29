@@ -75,8 +75,10 @@ def lee_enhanced_filter(img, win_size=3, k=K_DEFAULT, cu=CU_DEFAULT, cmax=CMAX_D
     Apply Enhanced Lee filter to a numpy matrix containing the image, with a
     window of win_size x win_size.
     """
-    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
-    # assert_window_size(win_size)
+
+    if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
+    if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
+    if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))
     assert_parameters(win_size, k, cu, cmax)
 
     # we process the entire img as float64 to avoid type overflow error

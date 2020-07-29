@@ -86,8 +86,9 @@ def frost_filter(img, damping_factor=2.0, win_size=3):
     By default, the window size is 3x3.
     """
 
-    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
-    if win_size < 3: raise Exception('ERROR: win size must be at least 3')
+    if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
+    if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
+    if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))
 
     img_filtered = np.zeros_like(img)
     N, M = img.shape

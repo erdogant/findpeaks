@@ -32,9 +32,9 @@ def mean_filter(img, win_size=3):
         - img: a numpy matrix representing the image.
         - win_size: the size of the windows (by default 3).
     """
-    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
-    if win_size < 3: raise Exception('ERROR: win size must be at least 3')
-    if ((win_size % 2) == 0): print('It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))
+    if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
+    if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
+    if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))
 
     N, M = img.shape
     win_offset = int(win_size / 2)

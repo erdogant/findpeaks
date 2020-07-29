@@ -33,8 +33,8 @@ def median_filter(img, win_size=3):
     """
 
     # assert_window_size(win_size)
-    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
+    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D. Hint: set the parameter: togray=True')
 
     N, M = img.shape
     win_offset = int(win_size / 2)

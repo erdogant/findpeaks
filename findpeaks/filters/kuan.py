@@ -56,8 +56,9 @@ def kuan_filter(img, win_size=3, cu=0.25):
     Apply kuan to a numpy matrix containing the image, with a window of
     win_size x win_size.
     """
-    if win_size < 3: raise Exception('ERROR: win size must be at least 3')
-    if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D.')
+    if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
+    if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
+    if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))
 
     # we process the entire img as float64 to avoid type overflow error
     img = np.float64(img)
