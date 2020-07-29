@@ -66,9 +66,9 @@ plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
 
 from findpeaks import findpeaks
 fp = findpeaks(scale=False, denoise=None, togray=False, size=False, verbose=3)
-fp.fit(image_kuan)
+fp.fit(image_lee_enhanced)
 fp.plot_peristence()
-fp.plot_mesh(wireframe=False, title='Kuan')
+fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
 
 
 # %% Run over all methods and many parameters
@@ -129,7 +129,7 @@ fp.fit(img)
 fp.plot()
 
 # 2dpeaks example with other settings
-fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, size=(300,300), verbose=3)
+fp = findpeaks(mask=0, scale=True, denoise='fastnl', window=31, togray=True, size=(300,300), verbose=3)
 img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()

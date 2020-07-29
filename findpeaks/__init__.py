@@ -1,7 +1,8 @@
-from .findpeaks import findpeaks
+from findpeaks.findpeaks import findpeaks
 
 from findpeaks.utils.smoothline import interpolate_line1d, interpolate_line2d
 import findpeaks.utils.stats as stats
+
 # Import the denosing filters
 from findpeaks.filters.lee import lee_filter
 from findpeaks.filters.lee_enhanced import lee_enhanced_filter
@@ -9,6 +10,7 @@ from findpeaks.filters.kuan import kuan_filter
 from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
+
 
 
 __author__ = 'Erdogan Tasksen'

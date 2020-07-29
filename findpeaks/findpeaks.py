@@ -272,7 +272,7 @@ class findpeaks():
 
         # Resize
         if self.size:
-            X = stats.size(X, size=self.size)
+            X = stats.resize(X, size=self.size)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
