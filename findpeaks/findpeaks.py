@@ -136,17 +136,18 @@ class findpeaks():
 
     # Find peaks in 1D vector
     def peaks1d(self, X, x=None):
+        X = np.array(X)
         Xraw = X.copy()
         # Interpolation
         if self.interpolate: X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False)
         # Peak detect
         max_peaks, min_peaks = peakdetect(np.array(X), lookahead=self.lookahead)
         # Post processing for the peak-detect
-        results = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
+        out = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
         # Compute persistance using toplogy method
         persist_score = stats.persistence(np.c_[X, X])
         # Store
-        self.results, self.args = self._store1d(X, Xraw, x, persist_score, results)
+        self.results, self.args = self._store1d(X, Xraw, x, persist_score, out)
         # Return
         return(self.results)
 
@@ -182,7 +183,7 @@ class findpeaks():
         >>> # Image example
         >>> from findpeaks import findpeaks
         >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(denoise='fastnl', window=30, size=(300,300))
+        >>> fp = findpeaks(denoise='fastnl', window=30, imsize=(300,300))
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -207,12 +208,41 @@ class findpeaks():
         return self.results
 
     # Store 1D vector
-    def _store1d(self, X, Xraw, xs, persist_score, results):
+    def _store1d(self, X, Xraw, xs, persist_score, out):
         if xs is None: xs = np.arange(0, len(X))
-        results['Xproc'] = X
-        results['Xraw'] = Xraw
-        results['x'] = xs
+        results = {}
+
+        # Interpolated data
+        dfint = pd.DataFrame()
+        dfint['x'] = xs
+        dfint['y'] = X
+        dfint['labx'] = out['labx_s']
+        dfint['valley'] = False
+        dfint['valley'].iloc[out['min_peaks_s'][:,0].astype(int)] = True
+        dfint['peak'] = False
+        dfint['peak'].iloc[out['max_peaks_s'][:,0].astype(int)] = True
+
+        if self.interpolate:
+            # As for the input data
+            df = pd.DataFrame()
+            df['x'] = out['xs']
+            df['y'] = Xraw
+            df['labx'] = out['labx']
+            df['valley'] = False
+            df['valley'].iloc[out['min_peaks'][:,0].astype(int)] = True
+            df['peak'] = False
+            df['peak'].iloc[out['max_peaks'][:,0].astype(int)] = True
+            # Store in results
+            results['df'] = df
+            results['df_interp'] = dfint
+        else:
+            results['df'] = dfint
+
+        # results['Xproc'] = X
+        # results['Xraw'] = Xraw
+        # results['x'] = xs
         results['persitance'] = persist_score
+
         # Arguments
         args = {}
         args['lookahead'] = self.lookahead
@@ -343,14 +373,21 @@ class findpeaks():
         """
         figsize = figsize if figsize is not None else self.args['figsize']
         ax1, ax2 = None, None
-
+        
         # Make plot
-        if self.results.get('min_peaks', None) is not None:
-            ax1 = _plot_original(self.results['Xraw'], self.results['xs'], self.results['labx'], self.results['min_peaks'][:, 0].astype(int), self.results['max_peaks'][:, 0].astype(int), title='Data', figsize=figsize)
+        # if self.results.get('min_peaks', None) is not None:
+        # ax1 = _plot_original(self.results['Xraw'], self.results['xs'], self.results['labx'], self.results['min_peaks'][:, 0].astype(int), self.results['max_peaks'][:, 0].astype(int), title='Data', figsize=figsize)
+        min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
+        max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
+        ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Data', figsize=figsize)
 
         # Make interpolated plot
-        if self.results.get('min_peaks_s', None) is not None:
-            ax2 = _plot_original(self.results['Xproc'], self.results['x'], self.results['labx_s'], self.results['min_peaks_s'][:, 0].astype(int), self.results['max_peaks_s'][:, 0].astype(int), title='Data', figsize=figsize)
+        # if self.results.get('min_peaks_s', None) is not None:
+        if self.interpolate is not None:
+            # ax2 = _plot_original(self.results['Xproc'], self.results['x'], self.results['labx_s'], self.results['min_peaks_s'][:, 0].astype(int), self.results['max_peaks_s'][:, 0].astype(int), title='Data', figsize=figsize)
+            min_peaks = self.results['df_interp']['x'].loc[self.results['df_interp']['valley']].values
+            max_peaks = self.results['df_interp']['x'].loc[self.results['df_interp']['peak']].values
+            ax2 = _plot_original(self.results['df_interp']['y'].values, self.results['df_interp']['x'].values, self.results['df_interp']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Data', figsize=figsize)
         # Return axis
         return (ax2, ax1)
 
@@ -387,7 +424,7 @@ class findpeaks():
         None.
 
         """
-        # _ = self.preprocessing(self.results['Xraw'], mask=self.args['mask'], scale=self.args['scale'], denoise=self.args['denoise'], togray=self.args['togray'], size=self.args['size'], showfig=True, figsize=figsize, verbose=self.args['verbose'])
+        # _ = self.preprocessing(self.results['Xraw'], mask=self.args['mask'], scale=self.args['scale'], denoise=self.args['denoise'], togray=self.args['togray'], imsize=self.args['imsize'], showfig=True, figsize=figsize, verbose=self.args['verbose'])
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
     def plot_mask(self, figsize=None):
@@ -520,6 +557,11 @@ class findpeaks():
         if not hasattr(self, 'results'):
             if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
 
+        if self.args['method']=='peaks1d':
+            X = self.results['df']['y'].values
+        else:
+            X = self.results['Xproc']
+
         # Make the figure
         fig, (ax1,ax2) = plt.subplots(1, 2, figsize=figsize)
         # Plot the detected loci
@@ -533,7 +575,8 @@ class findpeaks():
             ax1.plot([x], [y], '.', c='b')
             ax1.text(x, y + 0.25, str(i + 1), color='b')
             
-        if len(self.results['Xproc'].shape)>1:
+        # if len(self.results['Xproc'].shape)>1:
+        if self.args['method']=='peaks2d':
             ax1.set_xlim((0, self.results['Xproc'].shape[1]))
             ax1.set_ylim((0, self.results['Xproc'].shape[0]))
             ax1.invert_yaxis()
@@ -557,8 +600,8 @@ class findpeaks():
         ax2.set_ylabel("Death level")
         # ax2.set_xlim((-5, self.results['Xproc'].max().max()))
         # ax2.set_ylim((-5, self.results['Xproc'].max().max()))
-        ax2.set_xlim((self.results['Xproc'].min().min(), self.results['Xproc'].max().max()))
-        ax2.set_ylim((self.results['Xproc'].min().min(), self.results['Xproc'].max().max()))
+        ax2.set_xlim((X.min().min(), X.max().max()))
+        ax2.set_ylim((X.min().min(), X.max().max()))
 
 
 

@@ -1,9 +1,17 @@
 # %%
 # import os
 # os.chdir(os.path.dirname(os.path.abspath('examples.py')))
-import findpeaks
-print(dir(findpeaks))
-print(findpeaks.__version__)
+# import findpeaks
+# print(dir(findpeaks))
+# print(findpeaks.__version__)
+
+from findpeaks import findpeaks
+X = [10,11,9,23,21,11,45,20,11,12]
+fp = findpeaks(lookahead=1, interpolate=10)
+results = fp.fit(X)
+fp.plot()
+
+# results['df_interp']
 
 # %% Denoising example
 from findpeaks import findpeaks
@@ -11,7 +19,6 @@ fp = findpeaks()
 img = fp.import_example('2dpeaks_image')
 import findpeaks
 
-    
 # filters parameters
 # window size
 winsize = 15
@@ -54,7 +61,7 @@ image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
 
 # Plotting
 import matplotlib.pyplot as plt
-plt.figure(); plt.imshow(img_fastnl, cmap='gray'); plt.title('Fastnl')
+plt.figure(); plt.imshow(img_fastnl, cmap='gray'); plt.title('Fastnl'); plt.grid(False)
 plt.figure(); plt.imshow(img_bilateral, cmap='gray'); plt.title('Bilateral')
 plt.figure(); plt.imshow(image_frost, cmap='gray'); plt.title('Frost')
 plt.figure(); plt.imshow(image_kuan, cmap='gray'); plt.title('Kuan')
@@ -65,11 +72,19 @@ plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
 
 
 from findpeaks import findpeaks
-fp = findpeaks(scale=False, denoise=None, togray=False, size=False, verbose=3)
+fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
 fp.fit(image_lee_enhanced)
 fp.plot_peristence()
 fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
 
+# %%
+# import cv2
+# imageStarsCropped = cv2.bitwise_and(img, img_fastnl)
+# plt.figure(); plt.imshow(imageStarsCropped, cmap='gray'); plt.grid(False)
+# np.std(img)
+# np.std(imageStarsCropped)
+# np.std(img_fastnl)
+# fp.fit(imageStarsCropped)
 
 # %% Run over all methods and many parameters
 from findpeaks import findpeaks
@@ -80,7 +95,7 @@ cus = [0.25, 0.5, 0.75]
 
 for getfilter in filters:
     for window in windows:
-            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, togray=True, size=(300,300), verbose=3)
+            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, togray=True, imsize=(300,300), verbose=3)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window)
@@ -90,7 +105,7 @@ filters = ['lee','lee_enhanced','kuan']
 for getfilter in filters:
     for window in windows:
         for cu in cus:
-            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, cu=cu, togray=True, size=(300,300), verbose=3)
+            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=(300,300), verbose=3)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
@@ -129,7 +144,7 @@ fp.fit(img)
 fp.plot()
 
 # 2dpeaks example with other settings
-fp = findpeaks(mask=0, scale=True, denoise='fastnl', window=31, togray=True, size=(300,300), verbose=3)
+fp = findpeaks(mask=0, scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), verbose=3)
 img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()
@@ -158,6 +173,7 @@ fp.plot_peristence()
 fp = findpeaks(lookahead=1, interpolate=10, verbose=3)
 fp.fit(X)
 fp.plot()
+fp.plot_peristence()
 
 # %%
 X = [10,11,9,23,21,11,45,20,11,12]
@@ -177,7 +193,3 @@ X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.rand
 fp = findpeaks()
 results=fp.fit(X)
 fp.plot()
-
-results['max_peaks_s']
-results['min_peaks_s']
-results['labx_s']
