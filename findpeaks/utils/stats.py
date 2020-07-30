@@ -296,12 +296,12 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
             # Scale back to original data
             min_peaks = np.minimum(np.ceil(((idx_valleys / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
             max_peaks = np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
-            # Scaling is not accurate for indexing and therefore, a second wave of searching for max=peaks
+            # Scaling is not accurate for indexing and therefore, a second wave of searching for max_peaks
             max_peaks_corr = []
             for max_peak in max_peaks:
                 getrange = np.arange(np.maximum(max_peak - lookahead, 0), np.minimum(max_peak + lookahead, len(Xraw)))
                 max_peaks_corr.append(getrange[np.argmax(Xraw[getrange])])
-            # Scaling is not accurate for indexing and therefore, a second wave of searching for min-peaks
+            # Scaling is not accurate for indexing and therefore, a second wave of searching for min_peaks
             min_peaks_corr = []
             for min_peak in min_peaks:
                 getrange = np.arange(np.maximum(min_peak - lookahead, 0), np.minimum(min_peak + lookahead, len(Xraw)))
@@ -313,12 +313,13 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
 
             # Store based on original
             results['labx'] = labx
-            results['xs'] = np.arange(0, len(Xraw))
             results['min_peaks'] = np.c_[min_peaks_corr, Xraw[min_peaks_corr]]
             results['max_peaks'] = np.c_[max_peaks_corr, Xraw[max_peaks_corr]]
 
+        results['xs'] = np.arange(0, len(Xraw))
         results['min_peaks_s'] = np.c_[idx_valleys, X[idx_valleys]]
         results['max_peaks_s'] = np.c_[idx_peaks, X[idx_peaks]]
         results['labx_s'] = labx_s
+
     # Return
     return results
