@@ -17,7 +17,7 @@ import wget
 import os
 
 class findpeaks():
-    def __init__(self, lookahead=200, interpolate=None, mask=0, size=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
+    def __init__(self, lookahead=200, interpolate=None, mask=0, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters 1D
@@ -43,7 +43,7 @@ class findpeaks():
             The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
         togray : bool, (default : False)
             Conversion to gray scale.
-        size : tuple, (default : None)
+        imsize : tuple, (default : None)
             size to desired (width,length).
         Verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
@@ -53,7 +53,7 @@ class findpeaks():
         self.lookahead = lookahead
         self.interpolate = interpolate
         self.mask = mask
-        self.size = size
+        self.imsize = imsize
         self.scale = scale
         self.togray = togray
         self.denoise = denoise
@@ -102,7 +102,7 @@ class findpeaks():
         >>>
         >>> # Image example
         >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(denoise=30, size=(300,300))
+        >>> fp = findpeaks(denoise=30, imsize=(300,300))
         >>> X = fp.import_example('2dpeaks_image')
         >>> results = fp.fit(X)
         >>> fp.plot()
@@ -237,7 +237,7 @@ class findpeaks():
         args['scale'] = self.scale
         args['denoise'] = self.denoise
         args['togray'] = self.togray
-        args['size'] = self.size
+        args['imsize'] = self.imsize
         args['figsize'] = self.figsize
         args['method'] = 'peaks2d'
         # Return
@@ -271,8 +271,8 @@ class findpeaks():
         showfig = showfig if showfig is not None else self.showfig
 
         # Resize
-        if self.size:
-            X = stats.resize(X, size=self.size)
+        if self.imsize:
+            X = stats.resize(X, size=self.imsize)
             if showfig:
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)

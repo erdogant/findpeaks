@@ -201,7 +201,7 @@ from findpeaks import findpeaks
 X = fp.import_example()
 
 # Initialize
-fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, size=(300,300), verbose=3)
+fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
 
 # Fit
 fp.fit(X)
