@@ -77,7 +77,6 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
     # If you don't want the window to be a square of size x size, just replace uniform_filter with something else (convolution with a disk, gaussian filter, etc). Any type of (weighted) averaging filter will do, as long as it is the same for calculating both img_mean and img_square_mean.
     # The Lee filter seems rather old-fashioned as a filter. It won't behave well at edges because for any window that has an edge in it, the variance is going to be much higher than the overall image variance, and therefore the weights (of the unfiltered image relative to the filtered image) are going to be close to 1.
 
-
     # Import library
     cv2 = _import_cv2()
 
@@ -123,7 +122,7 @@ def resize(X, size=None, verbose=3):
 # %%
 def _topology(X, verbose=3):
     """Determine peaks in 2d-array using toplogy method.
-    
+
     Description
     -----------
     A simple Python implementation of the 0-th dimensional persistent homology for 2D images.
@@ -139,10 +138,6 @@ def _topology(X, verbose=3):
     -------
     g0 : list
         Detected peaks.
-    xx : numpy-array
-        Meshgrid coordinates.
-    yy : numpy-array
-        Meshgrid coordinates.
 
     References
     ----------
@@ -151,12 +146,10 @@ def _topology(X, verbose=3):
 
     """
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method.')
-    # Compute meshgrid
-    xx, yy = np.mgrid[0:X.shape[0], 0:X.shape[1]]
     # Compute persistence
-    g0 = persistence(X)
+    g0, max_peaks, min_peaks = persistence(X)
     # Return
-    return g0, xx, yy
+    return g0
 
 # %%
 def _mask(X, mask=0, verbose=3):
@@ -209,10 +202,12 @@ def _mask(X, mask=0, verbose=3):
 
 def persistence(im):
     """A simple implementation of persistent homology on 2D images.
-    author: "Stefan Huber <shuber@sthu.org>"
-    editted: Erdogan Taskesen <erdogant@gmail.com>
+    Initial implementation: "Stefan Huber <shuber@sthu.org>"
+    Editted by: Erdogan Taskesen <erdogant@gmail.com>
     """
     h, w = im.shape
+    max_peaks, min_peaks = None, None
+    groups0 = {}
 
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w)]
@@ -220,8 +215,6 @@ def persistence(im):
 
     # Maintains the growing sets
     uf = union_find.UnionFind()
-
-    groups0 = {}
 
     def get_comp_birth(p):
         return _get_indices(im, uf[p])
@@ -250,8 +243,17 @@ def persistence(im):
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
-
-    return groups0
+    # if w<=2:
+    # Extract the max peaks and sort
+    max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
+    idxsort = np.argsort(max_peaks[:, 0])
+    max_peaks = max_peaks[idxsort, :].tolist()
+    # Extract the min peaks and sort
+    min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
+    idxsort = np.argsort(min_peaks[:, 0])
+    min_peaks = min_peaks[idxsort, :].tolist()
+    # return
+    return groups0, max_peaks, min_peaks
 
 
 def _get_indices(im, p):
@@ -277,20 +279,27 @@ def _iter_neighbors(p, w, h):
 
 
 def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verbose=3):
+    # if lookahead==None: lookahead=1
+    # lookahead = np.maximum(1, lookahead)
+    if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
+
     results = {}
     labx_s = np.zeros((len(X))) * np.nan
 
     if (min_peaks!=[]) and (max_peaks!=[]):
 
         idx_peaks, _ = zip(*max_peaks)
-        idx_peaks = np.array(list(idx_peaks))
+        idx_peaks = np.array(list(idx_peaks)).astype(int)
         idx_valleys, _ = zip(*min_peaks)
-        idx_valleys = np.append(np.array(list(idx_valleys)), len(X) - 1)
+        idx_valleys = np.append(np.array(list(idx_valleys)), len(X) - 1).astype(int)
         idx_valleys = np.append(0, idx_valleys)
 
         # Group distribution
+        count=1
         for i in range(0, len(idx_valleys) - 1):
-            labx_s[idx_valleys[i]:idx_valleys[i + 1] + 1] = i + 1
+            if idx_valleys[i]!=idx_valleys[i+1]:
+                labx_s[idx_valleys[i]:idx_valleys[i + 1] + 1] = count
+                count=count+1
 
         if interpolate:
             # Scale back to original data
@@ -307,9 +316,12 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
                 getrange = np.arange(np.maximum(min_peak - lookahead, 0), np.minimum(min_peak + lookahead, len(Xraw)))
                 min_peaks_corr.append(getrange[np.argmin(Xraw[getrange])])
             # Set the labels
+            count=1
             labx = np.zeros((len(Xraw))) * np.nan
             for i in range(0, len(min_peaks) - 1):
-                labx[min_peaks[i]:min_peaks[i + 1] + 1] = i + 1
+                if min_peaks[i]!=min_peaks[i+1]:
+                    labx[min_peaks[i]:min_peaks[i + 1] + 1] = count
+                    count=count+1
 
             # Store based on original
             results['labx'] = labx
