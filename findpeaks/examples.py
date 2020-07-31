@@ -170,6 +170,11 @@ image_kuan = findpeaks.kuan_filter(img.copy(), win_size=winsize, cu=cu_value)
 # lee filter
 image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
 # lee enhanced filter
+image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
+# mean filter
+image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
+# median filter
+image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
 
 # %%
 # import cv2
@@ -179,13 +184,6 @@ image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
 # np.std(imageStarsCropped)
 # np.std(img_fastnl)
 # fp.fit(imageStarsCropped)
-
-
-image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
-# mean filter
-image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
-# median filter
-image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
 
 # Plotting
 import matplotlib.pyplot as plt
