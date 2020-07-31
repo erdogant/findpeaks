@@ -1,15 +1,17 @@
 # %%
-# import os
-# os.chdir(os.path.dirname(os.path.abspath('examples.py')))
-# import findpeaks
-# print(dir(findpeaks))
-# print(findpeaks.__version__)
+import os
+os.chdir(os.path.dirname(os.path.abspath('examples.py')))
+import findpeaks
+print(dir(findpeaks))
+print(findpeaks.__version__)
 
+# %%
 from findpeaks import findpeaks
 X = [10,11,9,23,21,11,45,20,11,12]
 fp = findpeaks(lookahead=1, interpolate=10)
 results = fp.fit(X)
 fp.plot()
+fp.plot_peristence()
 
 # results['df_interp']
 

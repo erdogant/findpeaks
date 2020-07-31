@@ -84,21 +84,29 @@ X = [10,11,9,23,21,11,45,20,11,12]
 fp = findpeaks(lookahead=1)
 results = fp.fit(X)
 # Plot
-fp.plot()
+fp.plot(method='peakdetect')
+fp.plot(method='topology')
+fp.plot_peristence()
+
 ```
 
 <p align="center">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_raw.png" width="400" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect.png" width="400" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology.png" width="400" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_persistance.png" width="400" />
 </p>
 
 ```python
 # Initialize with interpolate parameter
 fp = findpeaks(lookahead=1, interpolate=10)
 results = fp.fit(X)
-fp.plot()
+fp.plot(method='peakdetect')
+fp.plot(method='topology')
 ```
 <p align="center">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_interpol.png" width="400" />  
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect_int.png" width="400" />  
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology_int.png" width="400" />  
+  
 </p>
 
 
@@ -119,10 +127,14 @@ fp = findpeaks()
 results = fp.fit(X)
 
 # Plot
-fp.plot()
+fp.plot1d(method='peakdetect')
+fp.plot1d(method='topology')
+fp.plot_peristence()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_topology.png" width="600" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistance.png" width="600" />
 </p>
 
 
@@ -204,7 +216,7 @@ X = fp.import_example()
 fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
 
 # Fit
-fp.fit(X)
+results = fp.fit(X)
 
 # Plot all
 fp.plot()

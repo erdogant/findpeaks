@@ -22,6 +22,8 @@ class findpeaks():
 
         Parameters 1D
         -------------
+        X : array-like RGB or 1D-array
+            Input image data.
         lookahead : int, (default : 200)
             Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
         interpolate : int, (default : 10)
@@ -70,16 +72,14 @@ class findpeaks():
 
         Parameters
         ----------
-        X : array-like 1D vector
+        X : array-like 1D vector.
             Input data.
-        xs : array-like 1D vector
-            Coordinates of the x-axis
+        x : array-like 1D vector.
+            Coordinates of the x-axis.
 
         Returns
         -------
-        dict.
-        Output depends wether peaks1d or peaks2d is used.
-        
+        dict. Output depends wether peaks1d or peaks2d is used.
         1dpeaks:
             df : DataFrame
                 Results based on the input data.
@@ -107,7 +107,7 @@ class findpeaks():
                 Xproc: Processed image
                 Xmask: detected peaks using masking method
                 persitance: detected peaks using topology method
-                
+
         Examples
         --------
         >>> from findpeaks import findpeaks
@@ -158,6 +158,48 @@ class findpeaks():
 
     # Find peaks in 1D vector
     def peaks1d(self, X, x=None):
+        """Detection of peaks in 1D array.
+
+        Parameters
+        ----------
+        X : array-like 1D vector.
+            Input data.
+        x : array-like 1D vector.
+            Coordinates of the x-axis.
+
+        Returns
+        -------
+        dict with DataFrames.
+            df : DataFrame
+                Results based on the input data.
+                    x: x-coordinates
+                    y: y-coordinates
+                    labx: assigned label
+                    valley: detected valley
+                    peak: detected peak
+                    labx_topology: assigned label based on topology method
+                    valley_topology: detected valley based on topology method
+                    peak_topology: detected peak based on topology method
+            df_interp : DataFrame
+                Results based on the interpolated data.
+                    x: x-coordinates
+                    y: y-coordinates
+                    labx: assigned label
+                    valley: detected valley
+                    peak: detected peak
+                    labx_topology: assigned label based on topology method
+                    valley_topology: detected valley based on topology method
+                    peak_topology: detected peak based on topology method
+
+        Examples
+        --------
+        >>> from findpeaks import findpeaks
+        >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
+        >>> fp = findpeaks(interpolate=10, lookahead=1)
+        >>> results = fp.fit(X)
+        >>> fp.plot()
+
+        """
         X = np.array(X)
         Xraw = X.copy()
         # Interpolation
@@ -169,9 +211,9 @@ class findpeaks():
         results_peaksdetect = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
 
         # Compute persistance using toplogy method
-        persist_score, max_peaks_p, min_peaks_p = stats.persistence(np.c_[X, X])
+        persist_score, max_peaks_p, min_peaks_p, persistence_scores = stats.persistence(np.c_[X, X])
         # Post processing for the topology method
-        results_topology = stats._post_processing(X, Xraw, min_peaks_p, max_peaks_p, self.interpolate, 1)
+        results_topology = stats._post_processing(X, Xraw, min_peaks_p, max_peaks_p, self.interpolate, 1, persistence_scores=persistence_scores)
 
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, persist_score, results_peaksdetect, results_topology)
@@ -235,7 +277,7 @@ class findpeaks():
         return self.results
 
     # Store 1D vector
-    def _store1d(self, X, Xraw, xs, persist_score, res_peakd, res_topol):
+    def _store1d(self, X, Xraw, xs, persist_score, res_peakd, results_topology):
         if xs is None: xs = np.arange(0, len(X))
         results = {}
         # Interpolated data
@@ -249,11 +291,13 @@ class findpeaks():
         dfint['peak'] = False
         dfint['peak'].iloc[res_peakd['max_peaks_s'][:, 0].astype(int)] = True
         # Topology
-        dfint['labx_topology'] = res_topol['labx_s']
+        dfint['labx_topology'] = results_topology['labx_s']
         dfint['valley_topology'] = False
-        dfint['valley_topology'].iloc[res_topol['min_peaks_s'][:, 0].astype(int)] = True
+        dfint['valley_topology'].iloc[results_topology['min_peaks_s'][:, 0].astype(int)] = True
         dfint['peak_topology'] = False
-        dfint['peak_topology'].iloc[res_topol['max_peaks_s'][:, 0].astype(int)] = True
+        dfint['peak_topology'].iloc[results_topology['max_peaks_s'][:, 0].astype(int)] = True
+        dfint['persistence'] = np.nan
+        # dfint['persistence'].iloc[results_topology['max_peaks_s'][:, 0].astype(int)] = peak_pers_scores
 
         if self.interpolate:
             # As for the input data
@@ -267,11 +311,11 @@ class findpeaks():
             df['peak'] = False
             df['peak'].iloc[res_peakd['max_peaks'][:, 0].astype(int)] = True
             # Topology
-            df['labx_topology'] = res_topol['labx']
+            df['labx_topology'] = results_topology['labx']
             df['valley_topology'] = False
-            df['valley_topology'].iloc[res_topol['min_peaks'][:, 0].astype(int)] = True
+            df['valley_topology'].iloc[results_topology['min_peaks'][:, 0].astype(int)] = True
             df['peak_topology'] = False
-            df['peak_topology'].iloc[res_topol['max_peaks'][:, 0].astype(int)] = True
+            df['peak_topology'].iloc[results_topology['max_peaks'][:, 0].astype(int)] = True
             # Store in results
             results['df'] = df
             results['df_interp'] = dfint
@@ -296,8 +340,6 @@ class findpeaks():
         results['Xproc'] = Xproc
         results['Xmask'] = Xmask
         results['topology'] = pers_score
-        # results['xx'] = xx
-        # results['yy'] = yy
         # Store arguments
         args = {}
         args['mask'] = self.mask
@@ -374,6 +416,8 @@ class findpeaks():
 
         Parameters
         ----------
+        method : String, default : None or 'peakdetect'
+            plot the results for method: 'topology', 'peakdetect'
         figsize : (int, int), optional, default: (15, 8)
             (width, height) in inches.
 
@@ -404,6 +448,8 @@ class findpeaks():
 
         Parameters
         ----------
+        method : String, default : None or 'peakdetect'
+            plot the results for method: 'topology', 'peakdetect'
         figsize : (int, int), optional, default: (15, 8)
             (width, height) in inches.
 
@@ -412,6 +458,10 @@ class findpeaks():
         fig_axis : tuple containing axis for each figure.
 
         """
+        if not self.args['type']=='peaks1d':
+            print('[findpeaks] >Requires results of 1D data <return>.')
+            return None
+        
         figsize = figsize if figsize is not None else self.args['figsize']
         ax1, ax2 = None, None
 
@@ -455,6 +505,9 @@ class findpeaks():
         fig_axis : tuple containing axis for each figure.
 
         """
+        if not self.args['type']=='peaks2d':
+            print('[findpeaks] >Requires results of 2D data <return>.')
+            return None
         figsize = figsize if figsize is not None else self.args['figsize']
         # Plot preprocessing steps
         self.plot_preprocessing()
@@ -614,12 +667,12 @@ class findpeaks():
 
         if self.args['type']=='peaks1d':
             minpers = 0
-            X = self.results['df']['y'].values
+            # X = np.array(self.results['topology'])[:,2]
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley_topology']].values
             max_peaks = self.results['df']['x'].loc[self.results['df']['peak_topology']].values
             ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx_topology'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistance', figsize=figsize, legend=True, ax=ax1)
         else:
-            X = self.results['Xproc']
+            # X = self.results['Xproc']
             # Make the figure
             minscore = 20
             minpers = 1
@@ -638,22 +691,30 @@ class findpeaks():
             ax1.invert_yaxis()
             plt.gca().invert_yaxis()
             ax1.grid(True)
+            ax2.plot([0, 255], [0, 255], '-', c='grey')
 
         # Plot the persistence
         if verbose>=3: print('[findpeaks] >Plotting Peristence..')
         ax2.set_title("Peristence diagram")
-        ax2.plot([0, 255], [0, 255], '-', c='grey')
+        xcoord = []
+        ycoord = []
+        perssc = []
         for i, homclass in tqdm(enumerate(self.results['topology'])):
             p_birth, bl, pers, p_death = homclass
             if pers > minpers:
                 x, y = bl, (bl - pers)
+                xcoord.append(x)
+                ycoord.append(y)
+                perssc.append(pers)
                 ax2.plot([x], [y], '.', c='b')
                 ax2.text(x, (y + y * 0.01), str(i + 1), color='b')
 
+        X = xcoord + ycoord
+        ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
         ax2.set_xlabel("Birth level")
         ax2.set_ylabel("Death level")
-        ax2.set_xlim((X.min().min(), X.max().max()))
-        ax2.set_ylim((X.min().min(), X.max().max()))
+        ax2.set_xlim((np.min(X), np.max(X)))
+        ax2.set_ylim((np.min(X), np.max(X)))
         ax2.grid(True)
         return ax1, ax2
 

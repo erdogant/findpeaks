@@ -19,6 +19,7 @@ from scipy.ndimage.filters import maximum_filter, uniform_filter
 from scipy import misc
 
 import numpy as np
+import pandas as pd
 
 # %% Import cv2
 def _import_cv2():
@@ -147,7 +148,7 @@ def _topology(X, verbose=3):
     """
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method.')
     # Compute persistence
-    g0, max_peaks, min_peaks = persistence(X)
+    g0, max_peaks, min_peaks, pers_scores = persistence(X)
     # Return
     return g0
 
@@ -225,15 +226,12 @@ def persistence(im):
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
         nc = sorted([(get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
-        if i == 0:
-            groups0[p] = (v, v, None)
-
+        if i == 0: groups0[p] = (v, v, None)
         uf.add(p, -i)
 
         if len(nc) > 0:
             oldp = nc[0][1]
             uf.union(oldp, p)
-
             # Merge all others with oldp
             for bl, q in nc[1:]:
                 if uf[q] not in groups0:
@@ -243,17 +241,36 @@ def persistence(im):
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
-    # if w<=2:
     # Extract the max peaks and sort
     max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
     idxsort = np.argsort(max_peaks[:, 0])
-    max_peaks = max_peaks[idxsort, :].tolist()
+    max_peaks = max_peaks[idxsort, :]
+    # pers_scores = max_peaks[:,2]
+    # max_peaks = max_peaks[:,0:2].tolist()
+
     # Extract the min peaks and sort
     min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
     idxsort = np.argsort(min_peaks[:, 0])
     min_peaks = min_peaks[idxsort, :].tolist()
+
+    # Compute the coordinates to create persistence plot
+    # xcoord = []
+    # ycoord = []
+    # for i, homclass in enumerate(groups0):
+    #     p_birth, bl, pers, p_death = homclass
+    #     # if pers > 0:
+    #     x, y = bl, (bl - pers)
+    #     xcoord.append(x)
+    #     ycoord.append(y)
+
+    persistence_scores = pd.DataFrame()
+    persistence_scores['x'] = np.array(list(map(lambda x: x[0][0], groups0)))
+    persistence_scores['y'] = np.array(list(map(lambda x: x[1], groups0)))
+    persistence_scores['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
+    persistence_scores['death_level'] = np.array(list(map(lambda x: x[1]-x[2], groups0)))
+    persistence_scores['score'] = np.array(list(map(lambda x: x[2], groups0)))
     # return
-    return groups0, max_peaks, min_peaks
+    return groups0, max_peaks, min_peaks, persistence_scores
 
 
 def _get_indices(im, p):
@@ -278,9 +295,7 @@ def _iter_neighbors(p, w, h):
         yield j, i
 
 
-def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verbose=3):
-    # if lookahead==None: lookahead=1
-    # lookahead = np.maximum(1, lookahead)
+def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, persistence_scores=None, verbose=3):
     if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
 
     results = {}
@@ -297,12 +312,12 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
         # Group distribution
         count=1
         for i in range(0, len(idx_valleys) - 1):
-            if idx_valleys[i]!=idx_valleys[i+1]:
+            if idx_valleys[i]!=idx_valleys[i + 1]:
                 labx_s[idx_valleys[i]:idx_valleys[i + 1] + 1] = count
-                count=count+1
+                count=count + 1
 
+        # Scale back to original data
         if interpolate:
-            # Scale back to original data
             min_peaks = np.minimum(np.ceil(((idx_valleys / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
             max_peaks = np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
             # Scaling is not accurate for indexing and therefore, a second wave of searching for max_peaks
@@ -319,9 +334,9 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
             count=1
             labx = np.zeros((len(Xraw))) * np.nan
             for i in range(0, len(min_peaks) - 1):
-                if min_peaks[i]!=min_peaks[i+1]:
+                if min_peaks[i]!=min_peaks[i + 1]:
                     labx[min_peaks[i]:min_peaks[i + 1] + 1] = count
-                    count=count+1
+                    count=count + 1
 
             # Store based on original
             results['labx'] = labx
