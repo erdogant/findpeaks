@@ -322,8 +322,10 @@ plt.figure(); plt.imshow(image_lee, cmap='gray'); plt.title('Lee')
 plt.figure(); plt.imshow(image_lee_enhanced, cmap='gray'); plt.title('Lee Enhanced')
 plt.figure(); plt.imshow(image_mean, cmap='gray'); plt.title('Mean')
 plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
+```
 
-
+Find peaks on the denoised image
+```python
 from findpeaks import findpeaks
 fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
 fp.fit(image_lee_enhanced)
