@@ -46,14 +46,13 @@ Examples
 >>>
 >>> # Image example
 >>> from findpeaks import findpeaks
->>> fp = findpeaks(method='topology', denoise='fastnl', h=30, resize=(300,300))
+>>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
 >>> X = fp.import_example('2dpeaks_image')
 >>> results = fp.fit(X)
 >>> fp.plot()
 >>>
 >>> # Plot each seperately
 >>> fp.plot_preprocessing()
->>> fp.plot_mask()
 >>> fp.plot_peristence()
 >>> fp.plot_mesh()
 
