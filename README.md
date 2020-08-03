@@ -192,7 +192,7 @@ The input figure
 
 The masking approach detects the correct peaks.
 ```python
-fp.plot_mask()
+fp.plot()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_mask.png" width="600" />
@@ -250,7 +250,7 @@ fp.plot_preprocessing()
 
 The masking does not work so well because the pre-processing steps includes some weighted smoothing which is not ideal for the masking approach.
 ```python
-fp.plot_mask()
+fp.plot()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_mask_proc.png" width="600" />

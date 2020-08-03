@@ -53,7 +53,7 @@ def test_fit():
     assert len(X)==len(results['Xdetect'])
     assert len(X)==len(results['Xranked'])
     assert len(X)==results['df'].shape[0]
-    assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak']))
+    assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak', 'rank', 'score']))
     assert np.all(np.isin(results['topology'].columns, ['x', 'y', 'birth_level', 'death_level', 'score']))
     
     # CHECK RESULTS METHOD TOPOLOGY
@@ -78,7 +78,7 @@ def test_fit():
     assert [*results.keys()]==['df']
     assert [*fp.args]==['method', 'lookahead', 'interpolate', 'figsize', 'type']
     assert len(X)==results['df'].shape[0]
-    assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak']))
+    assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak', 'rank', 'score']))
     
     # CHECK RESULTS METHOD TOPOLOGY
     assert results['df']['peak'].sum()==2
