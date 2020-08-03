@@ -83,7 +83,7 @@ for getfilter in filters:
 
 #%% Plot each seperately
 fp.plot_preprocessing()
-fp.plot_mask()
+fp.plot()
 fp.plot_peristence()
 fp.plot_mesh()
 
@@ -136,7 +136,6 @@ fp.fit(X)
 fp.plot()
 
 fp.plot_preprocessing()
-fp.plot_mask()
 fp.plot_mesh()
 fp.plot_peristence()
 
