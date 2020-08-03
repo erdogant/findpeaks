@@ -7,18 +7,54 @@ print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
+fp = findpeaks(method="topology", limit=None)
+X = fp.import_example()
+results = fp.fit(X)
+
+fp = findpeaks(method="mask")
+X = fp.import_example()
+results = fp.fit(X)
+
+
+fp.plot()
+
+fp.plot_preprocessing()
+fp.plot_mask()
+fp.plot_peristence()
+fp.plot_mesh()
+
+# %%
+from findpeaks import findpeaks
+# X = fp.import_example('1dpeaks')
 X = [10,11,9,23,21,11,45,20,11,12]
-fp = findpeaks(lookahead=1, interpolate=10)
+methods = ['topology', 'peakdetect', None]
+interpolates = [None, 1, 10, 1000]
+lookaheads =[None, 0, 1, 10, 100]
+
+for method in methods:
+    for interpolate in interpolates:
+        for lookahead in lookaheads:
+            fp = findpeaks(lookahead=lookahead, interpolate=interpolate, method=method)
+            results = fp.fit(X)
+            # fp.plot()
+            # fp.plot_peristence()
+
+# fp.results['df_interp']
+fp.results['df']
+
+# %%
+from findpeaks import findpeaks
+X = [10,11,9,23,21,11,45,20,11,12]
+fp = findpeaks(lookahead=1, method="topology")
 results = fp.fit(X)
 fp.plot()
 fp.plot_peristence()
-
-# results['df_interp']
 
 
 # %% Run over all methods and many parameters
 from findpeaks import findpeaks
 savepath='./comparison_methods/'
+methods = ['mask','topology', None]
 filters = ['fastnl','bilateral','frost','median','mean', None]
 windows = [3, 9, 15, 31, 63]
 cus = [0.25, 0.5, 0.75]
@@ -55,25 +91,33 @@ fp.plot_mesh(view=(90,0))
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks()
-X = fp.import_example('1dpeaks')
 
-fp = findpeaks(lookahead=1, interpolate=10, verbose=3)
-# fp = findpeaks(lookahead=1, interpolate=None, verbose=3)
+fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10, verbose=3)
+X = fp.import_example('1dpeaks')
 fp.fit(X[:,1])
 fp.plot()
-fp.plot(method='topology')
+fp.plot_peristence()
+
+fp = findpeaks(method='topology', verbose=3)
+fp.fit(X[:,1])
+fp.plot()
 fp.plot_peristence()
 
 
 # %%
 from findpeaks import findpeaks
-img = fp.import_example()
 
 # 2dpeaks example
-fp = findpeaks()
+fp = findpeaks(method='topology')
+img = fp.import_example()
 fp.fit(img)
 fp.plot()
+
+fp = findpeaks(method='mask')
+img = fp.import_example()
+fp.fit(img)
+fp.plot()
+
 
 # 2dpeaks example with other settings
 fp = findpeaks(mask=0, scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), verbose=3)
@@ -125,10 +169,16 @@ xs = np.linspace(0,3.7*pi,i)
 X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
 
 # Findpeaks
-fp = findpeaks()
+fp = findpeaks(method='peakdetect')
 results=fp.fit(X)
 fp.plot()
-fp.plot(method='topology', legend=False)
+
+fp = findpeaks(method='topology')
+results=fp.fit(X)
+
+fp.plot_mask()
+fp.plot_peristence()
+# fp.results['Xdetect']>1
 
 # %% Denoising example
 from findpeaks import findpeaks
@@ -198,7 +248,7 @@ plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
 
 
 from findpeaks import findpeaks
-fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
+fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, verbose=3)
 fp.fit(image_lee_enhanced)
 fp.plot_peristence()
 fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
