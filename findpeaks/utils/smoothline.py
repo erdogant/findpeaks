@@ -12,19 +12,19 @@ import matplotlib.pyplot as plt
 # %%
 def interpolate_line1d(X, nboost=1000, method=2, showfig=False, verbose=3):
     
-    if len(X)>nboost: raise Exception('nboost (n=%.0f) must be larger then input data (n=%.0f)' %(nboost, len(X)))
+    if len(X)>nboost: raise Exception('[findpeaks] >nboost (n=%.0f) must be larger then input data (n=%.0f)' %(nboost, len(X)))
     bootstdata=np.zeros(nboost) * np.nan
     idx=np.unique(np.floor(np.linspace(0, len(bootstdata) - 1, len(X))).astype(int))
     bootstdata[idx] = X
     X=interpolate_nans(bootstdata, method=method)
-    if verbose>=3: print('[findpeaks] Interpolating data by factor %d' %(nboost))
+    if verbose>=3: print('[findpeaks] >Interpolating 1d-vector by factor %d' %(nboost))
 
     if showfig:
         plot(X, bootstdata, method)
     return(X)
 
 # %% Smooting of the line
-def interpolate_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
+def interpolate_line2d(xs, ys=None, interpol=3, window=3, verbose=3):
     """interpolate 2D vector.
 
     Description
@@ -40,7 +40,7 @@ def interpolate_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
         Data points for the y-axis.
     interpol : int, (default : 3)
         The interpolation factor. The data is interpolation by a factor n before the smoothing step.
-    window : int, (default : 1)
+    window : int, (default : 3)
         Smoothing window that is used to create the convolution and gradually smoothen the line.
     verbose : int [1-5], default: 3
         Print information to screen. A higher number will print more.
@@ -54,7 +54,7 @@ def interpolate_line2d(xs, ys=None, interpol=3, window=1, verbose=3):
 
     """
     if window is not None:
-        if verbose>=3: print('[findpeaks] >Boosting by interpolation..')
+        if verbose>=3: print('[findpeaks] >Interpolating 2d-array (image) by factor %d' %(interpol))
         # Specify number of points to interpolate the data
         # Interpolate xs line
         extpoints = np.linspace(0, len(xs), len(xs) * interpol)
