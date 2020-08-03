@@ -17,24 +17,28 @@ import wget
 import os
 
 class findpeaks():
-    def __init__(self, lookahead=200, interpolate=None, mask=0, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
+    def __init__(self, method=None, lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters 1D
         -------------
         X : array-like RGB or 1D-array
             Input image data.
+        method : String, default : 'peakdetect'.
+            method to be used for peak detection: 'topology','peakdetect'.
         lookahead : int, (default : 200)
             Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
         interpolate : int, (default : 10)
-            Interpoliation factor. The higher the number, the less sharp the edges will be.
+            Interpolation factor. The higher the number, the less sharp the edges will be.
 
-        Parameters 2D-array
-        -------------------
+        Parameters 2D
+        -------------
         X : array-like RGB or 2D-array
             Input image data.
-        mask : float, (default : 0)
-            Values <= mask are set as background.
+        method : String, default : 'topology'.
+            method to be used for peak detection: 'topology', 'mask'.
+        limit : float, (default : None)
+            Values > limit are set as regions of interest (ROI).
         scale : bool, (default : False)
             Scaling in range [0-255] by img*(255/max(img))
         denoise : string, (default : 'fastnl', None to disable)
@@ -52,12 +56,13 @@ class findpeaks():
 
         """
         # Store in object
-        if lookahead==None: lookahead=1
+        if lookahead is None: lookahead=1
         lookahead = np.maximum(1, lookahead)
-
+        # if method is None: raise Exception('[findpeaks] >Specify the desired method="topology", "peakdetect", or "mask".')
+        self.method = method
         self.lookahead = lookahead
         self.interpolate = interpolate
-        self.mask = mask
+        self.limit = limit
         self.imsize = imsize
         self.scale = scale
         self.togray = togray
@@ -79,34 +84,18 @@ class findpeaks():
 
         Returns
         -------
-        dict. Output depends wether peaks1d or peaks2d is used.
-        1dpeaks:
-            df : DataFrame
-                Results based on the input data.
-                    x: x-coordinates
-                    y: y-coordinates
-                    labx: assigned label
-                    valley: detected valley
-                    peak: detected peak
-                    labx_topology: assigned label based on topology method
-                    valley_topology: detected valley based on topology method
-                    peak_topology: detected peak based on topology method
-            df_interp : DataFrame
-                Results based on the interpolated data.
-                    x: x-coordinates
-                    y: y-coordinates
-                    labx: assigned label
-                    valley: detected valley
-                    peak: detected peak
-                    labx_topology: assigned label based on topology method
-                    valley_topology: detected valley based on topology method
-                    peak_topology: detected peak based on topology method
-        2dpeaks:
-            dict:
-                Xraw: Input image
-                Xproc: Processed image
-                Xmask: detected peaks using masking method
-                persitance: detected peaks using topology method
+        Output depends wether peaks1d or peaks2d is used.
+        1dpeaks : dict
+            x: x-coordinates
+            y: y-coordinates
+            labx: assigned label
+            valley: detected valley
+            peak: detected peak
+        2dpeaks : dict.
+            Xraw: Input image
+            Xproc: Processed image
+            Xmask: detected peaks using masking method
+            persitance: detected peaks using topology method
 
         Examples
         --------
@@ -148,17 +137,17 @@ class findpeaks():
             X = X.values
 
         if len(X.shape)>1:
-            if self.verbose>=3: print('[findpeaks] >2D array is detected, finding 2d peaks..')
-            results = self.peaks2d(X)
+            # 2d-array (image)
+            results = self.peaks2d(X, method=self.method)
         else:
-            if self.verbose>=3: print('[findpeaks] >1D array is detected, finding 1d peaks..')
-            results = self.peaks1d(X, x=x)
+            # 1d-array (vector)
+            results = self.peaks1d(X, x=x, method=self.method)
 
         return(results)
 
     # Find peaks in 1D vector
-    def peaks1d(self, X, x=None):
-        """Detection of peaks in 1D array.
+    def peaks1d(self, X, x=None, method='peakdetect'):
+        """Detect of peaks in 1D array.
 
         Parameters
         ----------
@@ -166,6 +155,8 @@ class findpeaks():
             Input data.
         x : array-like 1D vector.
             Coordinates of the x-axis.
+        method : String, default : 'peakdetect'.
+            method to be used for peak detection: 'topology','peakdetect'.
 
         Returns
         -------
@@ -195,33 +186,120 @@ class findpeaks():
         --------
         >>> from findpeaks import findpeaks
         >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(interpolate=10, lookahead=1)
+        >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
         >>> results = fp.fit(X)
         >>> fp.plot()
 
         """
+        if method is None: method='peakdetect'
+        self.method = method
+        self.type = 'peaks1d'
+        if self.verbose>=3: print('[findpeaks] >Finding peaks in 1d-vector using [%s] method..' %(self.method))
+        # Make numpy array
         X = np.array(X)
         Xraw = X.copy()
+        result = {}
+
         # Interpolation
-        if self.interpolate: X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False)
+        if self.interpolate:
+            X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False, verbose=self.verbose)
 
-        # Peak detect
-        max_peaks, min_peaks = peakdetect(np.array(X), lookahead=self.lookahead)
-        # Post processing for the peak-detect
-        results_peaksdetect = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
-
-        # Compute persistance using toplogy method
-        persist_score, max_peaks_p, min_peaks_p, persistence_scores = stats.persistence(np.c_[X, X])
-        # Post processing for the topology method
-        results_topology = stats._post_processing(X, Xraw, min_peaks_p, max_peaks_p, self.interpolate, 1, persistence_scores=persistence_scores)
-
+        # Compute peaks based on method
+        if method=='peakdetect':
+            # Peakdetect method
+            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead)
+            # Post processing for the peak-detect
+            result['peakdetect'] = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
+        elif method=='topology':
+            # Compute persistance using toplogy method
+            result = stats.topology(np.c_[X, X], limit=self.limit, verbose=self.verbose)
+            # Post processing for the topology method
+            result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1, persistence=result['persistence'])
+        else:
+            print('[findpeaks] >Method [%s] is not supported in 1d-vector data. <return>' %(self.method))
+            return None
         # Store
-        self.results, self.args = self._store1d(X, Xraw, x, persist_score, results_peaksdetect, results_topology)
+        self.results, self.args = self._store1d(X, Xraw, x, result)
         # Return
         return(self.results)
 
+    # Store 1D vector
+    def _store1d(self, X, Xraw, xs, result):
+        # persist_score, res_peakd, results_topology
+        # persist_score, results_peaksdetect, results_topology
+        if xs is None: xs = np.arange(0, len(X))
+        results = {}
+        # Interpolated data
+        dfint = pd.DataFrame()
+        dfint['x'] = xs
+        dfint['y'] = X
+        # Store results for method
+        if self.method=='peakdetect':
+            # peakdetect
+            dfint['labx'] = result['peakdetect']['labx_s']
+            dfint['valley'] = False
+            dfint['peak'] = False
+            if result['peakdetect']['min_peaks_s'] is not None:
+                dfint['valley'].iloc[result['peakdetect']['min_peaks_s'][:, 0].astype(int)] = True
+            if result['peakdetect']['max_peaks_s'] is not None:
+                dfint['peak'].iloc[result['peakdetect']['max_peaks_s'][:, 0].astype(int)] = True
+        elif self.method=='topology':
+            # Topology
+            dfint['labx'] = result['topology']['labx_s']
+            dfint['valley'] = False
+            dfint['peak'] = False
+            if result['topology']['min_peaks_s'] is not None:
+                dfint['valley'].iloc[result['topology']['min_peaks_s'][:, 0].astype(int)] = True
+            if result['topology']['max_peaks_s'] is not None:
+                dfint['peak'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)] = True
+            results['topology'] = result['persistence']
+            results['Xdetect'] = result['Xdetect']
+            results['Xranked'] = result['Xranked']
+            results['groups0'] = result['groups0']
+
+        if self.interpolate:
+            # As for the input data
+            df = pd.DataFrame()
+            df['y'] = Xraw
+            # Store results for method
+            if self.method=='peakdetect':
+                # peakdetect
+                df['x'] = result['peakdetect']['xs']
+                df['labx'] = result['peakdetect']['labx']
+                df['valley'] = False
+                df['peak'] = False
+                if result['peakdetect']['min_peaks'] is not None:
+                    df['valley'].iloc[result['peakdetect']['min_peaks'][:, 0].astype(int)] = True
+                if result['peakdetect']['max_peaks'] is not None:
+                    df['peak'].iloc[result['peakdetect']['max_peaks'][:, 0].astype(int)] = True
+            elif self.method=='topology':
+                # Topology
+                df['x'] = result['topology']['xs']
+                df['labx'] = result['topology']['labx']
+                df['valley'] = False
+                df['peak'] = False
+                if result['topology']['min_peaks'] is not None:
+                    df['valley'].iloc[result['topology']['min_peaks'][:, 0].astype(int)] = True
+                if result['topology']['max_peaks'] is not None:
+                    df['peak'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = True
+            # Store in results
+            results['df'] = df
+            results['df_interp'] = dfint
+        else:
+            results['df'] = dfint
+
+        # Arguments
+        args = {}
+        args['method'] = self.method
+        args['lookahead'] = self.lookahead
+        args['interpolate'] = self.interpolate
+        args['figsize'] = self.figsize
+        args['type'] = self.type
+        # Return
+        return results, args
+
     # Find peaks in 2D-array
-    def peaks2d(self, X):
+    def peaks2d(self, X, method='topology'):
         """Detect peaks and valleys in a 2D-array or image.
 
         Description
@@ -235,6 +313,8 @@ class findpeaks():
         ----------
         X : array-like 1D vector
             Input data.
+        method : String, default : 'topology'.
+            method to be used for peak detection: 'topology', 'mask'.
 
         Returns
         -------
@@ -263,92 +343,59 @@ class findpeaks():
         >>> fp.plot_mesh()
 
         """
-        if not self.togray and len(X.shape)==3: raise Exception('[findpeaks] >Error:  Topology method requires 2D array. Your input is 3D. Hint: set togray=True.')
-        # Preprocessing the iamge
+        if method is None: method='topology'
+        self.method = method
+        self.type = 'peaks2d'
+        if self.verbose>=3: print('[findpeaks] >Finding peaks in 2d-array using %s method..' %(self.method))
+        if (not self.togray) and (len(X.shape)==3) and (self.method=='topology'): raise Exception('[findpeaks] >Error: Topology method requires 2d-array. Your input is 3d. Hint: set togray=True.')
+
+        # Preprocessing the image
         Xproc = self.preprocessing(X, showfig=False)
-        # Compute persistance based on topology method
-        pers_score = stats._topology(Xproc)
-        # Compute peaks using local maximum filter.
-        Xmask = stats._mask(Xproc, mask=self.mask)
+        # Compute peaks based on method
+        if method=='topology':
+            # Compute persistance based on topology method
+            result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
+        elif method=='mask':
+            # Compute peaks using local maximum filter.
+            result = stats._mask(Xproc, limit=self.limit)
+        else:
+            print('[findpeaks] >Method [%s] is not supported in 2d-array (image) data. <return>' %(self.method))
+            return None
+
         # Store
-        self.results, self.args = self._store2d(X, Xproc, Xmask, pers_score)
+        self.results, self.args = self._store2d(X, Xproc, result)
         # Return
         if self.verbose>=3: print('[findpeaks] >Fin.')
         return self.results
 
-    # Store 1D vector
-    def _store1d(self, X, Xraw, xs, persist_score, res_peakd, results_topology):
-        if xs is None: xs = np.arange(0, len(X))
-        results = {}
-        # Interpolated data
-        dfint = pd.DataFrame()
-        dfint['x'] = xs
-        dfint['y'] = X
-        # peakdetect
-        dfint['labx'] = res_peakd['labx_s']
-        dfint['valley'] = False
-        dfint['valley'].iloc[res_peakd['min_peaks_s'][:, 0].astype(int)] = True
-        dfint['peak'] = False
-        dfint['peak'].iloc[res_peakd['max_peaks_s'][:, 0].astype(int)] = True
-        # Topology
-        dfint['labx_topology'] = results_topology['labx_s']
-        dfint['valley_topology'] = False
-        dfint['valley_topology'].iloc[results_topology['min_peaks_s'][:, 0].astype(int)] = True
-        dfint['peak_topology'] = False
-        dfint['peak_topology'].iloc[results_topology['max_peaks_s'][:, 0].astype(int)] = True
-        dfint['persistence'] = np.nan
-        # dfint['persistence'].iloc[results_topology['max_peaks_s'][:, 0].astype(int)] = peak_pers_scores
-
-        if self.interpolate:
-            # As for the input data
-            df = pd.DataFrame()
-            df['x'] = res_peakd['xs']
-            df['y'] = Xraw
-            # peakdetect
-            df['labx'] = res_peakd['labx']
-            df['valley'] = False
-            df['valley'].iloc[res_peakd['min_peaks'][:, 0].astype(int)] = True
-            df['peak'] = False
-            df['peak'].iloc[res_peakd['max_peaks'][:, 0].astype(int)] = True
-            # Topology
-            df['labx_topology'] = results_topology['labx']
-            df['valley_topology'] = False
-            df['valley_topology'].iloc[results_topology['min_peaks'][:, 0].astype(int)] = True
-            df['peak_topology'] = False
-            df['peak_topology'].iloc[results_topology['max_peaks'][:, 0].astype(int)] = True
-            # Store in results
-            results['df'] = df
-            results['df_interp'] = dfint
-        else:
-            results['df'] = dfint
-
-        results['topology'] = persist_score
-
-        # Arguments
-        args = {}
-        args['lookahead'] = self.lookahead
-        args['interpolate'] = self.interpolate
-        args['figsize'] = self.figsize
-        args['type'] = 'peaks1d'
-        # Return
-        return results, args
-
     # Store 2D-array
-    def _store2d(self, X, Xproc, Xmask, pers_score):
+    def _store2d(self, X, Xproc, result):
+        # Store results
         results = {}
         results['Xraw'] = X
         results['Xproc'] = Xproc
-        results['Xmask'] = Xmask
-        results['topology'] = pers_score
+
+        # Store method specific results
+        if self.method=='topology':
+            # results['topology'] = result
+            results['Xdetect'] = result['Xdetect']
+            results['Xranked'] = result['Xranked']
+            results['persistence'] = result['persistence']
+            results['peak'] = result['peak']
+            results['valley'] = result['valley']
+            results['groups0'] = result['groups0']
+        if self.method=='mask':
+            results['Xdetect'] = result
+
         # Store arguments
         args = {}
-        args['mask'] = self.mask
+        args['limit'] = self.limit
         args['scale'] = self.scale
         args['denoise'] = self.denoise
         args['togray'] = self.togray
         args['imsize'] = self.imsize
         args['figsize'] = self.figsize
-        args['type'] = 'peaks2d'
+        args['type'] = self.type
         # Return
         return results, args
 
@@ -411,7 +458,7 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, method=None, legend=True, figsize=None):
+    def plot(self, legend=True, figsize=None):
         """Plot results.
 
         Parameters
@@ -433,9 +480,10 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
 
         if self.args['type']=='peaks1d':
-            fig_axis = self.plot1d(method=method, legend=legend, figsize=figsize)
+            fig_axis = self.plot1d(legend=legend, figsize=figsize)
         elif self.args['type']=='peaks2d':
-            fig_axis = self.plot2d(figsize=figsize)
+            # fig_axis = self.plot2d(figsize=figsize)
+            fig_axis = self.plot_mask(figsize=figsize)
         else:
             print('[findpeaks] Nothing to plot for %s' %(self.args['type']))
             return None
@@ -443,13 +491,11 @@ class findpeaks():
         # Return
         return fig_axis
 
-    def plot1d(self, method=None, legend=True, figsize=None):
+    def plot1d(self, legend=True, figsize=None):
         """Plot the 1D results.
 
         Parameters
         ----------
-        method : String, default : None or 'peakdetect'
-            plot the results for method: 'topology', 'peakdetect'
         figsize : (int, int), optional, default: (15, 8)
             (width, height) in inches.
 
@@ -461,31 +507,20 @@ class findpeaks():
         if not self.args['type']=='peaks1d':
             print('[findpeaks] >Requires results of 1D data <return>.')
             return None
-        
+
         figsize = figsize if figsize is not None else self.args['figsize']
         ax1, ax2 = None, None
-
-        # Select the data to plot
-        if (method is None) or (method=='peakdetect'):
-            title='peakdetect'
-            df = self.results['df'][['x', 'y', 'labx', 'valley', 'peak']]
-            if self.interpolate is not None:
-                df_interp = self.results['df_interp'][['x', 'y', 'labx', 'valley', 'peak']]
-        else:
-            title=method
-            df = self.results['df'][['x','y','labx_topology','valley_topology','peak_topology']]
-            df.rename(columns={'labx_topology': 'labx', 'valley_topology': 'valley', 'peak_topology': 'peak'}, inplace=True)
-            if self.interpolate is not None:
-                df_interp = self.results['df_interp'][['x','y','labx_topology','valley_topology','peak_topology']]
-                df_interp.rename(columns={'labx_topology': 'labx', 'valley_topology': 'valley', 'peak_topology': 'peak'}, inplace=True)
+        title = self.method
 
         # Make plot
+        df = self.results['df']
         min_peaks = df['x'].loc[df['valley']].values
         max_peaks = df['x'].loc[df['peak']].values
         ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title, figsize=figsize, legend=legend)
 
         # Make interpolated plot
         if self.interpolate is not None:
+            df_interp = self.results['df_interp']
             min_peaks = df_interp['x'].loc[df_interp['valley']].values
             max_peaks = df_interp['x'].loc[df_interp['peak']].values
             ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)', figsize=figsize, legend=legend)
@@ -493,7 +528,7 @@ class findpeaks():
         return (ax2, ax1)
 
     def plot2d(self, figsize=None):
-        """Plots the 2d results.
+        """Plot the 2d results.
 
         Parameters
         ----------
@@ -511,14 +546,18 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
         # Plot preprocessing steps
         self.plot_preprocessing()
+
         # Setup figure
-        ax1, ax2, ax3 = self.plot_mask(figsize=figsize)
-        # Plot persistence
-        ax3, ax4 = self.plot_peristence(figsize=figsize)
+        if self.method=='mask':
+            ax_method = self.plot_mask(figsize=figsize)
+        if self.method=='topology':
+            # Plot topology/persistance
+            ax_method = self.plot_peristence(figsize=figsize)
+
         # Plot mesh
-        ax5, ax6 = self.plot_mesh(figsize=figsize)
+        ax_mesh = self.plot_mesh(figsize=figsize)
         # Return axis
-        return (ax1, ax2, ax3, ax4, ax5, ax6)
+        return (ax_method, ax_mesh)
 
     def plot_preprocessing(self):
         """Plot the pre-processing steps.
@@ -530,7 +569,7 @@ class findpeaks():
         """
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
-    def plot_mask(self, figsize=None):
+    def plot_mask(self, limit=None, figsize=None):
         """Plot the masking.
 
         Parameters
@@ -543,6 +582,17 @@ class findpeaks():
         fig_axis : tuple containing axis for each figure.
 
         """
+        if (self.type=='peaks1d'):
+            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function with 2d-array (image) data.')
+            return None
+
+        if limit is None:
+            limit = self.limit
+        # Show only above threshold
+        Xdetect = self.results['Xdetect']
+        if limit is not None:
+            Xdetect[Xdetect<limit]=0
+
         figsize = figsize if figsize is not None else self.args['figsize']
         # Setup figure
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
@@ -560,8 +610,8 @@ class findpeaks():
         ax2.grid(False)
 
         # Masking
-        ax3.imshow(self.results['Xmask'], cmap=cmap, interpolation="nearest")
-        ax3.set_title('After Masking')
+        ax3.imshow(Xdetect, cmap=cmap, interpolation="nearest")
+        ax3.set_title(self.method + ' method')
         ax3.grid(False)
 
         # Return
@@ -602,6 +652,7 @@ class findpeaks():
         """
         if not hasattr(self, 'results'):
             if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+
         figsize = figsize if figsize is not None else self.args['figsize']
         if self.verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
         ax1, ax2 = None, None
@@ -658,31 +709,36 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_peristence(self, figsize=None, verbose=3):
-        figsize = figsize if figsize is not None else self.args['figsize']
-        if not hasattr(self, 'results'):
-            if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+    def plot_peristence(self, figsize=None, verbose=None):
+        if verbose is None: verbose=self.verbose
+        if (self.method!='topology') or (not hasattr(self, 'results')):
+            if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the .fit(method="topology") function.')
+            return None
 
+        # Setup figure
+        figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
         if self.args['type']=='peaks1d':
             minpers = 0
-            # X = np.array(self.results['topology'])[:,2]
-            min_peaks = self.results['df']['x'].loc[self.results['df']['valley_topology']].values
-            max_peaks = self.results['df']['x'].loc[self.results['df']['peak_topology']].values
-            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx_topology'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistance', figsize=figsize, legend=True, ax=ax1)
+            min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
+            max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
+            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistance', figsize=figsize, legend=True, ax=ax1)
         else:
             # X = self.results['Xproc']
             # Make the figure
+            Xdetect = np.zeros_like(self.results['Xproc']).astype(int)
+            # fig, ax1 = plt.subplots()
             minscore = 20
             minpers = 1
             # Plot the detected loci
             if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
             ax1.set_title("Loci of births")
-            for i, homclass in tqdm(enumerate(self.results['topology'])):
+            for i, homclass in tqdm(enumerate(self.results['groups0'])):
                 p_birth, bl, pers, p_death = homclass
                 if pers > minscore:
                     y, x = p_birth
+                    Xdetect[y,x] = i + 1
                     ax1.plot([x], [y], '.', c='b')
                     ax1.text(x, y + 0.25, str(i + 1), color='b')
 
@@ -699,7 +755,7 @@ class findpeaks():
         xcoord = []
         ycoord = []
         perssc = []
-        for i, homclass in tqdm(enumerate(self.results['topology'])):
+        for i, homclass in tqdm(enumerate(self.results['groups0'])):
             p_birth, bl, pers, p_death = homclass
             if pers > minpers:
                 x, y = bl, (bl - pers)
