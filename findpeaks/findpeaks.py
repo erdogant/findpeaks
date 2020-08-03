@@ -750,22 +750,29 @@ class findpeaks():
             ax2.plot([0, 255], [0, 255], '-', c='grey')
 
         # Plot the persistence
-        if verbose>=3: print('[findpeaks] >Plotting Peristence..')
-        ax2.set_title("Peristence diagram")
-        xcoord = []
-        ycoord = []
-        perssc = []
-        for i, homclass in tqdm(enumerate(self.results['groups0'])):
-            p_birth, bl, pers, p_death = homclass
-            if pers > minpers:
-                x, y = bl, (bl - pers)
-                xcoord.append(x)
-                ycoord.append(y)
-                perssc.append(pers)
-                ax2.plot([x], [y], '.', c='b')
-                ax2.text(x, (y + y * 0.01), str(i + 1), color='b')
+        x = self.results['persistence']['birth_level'].values
+        y = self.results['persistence']['death_level'].values
+        plt.plot(x, y, '.', c='b')
+        for i in tqdm(range(0,len(x))):
+            plt.text(x[i], (y[i] + y[i] * 0.01),  str(i + 1), color='b')
 
-        X = xcoord + ycoord
+        # if verbose>=3: print('[findpeaks] >Plotting Peristence..')
+        # ax2.set_title("Peristence diagram")
+        # xcoord = []
+        # ycoord = []
+        # perssc = []
+        # for i, homclass in tqdm(enumerate(self.results['groups0'])):
+        #     p_birth, bl, pers, p_death = homclass
+        #     if pers > minpers:
+        #         x, y = bl, (bl - pers)
+        #         xcoord.append(x)
+        #         ycoord.append(y)
+        #         perssc.append(pers)
+        #         ax2.plot([x], [y], '.', c='b')
+        #         ax2.text(x, (y + y * 0.01), str(i + 1), color='b')
+        # X = xcoord + ycoord
+
+        X = np.c_[x,y]
         ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
         ax2.set_xlabel("Birth level")
         ax2.set_ylabel("Death level")
