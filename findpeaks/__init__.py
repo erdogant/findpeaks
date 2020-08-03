@@ -39,13 +39,14 @@ Examples
 >>>
 >>> # 2D array example
 >>> from findpeaks import findpeaks
+>>> fp = findpeaks(method='topology')
 >>> X = fp.import_example('2dpeaks')
 >>> results = fp.fit(X)
 >>> fp.plot()
 >>>
 >>> # Image example
 >>> from findpeaks import findpeaks
->>> fp = findpeaks(denoise='fastnl', h=30, resize=(300,300))
+>>> fp = findpeaks(method='topology', denoise='fastnl', h=30, resize=(300,300))
 >>> X = fp.import_example('2dpeaks_image')
 >>> results = fp.fit(X)
 >>> fp.plot()
