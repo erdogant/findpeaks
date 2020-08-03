@@ -81,11 +81,14 @@ from findpeaks import findpeaks
 # Data
 X = [10,11,9,23,21,11,45,20,11,12]
 # Initialize
-fp = findpeaks(lookahead=1)
+fp = findpeaks(method='peakdetect', lookahead=1)
 results = fp.fit(X)
 # Plot
-fp.plot(method='peakdetect')
-fp.plot(method='topology')
+fp.plot()
+
+fp = findpeaks(method='topology', lookahead=1)
+results = fp.fit(X)
+fp.plot()
 fp.plot_peristence()
 
 ```
@@ -98,10 +101,14 @@ fp.plot_peristence()
 
 ```python
 # Initialize with interpolate parameter
-fp = findpeaks(lookahead=1, interpolate=10)
+fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10)
 results = fp.fit(X)
-fp.plot(method='peakdetect')
-fp.plot(method='topology')
+fp.plot()
+
+fp = findpeaks(method='topology', lookahead=1, interpolate=10)
+results = fp.fit(X)
+fp.plot()
+
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect_int.png" width="400" />  
@@ -123,12 +130,14 @@ xs = np.linspace(0,3.7*np.pi,i)
 X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
 
 # Initialize
-fp = findpeaks()
+fp = findpeaks(method='peakdetect')
 results = fp.fit(X)
-
 # Plot
-fp.plot1d(method='peakdetect')
-fp.plot1d(method='topology')
+fp.plot1d()
+
+fp = findpeaks(method='topology')
+results = fp.fit(X)
+fp.plot1d()
 fp.plot_peristence()
 ```
 <p align="center">
@@ -159,16 +168,20 @@ array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 0. , 0.4, 0.4],
        [0. , 0. , 0. , 0. , 0. , 0.4, 0.7, 0.7, 0.4, 0.4]])
 
 # Initialize
-fp = findpeaks(mask=0)
+fp = findpeaks(method='mask', mask=0)
 
 # Fit
 fp.fit(X)
 
 # Plot the pre-processing steps
 fp.plot_preprocessing()
-
 # Plot all
 fp.plot()
+
+# Initialize
+fp = findpeaks(method='topology')
+# Fit
+fp.fit(X)
 
 ```
 
@@ -213,7 +226,7 @@ from findpeaks import findpeaks
 X = fp.import_example()
 
 # Initialize
-fp = findpeaks(mask=0, scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
+fp = findpeaks(method='topology', mask=0, scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
 
 # Fit
 results = fp.fit(X)
