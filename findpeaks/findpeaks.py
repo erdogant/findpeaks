@@ -101,7 +101,7 @@ class findpeaks():
         --------
         >>> from findpeaks import findpeaks
         >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(interpolate=10, lookahead=1)
+        >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -113,14 +113,13 @@ class findpeaks():
         >>>
         >>> # Image example
         >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(denoise=30, imsize=(300,300))
+        >>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
         >>> X = fp.import_example('2dpeaks_image')
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
         >>> # Plot each seperately
         >>> fp.plot_preprocessing()
-        >>> fp.plot_mask()
         >>> fp.plot_peristence()
         >>> fp.plot_mesh()
 
@@ -285,6 +284,13 @@ class findpeaks():
                     df['valley'].iloc[result['topology']['min_peaks'][:, 0].astype(int)] = True
                 if result['topology']['max_peaks'] is not None:
                     df['peak'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = True
+
+                # Store the score and ranking
+                df['rank'] = 0
+                df['score'] = 0
+                df['rank'].loc[df['peak']] = dfint['rank'].loc[dfint['peak']].values
+                df['score'].loc[df['peak']] = dfint['score'].loc[dfint['peak']].values
+
             # Store in results
             results['df'] = df
             results['df_interp'] = dfint
@@ -341,7 +347,6 @@ class findpeaks():
         >>>
         >>> # Plot each seperately
         >>> fp.plot_preprocessing()
-        >>> fp.plot_mask()
         >>> fp.plot_peristence()
         >>> fp.plot_mesh()
 
@@ -436,7 +441,7 @@ class findpeaks():
                 plt.figure(figsize=self.figsize)
                 plt.imshow(X)
                 plt.grid(False)
-        # Scaling
+        # Scaling color range between [0,255]
         if self.scale:
             X = stats.scale(X, verbose=self.verbose)
             if showfig:
@@ -613,7 +618,7 @@ class findpeaks():
         ax2.grid(False)
 
         # Masking
-        ax3.imshow(Xdetect, cmap=cmap, interpolation="nearest")
+        ax3.imshow(Xdetect, cmap=cmap+'_r', interpolation="nearest")
         ax3.set_title(self.method + ' method')
         ax3.grid(False)
 
@@ -727,21 +732,33 @@ class findpeaks():
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
             max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
             ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistance', figsize=figsize, legend=True, ax=ax1)
+
+            # Attach the ranking-labels
+            y = self.results['df']['y'].values
+            x = self.results['df']['x'].values
+            idx = np.where(self.results['df']['rank']>0)[0]
+            for i in tqdm(idx):
+                ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b')
+
         else:
             # X = self.results['Xproc']
             # Make the figure
             Xdetect = np.zeros_like(self.results['Xproc']).astype(int)
             # fig, ax1 = plt.subplots()
-            minscore = 20
             minpers = 1
             # Plot the detected loci
             if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
             ax1.set_title("Loci of births")
             for i, homclass in tqdm(enumerate(self.results['groups0'])):
                 p_birth, bl, pers, p_death = homclass
-                if pers > minscore:
+                if (self.limit is None):
                     y, x = p_birth
-                    Xdetect[y,x] = i + 1
+                    Xdetect[y, x] = i + 1
+                    ax1.plot([x], [y], '.', c='b')
+                    ax1.text(x, y + 0.25, str(i + 1), color='b')
+                elif pers > self.limit:
+                    y, x = p_birth
+                    Xdetect[y, x] = i + 1
                     ax1.plot([x], [y], '.', c='b')
                     ax1.text(x, y + 0.25, str(i + 1), color='b')
 

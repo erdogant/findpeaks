@@ -241,7 +241,7 @@ def topology(im, limit=None, verbose=3):
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
-    
+
     # Extract the max peaks and sort
     max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
     idxsort = np.argsort(max_peaks[:, 0])
