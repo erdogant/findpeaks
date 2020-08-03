@@ -29,7 +29,7 @@ def interpolate_line2d(xs, ys=None, interpol=3, window=3, verbose=3):
 
     Description
     -----------
-    Smoothing a 2d vector can be challanging if the number of data is low sampled.
+    Smoothing a 2d vector can be challanging if the data is low sampled.
     This function contains two steps. First interpolation of the input line followed by a convolution.
 
     Parameters
