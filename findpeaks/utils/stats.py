@@ -120,40 +120,9 @@ def resize(X, size=None, verbose=3):
         if verbose>=2: print('[findpeaks] >Warning: Resizing not possible.')
     return X
 
-# %%
-def _topology(X, verbose=3):
-    """Determine peaks in 2d-array using toplogy method.
-
-    Description
-    -----------
-    A simple Python implementation of the 0-th dimensional persistent homology for 2D images.
-    It is based on a two-dimensional persistent topology for peak detection.
-
-
-    Parameters
-    ----------
-    X : numpy array
-        2D array.
-
-    Returns
-    -------
-    g0 : list
-        Detected peaks.
-
-    References
-    ----------
-    * https://www.sthu.org/code/codesnippets/imagepers.html
-    * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
-
-    """
-    if verbose>=3: print('[findpeaks] >Detect peaks using topology method.')
-    # Compute persistence
-    g0, max_peaks, min_peaks, pers_scores = persistence(X)
-    # Return
-    return g0
 
 # %%
-def _mask(X, mask=0, verbose=3):
+def _mask(X, limit=0, verbose=3):
     """Determine peaks in 2d-array using a mask.
 
     Description
@@ -166,8 +135,8 @@ def _mask(X, mask=0, verbose=3):
     ----------
     X : numpy array
         2D array.
-    mask : float, (default : 0)
-        Values <= mask are set as background.
+    limit : float, (default : 0)
+        Values <= limit are set as background.
 
     Returns
     -------
@@ -179,9 +148,11 @@ def _mask(X, mask=0, verbose=3):
     * https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array
 
     """
-    if verbose>=3: print('[findpeaks] >Detect peaks using the masking (=%d) method.' %(mask))
+    if limit is None: limit=0
+
+    if verbose>=3: print('[findpeaks] >Detect peaks using the masking (=%d) method.' %(limit))
     # define an 8-connected neighborhood
-    neighborhood = generate_binary_structure(2,2)
+    neighborhood = generate_binary_structure(2, 2)
 
     # apply the local maximum filter; all pixel of maximal value in their neighborhood are set to 1
     local_max = maximum_filter(X, footprint=neighborhood)==X
@@ -189,7 +160,7 @@ def _mask(X, mask=0, verbose=3):
     # In order to isolate the peaks we must remove the background from the mask.
 
     # we create the mask of the background
-    background = (X <= mask)
+    background = (X <= limit)
 
     # Erode the background in order to successfully subtract it form local_max,
     # otherwise a line will appear along the background border (artifact of the local maximum filter)
@@ -201,11 +172,40 @@ def _mask(X, mask=0, verbose=3):
     # Return
     return detected_peaks
 
-def persistence(im):
-    """A simple implementation of persistent homology on 2D images.
-    Initial implementation: "Stefan Huber <shuber@sthu.org>"
-    Editted by: Erdogan Taskesen <erdogant@gmail.com>
+def topology(im, limit=None, verbose=3):
+    """Determine peaks in 2d-array using toplogy method.
+
+    Description
+    -----------
+    A simple Python implementation of the 0-th dimensional persistent homology for 2D images.
+    It is based on a two-dimensional persistent topology for peak detection.
+
+    Parameters
+    ----------
+    im : numpy array
+        2D array.
+
+    Returns
+    -------
+    results : dict
+        Various results regarding topology are stored in the dictionary.
+        Xdetect : detected peaks with respecto the input image
+        max_peaks : peaks detected
+        min_peaks : vallyes detected
+        persistence : DataFrame containing summary of the results, such as coordinates, scores
+        groups0
+
+    References
+    ----------
+    * https://www.sthu.org/code/codesnippets/imagepers.html
+    * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
+    * Initial implementation: Stefan Huber <shuber@sthu.org>
+    * Editted by: Erdogan Taskesen <erdogant@gmail.com>
+
+
     """
+    if verbose>=3: print('[findpeaks] >Detect peaks using topology method.')
+
     h, w = im.shape
     max_peaks, min_peaks = None, None
     groups0 = {}
@@ -217,14 +217,14 @@ def persistence(im):
     # Maintains the growing sets
     uf = union_find.UnionFind()
 
-    def get_comp_birth(p):
+    def _get_comp_birth(p):
         return _get_indices(im, uf[p])
 
     # Process pixels from high to low
     for i, p in enumerate(indices):
         v = _get_indices(im, p)
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
-        nc = sorted([(get_comp_birth(q), q) for q in set(ni)], reverse=True)
+        nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
         if i == 0: groups0[p] = (v, v, None)
         uf.add(p, -i)
@@ -241,36 +241,52 @@ def persistence(im):
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
+    
     # Extract the max peaks and sort
     max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
     idxsort = np.argsort(max_peaks[:, 0])
     max_peaks = max_peaks[idxsort, :]
-    # pers_scores = max_peaks[:,2]
-    # max_peaks = max_peaks[:,0:2].tolist()
-
     # Extract the min peaks and sort
     min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
     idxsort = np.argsort(min_peaks[:, 0])
     min_peaks = min_peaks[idxsort, :].tolist()
 
-    # Compute the coordinates to create persistence plot
-    # xcoord = []
-    # ycoord = []
-    # for i, homclass in enumerate(groups0):
-    #     p_birth, bl, pers, p_death = homclass
-    #     # if pers > 0:
-    #     x, y = bl, (bl - pers)
-    #     xcoord.append(x)
-    #     ycoord.append(y)
+    # Build the output results in the same manner as the input image
+    Xdetect = np.zeros_like(im).astype(float)
+    Xranked = np.zeros_like(im).astype(int)
+    for i, homclass in enumerate(groups0):
+        p_birth, bl, pers, p_death = homclass
+        y, x = p_birth
+        if (limit is None):
+            Xdetect[y, x] = pers
+            Xranked[y, x] = i + 1
+        elif (pers>limit):
+            Xdetect[y, x] = pers
+            Xranked[y, x] = i + 1
 
-    persistence_scores = pd.DataFrame()
-    persistence_scores['x'] = np.array(list(map(lambda x: x[0][0], groups0)))
-    persistence_scores['y'] = np.array(list(map(lambda x: x[1], groups0)))
-    persistence_scores['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
-    persistence_scores['death_level'] = np.array(list(map(lambda x: x[1]-x[2], groups0)))
-    persistence_scores['score'] = np.array(list(map(lambda x: x[2], groups0)))
+    # If data is 1d-vector, make single vector
+    if (im.shape[1]==2) and (np.all(Xdetect[:, 1]==0)):
+        Xdetect = Xdetect[:, 0]
+        Xranked = Xranked[:, 0]
+
+    # Store in dataframe
+    df_persistence = pd.DataFrame()
+    df_persistence['x'] = np.array(list(map(lambda x: x[0][0], groups0)))
+    df_persistence['y'] = np.array(list(map(lambda x: x[1], groups0)))
+    df_persistence['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
+    df_persistence['death_level'] = np.array(list(map(lambda x: x[1] - x[2], groups0)))
+    df_persistence['score'] = np.array(list(map(lambda x: x[2], groups0)))
+    # Results
+    results = {}
+    results['groups0'] = groups0
+    results['Xdetect'] = Xdetect
+    results['Xranked'] = Xranked
+    results['peak'] = max_peaks
+    results['valley'] = min_peaks
+    results['persistence'] = df_persistence
+
     # return
-    return groups0, max_peaks, min_peaks, persistence_scores
+    return results
 
 
 def _get_indices(im, p):
@@ -295,11 +311,17 @@ def _iter_neighbors(p, w, h):
         yield j, i
 
 
-def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, persistence_scores=None, verbose=3):
+def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, persistence=None, verbose=3):
     if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
-
-    results = {}
     labx_s = np.zeros((len(X))) * np.nan
+    results = {}
+    results['min_peaks_s'] = None
+    results['max_peaks_s'] = None
+    results['xs'] = np.arange(0, len(Xraw))
+    results['labx_s'] = np.zeros((len(X))) * np.nan
+    results['labx'] = np.zeros((len(Xraw))) * np.nan
+    results['min_peaks'] = None
+    results['max_peaks'] = None
 
     if (min_peaks!=[]) and (max_peaks!=[]):
 
@@ -331,7 +353,7 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, pers
                 getrange = np.arange(np.maximum(min_peak - lookahead, 0), np.minimum(min_peak + lookahead, len(Xraw)))
                 min_peaks_corr.append(getrange[np.argmin(Xraw[getrange])])
             # Set the labels
-            count=1
+            count = 1
             labx = np.zeros((len(Xraw))) * np.nan
             for i in range(0, len(min_peaks) - 1):
                 if min_peaks[i]!=min_peaks[i + 1]:
@@ -343,10 +365,9 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, pers
             results['min_peaks'] = np.c_[min_peaks_corr, Xraw[min_peaks_corr]]
             results['max_peaks'] = np.c_[max_peaks_corr, Xraw[max_peaks_corr]]
 
-        results['xs'] = np.arange(0, len(Xraw))
+        results['labx_s'] = labx_s
         results['min_peaks_s'] = np.c_[idx_valleys, X[idx_valleys]]
         results['max_peaks_s'] = np.c_[idx_peaks, X[idx_peaks]]
-        results['labx_s'] = labx_s
 
     # Return
     return results
