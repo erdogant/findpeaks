@@ -246,19 +246,22 @@ class findpeaks():
         elif self.method=='topology':
             # Topology
             dfint['labx'] = result['topology']['labx_s']
+            dfint['rank'] = result['Xranked']
+            dfint['score'] = result['Xdetect']
             dfint['valley'] = False
             dfint['peak'] = False
             if result['topology']['min_peaks_s'] is not None:
                 dfint['valley'].iloc[result['topology']['min_peaks_s'][:, 0].astype(int)] = True
             if result['topology']['max_peaks_s'] is not None:
                 dfint['peak'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)] = True
+
             results['topology'] = result['persistence']
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
             results['groups0'] = result['groups0']
 
+        # As for the input data
         if self.interpolate:
-            # As for the input data
             df = pd.DataFrame()
             df['y'] = Xraw
             # Store results for method
