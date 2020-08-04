@@ -18,6 +18,7 @@ from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
 from scipy.ndimage.filters import maximum_filter, uniform_filter
 from scipy import misc
 
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 
@@ -30,8 +31,28 @@ def _import_cv2():
     except:
         raise ImportError('cv2 must be installed manually. Try to: <pip install opencv-python>')
 
+
 # %% Scaling
 def scale(X, verbose=3):
+    """Normalize data (image) by scaling.
+
+    Description
+    -----------
+    Scaling in range [0-255] by img*(255/max(img))
+
+    Parameters
+    ----------
+    X : array-like
+        Input image data.
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+    Returns
+    -------
+    X : array-like
+        Scaled image.
+
+    """
     if verbose>=3: print('[findpeaks] >Scaling image between [0-255] and to uint8')
     try:
         # Normalizing between 0-255
@@ -44,8 +65,28 @@ def scale(X, verbose=3):
         if verbose>=2: print('[findpeaks] >Warning: Scaling not possible.')
     return X
 
+
 # %%
 def togray(X, verbose=3):
+    """Convert color to grey-image.
+
+    Description
+    -----------
+    Convert 3d-RGB colors to 2d-grey image.
+
+    Parameters
+    ----------
+    X : array-like
+        Input image data.
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+    Returns
+    -------
+    X : array-like
+        2d-image.
+
+    """
     # Import cv2
     cv2 = _import_cv2()
     try:
@@ -57,27 +98,73 @@ def togray(X, verbose=3):
 
 
 # %%
-def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
-    # https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html
-    # The bilateral filter uses a Gaussian filter in the space domain, 
-    # but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
-    # The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
-    # while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
-    # ensures that only those pixels with intensities similar to that of the central pixel (‘intensity neighbors’)
-    # are included to compute the blurred intensity value. As a result, this method preserves edges, since for pixels lying near edges,
-    # neighboring pixels placed on the other side of the edge, and therefore exhibiting large intensity variations when
-    # compared to the central pixel, will not be included for blurring.
-    #
-    # Lee filter
-    # -----------
-    # The Additive Noise Lee Despeckling Filter
-    # Let's assume that the despeckling noise is additive with a constant mean of zero, a constant variance, and drawn from a Gaussian distribution. Use a window (I x J pixels) to scan the image with a stride of 1 pixels (and I will use reflective boundary conditions). The despeckled value of the pixel in the center of the window located in the ith row and jth column is, zhat_ij = mu_k + W*(z_ij = mu_z), where mu_k is the mean value of all pixels in the window centered on pixel i,j, z_ij is the unfiltered value of the pixel, and W is a weight calculated as, W = var_k / (var_k + var_noise), where var_k is the variance of all pixels in the window and var_noise is the variance of the speckle noise. A possible alternative to using the actual value of the center pixel for z_ij is to use the median pixel value in the window.
-    # The parameters of the filter are the window/kernel size and the variance of the noise (which is unknown but can perhaps be estimated from the image as the variance over a uniform feature smooth like the surface of still water). Using a larger window size and noise variance will increase radiometric resolution at the expense of spatial resolution.
-    # For more info on the Lee Filter and other despeckling filters see http://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/speckle-function.htm
-    # Assumes noise mean = 0
-    # If you don't want the window to be a square of size x size, just replace uniform_filter with something else (convolution with a disk, gaussian filter, etc). Any type of (weighted) averaging filter will do, as long as it is the same for calculating both img_mean and img_square_mean.
-    # The Lee filter seems rather old-fashioned as a filter. It won't behave well at edges because for any window that has an edge in it, the variance is going to be much higher than the overall image variance, and therefore the weights (of the unfiltered image relative to the filtered image) are going to be close to 1.
+def resize(X, size=None, verbose=3):
+    """Resize image.
 
+    Parameters
+    ----------
+    X : array-like
+        Input image data.
+    size : tuple, (default : None)
+        size to desired (width,length).
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+    Returns
+    -------
+    X : array-like
+
+    """
+    # Import cv2
+    cv2 = _import_cv2()
+    try:
+        if size is not None:
+            if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(size)))
+            X = cv2.resize(X, size)
+    except:
+        if verbose>=2: print('[findpeaks] >Warning: Resizing not possible.')
+    return X
+
+
+# %%
+def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
+    """Denoise input data.
+
+    Description
+    -----------
+    Denoising the data is very usefull before detection of peaks. Multiple methods are implemented to denoise the data.
+    The bilateral filter uses a Gaussian filter in the space domain,
+    but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
+    The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
+    while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
+    ensures that only those pixels with intensities similar to that of the central pixel (‘intensity neighbors’)
+    are included to compute the blurred intensity value. As a result, this method preserves edges, since for pixels lying near edges,
+    neighboring pixels placed on the other side of the edge, and therefore exhibiting large intensity variations when
+    compared to the central pixel, will not be included for blurring.
+
+    Parameters
+    ----------
+    X : array-like
+        Input image data.
+    method : string, (default : 'fastnl', None to disable)
+        Filtering method to remove noise: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+    window : int, (default : 3)
+        Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
+    cu : float, (default: 0.25)
+        The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+    Returns
+    -------
+    X : array-like
+        Denoised data.
+
+    References
+    ----------
+    * https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html
+
+    """
     # Import library
     cv2 = _import_cv2()
 
@@ -108,35 +195,22 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
     #     if verbose>=2: print('[findpeaks] >Warning: Denoising failt!')
     return X
 
-# %%
-def resize(X, size=None, verbose=3):
-    # Import cv2
-    cv2 = _import_cv2()
-    try:
-        if size is not None:
-            if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(size)))
-            X = cv2.resize(X, size)
-    except:
-        if verbose>=2: print('[findpeaks] >Warning: Resizing not possible.')
-    return X
-
 
 # %%
-def _mask(X, limit=0, verbose=3):
+def mask(X, limit=0, verbose=3):
     """Determine peaks in 2d-array using a mask.
 
     Description
     -----------
     Takes an image and detect the peaks using the local maximum filter.
-    Returns a boolean mask of the peaks (i.e. 1 when
-    the pixel's value is the neighborhood maximum, 0 otherwise)
+    Returns a boolean mask of the peaks (i.e. 1 when the pixel's value is the neighborhood maximum, 0 otherwise)
 
     Parameters
     ----------
-    X : numpy array
-        2D array.
-    limit : float, (default : 0)
-        Values <= limit are set as background.
+    X : array-like
+        Input image data.
+    limit : float, (default : None)
+        Values > limit are set as regions of interest (ROI).
 
     Returns
     -------
@@ -172,28 +246,40 @@ def _mask(X, limit=0, verbose=3):
     # Return
     return detected_peaks
 
-def topology(im, limit=None, verbose=3):
+
+def topology(X, limit=None, verbose=3):
     """Determine peaks in 2d-array using toplogy method.
 
     Description
     -----------
-    A simple Python implementation of the 0-th dimensional persistent homology for 2D images.
-    It is based on a two-dimensional persistent topology for peak detection.
+    The idea behind the topology method: Consider the function graph of the function that assigns each pixel its level.
+    Now consider a water level that continuously descents to lower levels. At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death). The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands.
+    The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
+    This method not only gives the local maxima but also quantifies their "significance" by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.
 
     Parameters
     ----------
-    im : numpy array
-        2D array.
+    X : array-like data
+        Input data.
+    limit : float, (default : None)
+        score > limit are set as regions of interest (ROI).
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
-    results : dict
-        Various results regarding topology are stored in the dictionary.
-        Xdetect : detected peaks with respecto the input image
-        max_peaks : peaks detected
-        min_peaks : vallyes detected
-        persistence : DataFrame containing summary of the results, such as coordinates, scores
-        groups0
+    dict()
+        Xdetect : array-like (same shape as input data)
+            detected peaks with respect the input image. Elements are the scores.
+        Xranked : array-like (same shape as input data)
+            detected peaks with respect the input image. Elements are the ranked peaks (1=best).
+        max_peaks : array-like
+            Detected peaks
+        min_peaks : array-like
+            Detected vallyes
+        persistence : DataFrame()
+            DataFrame containing summary of the results, such as coordinates, scores
+        groups0 : list
 
     References
     ----------
@@ -202,27 +288,26 @@ def topology(im, limit=None, verbose=3):
     * Initial implementation: Stefan Huber <shuber@sthu.org>
     * Editted by: Erdogan Taskesen <erdogant@gmail.com>
 
-
     """
-    if verbose>=3: print('[findpeaks] >Detect peaks using topology method.')
+    if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
 
-    h, w = im.shape
+    h, w = X.shape
     max_peaks, min_peaks = None, None
     groups0 = {}
 
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w)]
-    indices.sort(key=lambda p: _get_indices(im, p), reverse=True)
+    indices.sort(key=lambda p: _get_indices(X, p), reverse=True)
 
     # Maintains the growing sets
     uf = union_find.UnionFind()
 
     def _get_comp_birth(p):
-        return _get_indices(im, uf[p])
+        return _get_indices(X, uf[p])
 
     # Process pixels from high to low
-    for i, p in enumerate(indices):
-        v = _get_indices(im, p)
+    for i, p in tqdm(enumerate(indices)):
+        v = _get_indices(X, p)
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
@@ -235,12 +320,16 @@ def topology(im, limit=None, verbose=3):
             # Merge all others with oldp
             for bl, q in nc[1:]:
                 if uf[q] not in groups0:
-                    # print(i, ": Merge", uf[q], "with", oldp, "via", p)
                     groups0[uf[q]] = (bl, bl - v, p)
                 uf.union(oldp, q)
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
+
+    # Filter on limit
+    if (limit is not None):
+        Ikeep = np.array(list(map(lambda x: x[2], groups0))) > limit
+        groups0 = np.array(groups0)[Ikeep].tolist()
 
     # Extract the max peaks and sort
     max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
@@ -252,20 +341,16 @@ def topology(im, limit=None, verbose=3):
     min_peaks = min_peaks[idxsort, :].tolist()
 
     # Build the output results in the same manner as the input image
-    Xdetect = np.zeros_like(im).astype(float)
-    Xranked = np.zeros_like(im).astype(int)
+    Xdetect = np.zeros_like(X).astype(float)
+    Xranked = np.zeros_like(X).astype(int)
     for i, homclass in enumerate(groups0):
         p_birth, bl, pers, p_death = homclass
         y, x = p_birth
-        if (limit is None):
-            Xdetect[y, x] = pers
-            Xranked[y, x] = i + 1
-        elif (pers>limit):
-            Xdetect[y, x] = pers
-            Xranked[y, x] = i + 1
+        Xdetect[y, x] = pers
+        Xranked[y, x] = i + 1
 
     # If data is 1d-vector, make single vector
-    if (im.shape[1]==2) and (np.all(Xdetect[:, 1]==0)):
+    if (X.shape[1]==2) and (np.all(Xdetect[:, 1]==0)):
         Xdetect = Xdetect[:, 0]
         Xranked = Xranked[:, 0]
 
@@ -311,7 +396,7 @@ def _iter_neighbors(p, w, h):
         yield j, i
 
 
-def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, persistence=None, verbose=3):
+def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verbose=3):
     if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
     labx_s = np.zeros((len(X))) * np.nan
     results = {}

@@ -16,45 +16,84 @@ import numpy as np
 import wget
 import os
 
+
 class findpeaks():
+    """For the detection of peaks in 1d and 2d data.
+
+    Description
+    -----------
+    findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
+    In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector, pre-processing by interpolation is possible.
+    Peaks can be detected using various methods, and the results can be vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.
+
+    Parameters
+    ----------
+    X : array-like (1D-vector or 2d-image)
+        Input image data.
+    method : String, (default : None).
+        method to be used for peak detection: 'topology', 'peakdetect', 'mask'
+    lookahead : int, (default : 200)
+        Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
+    interpolate : int, (default : None)
+        Interpolation factor. The higher the number, the less sharp the edges will be.
+    limit : float, (default : None)
+        Values > limit are set as regions of interest (ROI).
+    scale : bool, (default : False)
+        Scaling in range [0-255] by img*(255/max(img))
+    denoise : string, (default : 'fastnl', None to disable)
+        Filtering method to remove noise: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+    window : int, (default : 3)
+        Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
+    cu : float, (default: 0.25)
+        The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
+    togray : bool, (default : False)
+        Conversion to gray scale.
+    imsize : tuple, (default : None)
+        size to desired (width,length).
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+    Returns
+    -------
+    dict()
+        * See 1dpeaks and 2dpeaks for more details.
+
+    Examples
+    --------
+    >>> from findpeaks import findpeaks
+    >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
+    >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
+    >>> results = fp.fit(X)
+    >>> fp.plot()
+    >>>
+    >>> # 2D array example
+    >>> from findpeaks import findpeaks
+    >>> X = fp.import_example('2dpeaks')
+    >>> results = fp.fit(X)
+    >>> fp.plot()
+    >>>
+    >>> # Image example
+    >>> from findpeaks import findpeaks
+    >>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
+    >>> X = fp.import_example('2dpeaks_image')
+    >>> results = fp.fit(X)
+    >>> fp.plot()
+    >>>
+    >>> # Plot each seperately
+    >>> fp.plot_preprocessing()
+    >>> fp.plot_peristence()
+    >>> fp.plot_mesh()
+
+    References
+    ----------
+    * https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html
+    * https://www.sthu.org/code/codesnippets/imagepers.html
+
+    """
+
     def __init__(self, method=None, lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
-        """Initialize findpeaks parameters.
+        """Initialize findpeaks parameters."""
 
-        Parameters 1D
-        -------------
-        X : array-like RGB or 1D-array
-            Input image data.
-        method : String, default : 'peakdetect'.
-            method to be used for peak detection: 'topology','peakdetect'.
-        lookahead : int, (default : 200)
-            Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
-        interpolate : int, (default : 10)
-            Interpolation factor. The higher the number, the less sharp the edges will be.
-
-        Parameters 2D
-        -------------
-        X : array-like RGB or 2D-array
-            Input image data.
-        method : String, default : 'topology'.
-            method to be used for peak detection: 'topology', 'mask'.
-        limit : float, (default : None)
-            Values > limit are set as regions of interest (ROI).
-        scale : bool, (default : False)
-            Scaling in range [0-255] by img*(255/max(img))
-        denoise : string, (default : 'fastnl', None to disable)
-            Filtering method to remove noise: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
-        window : int, (default : 3)
-            Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
-        cu : float, (default: 0.25)
-            The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
-        togray : bool, (default : False)
-            Conversion to gray scale.
-        imsize : tuple, (default : None)
-            size to desired (width,length).
-        Verbose : int (default : 3)
-            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
-
-        """
         # Store in object
         if lookahead is None: lookahead=1
         lookahead = np.maximum(1, lookahead)
@@ -75,58 +114,21 @@ class findpeaks():
     def fit(self, X, x=None):
         """Detect peaks and valleys in a 1D vector or 2D-array (image).
 
+        Description
+        -----------
+        * Fit the method on your data for the detection of peaks.
+        * See 1dpeaks and 2dpeaks for more details about the input/output parameters.
+
         Parameters
         ----------
-        X : array-like 1D vector.
-            Input data.
-        x : array-like 1D vector.
+        X : array-like data.
+        x : array-like data.
             Coordinates of the x-axis.
 
         Returns
         -------
-        Output depends wether peaks1d or peaks2d is used.
-        1dpeaks : dict
-            x: x-coordinates
-            y: y-coordinates
-            labx: assigned label
-            valley: detected valley
-            peak: detected peak
-        2dpeaks : dict.
-            Xraw: Input image
-            Xproc: Processed image
-            Xmask: detected peaks using masking method
-            persitance: detected peaks using topology method
-
-        Examples
-        --------
-        >>> from findpeaks import findpeaks
-        >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # 2D array example
-        >>> from findpeaks import findpeaks
-        >>> X = fp.import_example('2dpeaks')
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # Image example
-        >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
-        >>> X = fp.import_example('2dpeaks_image')
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # Plot each seperately
-        >>> fp.plot_preprocessing()
-        >>> fp.plot_peristence()
-        >>> fp.plot_mesh()
-
-        References
-        ----------
-        * https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html
-        * https://www.sthu.org/code/codesnippets/imagepers.html
+        dict()
+            * See 1dpeaks and 2dpeaks for more details.
 
         """
         # Check datatype
@@ -148,38 +150,41 @@ class findpeaks():
     def peaks1d(self, X, x=None, method='peakdetect'):
         """Detect of peaks in 1D array.
 
+        Description
+        -----------
+        This function only eats the input data. Use the .fit() function for more information regarding the input parameters:
+            * method : method to be used for peak detection: 'topology' or 'peakdetect'.
+            * lookahead : Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
+            * interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.
+            * limit : Values > limit are set as regions of interest (ROI).
+            * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
         Parameters
         ----------
         X : array-like 1D vector.
             Input data.
         x : array-like 1D vector.
             Coordinates of the x-axis.
-        method : String, default : 'peakdetect'.
-            method to be used for peak detection: 'topology','peakdetect'.
 
         Returns
         -------
-        dict with DataFrames.
-            df : DataFrame
-                Results based on the input data.
-                    x: x-coordinates
-                    y: y-coordinates
-                    labx: assigned label
-                    valley: detected valley
-                    peak: detected peak
-                    labx_topology: assigned label based on topology method
-                    valley_topology: detected valley based on topology method
-                    peak_topology: detected peak based on topology method
-            df_interp : DataFrame
-                Results based on the interpolated data.
-                    x: x-coordinates
-                    y: y-coordinates
-                    labx: assigned label
-                    valley: detected valley
-                    peak: detected peak
-                    labx_topology: assigned label based on topology method
-                    valley_topology: detected valley based on topology method
-                    peak_topology: detected peak based on topology method
+        dict() : Results in "df" are based on the input-data, whereas "df_interp" are the interpolated results.
+            * persistence : Scores when using topology method.
+            * Xranked     : Similar to column "rank".
+            * Xdetect     : Similar to the column "score".
+            * df          : Is ranked in the same manner as the input data and provides information about the detected peaks and valleys.
+        persistence : pd.DataFrame()
+            * x, y    : coordinates
+            * birth   : Birth level
+            * death   : Death level
+            * score   : persistence scores
+        df : pd.DataFrame()
+            * x, y    : Coordinates
+            * labx    : The label of the peak area
+            * rank    : The ranking number of the best performing peaks (1 is best)
+            * score   : persistence score
+            * valley  : Wether the point is marked as valley
+            * peak    : Wether the point is marked as peak
 
         Examples
         --------
@@ -188,6 +193,11 @@ class findpeaks():
         >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
         >>> results = fp.fit(X)
         >>> fp.plot()
+        >>>
+        >>> fp = findpeaks(method='topology')
+        >>> results = fp.fit(X)
+        >>> fp.plot()
+        >>> fp.plot_peristence()
 
         """
         if method is None: method='peakdetect'
@@ -210,10 +220,10 @@ class findpeaks():
             # Post processing for the peak-detect
             result['peakdetect'] = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
         elif method=='topology':
-            # Compute persistance using toplogy method
+            # Compute persistence using toplogy method
             result = stats.topology(np.c_[X, X], limit=self.limit, verbose=self.verbose)
             # Post processing for the topology method
-            result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1, persistence=result['persistence'])
+            result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
         else:
             print('[findpeaks] >Method [%s] is not supported in 1d-vector data. <return>' %(self.method))
             return None
@@ -254,7 +264,7 @@ class findpeaks():
             if result['topology']['max_peaks_s'] is not None:
                 dfint['peak'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)] = True
 
-            results['topology'] = result['persistence']
+            results['persistence'] = result['persistence']
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
             results['groups0'] = result['groups0']
@@ -313,22 +323,31 @@ class findpeaks():
 
         Description
         -----------
-        Methodology. The idea behind the topology method: Consider the function graph of the function that assigns each pixel its level.
-        Now consider a water level at height 255 that continuously descents to lower levels. At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death). The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands.
-        The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
-        The very first picture shows the locations of births of the islands. This method not only gives the local maxima but also quantifies their "significance" by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.
+        This function only eats the input data. Use the .fit() function for more information regarding the input parameters:
+            * method : method to be used for peak detection: 'topology', or 'mask'
+            * limit : Values > limit are set as regions of interest (ROI).
+            * scale : Scaling data in range [0-255] by img*(255/max(img))
+            * denoise :  Remove noise using method: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+            * window : Denoising window.
+            * cu : noise variation coefficient
+            * togray : Conversion to gray scale.
+            * imsize : resize image
+            * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
         Parameters
         ----------
-        X : array-like 1D vector
+        X : array-like 1D vector.
             Input data.
-        method : String, default : 'topology'.
-            method to be used for peak detection: 'topology', 'mask'.
 
         Returns
         -------
-        results : dict
-            Axis of figures are stored in the dictionary.
+        dict()
+            * Xraw    : The RAW input data
+            * Xproc   : The pre-processed data
+            * Xdetect : The detected peaks with the persistence scores (same shape as the input data)
+            * XRanked : The detected peaks but based on the strenght (same shape as the input data)
+            * peak    : Coordinates for the detected peaks
+            * valley  : Coordinates for the detected valleys
 
         Examples
         --------
@@ -361,11 +380,11 @@ class findpeaks():
         Xproc = self.preprocessing(X, showfig=False)
         # Compute peaks based on method
         if method=='topology':
-            # Compute persistance based on topology method
+            # Compute persistence based on topology method
             result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
         elif method=='mask':
             # Compute peaks using local maximum filter.
-            result = stats._mask(Xproc, limit=self.limit)
+            result = stats.mask(Xproc, limit=self.limit)
         else:
             print('[findpeaks] >Method [%s] is not supported in 2d-array (image) data. <return>' %(self.method))
             return None
@@ -466,15 +485,17 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, legend=True, figsize=None):
+    def plot(self, legend=True, figsize=None, cmap=None):
         """Plot results.
 
         Parameters
         ----------
-        method : String, default : None or 'peakdetect'
-            plot the results for method: 'topology', 'peakdetect'
+        legend : bool, (default: True)
+            Show the legend.
         figsize : (int, int), optional, default: (15, 8)
             (width, height) in inches.
+        cmap : object (default : None)
+            Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
 
         Returns
         -------
@@ -491,7 +512,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize)
         elif self.args['type']=='peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap)
         else:
             print('[findpeaks] Nothing to plot for %s' %(self.args['type']))
             return None
@@ -504,7 +525,9 @@ class findpeaks():
 
         Parameters
         ----------
-        figsize : (int, int), optional, default: (15, 8)
+        legend : bool, (default: True)
+            Show the legend.
+        figsize : (int, int), (default: None)
             (width, height) in inches.
 
         Returns
@@ -540,7 +563,7 @@ class findpeaks():
 
         Parameters
         ----------
-        figsize : (int, int), optional, default: (15, 8)
+        figsize : (int, int), (default: None)
             (width, height) in inches.
 
         Returns
@@ -559,7 +582,7 @@ class findpeaks():
         if self.method=='mask':
             ax_method = self.plot_mask(figsize=figsize)
         if self.method=='topology':
-            # Plot topology/persistance
+            # Plot topology/persistence
             ax_method = self.plot_peristence(figsize=figsize)
 
         # Plot mesh
@@ -577,13 +600,17 @@ class findpeaks():
         """
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
-    def plot_mask(self, limit=None, figsize=None):
+    def plot_mask(self, limit=None, figsize=None, cmap=None):
         """Plot the masking.
 
         Parameters
         ----------
-        figsize : (int, int), optional, default: (15, 8)
+        limit : float, (default : None)
+            Values > limit are set as regions of interest (ROI).
+        figsize : (int, int), (default: None)
             (width, height) in inches.
+        cmap : object (default : None)
+            Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
 
         Returns
         -------
@@ -600,25 +627,26 @@ class findpeaks():
         Xdetect = self.results['Xdetect']
         if limit is not None:
             Xdetect[Xdetect<limit]=0
+        if cmap is None:
+            cmap = 'gray' if self.args['togray'] else None
+            cmap = cmap + '_r'
 
         figsize = figsize if figsize is not None else self.args['figsize']
         # Setup figure
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
-        # Original image
-        cmap = 'gray' if self.args['togray'] else None
 
         # Plot input image
-        ax1.imshow(self.results['Xraw'], cmap=cmap, interpolation="nearest")
+        ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
         ax1.set_title('Original')
         ax1.grid(False)
 
         # Preprocessing
-        ax2.imshow(self.results['Xproc'], cmap=cmap, interpolation="nearest")
+        ax2.imshow(self.results['Xproc'], cmap, interpolation="nearest")
         ax2.set_title('Processed image')
         ax2.grid(False)
 
         # Masking
-        ax3.imshow(Xdetect, cmap=cmap+'_r', interpolation="nearest")
+        ax3.imshow(Xdetect, cmap, interpolation="nearest")
         ax3.set_title(self.method + ' method')
         ax3.grid(False)
 
@@ -641,16 +669,18 @@ class findpeaks():
         figsize : (int, int), optional, default: (15, 8)
             (width, height) in inches.
         view : tuple, (default : None)
-            Rotate the mesh plot.
-            (0, 0) : y vs z
-            (0, 90) : x vs z
-            (90, 0) : y vs x
-            (90, 90) : x vs y
+            * Rotate the mesh plot.
+            * (0, 0) : y vs z
+            * (0, 90) : x vs z
+            * (90, 0) : y vs x
+            * (90, 90) : x vs y
         cmap : object
             Colormap. The default is plt.cm.hot_r.
+        figsize : (int, int), (default: None)
+            (width, height) in inches.
         savepath : bool (default : None)
             Path with filename to save the figure, eg: './tmp/my_image.png'
-        Verbose : int (default : 3)
+        verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
         Returns
@@ -718,6 +748,23 @@ class findpeaks():
         return ax1, ax2
 
     def plot_peristence(self, figsize=None, verbose=None):
+        """Plot the homology-peristence.
+
+        Parameters
+        ----------
+        figsize : (int, int), (default: None)
+            (width, height) in inches.
+        verbose : int (default : 3)
+            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+        Returns
+        -------
+        ax1 : object
+            Figure axis 1.
+        ax2 : object
+            Figure axis 2.
+
+        """
         if verbose is None: verbose=self.verbose
         if (self.method!='topology') or (not hasattr(self, 'results')):
             if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the .fit(method="topology") function.')
@@ -728,10 +775,10 @@ class findpeaks():
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
         if self.args['type']=='peaks1d':
-            minpers = 0
+            # minpers = 0
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
             max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
-            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistance', figsize=figsize, legend=True, ax=ax1)
+            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistence', figsize=figsize, legend=True, ax=ax1)
 
             # Attach the ranking-labels
             y = self.results['df']['y'].values
@@ -745,7 +792,7 @@ class findpeaks():
             # Make the figure
             Xdetect = np.zeros_like(self.results['Xproc']).astype(int)
             # fig, ax1 = plt.subplots()
-            minpers = 1
+            # minpers = 1
             # Plot the detected loci
             if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
             ax1.set_title("Loci of births")
@@ -792,7 +839,7 @@ class findpeaks():
         #         ax2.text(x, (y + y * 0.01), str(i + 1), color='b')
         # X = xcoord + ycoord
 
-        X = np.c_[x,y]
+        X = np.c_[x, y]
         ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
         ax2.set_xlabel("Birth level")
         ax2.set_ylabel("Death level")
@@ -802,8 +849,30 @@ class findpeaks():
         return ax1, ax2
 
     def import_example(self, data='2dpeaks', url=None, sep=';'):
+        """Import example dataset from github source.
+
+        Description
+        -----------
+        Import one of the few datasets from github source or specify your own download url link.
+
+        Parameters
+        ----------
+        data : str
+            Name of datasets: "1dpeaks", "2dpeaks", "2dpeaks_image"
+        url : str
+            url link to to dataset.
+        Verbose : int (default : 3)
+            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+        Returns
+        -------
+        pd.DataFrame()
+            Dataset containing mixed features.
+
+        """
         X = _import_example(data=data, url=url, sep=sep, verbose=self.verbose)
         return X
+
 
 # %%
 def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, ax=None, figsize=(15, 8)):
@@ -885,4 +954,3 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
         X = pd.read_csv(PATH_TO_DATA, sep=sep).values
     # Return
     return X
-
