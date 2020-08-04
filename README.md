@@ -89,7 +89,7 @@ fp.plot()
 fp = findpeaks(method='topology', lookahead=1)
 results = fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 ```
 
@@ -138,7 +138,7 @@ fp.plot1d()
 fp = findpeaks(method='topology')
 results = fp.fit(X)
 fp.plot1d()
-fp.plot_peristence()
+fp.plot_persistence()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
@@ -209,7 +209,7 @@ fp.plot_mesh()
 
 The persistence plot appears to detect the right peaks.
 ```python
-fp.plot_peristence()
+fp.plot_persistence()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_pers.png" width="600" />
@@ -267,7 +267,7 @@ fp.plot_mesh()
 
 The Persistence plot does show the detection of correct peaks.
 ```python
-fp.plot_peristence()
+fp.plot_persistence()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_perss.png" width="600" />
@@ -342,7 +342,7 @@ Find peaks on the denoised image
 from findpeaks import findpeaks
 fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
 fp.fit(image_lee_enhanced)
-fp.plot_peristence()
+fp.plot_persistence()
 fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
 ```
 
