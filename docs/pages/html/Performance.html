@@ -98,13 +98,13 @@
 <li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Performance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#auc">AUC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#confusion-matrix">Confusion matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#kappa-score">Kappa score</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#probability-graph">Probability graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comparison-peak-detection-in-one-dimensional-data">Comparison peak detection in one-dimensional data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#small-dataset">Small dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#large-dataset">Large dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#results">Results</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Pre-processing</span></p>
 <ul>
@@ -196,52 +196,152 @@
   <hr class="docutils" id="code-directive" />
 <div class="section" id="performance">
 <h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
-<p>To measure the goodness of fit we use various evaluation metrics to check the classification model’s performance.
-The performance scores can be derived in <code class="docutils literal notranslate"><span class="pre">urldetect</span></code> using in the function <code class="xref py py-func docutils literal notranslate"><span class="pre">urldetect.plot()</span></code>.</p>
-<p>The performance of the model can deviate based on the threshold being used but the theshold this will not affect the learning process <code class="xref py py-func docutils literal notranslate"><span class="pre">urldetect.fit_transform()</span></code>.
-After learning a model, and predicting new samples with it, each sample will get a probability belowing to the class. In case of our two-class approach the simple rule account: <strong>P(class malicous) = 1-P(class normal)</strong>
-The threshold is used on the probabilities to devide samples into the malicous or normal class.</p>
-<div class="section" id="auc">
-<h2>AUC<a class="headerlink" href="#auc" title="Permalink to this headline">¶</a></h2>
-<p>The Area Under The Curve (AUC) and Receiver Operating Characteristics curve (ROC) are one of the most important evaluation metrics for checking any classification model’s performance.
-In our case we designed a two-class model with URLs being <strong>malicous</strong> or not. The probability ranges between [0-1], and the threshold for classification is set at 0.5, where &lt;0.5 is normal and &gt;0.5 is malicous.
-This value can be tweaked to either reduce the number of False positives or True Negatives <code class="xref py py-func docutils literal notranslate"><span class="pre">urldetect.plot()</span></code>.</p>
-<p>The goal of the AUC-ROC is to determine the probability curve and degree or measure of separability by using various thresholds settings.
-It describes <em>how much</em> the model is capable of distinguishing between the classes. The higher the AUC, the better the model is at predicting whereas a AUC of 0.5 represents <em>random</em> results.</p>
-<p>A perfect score would result in an AUC score=1 and ROC curve like this:</p>
-<div class="figure align-default" id="roc-best">
-<img alt="../figs/ROC_best.png" src="../figs/ROC_best.png" />
+<p>Lets compare the methods with some data and see how they behave in peak detection.</p>
+<div class="section" id="comparison-peak-detection-in-one-dimensional-data">
+<h2>Comparison peak detection in one-dimensional data<a class="headerlink" href="#comparison-peak-detection-in-one-dimensional-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="small-dataset">
+<h3>Small dataset<a class="headerlink" href="#small-dataset" title="Permalink to this headline">¶</a></h3>
+<p>For the first scenario we will create a dataset containing some small peaks and some larger ones.
+We will detect peaks using the topology and peakdetect method with and without interpolation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># peakdetect</span>
+<span class="n">fp_peakdetect</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># peakdetect with interpolation</span>
+<span class="n">fp_peakdetect_int</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># topology</span>
+<span class="n">fp_topology</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># topology with interpolation</span>
+<span class="n">fp_topology_int</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Example 1d-vector</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">2.6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Fit the methods on the 1d-vector</span>
+<span class="n">results_1</span> <span class="o">=</span> <span class="n">fp_peakdetect</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">results_2</span> <span class="o">=</span> <span class="n">fp_peakdetect_int</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">results_3</span> <span class="o">=</span> <span class="n">fp_topology</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">results_4</span> <span class="o">=</span> <span class="n">fp_topology_int</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fp_peakdetect</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp_peakdetect_int</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp_topology</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp_topology_int</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
 </div>
+<p>A visual look of the results for the peakdetect with and without interpolation. Note that the interpolated results are readily mapped back to the original plot.</p>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Peakdetect results without interpolation (left) and with (right)</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig8" src="_images/1dpeaks_perf_peakdetect.png" /></p></td>
+<td><p><img alt="fig9" src="_images/1dpeaks_perf_peakdetect_int.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The differences become clear with and without the use of interpolation</p>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Topology results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig10" src="_images/1dpeaks_perf_topology.png" /></p></td>
+<td><p><img alt="fig11" src="_images/1dpeaks_perf_topology_int.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The four approaches results in various diffent peaks and valleys. A simple comparison, by means of a confusion matrix shows that the <em>interpolation</em> results in the detection of similar peaks and valleys.</p>
+<p>Peaks detected between peakdetect vs topology using interpolation show only 4 differences in detection of peaks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>      <span class="kc">True</span>  <span class="kc">False</span>
+<span class="kc">True</span>  <span class="p">[</span><span class="mi">45</span><span class="p">,</span>  <span class="mi">1</span><span class="p">]</span>
+<span class="kc">False</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+</pre></div>
 </div>
-<div class="section" id="confusion-matrix">
-<h2>Confusion matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">¶</a></h2>
-<p>A confusion matrix is a table that is often used to describe the performance of a classification model (or “classifier”)
-on a set of test data for which the true values are known. It allows the visualization of the performance of an algorithm.</p>
-</div>
-<div class="section" id="kappa-score">
-<h2>Kappa score<a class="headerlink" href="#kappa-score" title="Permalink to this headline">¶</a></h2>
-<p>Cohen’s kappa coefficient is a statistic that is used to measure inter-rated reliability for qualitative (categorical) items.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scoring</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">cohen_kappa_score</span><span class="p">,</span> <span class="n">greater_is_better</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>A comparison between peakdetect vs topology without interpolation show 20 differences in detection of peaks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>      <span class="kc">True</span>  <span class="kc">False</span>
+<span class="kc">True</span>  <span class="p">[</span><span class="mi">48</span><span class="p">,</span>  <span class="mi">13</span><span class="p">]</span>
+<span class="kc">False</span> <span class="p">[</span> <span class="mi">7</span><span class="p">,</span>  <span class="mi">6</span> <span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="probability-graph">
-<h2>Probability graph<a class="headerlink" href="#probability-graph" title="Permalink to this headline">¶</a></h2>
-<p>The probability graph plots the probabilities of the samples being classified.</p>
+<div class="section" id="large-dataset">
+<h3>Large dataset<a class="headerlink" href="#large-dataset" title="Permalink to this headline">¶</a></h3>
+<p>For this scenario we create a large dataset to detect peaks using <em>peakdetect</em> and <em>topology</em>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp1</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp2</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+
+<span class="c1"># Example 1d-vector</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.7</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">4.2</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.06</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+<span class="c1"># Fit using peakdetect</span>
+<span class="n">results_1</span> <span class="o">=</span> <span class="n">fp1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Fit using topology</span>
+<span class="n">results_2</span> <span class="o">=</span> <span class="n">fp2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp2</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp2</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
 </div>
+<p>The topology methods detects thousands of local minima and maxima whereas the peakdetect approach finds the correct ones.</p>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Peakdetect on a large noisy dataset</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig3" src="_images/fig3.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The homology-persistence plots can help to filter the thousands of hits that are mostly alongside the diagonal and therefore not of interest.
+Only a few points seems to be of interest; numbers one to eight.</p>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">Topology on a large noisy dataset</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig12" src="_images/fig_persistence_largedataset.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>Lets select the top 8 datapoints and plot them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="p">(</span><span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">&lt;=</span><span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">I</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">I</span><span class="p">],</span> <span class="n">results_2</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">I</span><span class="p">],</span> <span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="results">
-<h1>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h1>
-<p>The classification performance can be derived using the function <code class="xref py py-func docutils literal notranslate"><span class="pre">urldetect.plot()</span></code>.
-Results for the malicous URLs, using a 5-fold crossvalidation with gridsearch is as follows:</p>
-<div class="figure align-default" id="figure-1">
-<a class="reference internal image-reference" href="_images/2dpeaks_mask.png"><img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" style="width: 612.8000000000001px; height: 385.6px;" /></a>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Topology with filter on top 8 hits</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig13" src="_images/fig3_topology_tophits.png" /></p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="figure align-default" id="figure-2">
-<a class="reference internal image-reference" href="_images/2dpeaks_meshs2.png"><img alt="_images/2dpeaks_meshs2.png" src="_images/2dpeaks_meshs2.png" style="width: 680.8000000000001px; height: 359.20000000000005px;" /></a>
-</div>
-<div class="figure align-default" id="figure-3">
-<a class="reference internal image-reference" href="_images/fig1_raw.png"><img alt="_images/fig1_raw.png" src="_images/fig1_raw.png" style="width: 706.4000000000001px; height: 385.6px;" /></a>
 </div>
 </div>
 

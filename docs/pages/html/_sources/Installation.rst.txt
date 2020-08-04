@@ -11,17 +11,22 @@ A quick example how to learn a model on a given dataset.
 .. code:: python
 
     # Import library
-    import findpeaks
+    from findpeaks import findpeaks
 
-    # Retrieve URLs of malicous and normal urls:
-    X, y = findpeaks.load_example()
+    # Initialized
+    fp = findpeaks(method='topology')
 
-    # Learn model on the data
-    model = findpeaks.fit_transform(X, y, pos_label='bad')
+    # Example data:
+    X = fp.import_example('1dpeaks')
 
-    # Plot the model performance
-    results = findpeaks.plot(model)
+    # Peak detection
+    results = fp.fit(X)
 
+    # Plot
+    fp.plot()
+
+    # Plot
+    fp.plot_peristence()
 
 Installation
 ''''''''''''
@@ -42,7 +47,7 @@ Install via ``pip``:
 
 .. code-block:: console
 
-    # The installation from pypi is disabled:
+    # Installation from pypi:
     pip install findpeaks
 
     # Install directly from github
@@ -56,11 +61,17 @@ If you want to remove your ``findpeaks`` installation with your environment, it 
 
 .. code-block:: console
 
+   # Removing findpeaks.
+   pip uninstall findpeaks
+
+   # Step out the environments.
+   conda deactivate
+
    # List all the active environments. findpeaks should be listed.
    conda env list
 
    # Remove the findpeaks environment
-   conda env remove --name findpeaks
+   conda env remove --name env_findpeaks
 
    # List all the active environments. findpeaks should be absent.
    conda env list

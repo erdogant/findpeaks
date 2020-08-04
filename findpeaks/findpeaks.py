@@ -81,7 +81,7 @@ class findpeaks():
     >>>
     >>> # Plot each seperately
     >>> fp.plot_preprocessing()
-    >>> fp.plot_peristence()
+    >>> fp.plot_persistence()
     >>> fp.plot_mesh()
 
     References
@@ -197,7 +197,7 @@ class findpeaks():
         >>> fp = findpeaks(method='topology')
         >>> results = fp.fit(X)
         >>> fp.plot()
-        >>> fp.plot_peristence()
+        >>> fp.plot_persistence()
 
         """
         if method is None: method='peakdetect'
@@ -366,7 +366,7 @@ class findpeaks():
         >>>
         >>> # Plot each seperately
         >>> fp.plot_preprocessing()
-        >>> fp.plot_peristence()
+        >>> fp.plot_persistence()
         >>> fp.plot_mesh()
 
         """
@@ -583,7 +583,7 @@ class findpeaks():
             ax_method = self.plot_mask(figsize=figsize)
         if self.method=='topology':
             # Plot topology/persistence
-            ax_method = self.plot_peristence(figsize=figsize)
+            ax_method = self.plot_persistence(figsize=figsize)
 
         # Plot mesh
         ax_mesh = self.plot_mesh(figsize=figsize)
@@ -747,7 +747,7 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_peristence(self, figsize=None, verbose=None):
+    def plot_persistence(self, figsize=None, verbose=None):
         """Plot the homology-peristence.
 
         Parameters

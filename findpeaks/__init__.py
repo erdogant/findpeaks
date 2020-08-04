@@ -53,7 +53,7 @@ Examples
 >>>
 >>> # Plot each seperately
 >>> fp.plot_preprocessing()
->>> fp.plot_peristence()
+>>> fp.plot_persistence()
 >>> fp.plot_mesh()
 
 References

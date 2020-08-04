@@ -105,7 +105,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Performance.html#results">Results</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Pre-processing</span></p>
 <ul>
@@ -213,7 +212,7 @@ The idea of persistent homology is intuitive: Consider the function graph of the
 <span class="c1"># Initialize</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
 <span class="c1"># Example 1d-vector</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;1dpeaks&#39;</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;1dpeaks&#39;</span><span class="p">)</span>
 <span class="c1"># Plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -434,7 +433,8 @@ However, there are few parameters that can be used to control the pre-processing
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector.
-Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a></p>
+Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
+The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>

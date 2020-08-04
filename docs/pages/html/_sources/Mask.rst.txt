@@ -5,42 +5,48 @@
 Mask
 ''''''''''
 
-Learn new model with gridsearch and train-test set
---------------------------------------------------
+The mask method takes an image and detect the peaks using the local maximum filter.
+Multiple steps are involved in this approach, first an 8-connected neighborhood is set.
+Then, the local maximum filter is applied, and pixel of maximal value in their neighborhood are set to 1.
 
-AAA
+In order to isolate the peaks we must remove the background from the mask. The background is simply created by the input parameter *limit* so that the background = (X <= limit)
+The background is eroded to subtract the peaks from the background. If the limit is to small for example, a line will appear along the background border (artifact of the local maximum filter).
 
-.. code:: python
-
-    # Import library
-    import findpeaks
-
-    # Load example data set    
-    X,y_true = findpeaks.load_example()
-
-    # Retrieve URLs of malicous and normal urls:
-    model = findpeaks.fit_transform(X, y_true, pos_label='bad', train_test=True, gridsearch=True)
-
-    # The test error will be shown
-    results = findpeaks.plot(model)
+The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).
 
 
-Learn new model on the entire data set
---------------------------------------------------
+Peak detection in two-dimensional data
+----------------------------------------------------
 
-BBBB
+The *mask* method is only avaiable for 2d-image data. Below is shown an example:
 
 
 .. code:: python
 
     # Import library
-    import findpeaks
+    from findpeaks import findpeaks
+    # Initialize
+    fp = findpeaks(method='mask')
+    # Example 2d image
+    X = fp.import_example('2dpeaks')
+    # Fit topology method on the 1d-vector
+    results = fp.fit(X)
+    # The output contains multiple variables
+    print(results.keys())
+    # dict_keys(['Xraw', 'Xproc', 'Xdetect'])
 
-    # Load example data set    
-    X,y_true = findpeaks.load_example()
+The output is a dictionary containing multiple variables that can be of use for follow-up analysis.
+Details about the input/output parameters can be found here: :func:`findpeaks.utils.stats.mask`
+The output variables **Xdetect** and **Xranked** has the same shape as the input data. The elements with value > 0 depict a region of interest.
 
-    # Retrieve URLs of malicous and normal urls:
-    model = findpeaks.fit_transform(X, y_true, pos_label='bad', train_test=False, gridsearch=True)
 
-    # The train error will be shown. Such results are heavily biased as the model also learned on this set of data
-    results = findpeaks.plot(model)
+Plot the image with the detected peaks:
+
+.. code:: python
+
+    # Import library
+    fp.plot()
+
+.. _Figure_6:
+
+.. figure:: ../figs/2dpeaks_mask.png
