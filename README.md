@@ -96,7 +96,7 @@ fp.plot_peristence()
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect.png" width="400" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology.png" width="400" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_persistance.png" width="400" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_persistence.png" width="400" />
 </p>
 
 ```python
@@ -143,7 +143,7 @@ fp.plot_peristence()
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_topology.png" width="600" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistance.png" width="600" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistence.png" width="600" />
 </p>
 
 

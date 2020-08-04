@@ -7,8 +7,9 @@ print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", window=11)
-X = fp.import_example()
+fp = findpeaks(method="topology", window=3)
+X = fp.import_example("2dpeaks_image")
+X = fp.import_example("2dpeaks")
 results = fp.fit(X)
 
 fp.plot()
@@ -96,25 +97,42 @@ fp.plot_mesh(view=(90,0))
 from findpeaks import findpeaks
 
 fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10, verbose=3)
-X = fp.import_example('1dpeaks')
-fp.fit(X[:,1])
+X = fp.import_example('1dpeaks')[:,1]
+fp.fit(X)
 fp.plot()
 fp.plot_peristence()
 
-fp = findpeaks(method='topology', verbose=3)
-fp.fit(X[:,1])
+
+from findpeaks import findpeaks
+fp = findpeaks(method='topology')
+X = fp.import_example('1dpeaks')[:,1]
+fp.fit(X)
 fp.plot()
 fp.plot_peristence()
 
+from findpeaks import findpeaks
+fp = findpeaks(method='topology',  interpolate=10)
+X = fp.import_example('1dpeaks')[:,1]
+fp.fit(X)
+fp.plot()
+fp.plot_peristence()
+
+
+from tabulate import tabulate
+print(tabulate(fp.results['df'], tablefmt="grid", headers="keys"))
+print(tabulate(fp.results['persistence'], tablefmt="grid", headers="keys"))
+print(tabulate(fp.results['df_interp'].head(), tablefmt="grid", headers="keys"))
 
 # %%
 from findpeaks import findpeaks
 
 # 2dpeaks example
 fp = findpeaks(method='topology')
-img = fp.import_example()
+img = fp.import_example('2dpeaks')
 fp.fit(img)
+fp.plot(cmap='hot')
 fp.plot()
+fp.plot_peristence()
 
 fp = findpeaks(method='mask')
 img = fp.import_example()
@@ -130,8 +148,8 @@ fp.plot()
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(mask=0)
-X = fp.import_example()
+fp = findpeaks(method='topology')
+X = fp.import_example('1dpeaks')[:,1]
 fp.fit(X)
 fp.plot()
 

@@ -9,7 +9,7 @@ def test_fit():
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
     assert fp.type=='peaks2d'
-    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'peak', 'valley', 'groups0']
+    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'topology', 'peak', 'valley', 'groups0']
     assert [*fp.args]==['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
     assert results['Xraw'].shape==results['Xdetect'].shape
     assert results['Xproc'].shape==results['Xdetect'].shape
