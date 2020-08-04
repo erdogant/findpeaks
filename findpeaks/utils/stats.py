@@ -214,8 +214,13 @@ def mask(X, limit=0, verbose=3):
 
     Returns
     -------
-    detected_peaks : numpy array
-        2D boolean array. True represents the detected peaks.
+    dict()
+        Xraw : array-like.
+            Input image.
+        Xdetect : array-like (same shape as input data)
+            detected peaks with respect the input image. Elements are the scores.
+        Xranked : array-like (same shape as input data)
+            detected peaks with respect the input image. Elements are the ranked peaks (1=best).
 
     References
     ----------
@@ -224,7 +229,7 @@ def mask(X, limit=0, verbose=3):
     """
     if limit is None: limit=0
 
-    if verbose>=3: print('[findpeaks] >Detect peaks using the masking (=%d) method.' %(limit))
+    if verbose>=3: print('[findpeaks] >Detect peaks using the mask method with limit=%s.' %(limit))
     # define an 8-connected neighborhood
     neighborhood = generate_binary_structure(2, 2)
 

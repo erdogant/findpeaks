@@ -929,8 +929,8 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
     elif data=='1dpeaks':
         x = [0,   13,  22,  30,  35,  38,   42,   51,   57,   67,  73,   75,  89,   126,  141,  150,  200 ]
         y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04,  0.02, 0.01]
-        X = np.c_[x, y]
-        return X
+        # X = np.c_[x, y]
+        return y
     else:
         if verbose>=3: print('[findpeaks] >Nothing to download <return>.')
         return None

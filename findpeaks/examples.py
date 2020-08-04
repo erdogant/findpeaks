@@ -97,7 +97,7 @@ fp.plot_mesh(view=(90,0))
 from findpeaks import findpeaks
 
 fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10, verbose=3)
-X = fp.import_example('1dpeaks')[:,1]
+X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
 fp.plot_peristence()
@@ -105,14 +105,14 @@ fp.plot_peristence()
 
 from findpeaks import findpeaks
 fp = findpeaks(method='topology')
-X = fp.import_example('1dpeaks')[:,1]
+X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
 fp.plot_peristence()
 
 from findpeaks import findpeaks
 fp = findpeaks(method='topology',  interpolate=10)
-X = fp.import_example('1dpeaks')[:,1]
+X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
 fp.plot_peristence()
@@ -149,7 +149,7 @@ fp.plot()
 # %%
 from findpeaks import findpeaks
 fp = findpeaks(method='topology')
-X = fp.import_example('1dpeaks')[:,1]
+X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
 

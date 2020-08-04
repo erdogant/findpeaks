@@ -27,7 +27,7 @@ The idea of persistent homology is intuitive: Consider the function graph of the
     # Initialize
     fp = findpeaks(method='topology')
     # Example 1d-vector
-    X = fp.import_example('1dpeaks')[:,1]
+    X = fp.import_example('1dpeaks')
     # Plot
     plt.plot(X); plt.grid(True)
 
@@ -274,6 +274,7 @@ The docstring provide the information regarding the input/output parameters: :fu
 
 The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector.
 Details about the input/output parameters can be found here: :func:`findpeaks.findpeaks.findpeaks.peaks2d`
+The output variables **Xdetect** and **Xranked** has the same shape as the input data. The elements with value > 0 depict a region of interest.
 
 Plot the image with the detected peaks:
 
