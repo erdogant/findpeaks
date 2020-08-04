@@ -278,8 +278,10 @@ def topology(X, limit=None, verbose=3):
         min_peaks : array-like
             Detected vallyes
         persistence : DataFrame()
-            DataFrame containing summary of the results, such as coordinates, scores
-        groups0 : list
+            * x, y    : coordinates
+            * birth   : Birth level
+            * death   : Death level
+            * score   : persistence scores
 
     References
     ----------

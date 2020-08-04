@@ -2,7 +2,7 @@
 
 -------------------------------------
 
-Persistance
+Persistence
 ''''''''''''
 
 Learn new model with gridsearch and train-test set

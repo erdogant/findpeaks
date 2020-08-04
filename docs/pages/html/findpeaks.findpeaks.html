@@ -84,7 +84,6 @@
               <p class="caption"><span class="caption-text">Background</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Abstract.html#schematic-overview">Schematic overview</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Installation</span></p>
 <ul>
@@ -107,16 +106,15 @@
 <li class="toctree-l1"><a class="reference internal" href="Normalize.html">Normalize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Plot</span></p>
+<p class="caption"><span class="caption-text">Plots</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Plot.html">Plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3D-mesh.html">3D-mesh</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Persistance.html">Persistance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Persistence.html">Persistence</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Examples.html#topology">Topology</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation</span></p>
 <ul class="current">
@@ -193,31 +191,35 @@
 <dl class="py class">
 <dt id="findpeaks.findpeaks.findpeaks">
 <em class="property">class </em><code class="sig-prename descclassname">findpeaks.findpeaks.</code><code class="sig-name descname">findpeaks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lookahead</span><span class="o">=</span><span class="default_value">200</span></em>, <em class="sig-param"><span class="n">interpolate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">imsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">togray</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">denoise</span><span class="o">=</span><span class="default_value">'fastnl'</span></em>, <em class="sig-param"><span class="n">window</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">15, 8</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="findpeaks.findpeaks.findpeaks.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detect peaks and valleys in a 1D vector or 2D-array (image).</p>
+<dd><p>For the detection of peaks in 1d and 2d data.</p>
+<p>findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
+In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector, pre-processing by interpolation is possible.
+Peaks can be detected using various methods, and the results can be vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array-like 1D vector.</em>) – Input data.</p></li>
-<li><p><strong>x</strong> (<em>array-like 1D vector.</em>) – Coordinates of the x-axis.</p></li>
+<li><p><strong>X</strong> (<em>array-like</em><em> (</em><em>1D-vector</em><em> or </em><em>2d-image</em><em>)</em>) – Input image data.</p></li>
+<li><p><strong>method</strong> (<em>String</em><em>, </em><em>(</em><em>default : None</em><em>)</em><em></em>) – method to be used for peak detection: ‘topology’, ‘peakdetect’, ‘mask’</p></li>
+<li><p><strong>lookahead</strong> (<em>int</em><em>, </em><em>(</em><em>default : 200</em><em>)</em>) – Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.</p></li>
+<li><p><strong>interpolate</strong> (<em>int</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – Interpolation factor. The higher the number, the less sharp the edges will be.</p></li>
+<li><p><strong>limit</strong> (<em>float</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – Values &gt; limit are set as regions of interest (ROI).</p></li>
+<li><p><strong>scale</strong> (<em>bool</em><em>, </em><em>(</em><em>default : False</em><em>)</em>) – Scaling in range [0-255] by img*(255/max(img))</p></li>
+<li><p><strong>denoise</strong> (<em>string</em><em>, </em><em>(</em><em>default : 'fastnl'</em><em>, </em><em>None to disable</em><em>)</em>) – Filtering method to remove noise: [None, ‘fastnl’,’bilateral’,’lee’,’lee_enhanced’,’kuan’,’frost’,’median’,’mean’]</p></li>
+<li><p><strong>window</strong> (<em>int</em><em>, </em><em>(</em><em>default : 3</em><em>)</em>) – Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.</p></li>
+<li><p><strong>cu</strong> (<em>float</em><em>, </em><em>(</em><em>default: 0.25</em><em>)</em>) – The noise variation coefficient, applies for methods: [‘kuan’,’lee’,’lee_enhanced’]</p></li>
+<li><p><strong>togray</strong> (<em>bool</em><em>, </em><em>(</em><em>default : False</em><em>)</em>) – Conversion to gray scale.</p></li>
+<li><p><strong>imsize</strong> (<em>tuple</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – size to desired (width,length).</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><em>Output depends wether peaks1d or peaks2d is used.</em></p></li>
-<li><p><strong>1dpeaks</strong> (<em>dict</em>) – x: x-coordinates
-y: y-coordinates
-labx: assigned label
-valley: detected valley
-peak: detected peak</p></li>
-<li><p><strong>2dpeaks</strong> (<em>dict.</em>) – Xraw: Input image
-Xproc: Processed image
-Xmask: detected peaks using masking method
-persitance: detected peaks using topology method</p></li>
+<li><p>See 1dpeaks and 2dpeaks for more details.</p></li>
 </ul>
 </p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict()</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -251,56 +253,106 @@ persitance: detected peaks using topology method</p></li>
 <li><p><a class="reference external" href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html">https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html</a></p></li>
 <li><p><a class="reference external" href="https://www.sthu.org/code/codesnippets/imagepers.html">https://www.sthu.org/code/codesnippets/imagepers.html</a></p></li>
 </ul>
+<dl class="py method">
+<dt id="findpeaks.findpeaks.findpeaks.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect peaks and valleys in a 1D vector or 2D-array (image).</p>
+<ul class="simple">
+<li><p>Fit the method on your data for the detection of peaks.</p></li>
+<li><p>See 1dpeaks and 2dpeaks for more details about the input/output parameters.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like data.</em>) – </p></li>
+<li><p><strong>x</strong> (<em>array-like data.</em>) – Coordinates of the x-axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>See 1dpeaks and 2dpeaks for more details.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict()</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="findpeaks.findpeaks.findpeaks.import_example">
 <code class="sig-name descname">import_example</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">'2dpeaks'</span></em>, <em class="sig-param"><span class="n">url</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">';'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.import_example" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Import example dataset from github source.</p>
+<p>Import one of the few datasets from github source or specify your own download url link.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em>) – Name of datasets: “1dpeaks”, “2dpeaks”, “2dpeaks_image”</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – url link to to dataset.</p></li>
+<li><p><strong>Verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataset containing mixed features.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame()</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="findpeaks.findpeaks.findpeaks.peaks1d">
 <code class="sig-name descname">peaks1d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'peakdetect'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.peaks1d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect of peaks in 1D array.</p>
+<dl class="simple">
+<dt>This function only eats the input data. Use the .fit() function for more information regarding the input parameters:</dt><dd><ul class="simple">
+<li><p>method : method to be used for peak detection: ‘topology’ or ‘peakdetect’.</p></li>
+<li><p>lookahead : Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.</p></li>
+<li><p>interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.</p></li>
+<li><p>limit : Values &gt; limit are set as regions of interest (ROI).</p></li>
+<li><p>verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like 1D vector.</em>) – Input data.</p></li>
 <li><p><strong>x</strong> (<em>array-like 1D vector.</em>) – Coordinates of the x-axis.</p></li>
-<li><p><strong>method</strong> (<em>String</em><em>, </em><em>default : 'peakdetect'.</em>) – method to be used for peak detection: ‘topology’,’peakdetect’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>df<span class="classifier">DataFrame</span></dt><dd><dl class="simple">
-<dt>Results based on the input data.</dt><dd><p>x: x-coordinates
-y: y-coordinates
-labx: assigned label
-valley: detected valley
-peak: detected peak
-labx_topology: assigned label based on topology method
-valley_topology: detected valley based on topology method
-peak_topology: detected peak based on topology method</p>
-</dd>
-</dl>
-</dd>
-<dt>df_interp<span class="classifier">DataFrame</span></dt><dd><dl class="simple">
-<dt>Results based on the interpolated data.</dt><dd><p>x: x-coordinates
-y: y-coordinates
-labx: assigned label
-valley: detected valley
-peak: detected peak
-labx_topology: assigned label based on topology method
-valley_topology: detected valley based on topology method
-peak_topology: detected peak based on topology method</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>dict()</strong> (<em>Results in “df” are based on the input-data, whereas “df_interp” are the interpolated results.</em>) –</p>
+<ul>
+<li><p>persistence : Scores when using topology method.</p></li>
+<li><p>Xranked     : Similar to column “rank”.</p></li>
+<li><p>Xdetect     : Similar to the column “score”.</p></li>
+<li><p>df          : Is ranked in the same manner as the input data and provides information about the detected peaks and valleys.</p></li>
+</ul>
+</li>
+<li><p><strong>persistence</strong> (<em>pd.DataFrame()</em>) –</p>
+<ul>
+<li><p>x, y    : coordinates</p></li>
+<li><p>birth   : Birth level</p></li>
+<li><p>death   : Death level</p></li>
+<li><p>score   : persistence scores</p></li>
+</ul>
+</li>
+<li><p><strong>df</strong> (<em>pd.DataFrame()</em>) –</p>
+<ul>
+<li><p>x, y    : Coordinates</p></li>
+<li><p>labx    : The label of the peak area</p></li>
+<li><p>rank    : The ranking number of the best performing peaks (1 is best)</p></li>
+<li><p>score   : persistence score</p></li>
+<li><p>valley  : Wether the point is marked as valley</p></li>
+<li><p>peak    : Wether the point is marked as peak</p></li>
+</ul>
+</li>
+</ul>
 </p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict with DataFrames.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -309,6 +361,11 @@ peak_topology: detected peak based on topology method</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot_peristence</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -317,22 +374,37 @@ peak_topology: detected peak based on topology method</p>
 <dt id="findpeaks.findpeaks.findpeaks.peaks2d">
 <code class="sig-name descname">peaks2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'topology'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.peaks2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect peaks and valleys in a 2D-array or image.</p>
-<p>Methodology. The idea behind the topology method: Consider the function graph of the function that assigns each pixel its level.
-Now consider a water level at height 255 that continuously descents to lower levels. At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death). The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands.
-The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
-The very first picture shows the locations of births of the islands. This method not only gives the local maxima but also quantifies their “significance” by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array-like 1D vector</em>) – Input data.</p></li>
-<li><p><strong>method</strong> (<em>String</em><em>, </em><em>default : 'topology'.</em>) – method to be used for peak detection: ‘topology’, ‘mask’.</p></li>
+<dl class="simple">
+<dt>This function only eats the input data. Use the .fit() function for more information regarding the input parameters:</dt><dd><ul class="simple">
+<li><p>method : method to be used for peak detection: ‘topology’, or ‘mask’</p></li>
+<li><p>limit : Values &gt; limit are set as regions of interest (ROI).</p></li>
+<li><p>scale : Scaling data in range [0-255] by img*(255/max(img))</p></li>
+<li><p>denoise :  Remove noise using method: [None, ‘fastnl’,’bilateral’,’lee’,’lee_enhanced’,’kuan’,’frost’,’median’,’mean’]</p></li>
+<li><p>window : Denoising window.</p></li>
+<li><p>cu : noise variation coefficient</p></li>
+<li><p>togray : Conversion to gray scale.</p></li>
+<li><p>imsize : resize image</p></li>
+<li><p>verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>array-like 1D vector.</em>) – Input data.</p>
+</dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>results</strong> – Axis of figures are stored in the dictionary.</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Xraw    : The RAW input data</p></li>
+<li><p>Xproc   : The pre-processed data</p></li>
+<li><p>Xdetect : The detected peaks with the persistence scores (same shape as the input data)</p></li>
+<li><p>XRanked : The detected peaks but based on the strenght (same shape as the input data)</p></li>
+<li><p>peak    : Coordinates for the detected peaks</p></li>
+<li><p>valley  : Coordinates for the detected valleys</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p>dict()</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -359,13 +431,14 @@ The very first picture shows the locations of births of the islands. This method
 
 <dl class="py method">
 <dt id="findpeaks.findpeaks.findpeaks.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">legend</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">legend</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> (<em>String</em><em>, </em><em>default : None</em><em> or </em><em>'peakdetect'</em>) – plot the results for method: ‘topology’, ‘peakdetect’</p></li>
+<li><p><strong>legend</strong> (<em>bool</em><em>, </em><em>(</em><em>default: True</em><em>)</em>) – Show the legend.</p></li>
 <li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p></li>
+<li><p><strong>cmap</strong> (<em>object</em><em> (</em><em>default : None</em><em>)</em>) – Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -383,7 +456,10 @@ The very first picture shows the locations of births of the islands. This method
 <dd><p>Plot the 1D results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>legend</strong> (<em>bool</em><em>, </em><em>(</em><em>default: True</em><em>)</em>) – Show the legend.</p></li>
+<li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
@@ -400,7 +476,7 @@ The very first picture shows the locations of births of the islands. This method
 <dd><p>Plot the 2d results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p>
+<dd class="field-odd"><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
@@ -413,11 +489,15 @@ The very first picture shows the locations of births of the islands. This method
 
 <dl class="py method">
 <dt id="findpeaks.findpeaks.findpeaks.plot_mask">
-<code class="sig-name descname">plot_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_mask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the masking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>limit</strong> (<em>float</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – Values &gt; limit are set as regions of interest (ROI).</p></li>
+<li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
+<li><p><strong>cmap</strong> (<em>object</em><em> (</em><em>default : None</em><em>)</em>) – Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
@@ -439,15 +519,19 @@ The very first picture shows the locations of births of the islands. This method
 <li><p><strong>surface</strong> (<em>bool</em><em>, </em><em>(</em><em>default is True</em><em>)</em>) – Plot the surface</p></li>
 <li><p><strong>rstride</strong> (<em>int</em><em>, </em><em>(</em><em>default is 2</em><em>)</em>) – Array row stride (step size).</p></li>
 <li><p><strong>cstride</strong> (<em>int</em><em>, </em><em>(</em><em>default is 2</em><em>)</em>) – Array column stride (step size).</p></li>
-<li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p></li>
-<li><p><strong>view</strong> (<em>tuple</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – Rotate the mesh plot.
-(0, 0) : y vs z
-(0, 90) : x vs z
-(90, 0) : y vs x
-(90, 90) : x vs y</p></li>
+<li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
+<li><p><strong>view</strong> (<em>tuple</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – <ul>
+<li><p>Rotate the mesh plot.</p></li>
+<li><p>(0, 0) : y vs z</p></li>
+<li><p>(0, 90) : x vs z</p></li>
+<li><p>(90, 0) : y vs x</p></li>
+<li><p>(90, 90) : x vs y</p></li>
+</ul>
+</p></li>
 <li><p><strong>cmap</strong> (<em>object</em>) – Colormap. The default is plt.cm.hot_r.</p></li>
+<li><p><strong>figsize</strong> – (width, height) in inches.</p></li>
 <li><p><strong>savepath</strong> (<em>bool</em><em> (</em><em>default : None</em><em>)</em>) – Path with filename to save the figure, eg: ‘./tmp/my_image.png’</p></li>
-<li><p><strong>Verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -462,7 +546,23 @@ The very first picture shows the locations of births of the islands. This method
 <dl class="py method">
 <dt id="findpeaks.findpeaks.findpeaks.plot_peristence">
 <code class="sig-name descname">plot_peristence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_peristence" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Plot the homology-peristence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>ax1</strong> (<em>object</em>) – Figure axis 1.</p></li>
+<li><p><strong>ax2</strong> (<em>object</em>) – Figure axis 2.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="findpeaks.findpeaks.findpeaks.plot_preprocessing">
@@ -507,6 +607,372 @@ The very first picture shows the locations of births of the islands. This method
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<span class="target" id="module-findpeaks.utils.stats"></span><dl class="py function">
+<dt id="findpeaks.utils.stats.denoise">
+<code class="sig-prename descclassname">findpeaks.utils.stats.</code><code class="sig-name descname">denoise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'fastnl'</span></em>, <em class="sig-param"><span class="n">window</span><span class="o">=</span><span class="default_value">9</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.25</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.stats.denoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Denoise input data.</p>
+<p>Denoising the data is very usefull before detection of peaks. Multiple methods are implemented to denoise the data.
+The bilateral filter uses a Gaussian filter in the space domain,
+but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
+The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
+while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
+ensures that only those pixels with intensities similar to that of the central pixel (‘intensity neighbors’)
+are included to compute the blurred intensity value. As a result, this method preserves edges, since for pixels lying near edges,
+neighboring pixels placed on the other side of the edge, and therefore exhibiting large intensity variations when
+compared to the central pixel, will not be included for blurring.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – Input image data.</p></li>
+<li><p><strong>method</strong> (<em>string</em><em>, </em><em>(</em><em>default : 'fastnl'</em><em>, </em><em>None to disable</em><em>)</em>) – Filtering method to remove noise: [None, ‘fastnl’,’bilateral’,’lee’,’lee_enhanced’,’kuan’,’frost’,’median’,’mean’]</p></li>
+<li><p><strong>window</strong> (<em>int</em><em>, </em><em>(</em><em>default : 3</em><em>)</em>) – Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.</p></li>
+<li><p><strong>cu</strong> (<em>float</em><em>, </em><em>(</em><em>default: 0.25</em><em>)</em>) – The noise variation coefficient, applies for methods: [‘kuan’,’lee’,’lee_enhanced’]</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X</strong> – Denoised data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html">https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html</a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.stats.mask">
+<code class="sig-prename descclassname">findpeaks.utils.stats.</code><code class="sig-name descname">mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.stats.mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine peaks in 2d-array using a mask.</p>
+<p>Takes an image and detect the peaks using the local maximum filter.
+Returns a boolean mask of the peaks (i.e. 1 when the pixel’s value is the neighborhood maximum, 0 otherwise)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – Input image data.</p></li>
+<li><p><strong>limit</strong> (<em>float</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – Values &gt; limit are set as regions of interest (ROI).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>detected_peaks</strong> – 2D boolean array. True represents the detected peaks.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array">https://stackoverflow.com/questions/3684484/peak-detection-in-a-2d-array</a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.stats.resize">
+<code class="sig-prename descclassname">findpeaks.utils.stats.</code><code class="sig-name descname">resize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.stats.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – Input image data.</p></li>
+<li><p><strong>size</strong> (<em>tuple</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – size to desired (width,length).</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.stats.scale">
+<code class="sig-prename descclassname">findpeaks.utils.stats.</code><code class="sig-name descname">scale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.stats.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize data (image) by scaling.</p>
+<p>Scaling in range [0-255] by img*(255/max(img))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – Input image data.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X</strong> – Scaled image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.stats.togray">
+<code class="sig-prename descclassname">findpeaks.utils.stats.</code><code class="sig-name descname">togray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.stats.togray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert color to grey-image.</p>
+<p>Convert 3d-RGB colors to 2d-grey image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – Input image data.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X</strong> – 2d-image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.stats.topology">
+<code class="sig-prename descclassname">findpeaks.utils.stats.</code><code class="sig-name descname">topology</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">limit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.stats.topology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine peaks in 2d-array using toplogy method.</p>
+<p>The idea behind the topology method: Consider the function graph of the function that assigns each pixel its level.
+Now consider a water level that continuously descents to lower levels. At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death). The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands.
+The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
+This method not only gives the local maxima but also quantifies their “significance” by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like data</em>) – Input data.</p></li>
+<li><p><strong>limit</strong> (<em>float</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – score &gt; limit are set as regions of interest (ROI).</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Xdetect<span class="classifier">array-like (same shape as input data)</span></dt><dd><p>detected peaks with respect the input image. Elements are the scores.</p>
+</dd>
+<dt>Xranked<span class="classifier">array-like (same shape as input data)</span></dt><dd><p>detected peaks with respect the input image. Elements are the ranked peaks (1=best).</p>
+</dd>
+<dt>max_peaks<span class="classifier">array-like</span></dt><dd><p>Detected peaks</p>
+</dd>
+<dt>min_peaks<span class="classifier">array-like</span></dt><dd><p>Detected vallyes</p>
+</dd>
+<dt>persistence<span class="classifier">DataFrame()</span></dt><dd><ul class="simple">
+<li><p>x, y    : coordinates</p></li>
+<li><p>birth   : Birth level</p></li>
+<li><p>death   : Death level</p></li>
+<li><p>score   : persistence scores</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict()</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sthu.org/code/codesnippets/imagepers.html">https://www.sthu.org/code/codesnippets/imagepers.html</a></p></li>
+<li><ol class="upperalpha simple" start="8">
+<li><p>Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.</p></li>
+</ol>
+</li>
+<li><p>Initial implementation: Stefan Huber &lt;<a class="reference external" href="mailto:shuber&#37;&#52;&#48;sthu&#46;org">shuber<span>&#64;</span>sthu<span>&#46;</span>org</a>&gt;</p></li>
+<li><p>Editted by: Erdogan Taskesen &lt;<a class="reference external" href="mailto:erdogant&#37;&#52;&#48;gmail&#46;com">erdogant<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p></li>
+</ul>
+</dd></dl>
+
+<span class="target" id="module-findpeaks.utils.smoothline"></span><dl class="py function">
+<dt id="findpeaks.utils.smoothline.interpolate_line1d">
+<code class="sig-prename descclassname">findpeaks.utils.smoothline.</code><code class="sig-name descname">interpolate_line1d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">nboost</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">showfig</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.smoothline.interpolate_line1d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.smoothline.interpolate_line2d">
+<code class="sig-prename descclassname">findpeaks.utils.smoothline.</code><code class="sig-name descname">interpolate_line2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xs</span></em>, <em class="sig-param"><span class="n">ys</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpol</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">window</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.smoothline.interpolate_line2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>interpolate 2D vector.</p>
+<p>Smoothing a 2d vector can be challanging if the data is low sampled.
+This function contains two steps. First interpolation of the input line followed by a convolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>array-like</em>) – Data points for the x-axis.</p></li>
+<li><p><strong>ys</strong> (<em>array-like</em>) – Data points for the y-axis.</p></li>
+<li><p><strong>interpol</strong> (<em>int</em><em>, </em><em>(</em><em>default : 3</em><em>)</em>) – The interpolation factor. The data is interpolation by a factor n before the smoothing step.</p></li>
+<li><p><strong>window</strong> (<em>int</em><em>, </em><em>(</em><em>default : 3</em><em>)</em>) – Smoothing window that is used to create the convolution and gradually smoothen the line.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> [</em><em>1-5</em><em>]</em><em>, </em><em>default: 3</em>) – Print information to screen. A higher number will print more.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>xnew</strong> (<em>array-like</em>) – Data points for the x-axis.</p></li>
+<li><p><strong>ynew</strong> (<em>array-like</em>) – Data points for the y-axis.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.smoothline.interpolate_nans">
+<code class="sig-prename descclassname">findpeaks.utils.smoothline.</code><code class="sig-name descname">interpolate_nans</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'linear'</span></em>, <em class="sig-param"><span class="n">replace_value_to_nan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.smoothline.interpolate_nans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate the nan values in an 1D array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like</em>) – input data X.</p></li>
+<li><p><strong>replace_value_to_nan</strong> (<em>float</em><em> (</em><em>default: None</em><em>)</em>) – Replace value to np.nan.
+None : take finite data: interplate np.nan.
+0 : take np.nan with the additional value (alternative)</p></li>
+<li><p><strong>method</strong> (<em>str</em><em> (</em><em>default: 'linear'</em><em>)</em>) – String or integer: zeroth [0], first [1], second [2] or third [3] order degree.
+‘linear’ (default), ‘nearest’, ‘zero’, ‘slinear’, ‘quadratic’, ‘cubic’, ‘previous’, ‘next’</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em> ( </em><em>default is 3</em><em>)</em>) – Print message to screen. A higher number will increase outputs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Xint1</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Xint2</span> <span class="o">=</span> <span class="n">interpolate_nans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.utils.smoothline.plot">
+<code class="sig-prename descclassname">findpeaks.utils.smoothline.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">bootstdata</span></em>, <em class="sig-param"><span class="n">method</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.utils.smoothline.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-findpeaks.filters.frost"></span><dl class="py function">
+<dt id="findpeaks.filters.frost.calculate_all_Mi">
+<code class="sig-prename descclassname">findpeaks.filters.frost.</code><code class="sig-name descname">calculate_all_Mi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window_flat</span></em>, <em class="sig-param"><span class="n">factor_A</span></em>, <em class="sig-param"><span class="n">window</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.frost.calculate_all_Mi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute all the weights of pixels in the window.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.frost.calculate_local_weight_matrix">
+<code class="sig-prename descclassname">findpeaks.filters.frost.</code><code class="sig-name descname">calculate_local_weight_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window</span></em>, <em class="sig-param"><span class="n">factor_A</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.frost.calculate_local_weight_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array with the weights for the pixels in the given window.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.frost.compute_coef_var">
+<code class="sig-prename descclassname">findpeaks.filters.frost.</code><code class="sig-name descname">compute_coef_var</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">x_start</span></em>, <em class="sig-param"><span class="n">x_end</span></em>, <em class="sig-param"><span class="n">y_start</span></em>, <em class="sig-param"><span class="n">y_end</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.frost.compute_coef_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute coefficient of variation in a window of [x_start: x_end] and
+[y_start:y_end] within the image.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.frost.frost_filter">
+<code class="sig-prename descclassname">findpeaks.filters.frost.</code><code class="sig-name descname">frost_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">damping_factor</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">win_size</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.frost.frost_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply frost filter to a numpy matrix containing the image, with a window of
+win_size x win_size.
+By default, the window size is 3x3.</p>
+</dd></dl>
+
+<span class="target" id="module-findpeaks.filters.lee"></span><dl class="py function">
+<dt id="findpeaks.filters.lee.lee_filter">
+<code class="sig-prename descclassname">findpeaks.filters.lee.</code><code class="sig-name descname">lee_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">win_size</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.lee.lee_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply lee to a numpy matrix containing the image, with a window of
+win_size x win_size.</p>
+<p>The Additive Noise Lee Despeckling Filter
+Let’s assume that the despeckling noise is additive with a constant mean of zero, a constant variance, and drawn from a Gaussian distribution. Use a window (I x J pixels) to scan the image with a stride of 1 pixels (and I will use reflective boundary conditions). The despeckled value of the pixel in the center of the window located in the ith row and jth column is, zhat_ij = mu_k + W*(z_ij = mu_z), where mu_k is the mean value of all pixels in the window centered on pixel i,j, z_ij is the unfiltered value of the pixel, and W is a weight calculated as, W = var_k / (var_k + var_noise), where var_k is the variance of all pixels in the window and var_noise is the variance of the speckle noise. A possible alternative to using the actual value of the center pixel for z_ij is to use the median pixel value in the window.
+The parameters of the filter are the window/kernel size and the variance of the noise (which is unknown but can perhaps be estimated from the image as the variance over a uniform feature smooth like the surface of still water). Using a larger window size and noise variance will increase radiometric resolution at the expense of spatial resolution.
+For more info on the Lee Filter and other despeckling filters see <a class="reference external" href="http://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/speckle-function.htm">http://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/speckle-function.htm</a>
+Assumes noise mean = 0
+If you don’t want the window to be a square of size x size, just replace uniform_filter with something else (convolution with a disk, gaussian filter, etc). Any type of (weighted) averaging filter will do, as long as it is the same for calculating both img_mean and img_square_mean.
+The Lee filter seems rather old-fashioned as a filter. It won’t behave well at edges because for any window that has an edge in it, the variance is going to be much higher than the overall image variance, and therefore the weights (of the unfiltered image relative to the filtered image) are going to be close to 1.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.lee.weighting">
+<code class="sig-prename descclassname">findpeaks.filters.lee.</code><code class="sig-name descname">weighting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.lee.weighting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the weighthing function for Lee filter using cu as the noise
+coefficient.</p>
+</dd></dl>
+
+<span class="target" id="module-findpeaks.filters.kuan"></span><dl class="py function">
+<dt id="findpeaks.filters.kuan.kuan_filter">
+<code class="sig-prename descclassname">findpeaks.filters.kuan.</code><code class="sig-name descname">kuan_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">win_size</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.kuan.kuan_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply kuan to a numpy matrix containing the image, with a window of
+win_size x win_size.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.kuan.weighting">
+<code class="sig-prename descclassname">findpeaks.filters.kuan.</code><code class="sig-name descname">weighting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.kuan.weighting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the weighthing function for Kuan filter using cu as the noise
+coefficient.</p>
+</dd></dl>
+
+<span class="target" id="module-findpeaks.filters.lee_enhanced"></span><dl class="py function">
+<dt id="findpeaks.filters.lee_enhanced.assert_parameters">
+<code class="sig-prename descclassname">findpeaks.filters.lee_enhanced.</code><code class="sig-name descname">assert_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">win_size</span></em>, <em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">cu</span></em>, <em class="sig-param"><span class="n">cmax</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.lee_enhanced.assert_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts parameters in range.
+Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>k: in [0:10]</p></li>
+<li><p>cu: positive</p></li>
+<li><p>cmax: positive and greater equal than cu</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.lee_enhanced.lee_enhanced_filter">
+<code class="sig-prename descclassname">findpeaks.filters.lee_enhanced.</code><code class="sig-name descname">lee_enhanced_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">win_size</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.523</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">1.73</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.lee_enhanced.lee_enhanced_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply Enhanced Lee filter to a numpy matrix containing the image, with a
+window of win_size x win_size.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.lee_enhanced.weighting">
+<code class="sig-prename descclassname">findpeaks.filters.lee_enhanced.</code><code class="sig-name descname">weighting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pix_value</span></em>, <em class="sig-param"><span class="n">window</span></em>, <em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">cu</span><span class="o">=</span><span class="default_value">0.523</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">1.73</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.lee_enhanced.weighting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the weighthing function for Lee filter using cu as the noise
+coefficient.</p>
+</dd></dl>
+
+<span class="target" id="module-findpeaks.filters.mean"></span><dl class="py function">
+<dt id="findpeaks.filters.mean.assert_indices_in_range">
+<code class="sig-prename descclassname">findpeaks.filters.mean.</code><code class="sig-name descname">assert_indices_in_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">height</span></em>, <em class="sig-param"><span class="n">xleft</span></em>, <em class="sig-param"><span class="n">xright</span></em>, <em class="sig-param"><span class="n">yup</span></em>, <em class="sig-param"><span class="n">ydown</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.mean.assert_indices_in_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts index out of image range.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="findpeaks.filters.mean.mean_filter">
+<code class="sig-prename descclassname">findpeaks.filters.mean.</code><code class="sig-name descname">mean_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">win_size</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.mean.mean_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a ‘mean filter’ to ‘img’ with a window size equal to ‘win_size’.
+Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>img: a numpy matrix representing the image.</p></li>
+<li><p>win_size: the size of the windows (by default 3).</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<span class="target" id="module-findpeaks.filters.median"></span><dl class="py function">
+<dt id="findpeaks.filters.median.median_filter">
+<code class="sig-prename descclassname">findpeaks.filters.median.</code><code class="sig-name descname">median_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">win_size</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.filters.median.median_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a ‘median filter’ to ‘img’ with a window size equal to ‘win_size’.
+Parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>img: a numpy matrix representing the image.</p></li>
+<li><p>win_size: the size of the windows (by default 3)</p></li>
+</ul>
+</div></blockquote>
 </dd></dl>
 
 </div>

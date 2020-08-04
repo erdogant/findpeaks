@@ -46,5 +46,3 @@ BBBB
     results = findpeaks.plot(model)
 
 
-Topology
-''''''''''
