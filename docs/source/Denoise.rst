@@ -3,44 +3,60 @@
 -------------------------------------
 
 Denoise
-''''''''''''
+''''''''''
 
-Learn new model with gridsearch and train-test set
---------------------------------------------------
+The mask method takes an image and detect the peaks using the local maximum filter.
+Multiple steps are involved in this approach, first an 8-connected neighborhood is set.
+Then, the local maximum filter is applied, and pixel of maximal value in their neighborhood are set to 1.
 
-AAA
+In order to isolate the peaks we must remove the background from the mask. The background is simply created by the input parameter *limit* so that the background = (X <= limit)
+The background is eroded to subtract the peaks from the background. If the limit is to small for example, a line will appear along the background border (artifact of the local maximum filter).
 
-.. code:: python
-
-    # Import library
-    import findpeaks
-
-    # Load example data set    
-    X,y_true = findpeaks.load_example()
-
-    # Retrieve URLs of malicous and normal urls:
-    model = findpeaks.fit_transform(X, y_true, pos_label='bad', train_test=True, gridsearch=True)
-
-    # The test error will be shown
-    results = findpeaks.plot(model)
+The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).
 
 
-Learn new model on the entire data set
---------------------------------------------------
+Lee
+----------------------------------------------------
 
-BBBB
+:func:`findpeaks.filters.lee.lee_filter`
 
 
-.. code:: python
+Lee enhanced
+----------------------------------------------------
 
-    # Import library
-    import findpeaks
+:func:`findpeaks.filters.lee_enhanced.lee_enhanced_filter`
 
-    # Load example data set    
-    X,y_true = findpeaks.load_example()
+Kuan
+----------------------------------------------------
 
-    # Retrieve URLs of malicous and normal urls:
-    model = findpeaks.fit_transform(X, y_true, pos_label='bad', train_test=False, gridsearch=True)
+:func:`findpeaks.filters.kuan.kuan_filter`
 
-    # The train error will be shown. Such results are heavily biased as the model also learned on this set of data
-    results = findpeaks.plot(model)
+
+Frost
+----------------------------------------------------
+
+:func:`findpeaks.filters.frost.frost_filter`
+
+Mean
+----------------------------------------------------
+
+:func:`findpeaks.filters.mean.mean_filter`
+
+
+Median
+----------------------------------------------------
+
+:func:`findpeaks.filters.median.median_filter`
+
+
+fastnl
+----------------------------------------------------
+
+:func:`findpeaks.utils.stats.denoise`
+
+
+bilateral
+----------------------------------------------------
+
+:func:`findpeaks.utils.stats.denoise`
+

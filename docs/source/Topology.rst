@@ -58,7 +58,7 @@ The right figure shows the locations of births of the islands. This method not o
 One would then filter out all islands with a too low persistence, i.e. those at the diagonal.
 
 
-.. _Figure_2:
+.. _Figure_2a:
 
 .. figure:: ../figs/1dpeaks_example_dataset_pers_1.png
 

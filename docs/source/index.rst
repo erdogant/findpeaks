@@ -37,9 +37,8 @@ Content
   :caption: Pre-processing
 
   Pre-processing
-  Resize
-  Normalize
   Denoise
+
 
 .. toctree::
   :maxdepth: 1
@@ -52,9 +51,9 @@ Content
 
 .. toctree::
   :maxdepth: 1
-  :caption: Examples
+  :caption: Use-cases
 
-  Examples
+  Use-cases
 
 
 .. toctree::

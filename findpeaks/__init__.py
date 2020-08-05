@@ -1,6 +1,6 @@
 from findpeaks.findpeaks import findpeaks
 
-from findpeaks.utils.smoothline import interpolate_line1d, interpolate_line2d
+from findpeaks.utils.interpolate import interpolate_line1d, interpolate_line2d
 import findpeaks.utils.stats as stats
 
 # Import the denosing filters

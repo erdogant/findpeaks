@@ -7,7 +7,7 @@
 # ----------------------------------------------------
 
 import findpeaks.utils.stats as stats
-from findpeaks.utils.smoothline import interpolate_line1d
+from findpeaks.utils.interpolate import interpolate_line1d
 from peakdetect import peakdetect
 import matplotlib.pyplot as plt
 from tqdm import tqdm
@@ -41,7 +41,16 @@ class findpeaks():
     scale : bool, (default : False)
         Scaling in range [0-255] by img*(255/max(img))
     denoise : string, (default : 'fastnl', None to disable)
-        Filtering method to remove noise: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+        Filtering method to remove noise: 
+            * None
+            * 'fastnl'
+            * 'bilateral'
+            * 'lee'
+            * 'lee_enhanced'
+            * 'kuan'
+            * 'frost'
+            * 'median'
+            * 'mean'
     window : int, (default : 3)
         Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
     cu : float, (default: 0.25)
@@ -211,7 +220,7 @@ class findpeaks():
 
         # Interpolation
         if self.interpolate:
-            X = interpolate_line1d(X, nboost=len(X) * self.interpolate, method=2, showfig=False, verbose=self.verbose)
+            X = interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
 
         # Compute peaks based on method
         if method=='peakdetect':
@@ -327,7 +336,16 @@ class findpeaks():
             * method : method to be used for peak detection: 'topology', or 'mask'
             * limit : Values > limit are set as regions of interest (ROI).
             * scale : Scaling data in range [0-255] by img*(255/max(img))
-            * denoise :  Remove noise using method: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+            * denoise : Remove noise using method: 
+                * None
+                * 'fastnl'
+                * 'bilateral'
+                * 'lee'
+                * 'lee_enhanced'
+                * 'kuan'
+                * 'frost'
+                * 'median'
+                * 'mean'
             * window : Denoising window.
             * cu : noise variation coefficient
             * togray : Conversion to gray scale.

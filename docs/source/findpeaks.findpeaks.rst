@@ -11,7 +11,7 @@ API References
     :members:
     :undoc-members:
 
-.. automodule:: findpeaks.utils.smoothline
+.. automodule:: findpeaks.utils.interpolate
     :members:
     :undoc-members:
 
