@@ -12,13 +12,13 @@ Some of the methods are adopted from ``pyradar`` [1], for which the code is refa
 
 It is generally known that noise can follow various distributions, and requires different approaches to effectly reduce the noise.
 
-.. |figD0| image:: ../figs/noise_distr_examples.jpg
+.. |figD8| image:: ../figs/noise_distr_examples.png
 
 .. table:: Noise distributions
    :align: center
 
    +----------+
-   | |figD0|  |
+   | |figD8|  |
    +----------+
 
 
@@ -58,17 +58,17 @@ Lets demonstrate the denoising by example. First we will import the example data
     img = findpeaks.stats.togray(img)
     # Scale between [0-255]
     img = findpeaks.stats.scale(img)
-    
+    # Plot
     plt.imshow(img, cmap='gray_r')
 
 
-.. |figD0| image:: ../figs/sonar_raw.png
+.. |figDO| image:: ../figs/sonar_raw.png
 
 .. table:: RAW Sonar image
    :align: center
 
    +----------+
-   | |figD0|  |
+   | |figDO|  |
    +----------+
 
 
@@ -89,7 +89,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 .. code:: python
 
     # lee filter
-    image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
+    image_lee = findpeaks.lee_filter(img, win_size=winsize, cu=cu_value)
     # Plot
     plt.imshow(image_lee, cmap='gray_r')
 
@@ -126,7 +126,8 @@ Lee enhanced
    +----------+
    | |figD1|  |
    +----------+
-   
+
+
 Kuan
 ----------------------------------------------------
 
@@ -148,7 +149,8 @@ Kuan
    +----------+
    | |figD2|  |
    +----------+
-   
+
+
 
 Frost
 ----------------------------------------------------
@@ -171,7 +173,9 @@ Frost
    +----------+
    | |figD3|  |
    +----------+
-   
+
+
+
 Mean
 ----------------------------------------------------
 
@@ -193,6 +197,7 @@ Mean
    +----------+
    | |figD4|  |
    +----------+
+
 
 
 Median

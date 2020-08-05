@@ -147,7 +147,16 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
     X : array-like
         Input image data.
     method : string, (default : 'fastnl', None to disable)
-        Filtering method to remove noise: [None, 'fastnl','bilateral','lee','lee_enhanced','kuan','frost','median','mean']
+        Filtering method to remove noise
+            * None
+            * 'fastnl'
+            * 'bilateral'
+            * 'lee'
+            * 'lee_enhanced'
+            * 'kuan'
+            * 'frost'
+            * 'median'
+            * 'mean'
     window : int, (default : 3)
         Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
     cu : float, (default: 0.25)
