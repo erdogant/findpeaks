@@ -10,6 +10,7 @@ findpeaks/data/*.png
 findpeaks/data/*.zip
 findpeaks/data/*.csv
 docs/pages/doctrees/
+docs/pages/html/
 
 # Distribution / packaging
 .pylint.*
