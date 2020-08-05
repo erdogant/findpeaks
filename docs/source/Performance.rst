@@ -5,7 +5,8 @@
 Performance
 '''''''''''
 
-Lets compare the methods with some data and see how they behave in peak detection.
+Lets compare the methods and tune the parameters and find out how the peak detection is with and without noisy data.
+
 
 Comparison peak detection in one-dimensional data
 ----------------------------------------------------
@@ -140,7 +141,7 @@ The topology methods detects thousands of local minima and maxima whereas the pe
    +---------+
 
 The homology-persistence plots can help to filter the thousands of hits that are mostly alongside the diagonal and therefore not of interest.
-Only a few points seems to be of interest; numbers one to eight.
+Only a few points seems to be of interest; numbers one to eight. With this knowledge we can set the *limit* paramater and remove the false positive peaks.
 
 
 .. |fig12| image:: ../figs/fig_persistence_largedataset.png
@@ -152,26 +153,29 @@ Only a few points seems to be of interest; numbers one to eight.
    | |fig12|  |
    +----------+
 
-Lets select the top 8 datapoints and plot them:
+Redo the analysis but now with the *limit* parameter. Note that your should investigate first what your limit is.
 
 .. code:: python
 
-    import matplotlib.pyplot as plt
+    # Checkout the limit by looking at the top 10
+    limit_min = fp2.results['persistence'][0:8]['score'].min()
+    
+    from findpeaks import findpeaks
+    # Initialize topology
+    fp2 = findpeaks(method='topology', limit=limit_min)
+    # Fit using topology
+    results_2 = fp2.fit(X)
+    # Plot topology
+    fp2.plot()
+    fp2.plot_persistence()
 
-    I = (results_2['df']['rank'].values<=8) & (results_2['df']['rank'].values>0)
-    results_2['df'].loc[I, :]
 
-    plt.figure(figsize=(15,8))
-    plt.plot(results_2['df']['x'], results_2['df']['y'], '.')
-    plt.plot(results_2['df']['x'].loc[I], results_2['df']['y'].loc[I], 'or')
-    plt.grid(True)
+.. |fig13| image:: ../figs/fig3_persistence_limit.png
 
-
-.. |fig13| image:: ../figs/fig3_topology_tophits.png
-
-.. table:: Topology with filter on top 8 hits
+.. table:: Topology with limit parameter set to 1
    :align: center
 
    +----------+
    | |fig13|  |
    +----------+
+   

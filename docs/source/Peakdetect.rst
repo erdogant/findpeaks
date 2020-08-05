@@ -10,7 +10,7 @@ find the local maxima and minima in noisy signal. Noisy data is very common in r
 The typical solution is to smooth the curve with some low-pass filter but this comes with the trade-off that the peaks in the original signal may be lost.
 This method works only for one-dimensional data.
 
-Peak detection in one-dimensional data
+One-dimensional data
 ----------------------------------------------------
 
 For the **peakdetect** method, we need to set the **lookahead** parameter, which is the distance to look ahead from a peak candidate to determine if it is the actual peak.

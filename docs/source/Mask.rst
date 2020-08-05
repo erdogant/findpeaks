@@ -15,7 +15,7 @@ The background is eroded to subtract the peaks from the background. If the limit
 The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).
 
 
-Peak detection in two-dimensional data
+Two-dimensional data
 ----------------------------------------------------
 
 The *mask* method is only avaiable for 2d-image data. Below is shown an example:

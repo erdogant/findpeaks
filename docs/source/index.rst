@@ -36,7 +36,7 @@ Content
   :maxdepth: 1
   :caption: Pre-processing
 
-  Interpolate
+  Pre-processing
   Resize
   Normalize
   Denoise

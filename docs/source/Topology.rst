@@ -71,7 +71,7 @@ So this implementation should be fast in practice and is easily implemented. The
 
 
 
-Topological peak detection in one-dimensional data
+One-dimensional data
 ----------------------------------------------------
 
 The initialization with contains many variables for which only a few are applicable for the **topology** method.
@@ -168,7 +168,8 @@ For the homology-persistence, the dataframe **persistence** contains:
 
 
 The input-parameter *limit* will filter the results based on the score, and keep only those with **score>limit**.
-Lets set limit at 0.0101 and checkout the results:
+Limiting becomes very usefull when the data is noisy and many peaks are detected along the diagonal.
+Lets set *limit* at 0.0101 and checkout the results:
 
 .. code:: python
 
@@ -239,7 +240,7 @@ Lets demonstrate by example:
    +---------+---------+
    
 
-Topological peak detection in two-dimensional data
+Two-dimensional data
 ----------------------------------------------------
 
 The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.

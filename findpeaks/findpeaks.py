@@ -747,7 +747,7 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_persistence(self, figsize=None, verbose=None):
+    def plot_persistence(self, figsize=(20, 8), verbose=None):
         """Plot the homology-peristence.
 
         Parameters

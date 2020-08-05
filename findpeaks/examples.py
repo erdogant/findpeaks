@@ -1,6 +1,6 @@
 # %%
 import os
-os.chdir(os.path.dirname(os.path.abspath('examples.py')))
+# os.chdir(os.path.dirname(os.path.abspath('examples.py')))
 import findpeaks
 print(dir(findpeaks))
 print(findpeaks.__version__)
