@@ -205,6 +205,7 @@ fp.plot_peristence()
 # %% Denoising example
 from findpeaks import findpeaks
 fp = findpeaks()
+
 img = fp.import_example('2dpeaks_image')
 import findpeaks
 

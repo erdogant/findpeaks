@@ -27,7 +27,7 @@ Besides the 1d functionality, there is also a 2d functionlity in case you have x
         * 'cubic'
         * 'previous'
         * 'next'
-         
+
 .. code:: python
 
     # Import library

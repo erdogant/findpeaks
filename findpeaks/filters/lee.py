@@ -25,7 +25,7 @@
 import numpy as np
 
 
-def weighting(window, cu=0.25):
+def _weighting(window, cu=0.25):
     """
     Computes the weighthing function for Lee filter using cu as the noise
     coefficient.
@@ -98,7 +98,7 @@ def lee_filter(img, win_size=3, cu=0.25):
 
             pix_value = img[i, j]
             window = img[xleft:xright, yup:ydown]
-            w_t = weighting(window, cu)
+            w_t = _weighting(window, cu)
             window_mean = window.mean()
 
             new_pix_value = (pix_value * w_t) + (window_mean * (1.0 - w_t))
