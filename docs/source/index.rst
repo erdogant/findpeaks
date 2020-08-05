@@ -3,7 +3,7 @@ findpeaks's documentation!
 
 *findpeaks* is Python package for the detection of peaks and valleys in a 1d-vector and 2d-array (images).
 Peaks and valleys can be detected using **topology**, **mask**, and the **peakdetect** approach. In addition to peak-detection, various functions 
-are readily available for pre-processing the data (denoising, normalizing, resizing), and vizualizing the data (3d-mesh, persistance)
+are readily available for pre-processing the data (denoising, normalizing, resizing), and vizualizing the data (3d-mesh, persistence)
 
 
 Content
