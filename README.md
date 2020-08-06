@@ -4,9 +4,12 @@
 [![PyPI Version](https://img.shields.io/pypi/v/findpeaks)](https://pypi.org/project/findpeaks/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/findpeaks/blob/master/LICENSE)
 [![Downloads](https://pepy.tech/badge/findpeaks)](https://pepy.tech/project/findpeaks)
+[![Sphinx](https://img.shields.io/badge/Sphinx-Docs-Green)](https://erdogant.github.io/findpeaks/)
 
-* findpeaks is Python package
+This library ``findpeaks`` aims to detect peaks in a 1-dimensional vector and 2-dimensional arrays (images) without making any assumption on the peak shape or baseline noise. To make sure that peaks can be detected across global and local heights, and in noisy data, multiple pre-processing and denoising methods are implemented.
 
+ Navigate to [API documentations](https://erdogant.github.io/findpeaks/) for more detailed and structured information.
+ 
 ### Contents
 - [Installation](#-installation)
 - [Contribute](#-contribute)
@@ -18,31 +21,13 @@
 * Install findpeaks from PyPI (recommended). findpeaks is compatible with Python 3.6+ and runs on Linux, MacOS X and Windows. 
 * A new environment can be created as following:
 
-```python
-conda create -n env_findpeaks python=3.7
-conda activate env_findpeaks
-```
-
 ```bash
 pip install findpeaks
 ```
 
-* Alternatively, install findpeaks from the GitHub source:
-```bash
-# Directly install from github source
-pip install -e git://github.com/erdogant/findpeaks.git@0.1.0#egg=master
-pip install git+https://github.com/erdogant/findpeaks#egg=master
-
-# By cloning
-pip install git+https://github.com/erdogant/findpeaks
-git clone https://github.com/erdogant/findpeaks.git
-cd findpeaks
-python setup.py install
-```  
-
 #### Import findpeaks package
 ```python
-import findpeaks
+from findpeaks import findpeaks
 ```
 
 #### Example 1: 1D-vector low resolution
@@ -135,7 +120,7 @@ results = fp.fit(X)
 # Plot
 fp.plot1d()
 
-fp = findpeaks(method='topology')
+fp = findpeaks(method='topology', limit=1)
 results = fp.fit(X)
 fp.plot1d()
 fp.plot_persistence()
@@ -143,7 +128,7 @@ fp.plot_persistence()
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_topology.png" width="600" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistence.png" width="600" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistence_limit.png" width="600" />
 </p>
 
 
@@ -169,7 +154,6 @@ array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 0. , 0.4, 0.4],
 
 # Initialize
 fp = findpeaks(method='mask')
-
 # Fit
 fp.fit(X)
 
@@ -187,7 +171,7 @@ fp.fit(X)
 
 The input figure
 <p align="center">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_raw.png" width="100" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/plot_example.png" width="100" />
 </p>
 
 The masking approach detects the correct peaks.
@@ -226,7 +210,7 @@ from findpeaks import findpeaks
 X = fp.import_example()
 
 # Initialize
-fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
+fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(50,100), verbose=3)
 
 # Fit
 results = fp.fit(X)
@@ -244,7 +228,7 @@ fp.plot_preprocessing()
 
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_raw.png" width="100" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_raw_resized.png" width="100" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_interpolate.png" width="100" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_raw_processed.png" width="100" />
 </p>
 
