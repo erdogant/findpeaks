@@ -44,9 +44,7 @@ Content
   :maxdepth: 1
   :caption: Plots
 
-  Plot
-  3D-mesh
-  Persistence
+  Plots
 
 
 .. toctree::

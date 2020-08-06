@@ -7,13 +7,13 @@ print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", window=3)
-X = fp.import_example("2dpeaks_image")
+fp = findpeaks(method="topology", denoise=None, window=3)
+# X = fp.import_example("2dpeaks_image")
 X = fp.import_example("2dpeaks")
 results = fp.fit(X)
 
-fp.plot()
 fp.plot_preprocessing()
+fp.plot()
 fp.plot_peristence()
 fp.plot_mesh()
 

@@ -3,14 +3,44 @@
 -------------------------------------
 
 *SAR* and *SONAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
-It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the man Grey level of local area.
+It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
 
 SONAR
 ''''''''''
 
-Lets import and example Sonar image, denoise the image and apply the topology method for peak detection:
+Sonar images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.
+
+.. code:: python
+
+    # Import library
+    from findpeaks import findpeaks
+    # Import image example
+    img = fp.import_example('2dpeaks_image')
+    # Initializatie
+    fp = findpeaks(scale=None, denoise=None, togray=True, imsize=(300,300))
+    # Fit
+    fp.fit(img)
+    # Thousands of peaks are detected at this point.
+    fp.plot()
+    fp.plot_mesh()
+
+
+.. |figU9| image:: ../figs/sonar_plot_no_preprocessing.png
+.. |figU10| image:: ../figs/sonar_mesh_no_preprocessing.png
+
+.. table:: Results without pre-processing
+   :align: center
+
+   +----------+
+   | |figU9|  |
+   +----------+
+   | |figU10| |
+   +----------+
+
+
+From this point on, we will *pre-process* the image and apply the *topology* method for peak detection.
 
 .. code:: python
 
@@ -23,9 +53,9 @@ Lets import and example Sonar image, denoise the image and apply the topology me
     # Fit
     fp.fit(img)
 
-The image is pre-processed and the peaks are detected. Lets examine the results by first looking at the pre-processing steps.
+At this point, the image is pre-processed and the peaks are detected. First we will examine the results by looking at the pre-processing steps.
 Below are depicted the four steps of pre-processing. Note that all images are colored in the same manner but the first three look different because RGB colors are used.
-The final denoised picture does show clear removal of the speckle noise.
+The final denoised picture does show clear removal of the speckle noise. But is it good enough to detect the correct peaks?
 
 .. code:: python
 
@@ -43,7 +73,7 @@ The final denoised picture does show clear removal of the speckle noise.
    +----------+
    
 
-Examine the detected peaks. The detected peaks are barely visible on the plot but are depicted with black pixels. 
+In the next step, we can examine the detected peaks (see below). But these peaks are barely visible on the plot. Nevertheless, we seem to removed many peaks compared to the not-preprocessed image.
 
 .. code:: python
 
@@ -60,7 +90,8 @@ Examine the detected peaks. The detected peaks are barely visible on the plot bu
    | |figU1|  |
    +----------+
 
-The detection of peaks becomes more clear when we create a 3D mesh plot. The denoising has done a very good job in reducing the speckle noise.
+The detection of peaks and pre-processing steps becomes clear when we create a 3D mesh plot.
+Below can be seen that the denoising has done a very good job in reducing the speckle noise and keeping the peak of interest.
 
 .. code:: python
 
@@ -75,7 +106,7 @@ The detection of peaks becomes more clear when we create a 3D mesh plot. The den
 .. |figU5| image:: ../figs/sonar_mesh3.png
 .. |figU6| image:: ../figs/sonar_mesh4.png
 
-.. table:: Mesh plot
+.. table:: Mesh plot. Top: 3D mesh. Bottom: top view.
    :align: center
 
    +----------+----------+
@@ -84,9 +115,9 @@ The detection of peaks becomes more clear when we create a 3D mesh plot. The den
    | |figU5|  | |figU6|  |
    +----------+----------+
    
-A deep examination can be done with the persistence-homology plot.
-We see the detection of many peaks along the diagonal which are not of interest and only 5 which are potential peaks of interest.
-Below we demonstrate how to examine the scores, and limit the model based on the points that are off the diagonal.
+A deep examination can be done with the persistence-homology plot. See below the code how to do this.
+Even after denoising, we detect many peaks along the diagonal which are not of interest (see topology section for more information). Only 5 points are potential peaks of interest.
+But this information allows to limit the model, and focus only on the peaks that that are off the diagonal.
 
 .. code:: python
 
@@ -120,9 +151,9 @@ Below we demonstrate how to examine the scores, and limit the model based on the
     |  9 |  45 | 121 |           121 |           107 |      14 |
     +----+-----+-----+---------------+---------------+---------+
 
-    # Take the minimum score for the top peaks of interest.
+    # Take the minimum score for the top peaks off the diagonal.
     limit = fp.results['persistence'][0:5]['score'].min()
-    # Initializatie with the limit
+    # Initializatie findpeaks again but now with the limit parameter
     fp_new = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=limit)
     # Fit
     fp_new.fit(img)
@@ -131,9 +162,9 @@ Below we demonstrate how to examine the scores, and limit the model based on the
 
 
 .. |figU7| image:: ../figs/sonar_persitence.png
-.. |figU7| image:: ../figs/sonar_persitence_limit.png
+.. |figU8| image:: ../figs/sonar_persitence_limit.png
 
-.. table:: persistence-homology. Top: no limit. Down: with limit
+.. table:: persistence-homology. Top: no limit. Bottom: with limit
    :align: center
 
    +----------+
@@ -141,3 +172,5 @@ Below we demonstrate how to examine the scores, and limit the model based on the
    +----------+
    | |figU8|  |
    +----------+
+
+The final results show that peak-detection for Sonar images is possible using a emperical approach.

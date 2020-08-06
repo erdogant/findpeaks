@@ -41,7 +41,7 @@ class findpeaks():
     scale : bool, (default : False)
         Scaling in range [0-255] by img*(255/max(img))
     denoise : string, (default : 'fastnl', None to disable)
-        Filtering method to remove noise: 
+        Filtering method to remove noise:
             * None
             * 'fastnl'
             * 'bilateral'
@@ -635,8 +635,8 @@ class findpeaks():
         None.
 
         """
-        if not hasattr(self, 'results'):
-            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+        if (not hasattr(self, 'results')) or (self.type=='peaks1d'):
+            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function with image data.')
             return None
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
