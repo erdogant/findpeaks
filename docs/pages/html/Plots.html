@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>One-dimensional &mdash; findpeaks findpeaks documentation</title>
+  <title>One-dimensional plots &mdash; findpeaks findpeaks documentation</title>
   
 
   
@@ -110,15 +110,15 @@
 </ul>
 <p class="caption"><span class="caption-text">Plots</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">One-dimensional</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">One-dimensional plots</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pre-processing">Pre-processing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#persistence">Persistence</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#two-dimensional">Two-dimensional</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#two-dimensional-plots">Two-dimensional plots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-processing-plot">Pre-processing plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#plot">Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#persistence-plot">Persistence plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#d-mesh">3D-mesh</a></li>
 </ul>
 </li>
@@ -129,7 +129,6 @@
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
 </ul>
@@ -178,7 +177,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>One-dimensional</li>
+      <li>One-dimensional plots</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -198,8 +197,8 @@
            <div itemprop="articleBody">
             
   <hr class="docutils" id="code-directive" />
-<div class="section" id="one-dimensional">
-<h1>One-dimensional<a class="headerlink" href="#one-dimensional" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="one-dimensional-plots">
+<h1>One-dimensional plots<a class="headerlink" href="#one-dimensional-plots" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="pre-processing">
 <h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
 <p>The pre-processing in a 1d-vector is based on the interpolation: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.utils.interpolate.interpolate_line1d" title="findpeaks.utils.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.utils.interpolate.interpolate_line1d()</span></code></a></p>
@@ -215,8 +214,8 @@
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Inerpolation</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Inerpolation</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
@@ -236,8 +235,8 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -248,10 +247,10 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </table>
 </div>
 </div>
-<div class="section" id="two-dimensional">
-<h1>Two-dimensional<a class="headerlink" href="#two-dimensional" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>Pre-processing<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="two-dimensional-plots">
+<h1>Two-dimensional plots<a class="headerlink" href="#two-dimensional-plots" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pre-processing-plot">
+<h2>Pre-processing plot<a class="headerlink" href="#pre-processing-plot" title="Permalink to this headline">¶</a></h2>
 <p>The pre-processing plot is developed for 2D arrays (images) only: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="findpeaks.findpeaks.findpeaks.plot_preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code></a>
 Depending on the number of user defined pre-processing steps, the plot will add new subplots.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -266,8 +265,8 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id5">
-<caption><span class="caption-text">Preprocessing plot</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Preprocessing plot</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -291,8 +290,8 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id6">
-<caption><span class="caption-text">Final results</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">Final results</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -302,16 +301,16 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </tbody>
 </table>
 </div>
-<div class="section" id="id2">
-<h2>Persistence<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="persistence-plot">
+<h2>Persistence plot<a class="headerlink" href="#persistence-plot" title="Permalink to this headline">¶</a></h2>
 <p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id7">
-<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -329,8 +328,8 @@ It converts the two image into a 3d mesh plot.</p>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id8">
-<caption><span class="caption-text">Mesh Plot</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id6">
+<caption><span class="caption-text">Mesh Plot</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>

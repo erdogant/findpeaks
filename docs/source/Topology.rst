@@ -71,7 +71,7 @@ So this implementation should be fast in practice and is easily implemented. The
 
 
 
-One-dimensional data
+One-dimensional
 ----------------------------------------------------
 
 The initialization with contains many variables for which only a few are applicable for the **topology** method.
@@ -240,7 +240,7 @@ Lets demonstrate by example:
    +---------+---------+
    
 
-Two-dimensional data
+Two-dimensional
 ----------------------------------------------------
 
 The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.

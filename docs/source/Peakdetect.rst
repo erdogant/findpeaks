@@ -99,8 +99,8 @@ The strength of this approach becomes visible when we use a noisy dataset.
 .. figure:: ../figs/fig3.png
 
 
-References
------------
+References peakdetect
+-----------------------
     * [1] https://github.com/anaxilaus/peakdetect
     * [2] http://billauer.co.il/peakdet.html
     * [3] https://gist.github.com/sixtenbe/1178136

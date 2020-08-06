@@ -58,7 +58,6 @@ Content
   :maxdepth: 1
   :caption: Code Documentation
   
-  Documentation
   Coding quality
   findpeaks.findpeaks
 

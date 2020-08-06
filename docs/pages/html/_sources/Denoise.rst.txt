@@ -276,8 +276,8 @@ neighboring pixels placed on the other side of the edge, and therefore exhibitin
    +----------+
 
 
-References
-----------
+References denoise
+----------------------
     * [1] https://github.com/PyRadar/pyradar
     * [2] https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html
     * [3] http://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/speckle-function.htm

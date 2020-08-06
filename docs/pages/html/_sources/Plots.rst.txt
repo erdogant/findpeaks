@@ -2,7 +2,7 @@
 
 -------------------------------------
 
-One-dimensional
+One-dimensional plots
 -------------------------------------
 
 Pre-processing
@@ -55,11 +55,11 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
    +----------+
    
    
-Two-dimensional
+Two-dimensional plots
 -------------------------------------
 
-Pre-processing
-'''''''''''''''
+Pre-processing plot
+'''''''''''''''''''''
 The pre-processing plot is developed for 2D arrays (images) only: function: :func:`findpeaks.findpeaks.findpeaks.plot_preprocessing`
 Depending on the number of user defined pre-processing steps, the plot will add new subplots.
 
@@ -111,8 +111,8 @@ The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` plots the 3 maj
    +----------+
    
 
-Persistence
-''''''''''''
+Persistence plot
+''''''''''''''''''
 
 The persistence plot is called with the function: :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.
