@@ -68,7 +68,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
     # Import library
     from findpeaks import findpeaks
     # Initialize
-    fp = findpeaks(method='topology', scale=True, denoise='fastnl', window=3, togray=True, imsize=(300,300))
+    fp = findpeaks(method='topology', scale=True, denoise='fastnl', window=3, togray=True, imsize=(50,150))
     # Import example
     X = fp.import_example("2dpeaks")
     # Detect peaks
@@ -77,7 +77,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
     fp.plot_preprocessing()
 
 
-.. |figP0| image:: ../figs/plot_example.png
+.. |figP0| image:: ../figs/plot_example_norm.png
 
 .. table:: Preprocessing plot
    :align: center
@@ -143,13 +143,20 @@ It converts the two image into a 3d mesh plot.
 
     # Plot
     fp.plot_mesh()
+    # Rotate to make a top view
+    fp.plot_mesh(view=(90,0))
 
 
-.. |figP3| image:: ../figs/plot_persistence.png
+.. |figP7| image:: ../figs/2dpeaks_mesh1_norm.png
+.. |figP8| image:: ../figs/2dpeaks_mesh2_norm.png
+.. |figP9| image:: ../figs/2dpeaks_mesh3_norm.png
+.. |figP10| image:: ../figs/2dpeaks_mesh4_norm.png
 
-.. table:: Mesh Plot
+.. table:: Mesh plot. Top: 3D mesh. Bottom: top view.
    :align: center
 
-   +----------+
-   | |figP3|  |
-   +----------+
+   +----------+----------+
+   | |figP7|  | |figP8|  |
+   +----------+----------+
+   | |figP9|  | |figP10| |
+   +----------+----------+
