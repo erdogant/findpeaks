@@ -174,6 +174,8 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
     * https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html
 
     """
+    if window is None: window=9
+    if cu is None: cu=0.25
     # Import library
     cv2 = _import_cv2()
 
