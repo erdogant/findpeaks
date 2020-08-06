@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SONAR &mdash; findpeaks findpeaks documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation" href="Documentation.html" />
+    <link rel="prev" title="One-dimensional" href="Plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> findpeaks
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Pre-processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#scale">Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#gray">Gray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional">Two-dimensional</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Use-cases</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SONAR</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding quality.html">Coding quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>SONAR</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Use-cases.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <hr class="docutils" id="code-directive" />
+<p><em>SAR</em> and <em>SONAR</em> images are affected by <em>speckle</em> noise that inherently exists in and which degrades the image quality.
+It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
+Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.</p>
+<div class="section" id="sonar">
+<h1>SONAR<a class="headerlink" href="#sonar" title="Permalink to this headline">¶</a></h1>
+<p>Sonar images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Import image example</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
+<span class="c1"># Initializatie</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="c1"># Fit</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># Thousands of peaks are detected at this point.</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Results without pre-processing</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figU9" src="_images/sonar_plot_no_preprocessing.png" /></p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="figU10" src="_images/sonar_mesh_no_preprocessing.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>From this point on, we will <em>pre-process</em> the image and apply the <em>topology</em> method for peak detection.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Import image example</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
+<span class="c1"># Initializatie</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="c1"># Fit</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At this point, the image is pre-processed and the peaks are detected. First we will examine the results by looking at the pre-processing steps.
+Below are depicted the four steps of pre-processing. Note that all images are colored in the same manner but the first three look different because RGB colors are used.
+The final denoised picture does show clear removal of the speckle noise. But is it good enough to detect the correct peaks?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Pre-processing Sonar image</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figU0" src="_images/sonar_pre_processing.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>In the next step, we can examine the detected peaks (see below). But these peaks are barely visible on the plot. Nevertheless, we seem to removed many peaks compared to the not-preprocessed image.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Detected peaks</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figU1" src="_images/sonar_plot.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The detection of peaks and pre-processing steps becomes clear when we create a 3D mesh plot.
+Below can be seen that the denoising has done a very good job in reducing the speckle noise and keeping the peak of interest.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+<span class="c1"># Rotate to make a top view</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">view</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figU3" src="_images/sonar_mesh1.png" /></p></td>
+<td><p><img alt="figU4" src="_images/sonar_mesh2.png" /></p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="figU5" src="_images/sonar_mesh3.png" /></p></td>
+<td><p><img alt="figU6" src="_images/sonar_mesh4.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>A deep examination can be done with the persistence-homology plot. See below the code how to do this.
+Even after denoising, we detect many peaks along the diagonal which are not of interest (see topology section for more information). Only 5 points are potential peaks of interest.
+But this information allows to limit the model, and focus only on the peaks that that are off the diagonal.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+
+<span class="c1"># Plot the top 15 peaks that are detected and examine the scores</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>   <span class="n">y</span> <span class="o">|</span>   <span class="n">birth_level</span> <span class="o">|</span>   <span class="n">death_level</span> <span class="o">|</span>   <span class="n">score</span> <span class="o">|</span>
+<span class="o">+====+=====+=====+===============+===============+=========+</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>  <span class="mi">64</span> <span class="o">|</span> <span class="mi">228</span> <span class="o">|</span>           <span class="mi">228</span> <span class="o">|</span>             <span class="mi">0</span> <span class="o">|</span>     <span class="mi">228</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="mi">299</span> <span class="o">|</span> <span class="mi">114</span> <span class="o">|</span>           <span class="mi">114</span> <span class="o">|</span>             <span class="mi">6</span> <span class="o">|</span>     <span class="mi">108</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span>  <span class="mi">52</span> <span class="o">|</span> <span class="mi">166</span> <span class="o">|</span>           <span class="mi">166</span> <span class="o">|</span>           <span class="mi">103</span> <span class="o">|</span>      <span class="mi">63</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>  <span class="mi">61</span> <span class="o">|</span> <span class="mi">223</span> <span class="o">|</span>           <span class="mi">223</span> <span class="o">|</span>           <span class="mi">167</span> <span class="o">|</span>      <span class="mi">56</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span>  <span class="mi">60</span> <span class="o">|</span> <span class="mi">217</span> <span class="o">|</span>           <span class="mi">217</span> <span class="o">|</span>           <span class="mi">194</span> <span class="o">|</span>      <span class="mi">23</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="mi">288</span> <span class="o">|</span> <span class="mi">113</span> <span class="o">|</span>           <span class="mi">113</span> <span class="o">|</span>            <span class="mi">92</span> <span class="o">|</span>      <span class="mi">21</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">6</span> <span class="o">|</span> <span class="mi">200</span> <span class="o">|</span> <span class="mi">104</span> <span class="o">|</span>           <span class="mi">104</span> <span class="o">|</span>            <span class="mi">87</span> <span class="o">|</span>      <span class="mi">17</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">7</span> <span class="o">|</span> <span class="mi">293</span> <span class="o">|</span> <span class="mi">112</span> <span class="o">|</span>           <span class="mi">112</span> <span class="o">|</span>            <span class="mi">97</span> <span class="o">|</span>      <span class="mi">15</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span> <span class="mi">110</span> <span class="o">|</span>  <span class="mi">93</span> <span class="o">|</span>            <span class="mi">93</span> <span class="o">|</span>            <span class="mi">78</span> <span class="o">|</span>      <span class="mi">15</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span>  <span class="mi">45</span> <span class="o">|</span> <span class="mi">121</span> <span class="o">|</span>           <span class="mi">121</span> <span class="o">|</span>           <span class="mi">107</span> <span class="o">|</span>      <span class="mi">14</span> <span class="o">|</span>
+<span class="o">+----+-----+-----+---------------+---------------+---------+</span>
+
+<span class="c1"># Take the minimum score for the top peaks off the diagonal.</span>
+<span class="n">limit</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="c1"># Initializatie findpeaks again but now with the limit parameter</span>
+<span class="n">fp_new</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">fp_new</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp_new</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">persistence-homology. Top: no limit. Bottom: with limit</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figU7" src="_images/sonar_persitence.png" /></p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="figU8" src="_images/sonar_persitence_limit.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The final results show that peak-detection for Sonar images is possible using a emperical approach.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Documentation.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Plots.html" class="btn btn-neutral float-left" title="One-dimensional" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Erdogan Taskesen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

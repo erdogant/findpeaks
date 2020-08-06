@@ -9,8 +9,8 @@ __pycache__/
 findpeaks/data/*.png
 findpeaks/data/*.zip
 findpeaks/data/*.csv
-docs/pages/doctrees/
-docs/pages/html/
+# docs/pages/doctrees/
+# docs/pages/html/
 
 # Distribution / packaging
 .pylint.*
