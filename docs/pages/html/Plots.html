@@ -256,7 +256,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">))</span>
 <span class="c1"># Import example</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s2">&quot;2dpeaks&quot;</span><span class="p">)</span>
 <span class="c1"># Detect peaks</span>
@@ -271,7 +271,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 <col style="width: 100%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><img alt="figP0" src="_images/plot_example.png" /></p></td>
+<tr class="row-odd"><td><p><img alt="figP0" src="_images/plot_example_norm.png" /></p></td>
 </tr>
 </tbody>
 </table>
@@ -326,15 +326,22 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 It converts the two image into a 3d mesh plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+<span class="c1"># Rotate to make a top view</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">view</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id6">
-<caption><span class="caption-text">Mesh Plot</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col style="width: 100%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><img alt="figP3" src="_images/plot_persistence.png" /></p></td>
+<tr class="row-odd"><td><p><img alt="figP7" src="_images/2dpeaks_mesh1_norm.png" /></p></td>
+<td><p><img alt="figP8" src="_images/2dpeaks_mesh2_norm.png" /></p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="figP9" src="_images/2dpeaks_mesh3_norm.png" /></p></td>
+<td><p><img alt="figP10" src="_images/2dpeaks_mesh4_norm.png" /></p></td>
 </tr>
 </tbody>
 </table>

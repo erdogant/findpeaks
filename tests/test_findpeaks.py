@@ -9,7 +9,7 @@ def test_fit():
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
     assert fp.type=='peaks2d'
-    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'topology', 'peak', 'valley', 'groups0']
+    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'peak', 'valley', 'groups0']
     assert [*fp.args]==['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
     assert results['Xraw'].shape==results['Xdetect'].shape
     assert results['Xproc'].shape==results['Xdetect'].shape
@@ -24,7 +24,7 @@ def test_fit():
     fp = findpeaks(method="topology", limit=0)
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
-    assert len(results['peak'])==20
+    assert len(results['peak'])==18
     assert len(results['Xdetect'][results['Xdetect']!=0])==18
     assert len(results['Xranked'][results['Xranked']!=0])==18
     assert np.all(results['Xdetect'][results['Xranked']!=0]>0)
@@ -45,19 +45,19 @@ def test_fit():
 
     # CHECK OUTPUT METHOD TOPOLOGY
     fp = findpeaks(method="topology")
-    X = fp.import_example('1dpeaks')[:,1]
+    X = fp.import_example('1dpeaks')
     results = fp.fit(X)
     assert fp.type=='peaks1d'
-    assert [*results.keys()]==['topology', 'Xdetect', 'Xranked', 'groups0', 'df']
+    assert [*results.keys()]==['persistence', 'Xdetect', 'Xranked', 'groups0', 'df']
     assert [*fp.args]==['method', 'lookahead', 'interpolate', 'figsize', 'type']
     assert len(X)==len(results['Xdetect'])
     assert len(X)==len(results['Xranked'])
     assert len(X)==results['df'].shape[0]
-    assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak', 'rank', 'score']))
-    assert np.all(np.isin(results['topology'].columns, ['x', 'y', 'birth_level', 'death_level', 'score']))
+    assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'rank', 'score', 'valley', 'peak']))
+    assert np.all(np.isin(results['persistence'].columns, ['x', 'y', 'birth_level', 'death_level', 'score']))
     
     # CHECK RESULTS METHOD TOPOLOGY
-    assert results['topology'].shape[0]==7
+    assert results['persistence'].shape[0]==7
     assert len(results['Xdetect'][results['Xdetect']!=0])==7
     assert len(results['Xranked'][results['Xranked']!=0])==7
     assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==7
@@ -65,14 +65,14 @@ def test_fit():
     # CHECK RESULTS METHOD with LIMIT functionality
     fp = findpeaks(method="topology", limit=0.02)
     results = fp.fit(X)
-    assert results['topology'].shape[0]==7
+    assert results['persistence'].shape[0]==4
     assert len(results['Xdetect'][results['Xdetect']!=0])==len(results['Xranked'][results['Xranked']!=0])
     assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==4
 
     
     # CHECK OUTPUT METHOD PEAKDETECT
     fp = findpeaks(method="peakdetect", lookahead=1, verbose=3)
-    X = fp.import_example('1dpeaks')[:,1]
+    X = fp.import_example('1dpeaks')
     results = fp.fit(X)
     assert fp.type=='peaks1d'
     assert [*results.keys()]==['df']
@@ -141,4 +141,3 @@ def test_fit():
     image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
     # median filter
     image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
-    
