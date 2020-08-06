@@ -125,7 +125,7 @@ Preprocessing
 
 The preprocessing function is developed to pipeline the above mentioned functionalities :func:`findpeaks.findpeaks.findpeaks.preprocessing`.
 
-The pre-processing has 4 (optional) steps.
+The pre-processing has 4 (optional) steps and are exectued in this order. After the last step, the peak detection method is applied.
     * 1. Resizing (to reduce computation time).
     * 2. Scaling color pixels between [0-255]
     * 3. Conversion to gray-scale.

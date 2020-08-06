@@ -65,7 +65,7 @@ cus = [0.25, 0.5, 0.75]
 
 for getfilter in filters:
     for window in windows:
-            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, togray=True, imsize=(300,300), verbose=3)
+            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, togray=True, imsize=(300,300), verbose=3)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window)
@@ -75,7 +75,7 @@ filters = ['lee','lee_enhanced','kuan']
 for getfilter in filters:
     for window in windows:
         for cu in cus:
-            fp = findpeaks(mask=0, scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=(300,300), verbose=3)
+            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=(300,300), verbose=3)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
@@ -123,6 +123,9 @@ print(tabulate(fp.results['df'], tablefmt="grid", headers="keys"))
 print(tabulate(fp.results['persistence'], tablefmt="grid", headers="keys"))
 print(tabulate(fp.results['df_interp'].head(), tablefmt="grid", headers="keys"))
 
+print(tabulate(fp.results['persistence'][0:10], tablefmt="grid", headers="keys"))
+
+
 # %%
 from findpeaks import findpeaks
 
@@ -141,7 +144,7 @@ fp.plot()
 
 
 # 2dpeaks example with other settings
-fp = findpeaks(mask=0, scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), verbose=3)
+fp = findpeaks(method='topology', scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), verbose=3)
 img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()

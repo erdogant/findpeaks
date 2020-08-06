@@ -168,7 +168,7 @@ array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 0. , 0.4, 0.4],
        [0. , 0. , 0. , 0. , 0. , 0.4, 0.7, 0.7, 0.4, 0.4]])
 
 # Initialize
-fp = findpeaks(method='mask', mask=0)
+fp = findpeaks(method='mask')
 
 # Fit
 fp.fit(X)
@@ -226,7 +226,7 @@ from findpeaks import findpeaks
 X = fp.import_example()
 
 # Initialize
-fp = findpeaks(method='topology', mask=0, scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
+fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(300,300), verbose=3)
 
 # Fit
 results = fp.fit(X)

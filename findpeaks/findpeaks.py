@@ -470,35 +470,54 @@ class findpeaks():
 
         """
         showfig = showfig if showfig is not None else self.showfig
+        if showfig:
+            # Number of axis to create:
+            nplots = 1 + (self.imsize is not None) + self.scale + self.togray + (self.denoise is not None)
+            fig, ax = plt.subplots(1, nplots, figsize=self.figsize)
+            iax = 0
+
+            # Plot RAW input image
+            ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
+            ax[iax].grid(False)
+            ax[iax].set_title('Input\nRange: [%.3g,%.3g]' %(X.min(), X.max()))
+            iax = iax + 1
 
         # Resize
         if self.imsize:
             X = stats.resize(X, size=self.imsize)
             if showfig:
-                plt.figure(figsize=self.figsize)
-                plt.imshow(X)
-                plt.grid(False)
+                # plt.figure(figsize=self.figsize)
+                ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
+                ax[iax].grid(False)
+                ax[iax].set_title('Resize\n(%s,%s)' %(self.imsize))
+                iax = iax + 1
         # Scaling color range between [0,255]
         if self.scale:
             X = stats.scale(X, verbose=self.verbose)
             if showfig:
-                plt.figure(figsize=self.figsize)
-                plt.imshow(X)
-                plt.grid(False)
+                # plt.figure(figsize=self.figsize)
+                ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
+                ax[iax].grid(False)
+                ax[iax].set_title('Scale\nRange: [%.3g %.3g]' %(X.min(), X.max()))
+                iax = iax + 1
         # Convert to gray image
         if self.togray:
             X = stats.togray(X, verbose=self.verbose)
             if showfig:
-                plt.figure(figsize=self.figsize)
-                plt.imshow(X, cmap=('gray' if self.togray else None))
-                plt.grid(False)
+                # plt.figure(figsize=self.figsize)
+                ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
+                ax[iax].grid(False)
+                ax[iax].set_title('Color conversion\nGray')
+                iax = iax + 1
         # Denoising
         if self.denoise is not None:
             X = stats.denoise(X, method=self.denoise, window=self.window, cu=self.cu, verbose=self.verbose)
             if showfig:
-                plt.figure(figsize=self.figsize)
-                plt.imshow(X, cmap=('gray' if self.togray else None))
-                plt.grid(False)
+                # plt.figure(figsize=self.figsize)
+                ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
+                ax[iax].grid(False)
+                ax[iax].set_title('Denoise\n' + self.method)
+                iax = iax + 1
         # Return
         return X
 
@@ -616,6 +635,10 @@ class findpeaks():
         None.
 
         """
+        if not hasattr(self, 'results'):
+            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+            return None
+
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
     def plot_mask(self, limit=None, figsize=None, cmap=None):
@@ -655,7 +678,7 @@ class findpeaks():
 
         # Plot input image
         ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
-        ax1.set_title('Original')
+        ax1.set_title('Input')
         ax1.grid(False)
 
         # Preprocessing
@@ -708,6 +731,7 @@ class findpeaks():
         """
         if not hasattr(self, 'results'):
             if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+            return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
         if self.verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
