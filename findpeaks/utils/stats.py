@@ -345,7 +345,8 @@ def topology(X, limit=None, verbose=3):
     # Filter on limit
     if (limit is not None):
         Ikeep = np.array(list(map(lambda x: x[2], groups0))) > limit
-        groups0 = np.array(groups0)[Ikeep].tolist()
+        groups0 = np.array(groups0, dtype='object')
+        groups0 = groups0[Ikeep].tolist()
 
     # Extract the max peaks and sort
     max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
@@ -424,7 +425,7 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
     results['min_peaks'] = None
     results['max_peaks'] = None
 
-    if (min_peaks!=[]) and (max_peaks!=[]):
+    if len(min_peaks)>0 and len(max_peaks)>0:
 
         idx_peaks, _ = zip(*max_peaks)
         idx_peaks = np.array(list(idx_peaks)).astype(int)

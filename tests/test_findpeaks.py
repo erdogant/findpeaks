@@ -141,3 +141,21 @@ def test_fit():
     image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
     # median filter
     image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
+
+    
+    # Loop throughout many combinations of parameter settings
+    from findpeaks import findpeaks
+    methods = ['mask','topology', None]
+    filters = ['lee','lee_enhanced','kuan','fastnl','bilateral','frost','median','mean', None]
+    windows = [None, 0, 3, 63]
+    cus = [None, 0, 0.75]
+    img = fp.import_example('2dpeaks')
+    
+    for getfilter in filters:
+        for window in windows:
+            for cu in cus:
+                fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=None, verbose=3)
+                assert fp.fit(img)
+                title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
+                assert fp.plot_mesh(wireframe=False, title=title)
+    

@@ -22,10 +22,7 @@ The file structure of the generated package looks like:
 .. code-block:: bash
 
     path/to/findpeaks/
-    ├── .editorconfig
     ├── .gitignore
-    ├── .pre-commit-config.yml
-    ├── .prospector.yml
     ├── CHANGELOG.rst
     ├── docs
     │   ├── conf.py
@@ -59,7 +56,7 @@ Complexity
 ----------
 
 This library has been developed by using measures that help decreasing technical debt.
-Version 0.1.0 of the ``findpeaks`` library scored, according the code analyzer: **VALUE**, for which values > 0 are good and 10 is a maximum score.
+Version 2.1.0 of the ``findpeaks`` library scored, according the code analyzer: **4.36**, for which values > 0 are good and 10 is a maximum score.
 Developing software with low(er) technical dept may take extra development time, but has many advantages:
 
 * Higher quality code
@@ -82,16 +79,3 @@ The following tests are secured using :func:`tests.test_findpeaks`:
 .. code-block:: bash
 
     pytest tests\test_findpeaks.py
-
-    ====================================== test session starts ======================================
-    platform win32 -- Python 3.6.10, pytest-5.4.0, py-1.8.1, pluggy-0.13.1
-    collected 3 items
-    
-    tests\test_findpeaks.py ...                                                                [100%]
-    
-    ======================================= warnings summary ========================================
-    tests/test_findpeaks.py::test_plot
-    
-    =========================== 3 passed, 1 warning in 1254.97s (0:20:54) ===========================    
-
-

@@ -445,7 +445,7 @@ class findpeaks():
         return results, args
 
     # Pre-processing
-    def preprocessing(self, X, showfig=None):
+    def preprocessing(self, X, showfig=False):
         """Preprocessing steps of the 2D array (image).
 
         Description
@@ -469,7 +469,6 @@ class findpeaks():
             Processed image.
 
         """
-        showfig = showfig if showfig is not None else self.showfig
         if showfig:
             # Number of axis to create:
             nplots = 1 + (self.imsize is not None) + self.scale + self.togray + (self.denoise is not None)
