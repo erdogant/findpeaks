@@ -209,6 +209,7 @@ fp.plot_peristence()
 from findpeaks import findpeaks
 fp = findpeaks()
 
+
 img = fp.import_example('2dpeaks_image')
 import findpeaks
 
@@ -252,15 +253,6 @@ image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
 # median filter
 image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
 
-# %%
-# import cv2
-# imageStarsCropped = cv2.bitwise_and(img, img_fastnl)
-# plt.figure(); plt.imshow(imageStarsCropped, cmap='gray'); plt.grid(False)
-# np.std(img)
-# np.std(imageStarsCropped)
-# np.std(img_fastnl)
-# fp.fit(imageStarsCropped)
-
 # Plotting
 import matplotlib.pyplot as plt
 plt.figure(); plt.imshow(img_fastnl, cmap='gray'); plt.title('Fastnl'); plt.grid(False)
@@ -274,7 +266,7 @@ plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
 
 
 from findpeaks import findpeaks
-fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, verbose=3)
-fp.fit(image_lee_enhanced)
-fp.plot_peristence()
-fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
+fp = findpeaks(method='topology', scale=False, denoise='fastnl', togray=True, imsize=False, verbose=3)
+fp.fit(img)
+fp.plot_persistence()
+fp.plot_mesh(wireframe=False, title='image_lee_enhanced', view=(30,30))
