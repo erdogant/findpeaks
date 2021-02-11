@@ -4,4 +4,4 @@ matplotlib
 numpy
 pandas
 tqdm
-wget
+requests
