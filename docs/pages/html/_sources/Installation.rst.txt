@@ -26,7 +26,7 @@ A quick example how to learn a model on a given dataset.
     fp.plot()
 
     # Plot
-    fp.plot_peristence()
+    fp.plot_persistence()
 
 Installation
 ''''''''''''

@@ -14,7 +14,7 @@ results = fp.fit(X)
 
 fp.plot_preprocessing()
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 fp.plot_mesh()
 
 
@@ -24,7 +24,7 @@ results = fp.fit(X)
 
 fp.plot()
 fp.plot_preprocessing()
-fp.plot_peristence()
+fp.plot_persistence()
 fp.plot_mesh()
 
 # %%
@@ -41,7 +41,7 @@ for method in methods:
             fp = findpeaks(lookahead=lookahead, interpolate=interpolate, method=method)
             results = fp.fit(X)
             # fp.plot()
-            # fp.plot_peristence()
+            # fp.plot_persistence()
 
 # fp.results['df_interp']
 fp.results['df']
@@ -52,7 +52,7 @@ X = [10,11,9,23,21,11,45,20,11,12]
 fp = findpeaks(lookahead=1, method="topology")
 results = fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 
 # %% Run over all methods and many parameters
@@ -85,7 +85,7 @@ for getfilter in filters:
 #%% Plot each seperately
 fp.plot_preprocessing()
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 fp.plot_mesh()
 
 # Make mesh plot
@@ -100,7 +100,7 @@ fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10, verbose=3)
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 
 from findpeaks import findpeaks
@@ -108,14 +108,14 @@ fp = findpeaks(method='topology')
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 from findpeaks import findpeaks
 fp = findpeaks(method='topology',  interpolate=10)
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 
 from tabulate import tabulate
@@ -135,7 +135,7 @@ img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot(cmap='hot')
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 fp = findpeaks(method='mask')
 img = fp.import_example()
@@ -158,7 +158,7 @@ fp.plot()
 
 fp.plot_preprocessing()
 fp.plot_mesh()
-fp.plot_peristence()
+fp.plot_persistence()
 
 # %%
 from findpeaks import findpeaks
@@ -167,12 +167,12 @@ X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1
 fp = findpeaks(method='peakdetect', lookahead=1, verbose=3)
 results = fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 fp = findpeaks(method='topology')
 results=fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 # %%
 X = [10,11,9,23,21,11,45,20,11,12]
@@ -183,7 +183,7 @@ fp.plot()
 fp = findpeaks(method='topology', lookahead=1, interpolate=10)
 fp.fit(X)
 fp.plot()
-fp.plot_peristence()
+fp.plot_persistence()
 
 # %%
 from math import pi
@@ -202,7 +202,7 @@ fp.plot()
 fp = findpeaks(method='topology')
 results=fp.fit(X)
 
-fp.plot_peristence()
+fp.plot_persistence()
 # fp.results['Xdetect']>1
 
 # %% Denoising example
@@ -270,3 +270,5 @@ fp = findpeaks(method='topology', scale=False, denoise='fastnl', togray=True, im
 fp.fit(img)
 fp.plot_persistence()
 fp.plot_mesh(wireframe=False, title='image_lee_enhanced', view=(30,30))
+
+# %%

@@ -46,7 +46,7 @@ The so-called persistence diagram (of the 0-th dimensional homology classes, our
     # Fit topology method on the 1d-vector
     results = fp.fit(X)
     # Plot the results
-    fp.plot_peristence()
+    fp.plot_persistence()
 
 .. _Figure_2:
 
@@ -294,7 +294,7 @@ Plot the image with the persistence. Note that the left-bottom figure is the sam
 .. code:: python
 
     # Import library
-    fp.plot_peristence()
+    fp.plot_persistence()
     
 .. _Figure_6:
 
