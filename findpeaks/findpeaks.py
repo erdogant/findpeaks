@@ -13,8 +13,9 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
-import wget
 import os
+import requests
+from urllib.parse import urlparse
 
 
 class findpeaks():
@@ -889,7 +890,7 @@ class findpeaks():
         ax2.grid(True)
         return ax1, ax2
 
-    def import_example(self, data='2dpeaks', url=None, sep=';'):
+    def import_example(self, data='2dpeaks', url=None, sep=';', datadir=None):
         """Import example dataset from github source.
 
         Description
@@ -904,6 +905,9 @@ class findpeaks():
             url link to to dataset.
         Verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+        datadir : path-like
+            Directory to store downloaded datasets in. Defaults to data sub-directory
+            of findpeaks install location.
 
         Returns
         -------
@@ -911,7 +915,7 @@ class findpeaks():
             Dataset containing mixed features.
 
         """
-        X = _import_example(data=data, url=url, sep=sep, verbose=self.verbose)
+        X = _import_example(data=data, url=url, sep=sep, verbose=self.verbose, datadir=datadir)
         return X
 
 
@@ -939,7 +943,7 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
 
 
 # %% Import example dataset from github.
-def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
+def _import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     """Import example dataset from github source.
 
     Description
@@ -954,6 +958,9 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
         url link to to dataset.
     Verbose : int (default : 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+    datadir : path-like
+        Directory to store downloaded datasets in. Defaults to data sub-directory
+        of findpeaks install location.
 
     Returns
     -------
@@ -962,11 +969,17 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
 
     """
     if url is not None:
-        data = wget.filename_from_url(url)
+        fn = os.path.basename(urlparse(url).path).strip()
+        if not fn:
+            if verbose>=3: print('[findpeaks] >Could not determine filename to download <return>.')
+            return None
+        data, _ = os.path.splitext(fn)
     elif data=='2dpeaks_image':
         url='https://erdogant.github.io/datasets/' + data + '.png'
+        fn = "2dpeaks_image.png"
     elif data=='2dpeaks':
         url='https://erdogant.github.io/datasets/' + data + '.zip'
+        fn = "2dpeaks.zip"
     elif data=='1dpeaks':
         x = [0,   13,  22,  30,  35,  38,   42,   51,   57,   67,  73,   75,  89,   126,  141,  150,  200 ]
         y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04,  0.02, 0.01]
@@ -976,15 +989,19 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3):
         if verbose>=3: print('[findpeaks] >Nothing to download <return>.')
         return None
 
-    curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-    PATH_TO_DATA = os.path.join(curpath, wget.filename_from_url(url))
-    if not os.path.isdir(curpath):
-        os.makedirs(curpath, exist_ok=True)
+    if datadir is None:
+        datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    PATH_TO_DATA = os.path.join(datadir, fn)
+    if not os.path.isdir(datadir):
+        os.makedirs(datadir, exist_ok=True)
 
     # Check file exists.
     if not os.path.isfile(PATH_TO_DATA):
         if verbose>=3: print('[findpeaks] >Downloading from github source: [%s]' %(url))
-        wget.download(url, curpath)
+        r = requests.get(url, stream=True)
+        with open(PATH_TO_DATA, "wb") as fd:
+            for chunk in r.iter_content(chunk_size=1024):
+                fd.write(chunk)
 
     # Import local dataset
     if verbose>=3: print('[findpeaks] >Import [%s]' %(PATH_TO_DATA))
