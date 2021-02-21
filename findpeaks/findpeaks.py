@@ -732,6 +732,9 @@ class findpeaks():
         if not hasattr(self, 'results'):
             if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
             return None
+        if self.results.get('Xproc', None) is None:
+            if self.verbose>=3: print('[findpeaks] >These analysis do not support mesh plotting. This may be caused because your are analysing 1D.')
+            return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
         if self.verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
