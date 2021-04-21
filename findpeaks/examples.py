@@ -1,9 +1,20 @@
 # %%
 # import os
 # os.chdir(os.path.dirname(os.path.abspath('examples.py')))
-import findpeaks
-print(dir(findpeaks))
-print(findpeaks.__version__)
+# import findpeaks
+# print(dir(findpeaks))
+# print(findpeaks.__version__)
+
+# %%
+# Load library
+from findpeaks import findpeaks
+# Data
+X = [10,11,9,23,21,11,45,20,11,12]
+# Initialize
+fp = findpeaks(method='peakdetect', lookahead=1)
+results = fp.fit(X)
+# Plot
+fig=fp.plot()
 
 # %%
 from findpeaks import findpeaks

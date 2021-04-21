@@ -481,6 +481,7 @@ class findpeaks():
             ax[iax].grid(False)
             ax[iax].set_title('Input\nRange: [%.3g,%.3g]' %(X.min(), X.max()))
             iax = iax + 1
+            plt.show()
 
         # Resize
         if self.imsize:
@@ -611,6 +612,7 @@ class findpeaks():
         if not self.args['type']=='peaks2d':
             print('[findpeaks] >Requires results of 2D data <return>.')
             return None
+        ax_method, ax_mesh = None, None
         figsize = figsize if figsize is not None else self.args['figsize']
         # Plot preprocessing steps
         self.plot_preprocessing()
@@ -624,6 +626,7 @@ class findpeaks():
 
         # Plot mesh
         ax_mesh = self.plot_mesh(figsize=figsize)
+        
         # Return axis
         return (ax_method, ax_mesh)
 
@@ -690,7 +693,9 @@ class findpeaks():
         ax3.imshow(Xdetect, cmap, interpolation="nearest")
         ax3.set_title(self.method + ' method')
         ax3.grid(False)
-
+        
+        # Show plot
+        plt.show()
         # Return
         return (ax1, ax2, ax3)
 
@@ -891,6 +896,7 @@ class findpeaks():
         ax2.set_xlim((np.min(X), np.max(X)))
         ax2.set_ylim((np.min(X), np.max(X)))
         ax2.grid(True)
+        plt.show()
         return ax1, ax2
 
     def import_example(self, data='2dpeaks', url=None, sep=';', datadir=None):
@@ -942,6 +948,7 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
     if legend: ax.legend(loc=0)
     ax.set_title(title)
     ax.grid(True)
+    plt.show()
     return ax
 
 
