@@ -15,7 +15,7 @@ from findpeaks.filters.mean import mean_filter
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.1.3'
+__version__ = '2.1.4'
 
 # module level doc-string
 __doc__ = """

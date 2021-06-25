@@ -1,9 +1,16 @@
 # %%
-# import os
-# os.chdir(os.path.dirname(os.path.abspath('examples.py')))
-# import findpeaks
-# print(dir(findpeaks))
-# print(findpeaks.__version__)
+import os
+os.chdir(os.path.dirname(os.path.abspath('examples.py')))
+import findpeaks
+print(dir(findpeaks))
+print(findpeaks.__version__)
+
+# %%
+from findpeaks import findpeaks
+fp = findpeaks(method="topology", verbose=0)
+# X = fp.import_example("2dpeaks_image")
+X = fp.import_example("2dpeaks")
+results = fp.fit(X)
 
 # %%
 # Load library

@@ -824,6 +824,7 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
+        disable = (True if ((verbose==0 or verbose is None) or verbose>3) else False)
         if self.args['type']=='peaks1d':
             # minpers = 0
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
@@ -834,7 +835,7 @@ class findpeaks():
             y = self.results['df']['y'].values
             x = self.results['df']['x'].values
             idx = np.where(self.results['df']['rank']>0)[0]
-            for i in tqdm(idx):
+            for i in tqdm(idx, disable=disable):
                 ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b')
 
         else:
@@ -846,7 +847,7 @@ class findpeaks():
             # Plot the detected loci
             if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
             ax1.set_title("Loci of births")
-            for i, homclass in tqdm(enumerate(self.results['groups0'])):
+            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable):
                 p_birth, bl, pers, p_death = homclass
                 if (self.limit is None):
                     y, x = p_birth
@@ -870,7 +871,7 @@ class findpeaks():
         x = self.results['persistence']['birth_level'].values
         y = self.results['persistence']['death_level'].values
         plt.plot(x, y, '.', c='b')
-        for i in tqdm(range(0,len(x))):
+        for i in tqdm(range(0,len(x)), disable=disable):
             plt.text(x[i], (y[i] + y[i] * 0.01),  str(i + 1), color='b')
 
         # if verbose>=3: print('[findpeaks] >Plotting Peristence..')

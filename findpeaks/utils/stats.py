@@ -324,7 +324,8 @@ def topology(X, limit=None, verbose=3):
         return _get_indices(X, uf[p])
 
     # Process pixels from high to low
-    for i, p in tqdm(enumerate(indices)):
+    disable = (True if ((verbose==0 or verbose is None) or verbose>3) else False)
+    for i, p in tqdm(enumerate(indices), disable=disable):
         v = _get_indices(X, p)
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
