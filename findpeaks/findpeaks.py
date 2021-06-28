@@ -308,8 +308,11 @@ class findpeaks():
                 # Store the score and ranking
                 df['rank'] = 0
                 df['score'] = 0
-                df['rank'].loc[df['peak']] = dfint['rank'].loc[dfint['peak']].values
-                df['score'].loc[df['peak']] = dfint['score'].loc[dfint['peak']].values
+                
+                df['rank'].iloc[result['topology']['max_peaks'][:, 0]] = dfint['rank'].iloc[result['topology']['max_peaks_s'][:, 0]].values
+                df['score'].iloc[result['topology']['max_peaks'][:, 0]] = dfint['score'].iloc[result['topology']['max_peaks_s'][:, 0]].values
+                # df['rank'].loc[df['peak']] = dfint['rank'].loc[dfint['peak']].values
+                # df['score'].loc[df['peak']] = dfint['score'].loc[dfint['peak']].values
 
             # Store in results
             results['df'] = df

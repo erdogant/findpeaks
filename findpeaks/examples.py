@@ -7,6 +7,19 @@ print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
+import numpy as np
+
+# np.random.seed(100)
+np.random.seed(200)
+peakDat = np.random.randint(200, size=400)
+
+fp = findpeaks(method = 'topology', interpolate = 1, lookahead = 1)
+results = fp.fit(peakDat)
+
+fig=fp.plot()
+
+# %%
+from findpeaks import findpeaks
 fp = findpeaks(method="topology", verbose=0)
 # X = fp.import_example("2dpeaks_image")
 X = fp.import_example("2dpeaks")
