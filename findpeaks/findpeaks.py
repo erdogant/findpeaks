@@ -913,7 +913,7 @@ class findpeaks():
         Parameters
         ----------
         data : str
-            Name of datasets: "1dpeaks", "2dpeaks", "2dpeaks_image"
+            Name of datasets: "1dpeaks", "2dpeaks", "2dpeaks_image", 'btc', 'facebook'
         url : str
             url link to to dataset.
         Verbose : int (default : 3)
@@ -999,12 +999,16 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
         y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04,  0.02, 0.01]
         # X = np.c_[x, y]
         return y
+    elif (data=='btc') or (data=='facebook'):
+        from caerus import caerus
+        cs = caerus()
+        X = cs.download_example(name=data)
+        return X
     else:
         if verbose>=3: print('[findpeaks] >Nothing to download <return>.')
         return None
 
-    if datadir is None:
-        datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    if datadir is None: datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
     PATH_TO_DATA = os.path.join(datadir, fn)
     if not os.path.isdir(datadir):
         os.makedirs(datadir, exist_ok=True)
