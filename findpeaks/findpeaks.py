@@ -32,7 +32,11 @@ class findpeaks():
     X : array-like (1D-vector or 2d-image)
         Input image data.
     method : String, (default : None).
-        method to be used for peak detection: 'topology', 'peakdetect', 'mask'
+        Available methods. If method=None (default), then 'topology' is automatically choosen in case of 2d-data and and peakdetect for 1d-data.
+            'topology' : For 1d or 2d (image) data
+            'mask' For 2d (image) data
+            'peakdetect' : For 1d data
+            'cearus' : For 1d stock-market data
     lookahead : int, (default : 200)
         Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
     interpolate : int, (default : None)
