@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -124,7 +127,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Use-cases</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">SONAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation</span></p>
 <ul>
@@ -253,7 +257,7 @@ So this implementation should be fast in practice and is easily implemented. The
 <p>The initialization with contains many variables for which only a few are applicable for the <strong>topology</strong> method.
 The general parameters are <em>figsize</em> and <em>verbose</em> which are for setting the figure size and printing messages to the screen.
 Specific for the topology method, the method should be set at “topology”, and in addition, the parameters <em>interpolate</em> and <em>limit</em> can be used for some pre-processing, and output adjustments.
-By default, no interpolation is applied and there is no limit on the final results. See here for the details <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks" title="findpeaks.findpeaks.findpeaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks()</span></code></a></p>
+By default, no interpolation is applied and there is no limit on the final results. See here for the details <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
@@ -265,7 +269,7 @@ By default, no interpolation is applied and there is no limit on the final resul
 <span class="c1"># dict_keys([&#39;persistence&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;groups0&#39;, &#39;df&#39;])</span>
 </pre></div>
 </div>
-<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. See: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a>
+<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. See: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code>
 Note that this DataFrame is <em>NOT</em> filtered on <em>limit</em> variable as it should be in line with the input dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print results to screen</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">])</span>
@@ -423,7 +427,7 @@ However, there are few parameters that can be used to control the pre-processing
 <li><p>cu</p></li>
 </ul>
 </div></blockquote>
-<p>The docstring provide the information regarding the input/output parameters: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>.</p>
+<p>The docstring provide the information regarding the input/output parameters: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
@@ -438,7 +442,7 @@ However, there are few parameters that can be used to control the pre-processing
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector.
-Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
+Details about the input/output parameters can be found here: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code>
 The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>

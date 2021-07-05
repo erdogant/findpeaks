@@ -2,13 +2,78 @@
 
 -------------------------------------
 
-*SAR* and *SONAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
-It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
-Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
+Stock Markets
+''''''''''''''
+
+The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
+The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.
+
+To overcome these challanges, I developed the method ``Caerus`` and incorporated it in ``findpeaks``.
+``Caerus`` is a python package (https://github.com/erdogant/caerus) that determines the local-minima with the corresponding local-maxima within the given time-frame.
+
+The method is build using a forward rolling window to iteratively evaluate thousands of windows. For each window a score of percentages is computed from the start-to-stop position. The resulting matrix is a [window x length dataframe] for which only the high scoring percentages, e.g. those above a certain value (minperc) are used.
+The best scoring percentages is then aggregated by sum per time-point followed by a cut using the threshold. The resulting regions are subsequently detected, and represent the starting-locations of the trade. The stop-locations are determined based on the distance and percentage of te start-locations.
+
+
+.. code:: python
+
+    # Import library
+    from findpeaks import findpeaks
+    # Initialize findpeaks with cearus method.
+    # The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+    fp = findpeaks(method='caerus', params={'minperc':10})
+    # Import example data
+    X = fp.import_example('btc')
+    # Fit
+    results = fp.fit(X)
+    # Make the plot
+    fp.plot()
+
+.. |fig_btc_minperc5| image:: ../figs/btc_minperc5.png
+
+.. table:: Detection of peaks and valleys
+   :align: center
+
+   +--------------------+
+   | |fig_btc_minperc5| |
+   +--------------------+
+
+
+Lets print out some of the detected results:
+
+.. code:: python
+
+    # Results
+    print(fp.results['df'])
+
+    # index labx   peak  valley         y     x
+    # 0        0  False   False     5.970     0
+    # 1        0  False   False     5.530     1
+    # 2        0  False   False     5.130     2
+    # 3        0  False   False     4.850     3
+    # 4        0  False   False     4.870     4
+    #    ...    ...     ...       ...   ...
+    # 2517     0  False   False  7010.800  2517
+    # 2518     0  False   False  7028.705  2518
+    # 2519     0  False   False  6937.055  2519
+    # 2520     0  False   False  6718.060  2520
+    # 2521     0  False   False  6265.215  2521
+
+    # Number of peaks
+    print(fp.results['df']['peak'].sum())
+    # 36
+    # Number of valleys
+    print(fp.results['df']['valley'].sum())
+    # 39
+
 
 
 SONAR
 ''''''''''
+
+*SAR* and *SONAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
+It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
+Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
 Sonar images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.
 
@@ -16,10 +81,10 @@ Sonar images are corrupted by speckle noise, and peak detection is very dificult
 
     # Import library
     from findpeaks import findpeaks
-    # Import image example
-    img = fp.import_example('2dpeaks_image')
     # Initializatie
     fp = findpeaks(scale=None, denoise=None, togray=True, imsize=(300,300))
+    # Import image example
+    img = fp.import_example('2dpeaks_image')
     # Fit
     fp.fit(img)
     # Thousands of peaks are detected at this point.

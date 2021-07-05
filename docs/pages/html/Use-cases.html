@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>SONAR &mdash; findpeaks findpeaks documentation</title>
+  <title>Stock Markets &mdash; findpeaks findpeaks documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -117,7 +120,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Use-cases</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SONAR</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#sonar">SONAR</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation</span></p>
 <ul>
@@ -171,7 +175,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>SONAR</li>
+      <li>Stock Markets</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -191,18 +195,75 @@
            <div itemprop="articleBody">
             
   <hr class="docutils" id="code-directive" />
+<div class="section" id="stock-markets">
+<h1>Stock Markets<a class="headerlink" href="#stock-markets" title="Permalink to this headline">¶</a></h1>
+<p>The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
+The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.</p>
+<p>To overcome these challanges, I developed the method <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> and incorporated it in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
+<code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package (<a class="reference external" href="https://github.com/erdogant/caerus">https://github.com/erdogant/caerus</a>) that determines the local-minima with the corresponding local-maxima within the given time-frame.</p>
+<p>The method is build using a forward rolling window to iteratively evaluate thousands of windows. For each window a score of percentages is computed from the start-to-stop position. The resulting matrix is a [window x length dataframe] for which only the high scoring percentages, e.g. those above a certain value (minperc) are used.
+The best scoring percentages is then aggregated by sum per time-point followed by a cut using the threshold. The resulting regions are subsequently detected, and represent the starting-locations of the trade. The stop-locations are determined based on the distance and percentage of te start-locations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize findpeaks with cearus method.</span>
+<span class="c1"># The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minperc&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+<span class="c1"># Import example data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;btc&#39;</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Make the plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Detection of peaks and valleys</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig_btc_minperc5" src="_images/btc_minperc5.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>Lets print out some of the detected results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">])</span>
+
+<span class="c1"># index labx   peak  valley         y     x</span>
+<span class="c1"># 0        0  False   False     5.970     0</span>
+<span class="c1"># 1        0  False   False     5.530     1</span>
+<span class="c1"># 2        0  False   False     5.130     2</span>
+<span class="c1"># 3        0  False   False     4.850     3</span>
+<span class="c1"># 4        0  False   False     4.870     4</span>
+<span class="c1">#    ...    ...     ...       ...   ...</span>
+<span class="c1"># 2517     0  False   False  7010.800  2517</span>
+<span class="c1"># 2518     0  False   False  7028.705  2518</span>
+<span class="c1"># 2519     0  False   False  6937.055  2519</span>
+<span class="c1"># 2520     0  False   False  6718.060  2520</span>
+<span class="c1"># 2521     0  False   False  6265.215  2521</span>
+
+<span class="c1"># Number of peaks</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;peak&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1"># 36</span>
+<span class="c1"># Number of valleys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;valley&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1"># 39</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sonar">
+<h1>SONAR<a class="headerlink" href="#sonar" title="Permalink to this headline">¶</a></h1>
 <p><em>SAR</em> and <em>SONAR</em> images are affected by <em>speckle</em> noise that inherently exists in and which degrades the image quality.
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.</p>
-<div class="section" id="sonar">
-<h1>SONAR<a class="headerlink" href="#sonar" title="Permalink to this headline">¶</a></h1>
 <p>Sonar images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># Import image example</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="c1"># Initializatie</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="c1"># Import image example</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="c1"># Fit</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="c1"># Thousands of peaks are detected at this point.</span>
@@ -210,8 +271,8 @@ Reducing the noise enhances the resolution but tends to decrease the spatial res
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Results without pre-processing</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Results without pre-processing</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -240,8 +301,8 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Pre-processing Sonar image</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Pre-processing Sonar image</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -255,8 +316,8 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Detected peaks</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">Detected peaks</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -273,8 +334,8 @@ Below can be seen that the denoising has done a very good job in reducing the sp
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">view</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
@@ -331,8 +392,8 @@ But this information allows to limit the model, and focus only on the peaks that
 <span class="n">fp_new</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id5">
-<caption><span class="caption-text">persistence-homology. Top: no limit. Bottom: with limit</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-center" id="id6">
+<caption><span class="caption-text">persistence-homology. Top: no limit. Bottom: with limit</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
