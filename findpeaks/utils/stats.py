@@ -416,14 +416,14 @@ def _iter_neighbors(p, w, h):
         yield j, i
 
 
-def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verbose=3):
+def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labxRaw=None, verbose=3):
     if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
     labx_s = np.zeros((len(X))) * np.nan
     results = {}
     results['min_peaks_s'] = None
     results['max_peaks_s'] = None
     results['xs'] = np.arange(0, len(Xraw))
-    results['labx_s'] = np.zeros((len(X))) * np.nan
+    results['labx_s'] = labx_s
     results['labx'] = np.zeros((len(Xraw))) * np.nan
     results['min_peaks'] = None
     results['max_peaks'] = None
@@ -444,7 +444,7 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
                 count=count + 1
 
         # Scale back to original data
-        if interpolate:
+        if interpolate is not None:
             min_peaks = np.minimum(np.ceil(((idx_valleys / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
             max_peaks = np.minimum(np.ceil(((idx_peaks / len(X)) * len(Xraw))).astype(int), len(Xraw) - 1)
             # Scaling is not accurate for indexing and therefore, a second wave of searching for max_peaks
@@ -470,9 +470,12 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, verb
             results['min_peaks'] = np.c_[min_peaks_corr, Xraw[min_peaks_corr]]
             results['max_peaks'] = np.c_[max_peaks_corr, Xraw[max_peaks_corr]]
 
-        results['labx_s'] = labx_s
         results['min_peaks_s'] = np.c_[idx_valleys, X[idx_valleys]]
         results['max_peaks_s'] = np.c_[idx_peaks, X[idx_peaks]]
+        if labxRaw is None:
+            results['labx_s'] = labx_s
+        else:
+            results['labx_s'] = labxRaw
 
     # Return
     return results
