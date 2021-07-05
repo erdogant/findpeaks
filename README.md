@@ -334,6 +334,27 @@ fp.plot_persistence()
 fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
 ```
 
+
+#### Find peaks and valleys in stock market data
+
+```python
+# Import library
+from findpeaks import findpeaks
+# Initialize findpeaks with cearus method.
+# The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+fp = findpeaks(method='caerus')
+# Import example data
+X = fp.import_example('facebook')
+# Fit
+results = fp.fit(X)
+# Make the plot
+fp.plot()
+```
+
+<p align="center">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig_facebook_minperc5.png" width="600" />
+</p>
+
 #### Citation
 Please cite findpeaks in your publications if this is useful for your research. Here is an example BibTeX entry:
 ```BibTeX
