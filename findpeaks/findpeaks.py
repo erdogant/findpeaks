@@ -9,6 +9,8 @@
 import findpeaks.utils.stats as stats
 from findpeaks.utils.interpolate import interpolate_line1d
 from peakdetect import peakdetect
+from caerus import caerus
+import caerus.utils.csplots as csplots
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import pandas as pd
@@ -38,7 +40,7 @@ class findpeaks():
             'peakdetect' : For 1d data
             'cearus' : For 1d stock-market data
     lookahead : int, (default : 200)
-        Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
+        Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
     interpolate : int, (default : None)
         Interpolation factor. The higher the number, the less sharp the edges will be.
     limit : float, (default : None)
@@ -60,6 +62,9 @@ class findpeaks():
         Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
     cu : float, (default: 0.25)
         The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
+    params : dict() (Default: None)
+        Caerus parameters can be defined in this dict. If None defined, then all default caerus parameters are used:
+        {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
     togray : bool, (default : False)
         Conversion to gray scale.
     imsize : tuple, (default : None)
@@ -105,10 +110,14 @@ class findpeaks():
 
     """
 
-    def __init__(self, method=None, lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, figsize=(15, 8), verbose=3):
+    def __init__(self, method=None, lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params=None, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters."""
 
         # Store in object
+        params_caerus = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+        if params is not None:
+            params_caerus.update(params)
+        
         if lookahead is None: lookahead=1
         lookahead = np.maximum(1, lookahead)
         # if method is None: raise Exception('[findpeaks] >Specify the desired method="topology", "peakdetect", or "mask".')
@@ -122,6 +131,7 @@ class findpeaks():
         self.denoise = denoise
         self.window = window
         self.cu = cu
+        self.params = params_caerus
         self.figsize = figsize
         self.verbose = verbose
 
@@ -224,7 +234,7 @@ class findpeaks():
         result = {}
 
         # Interpolation
-        if self.interpolate:
+        if self.interpolate is not None:
             X = interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
 
         # Compute peaks based on method
@@ -238,6 +248,12 @@ class findpeaks():
             result = stats.topology(np.c_[X, X], limit=self.limit, verbose=self.verbose)
             # Post processing for the topology method
             result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
+        elif method=='caerus':
+            cs = caerus(**self.params)
+            result = cs.fit(X, return_as_dict=True)
+            # Post processing for the caerus method
+            result['caerus'] = stats._post_processing(X, Xraw, np.c_[result['loc_start_best'], result['loc_start_best']], np.c_[result['loc_stop_best'], result['loc_stop_best']], self.interpolate, 1, labxRaw=result['df']['labx'].values)
+            result['caerus']['model'] = cs
         else:
             print('[findpeaks] >Method [%s] is not supported in 1d-vector data. <return>' %(self.method))
             return None
@@ -282,9 +298,22 @@ class findpeaks():
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
             results['groups0'] = result['groups0']
+        elif self.method=='caerus':
+            # caerus
+            dfint = result['df'].copy()
+            dfint['y'] = result['X']
+            dfint.drop(labels='X', inplace=True, axis=1)
+            dfint['x'] = xs
+            # dfint['labx'] = result['caerus']['labx_s']
+            # dfint['valley'] = False
+            # dfint['peak'] = False
+            # if result['caerus']['min_peaks_s'] is not None:
+            #     dfint['valley'].iloc[result['caerus']['min_peaks_s'][:, 0].astype(int)] = True
+            # if result['caerus']['max_peaks_s'] is not None:
+            #     dfint['peak'].iloc[result['caerus']['max_peaks_s'][:, 0].astype(int)] = True
 
         # As for the input data
-        if self.interpolate:
+        if self.interpolate is not None:
             df = pd.DataFrame()
             df['y'] = Xraw
             # Store results for method
@@ -312,11 +341,21 @@ class findpeaks():
                 # Store the score and ranking
                 df['rank'] = 0
                 df['score'] = 0
-                
-                df['rank'].iloc[result['topology']['max_peaks'][:, 0]] = dfint['rank'].iloc[result['topology']['max_peaks_s'][:, 0]].values
-                df['score'].iloc[result['topology']['max_peaks'][:, 0]] = dfint['score'].iloc[result['topology']['max_peaks_s'][:, 0]].values
+
+                df['rank'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['rank'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)].values
+                df['score'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['score'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)].values
                 # df['rank'].loc[df['peak']] = dfint['rank'].loc[dfint['peak']].values
                 # df['score'].loc[df['peak']] = dfint['score'].loc[dfint['peak']].values
+            if self.method=='caerus':
+                # caerus
+                df['x'] = result['caerus']['xs']
+                df['labx'] = result['df']['labx']
+                df['valley'] = False
+                df['peak'] = False
+                if result['caerus']['min_peaks'] is not None:
+                    df['valley'].iloc[result['caerus']['min_peaks'][:, 0].astype(int)] = True
+                if result['caerus']['max_peaks'] is not None:
+                    df['peak'].iloc[result['caerus']['max_peaks'][:, 0].astype(int)] = True
 
             # Store in results
             results['df'] = df
@@ -324,9 +363,12 @@ class findpeaks():
         else:
             results['df'] = dfint
 
+        if self.method=='caerus':
+            results['model'] = result['caerus']['model']
         # Arguments
         args = {}
         args['method'] = self.method
+        args['params'] = self.params
         args['lookahead'] = self.lookahead
         args['interpolate'] = self.interpolate
         args['figsize'] = self.figsize
@@ -588,20 +630,28 @@ class findpeaks():
         ax1, ax2 = None, None
         title = self.method
 
-        # Make plot
-        df = self.results['df']
-        min_peaks = df['x'].loc[df['valley']].values
-        max_peaks = df['x'].loc[df['peak']].values
-        ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title, figsize=figsize, legend=legend)
+        if self.method=='caerus':
+            self.results['model']
+            if self.results.get('model', None) is not None:
+                ax = self.results['model'].plot()
+                csplots._plot_graph(self.results['model'].results, figsize=self.figsize)
+                # Return axis
+                return ax
+        else:
+            # Make plot
+            df = self.results['df']
+            min_peaks = df['x'].loc[df['valley']].values
+            max_peaks = df['x'].loc[df['peak']].values
+            ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title, figsize=figsize, legend=legend)
 
-        # Make interpolated plot
-        if self.interpolate is not None:
-            df_interp = self.results['df_interp']
-            min_peaks = df_interp['x'].loc[df_interp['valley']].values
-            max_peaks = df_interp['x'].loc[df_interp['peak']].values
-            ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)', figsize=figsize, legend=legend)
-        # Return axis
-        return (ax2, ax1)
+            # Make interpolated plot
+            if self.interpolate is not None:
+                df_interp = self.results['df_interp']
+                min_peaks = df_interp['x'].loc[df_interp['valley']].values
+                max_peaks = df_interp['x'].loc[df_interp['peak']].values
+                ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)', figsize=figsize, legend=legend)
+            # Return axis
+            return (ax2, ax1)
 
     def plot2d(self, figsize=None):
         """Plot the 2d results.

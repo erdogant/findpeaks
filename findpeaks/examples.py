@@ -7,13 +7,37 @@ print(findpeaks.__version__)
 
 # %%
 from findpeaks import findpeaks
+fp = findpeaks()
+# Import example
+X = fp.import_example("btc")
+
+# Make fit
+fp = findpeaks(method="topology")
+results = fp.fit(X)
+fp.plot()
+fp.plot_persistence()
+
+fp = findpeaks(method="peakdetect", lookahead=15)
+# Make fit
+results = fp.fit(X)
+fp.plot()
+
+fp = findpeaks(method="caerus", params={'minperc':1}, interpolate = None)
+# Make fit
+results = fp.fit(X)
+ax = fp.plot()
+
+
+
+# %%
+from findpeaks import findpeaks
 import numpy as np
 
 # np.random.seed(100)
 np.random.seed(200)
 peakDat = np.random.randint(200, size=400)
 
-fp = findpeaks(method = 'topology', interpolate = 1, lookahead = 1)
+fp = findpeaks(method = 'topology', interpolate = 10, lookahead = 1)
 results = fp.fit(peakDat)
 
 fig=fp.plot()
