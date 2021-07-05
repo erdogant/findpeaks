@@ -30,6 +30,7 @@ Content
   Topology
   Mask
   Peakdetect
+  Caerus
   Performance
 
 .. toctree::
