@@ -49,7 +49,7 @@ def test_fit():
     results = fp.fit(X)
     assert fp.type=='peaks1d'
     assert [*results.keys()]==['persistence', 'Xdetect', 'Xranked', 'groups0', 'df']
-    assert [*fp.args]==['method', 'lookahead', 'interpolate', 'figsize', 'type']
+    assert [*fp.args]==['method', 'params', 'lookahead', 'interpolate', 'figsize', 'type']
     assert len(X)==len(results['Xdetect'])
     assert len(X)==len(results['Xranked'])
     assert len(X)==results['df'].shape[0]
@@ -76,7 +76,7 @@ def test_fit():
     results = fp.fit(X)
     assert fp.type=='peaks1d'
     assert [*results.keys()]==['df']
-    assert [*fp.args]==['method', 'lookahead', 'interpolate', 'figsize', 'type']
+    assert [*fp.args]==['method', 'params', 'lookahead', 'interpolate', 'figsize', 'type']
     assert len(X)==results['df'].shape[0]
     assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak', 'rank', 'score']))
     
@@ -145,7 +145,7 @@ def test_fit():
     
     # Loop throughout many combinations of parameter settings
     from findpeaks import findpeaks
-    methods = ['mask','topology', None]
+    methods = ['caerus', 'mask','topology', None]
     filters = ['lee','lee_enhanced','kuan','fastnl','bilateral','frost','median','mean', None]
     windows = [None, 3, 63]
     cus = [None, 0, 0.75]
