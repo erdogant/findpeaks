@@ -295,8 +295,8 @@ def topology(X, limit=None, verbose=3):
             Detected vallyes
         persistence : DataFrame()
             * x, y    : coordinates
-            * birth   : Birth level
-            * death   : Death level
+            * birth   : Birth level, tuple(coordinate, rgb value)
+            * death   : Death level, tuple(coordinate, rgb value)
             * score   : persistence scores
 
     References
@@ -376,8 +376,8 @@ def topology(X, limit=None, verbose=3):
 
     # Store in dataframe
     df_persistence = pd.DataFrame()
-    df_persistence['x'] = np.array(list(map(lambda x: x[0][0], groups0)))
-    df_persistence['y'] = np.array(list(map(lambda x: x[1], groups0)))
+    df_persistence['x'] = np.array(list(map(lambda x: x[0][1], groups0)))
+    df_persistence['y'] = np.array(list(map(lambda x: x[0][0], groups0)))
     df_persistence['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
     df_persistence['death_level'] = np.array(list(map(lambda x: x[1] - x[2], groups0)))
     df_persistence['score'] = np.array(list(map(lambda x: x[2], groups0)))
