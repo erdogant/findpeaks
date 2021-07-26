@@ -23,7 +23,6 @@ results = fp.fit(x)
 results['persistence']
 
 # Plot
-fp.plot_mesh()
 plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255)
 
 fp.plot(cmap='coolwarm')
@@ -32,7 +31,7 @@ fp.plot_mesh()
 
 
 plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255)
-plt.imshow(fp.results['Xdetect']==0, cmap='gray_r')
+plt.imshow(fp.results['Xdetect'], cmap='gray_r')
 results["persistence"]
 
 
