@@ -6,6 +6,37 @@ print(dir(findpeaks))
 print(findpeaks.__version__)
 
 # %%
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
+from findpeaks import findpeaks
+rng = np.random.default_rng(42)
+
+x = rng.normal(size=(50, 50))
+x = gaussian_filter(x, sigma=10.)
+x -= x.min()
+x = 255 * x / x.max()
+
+fp = findpeaks(method="topology", denoise=None, limit=0, verbose=3)
+results = fp.fit(x)
+
+results['persistence']
+
+# Plot
+fp.plot_mesh()
+plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255)
+
+fp.plot(cmap='coolwarm')
+fp.plot_persistence()
+fp.plot_mesh()
+
+
+plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255)
+plt.imshow(fp.results['Xdetect']==0, cmap='gray_r')
+results["persistence"]
+
+
+# %%
 from findpeaks import findpeaks
 fp = findpeaks()
 # Import example
@@ -22,11 +53,10 @@ fp = findpeaks(method="peakdetect", lookahead=15)
 results = fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method="caerus", params={'minperc':1}, interpolate = None)
+fp = findpeaks(method="caerus", params={'minperc':100}, interpolate = None)
 # Make fit
 results = fp.fit(X)
 ax = fp.plot()
-
 
 
 # %%
@@ -35,12 +65,13 @@ import numpy as np
 
 # np.random.seed(100)
 np.random.seed(200)
-peakDat = np.random.randint(200, size=400)
+X = np.random.randint(200, size=400)
 
 fp = findpeaks(method = 'topology', interpolate = 10, lookahead = 1)
-results = fp.fit(peakDat)
+results = fp.fit(X)
 
 fig=fp.plot()
+fp.plot_mesh()
 
 # %%
 from findpeaks import findpeaks
@@ -62,12 +93,13 @@ fig=fp.plot()
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", denoise=None, window=3)
+fp = findpeaks(method="topology", denoise=None, window=3, limit=None)
 # X = fp.import_example("2dpeaks_image")
 X = fp.import_example("2dpeaks")
 results = fp.fit(X)
 
-fp.plot_preprocessing()
+results["persistence"]
+
 fp.plot()
 fp.plot_persistence()
 fp.plot_mesh()
