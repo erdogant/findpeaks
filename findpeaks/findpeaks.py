@@ -747,7 +747,7 @@ class findpeaks():
         ax2.grid(False)
 
         # Masking
-        ax3.imshow(Xdetect, cmap, interpolation="nearest")
+        ax3.imshow(Xdetect, 'gray_r', interpolation="nearest")
         ax3.set_title(self.method + ' method')
         ax3.grid(False)
         
@@ -910,12 +910,12 @@ class findpeaks():
                     y, x = p_birth
                     Xdetect[y, x] = i + 1
                     ax1.plot([x], [y], '.', c='b')
-                    ax1.text(x, y + 0.25, str(i + 1), color='b')
+                    ax1.text(x, y + 0.25, str(i), color='b')
                 elif pers > self.limit:
                     y, x = p_birth
                     Xdetect[y, x] = i + 1
                     ax1.plot([x], [y], '.', c='b')
-                    ax1.text(x, y + 0.25, str(i + 1), color='b')
+                    ax1.text(x, y + 0.25, str(i), color='b')
 
             ax1.set_xlim((0, self.results['Xproc'].shape[1]))
             ax1.set_ylim((0, self.results['Xproc'].shape[0]))
