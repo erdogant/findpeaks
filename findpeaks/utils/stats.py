@@ -427,8 +427,8 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labx
     results['labx'] = np.zeros((len(Xraw))) * np.nan
     results['min_peaks'] = None
     results['max_peaks'] = None
-
-    if len(min_peaks)>0 and len(max_peaks)>0:
+    
+    if len(min_peaks)>0 and len(max_peaks)>0 and (max_peaks[0][0] is not None):
 
         idx_peaks, _ = zip(*max_peaks)
         idx_peaks = np.array(list(idx_peaks)).astype(int)
