@@ -289,10 +289,12 @@ def topology(X, limit=None, verbose=3):
             detected peaks with respect the input image. Elements are the scores.
         Xranked : array-like (same shape as input data)
             detected peaks with respect the input image. Elements are the ranked peaks (1=best).
-        max_peaks : array-like
+        peak : array-like
             Detected peaks
-        min_peaks : array-like
-            Detected vallyes
+        valley : array-like
+            Detected valley
+        groups0 : array-like
+            Unstructured results
         persistence : DataFrame()
             * x, y    : coordinates
             * birth   : Birth level, tuple(coordinate, rgb value)
@@ -304,7 +306,7 @@ def topology(X, limit=None, verbose=3):
     * https://www.sthu.org/code/codesnippets/imagepers.html
     * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
     * Initial implementation: Stefan Huber <shuber@sthu.org>
-    * Editted by: Erdogan Taskesen <erdogant@gmail.com>
+    * Editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
 
     """
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
