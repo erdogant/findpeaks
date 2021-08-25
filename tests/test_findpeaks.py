@@ -9,13 +9,13 @@ def test_fit():
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
     assert fp.type=='peaks2d'
-    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'peak', 'valley', 'groups0']
+    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'groups0']
     assert [*fp.args]==['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
     assert results['Xraw'].shape==results['Xdetect'].shape
     assert results['Xproc'].shape==results['Xdetect'].shape
 
     # CHECK RESULTS METHOD TOPOLOGY
-    assert len(results['peak'])==20
+    # assert len(results['peak'])==20
     assert len(results['Xdetect'][results['Xdetect']!=0])==18
     assert len(results['Xranked'][results['Xranked']!=0])==20
     assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==18
@@ -24,7 +24,6 @@ def test_fit():
     fp = findpeaks(method="topology", limit=0)
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
-    assert len(results['peak'])==18
     assert len(results['Xdetect'][results['Xdetect']!=0])==18
     assert len(results['Xranked'][results['Xranked']!=0])==18
     assert np.all(results['Xdetect'][results['Xranked']!=0]>0)
