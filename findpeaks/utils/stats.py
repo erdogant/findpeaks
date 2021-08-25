@@ -360,7 +360,7 @@ def topology(X, limit=None, verbose=3):
     # Extract the min peaks and sort
     min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
     idxsort = np.argsort(min_peaks[:, 0])
-    min_peaks = min_peaks[idxsort, :].tolist()
+    min_peaks = min_peaks[idxsort, :]
 
     # Build the output results in the same manner as the input image
     Xdetect = np.zeros_like(X).astype(float)
