@@ -479,8 +479,8 @@ class findpeaks():
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
             results['persistence'] = result['persistence']
-            results['peak'] = result['peak']
-            results['valley'] = result['valley']
+            # results['peak'] = result['peak'] # These values are incorrect when using 2d
+            # results['valley'] = result['valley'] # These values are incorrect when using 2d
             results['groups0'] = result['groups0']
         if self.method=='mask':
             results['Xdetect'] = result
