@@ -35,6 +35,11 @@ plt.imshow(fp.results['Xdetect'], cmap='gray_r')
 results["persistence"]
 
 
+results.keys()
+results['persistence']
+results['groups0']
+results['Xdetect']
+
 # %%
 from findpeaks import findpeaks
 fp = findpeaks()
