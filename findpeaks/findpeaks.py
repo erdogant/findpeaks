@@ -207,8 +207,8 @@ class findpeaks():
             * labx    : The label of the peak area
             * rank    : The ranking number of the best performing peaks (1 is best)
             * score   : persistence score
-            * valley  : Wether the point is marked as valley
-            * peak    : Wether the point is marked as peak
+            * valley  : Whether the point is marked as valley
+            * peak    : Whether the point is marked as peak
 
         Examples
         --------
@@ -414,8 +414,11 @@ class findpeaks():
             * Xproc   : The pre-processed data
             * Xdetect : The detected peaks with the persistence scores (same shape as the input data)
             * XRanked : The detected peaks but based on the strenght (same shape as the input data)
-            * peak    : Coordinates for the detected peaks
-            * valley  : Coordinates for the detected valleys
+            * persistence : pd.DataFrame()
+                * x, y    : coordinates
+                * birth   : Birth level
+                * death   : Death level
+                * score   : persistence scores
 
         Examples
         --------
