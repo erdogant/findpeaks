@@ -5,21 +5,38 @@
 # print(dir(findpeaks))
 # print(findpeaks.__version__)
 
+# %%
+from findpeaks import findpeaks
+import cv2
+x = cv2.imread('C://temp/LbK2I.png')
+x = cv2.imread('C://temp/uISO2.png')
+
+
+fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, limit=0, verbose=3)
+results = fp.fit(x)
+
+results['persistence']
+fp.plot(cmap='coolwarm')
+fp.plot_persistence()
+fp.plot_mesh(view=(90,0))
+
+
 # %% find peak and valleys in 2d images.
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter
 from findpeaks import findpeaks
 rng = np.random.default_rng(42)
-
 x = rng.normal(size=(50, 50))
 x = gaussian_filter(x, sigma=10.)
 
-fp = findpeaks(method="topology", denoise=None, limit=0, verbose=3)
+fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
 results = fp.fit(x)
 
 results['persistence']
 fp.plot(cmap='coolwarm')
+fp.plot_persistence()
+fp.plot_mesh()
 
 # %%
 import numpy as np
@@ -116,20 +133,19 @@ from findpeaks import findpeaks
 # Import image example
 img = fp.import_example('2dpeaks_image')
 # Initializatie
-fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300))
+fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), whitelist=['peak', 'valley'])
 # Fit
 fp.fit(img)
-
+fp.plot()
+fp.results["persistence"]
 
 # Take the minimum score for the top peaks off the diagonal.
 limit = fp.results['persistence'][0:5]['score'].min()
-fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=limit)
-# Fit
+fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=254, whitelist=['peak', 'valley'])
 fp.fit(img)
 
-
-fp.plot_preprocessing()
-fp.plot()
+fp.results["persistence"]
+fp.plot(text=True)
 
 # Plot
 fp.plot_mesh()

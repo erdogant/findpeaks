@@ -263,7 +263,7 @@ def mask(X, limit=0, verbose=3):
     return detected_peaks
 
 # %%
-def topology2d(X, limit=None, verbose=3):
+def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
     """Determine peaks and valleys in 2d-array using toplogy method.
 
     Description
@@ -297,19 +297,25 @@ def topology2d(X, limit=None, verbose=3):
             * valley  : True if valley
 
     """
+    result_peak = {'groups0' : [], 'Xdetect' : np.zeros_like(X).astype(float), 'Xranked' : np.zeros_like(X).astype(float), 'peak' : None, 'valley' : None, 'persistence' : pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
+    result_valley = {'groups0' : [], 'Xdetect' : np.zeros_like(X).astype(float), 'Xranked' : np.zeros_like(X).astype(float), 'peak' : None, 'valley' : None, 'persistence' : pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
+
     # Detect peaks
-    result_peak = topology(X, limit=limit, verbose=verbose)
-    result_peak['persistence']['peak']=True
-    result_peak['persistence']['valley']=False
+    if np.any(np.isin(whitelist, 'peak')):
+        result_peak = topology(X, limit=limit, reverse=True, verbose=verbose)
+        result_peak['persistence']['peak']=True
+        result_peak['persistence']['valley']=False
 
     # Compute max value in array to create the negative image
-    max_val = 255 if np.max(X.ravel())>1 else 1
+    # max_val = 255 if np.max(X.ravel())>1 else 1
     # Detect valleys
-    result_valley = topology(max_val-X, limit=limit, verbose=verbose)
-    result_valley['persistence']['peak']=False
-    result_valley['persistence']['valley']=True
-    result_valley['persistence']['death_level'] = result_valley['persistence']['death_level'] * -1
-    result_valley['persistence']['birth_level'] = result_valley['persistence']['birth_level'] * -1
+    # result_valley = topology(max_val-X, limit=limit, verbose=verbose)
+    if np.any(np.isin(whitelist, 'valley')):
+        result_valley = topology(X, limit=limit, reverse=False, verbose=verbose)
+        result_valley['persistence']['peak']=False
+        result_valley['persistence']['valley']=True
+        result_valley['persistence']['death_level'] = result_valley['persistence']['death_level'] * -1
+        result_valley['persistence']['birth_level'] = result_valley['persistence']['birth_level'] * -1
 
     # Combine results
     persistence = pd.concat([result_peak['persistence'], result_valley['persistence']])
@@ -317,11 +323,11 @@ def topology2d(X, limit=None, verbose=3):
     # Combine datamatrix
     Xdetect = result_peak['Xdetect']
     idx = np.where(result_valley['Xdetect'])
-    Xdetect[idx] = result_valley['Xdetect'][idx]*-1
+    if len(idx[0])>0: Xdetect[idx] = result_valley['Xdetect'][idx]*-1
     # Combine the ranked ones
     Xranked = result_peak['Xranked']
     idx = np.where(result_valley['Xranked'])
-    Xranked[idx] = result_valley['Xranked'][idx]*-1
+    if len(idx[0])>0: Xranked[idx] = result_valley['Xranked'][idx]*-1
     # Combine the group0
     groups0 = result_peak['groups0'] + result_valley['groups0']
     # Make dict
@@ -329,7 +335,7 @@ def topology2d(X, limit=None, verbose=3):
     # Return
     return result
 
-def topology(X, limit=None, verbose=3):
+def topology(X, limit=None, reverse=True, verbose=3):
     """Determine peaks using toplogy method.
 
     Description
@@ -345,6 +351,9 @@ def topology(X, limit=None, verbose=3):
         Input data.
     limit : float, (default : None)
         score > limit are set as regions of interest (ROI).
+    reverse : bool, (default : True)
+        For 1d-vectors, reverse should be True to detect peaks and valleys.
+        For 2d-images, the peaks are detected by setting reverse=True and valleys by reverse=False.
     verbose : int (default : 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
@@ -377,13 +386,14 @@ def topology(X, limit=None, verbose=3):
     """
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
 
+    results = {'groups0' : [], 'Xdetect' : np.zeros_like(X).astype(float), 'Xranked' : np.zeros_like(X).astype(float), 'peak' : None, 'valley' : None, 'persistence' : pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
     h, w = X.shape
     max_peaks, min_peaks = None, None
     groups0 = {}
 
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w)]
-    indices.sort(key=lambda p: _get_indices(X, p), reverse=True)
+    indices.sort(key=lambda p: _get_indices(X, p), reverse=reverse)
 
     # Maintains the growing sets
     uf = union_find.UnionFind()
@@ -419,44 +429,45 @@ def topology(X, limit=None, verbose=3):
         groups0 = np.array(groups0, dtype='object')
         groups0 = groups0[Ikeep].tolist()
 
+    if len(groups0)>0:
     # Extract the max peaks and sort
-    max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
-    idxsort = np.argsort(max_peaks[:, 0])
-    max_peaks = max_peaks[idxsort, :]
-    # Extract the min peaks and sort
-    min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
-    idxsort = np.argsort(min_peaks[:, 0])
-    min_peaks = min_peaks[idxsort, :]
+        max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
+        idxsort = np.argsort(max_peaks[:, 0])
+        max_peaks = max_peaks[idxsort, :]
+        # Extract the min peaks and sort
+        min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
+        idxsort = np.argsort(min_peaks[:, 0])
+        min_peaks = min_peaks[idxsort, :]
+    
+        # Build the output results in the same manner as the input image
+        Xdetect = np.zeros_like(X).astype(float)
+        Xranked = np.zeros_like(X).astype(int)
+        for i, homclass in enumerate(groups0):
+            p_birth, bl, pers, p_death = homclass
+            y, x = p_birth
+            Xdetect[y, x] = pers
+            Xranked[y, x] = i + 1
 
-    # Build the output results in the same manner as the input image
-    Xdetect = np.zeros_like(X).astype(float)
-    Xranked = np.zeros_like(X).astype(int)
-    for i, homclass in enumerate(groups0):
-        p_birth, bl, pers, p_death = homclass
-        y, x = p_birth
-        Xdetect[y, x] = pers
-        Xranked[y, x] = i + 1
+        # If data is 1d-vector, make single vector
+        if (X.shape[1]==2) and (np.all(Xdetect[:, 1]==0)):
+            Xdetect = Xdetect[:, 0]
+            Xranked = Xranked[:, 0]
 
-    # If data is 1d-vector, make single vector
-    if (X.shape[1]==2) and (np.all(Xdetect[:, 1]==0)):
-        Xdetect = Xdetect[:, 0]
-        Xranked = Xranked[:, 0]
-
-    # Store in dataframe
-    df_persistence = pd.DataFrame()
-    df_persistence['x'] = np.array(list(map(lambda x: x[0][1], groups0)))
-    df_persistence['y'] = np.array(list(map(lambda x: x[0][0], groups0)))
-    df_persistence['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
-    df_persistence['death_level'] = np.array(list(map(lambda x: x[1] - x[2], groups0)))
-    df_persistence['score'] = np.array(list(map(lambda x: x[2], groups0)))
-    # Results
-    results = {}
-    results['groups0'] = groups0
-    results['Xdetect'] = Xdetect
-    results['Xranked'] = Xranked
-    results['peak'] = max_peaks
-    results['valley'] = min_peaks
-    results['persistence'] = df_persistence
+        # Store in dataframe
+        df_persistence = pd.DataFrame()
+        df_persistence['x'] = np.array(list(map(lambda x: x[0][1], groups0)))
+        df_persistence['y'] = np.array(list(map(lambda x: x[0][0], groups0)))
+        df_persistence['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
+        df_persistence['death_level'] = np.array(list(map(lambda x: x[1] - x[2], groups0)))
+        df_persistence['score'] = np.array(list(map(lambda x: x[2], groups0)))
+        # Results
+        results = {}
+        results['groups0'] = groups0
+        results['Xdetect'] = Xdetect
+        results['Xranked'] = Xranked
+        results['peak'] = max_peaks
+        results['valley'] = min_peaks
+        results['persistence'] = df_persistence
 
     # return
     return results

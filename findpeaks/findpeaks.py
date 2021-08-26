@@ -42,6 +42,11 @@ class findpeaks():
         2d-array approaches:
             * 'topology' (default)
             * 'mask'
+    whitelist : str or list ['peak','valley']
+        Choose what to detect:
+            * 'peak'
+            * 'valley'
+            * ['peak','valley']
     lookahead : int, (default : 200)
         Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
     interpolate : int, (default : None)
@@ -113,18 +118,20 @@ class findpeaks():
 
     """
 
-    def __init__(self, method=None, lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params=None, figsize=(15, 8), verbose=3):
+    def __init__(self, method=None, whitelist=['peak','valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params=None, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters."""
 
         # Store in object
         params_caerus = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
         if params is not None:
             params_caerus.update(params)
-        
+
+        if isinstance(whitelist, str): whitelist=[whitelist]
         if lookahead is None: lookahead=1
         lookahead = np.maximum(1, lookahead)
         # if method is None: raise Exception('[findpeaks] >Specify the desired method="topology", "peakdetect", or "mask".')
         self.method = method
+        self.whitelist = whitelist
         self.lookahead = lookahead
         self.interpolate = interpolate
         self.limit = limit
@@ -455,7 +462,8 @@ class findpeaks():
         # Compute peaks based on method
         if method=='topology':
             # Compute persistence based on topology method
-            result = stats.topology2d(Xproc, limit=self.limit, verbose=self.verbose)
+            result = stats.topology2d(Xproc, limit=self.limit, whitelist=self.whitelist, verbose=self.verbose)
+            # result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
         elif method=='mask':
             # Compute peaks using local maximum filter.
             result = stats.mask(Xproc, limit=self.limit)
@@ -578,7 +586,7 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, legend=True, figsize=None, cmap=None):
+    def plot(self, legend=True, figsize=None, cmap=None, text=True):
         """Plot results.
 
         Parameters
@@ -589,6 +597,8 @@ class findpeaks():
             (width, height) in inches.
         cmap : object (default : None)
             Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
+        text : Bool (default : True)
+            Include text to the 2d-image that shows the peaks (p-number) and valleys (v-number)
 
         Returns
         -------
@@ -605,7 +615,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize)
         elif self.args['type']=='peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text)
         else:
             print('[findpeaks] Nothing to plot for %s' %(self.args['type']))
             return None
@@ -707,7 +717,7 @@ class findpeaks():
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
-    def plot_mask(self, limit=None, figsize=None, cmap=None):
+    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True):
         """Plot the masking.
 
         Parameters
@@ -736,18 +746,24 @@ class findpeaks():
         if cmap is None:
             cmap = 'gray' if self.args['togray'] else None
             cmap = cmap + '_r'
+        # Get the index for the detected peaks/valleys
+        idx_peaks = np.where(Xdetect>0)
+        idx_valleys = np.where(Xdetect<0)
 
-        figsize = figsize if figsize is not None else self.args['figsize']
         # Setup figure
+        figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
-
+        
         # Plot input image
         ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
         ax1.set_title('Input')
         ax1.grid(False)
 
         # For vizualisation purposes, plot all absolute numbers
-        ax2.imshow(self.results['Xproc'], cmap, interpolation="nearest")
+        Xproc = self.results['Xproc'].copy()
+        Xproc[idx_peaks]=0
+        Xproc[idx_valleys]=1
+        ax2.imshow(Xproc, cmap, interpolation="nearest")
         ax2.set_title('Processed image')
         ax2.grid(False)
 
@@ -755,6 +771,15 @@ class findpeaks():
         ax3.imshow(np.abs(Xdetect), 'gray_r', interpolation="nearest")
         ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect>0)[0])) + ' peaks and ' + str(len(np.where(Xdetect<0)[0])) + ' valleys)')
         ax3.grid(False)
+        
+        if text:
+            for idx in tqdm(zip(idx_peaks[0], idx_peaks[1])):
+                ax2.text(idx[1], idx[0], 'p'+self.results['Xranked'][idx].astype(str))
+                ax3.text(idx[1], idx[0], 'p'+self.results['Xranked'][idx].astype(str))
+    
+            for idx in tqdm(zip(idx_valleys[0], idx_valleys[1])):
+                ax2.text(idx[1], idx[0], 'v'+self.results['Xranked'][idx].astype(str))
+                ax3.text(idx[1], idx[0], 'v'+self.results['Xranked'][idx].astype(str))
         
         # Show plot
         plt.show()
