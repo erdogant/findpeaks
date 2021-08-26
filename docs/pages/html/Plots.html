@@ -87,17 +87,17 @@
               
             
             
-              <p class="caption"><span class="caption-text">Background</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Installation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Algorithms</span></p>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
@@ -105,7 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Pre-processing</span></p>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
@@ -114,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Plots</span></p>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">One-dimensional plots</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pre-processing">Pre-processing</a></li>
@@ -129,12 +129,12 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Use-cases</span></p>
+<p class="caption" role="heading"><span class="caption-text">Use-cases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Code Documentation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Code Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
@@ -238,7 +238,7 @@
 </div>
 <div class="section" id="persistence">
 <h2>Persistence<a class="headerlink" href="#persistence" title="Permalink to this headline">¶</a></h2>
-<p>The persistence plot is called with the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code>, and provides two plots.
+<p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
@@ -260,7 +260,7 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 <h1>Two-dimensional plots<a class="headerlink" href="#two-dimensional-plots" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="pre-processing-plot">
 <h2>Pre-processing plot<a class="headerlink" href="#pre-processing-plot" title="Permalink to this headline">¶</a></h2>
-<p>The pre-processing plot is developed for 2D arrays (images) only: function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code>
+<p>The pre-processing plot is developed for 2D arrays (images) only: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="findpeaks.findpeaks.findpeaks.plot_preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code></a>
 Depending on the number of user defined pre-processing steps, the plot will add new subplots.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -288,7 +288,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 <div class="section" id="plot">
 <h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
-<dt>The <strong>plot</strong> function <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code> plots the 3 major steps:</dt><dd><ul class="simple">
+<dt>The <strong>plot</strong> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a> plots the 3 major steps:</dt><dd><ul class="simple">
 <li><p>input data</p></li>
 <li><p>final pre-processed image</p></li>
 <li><p>peak detection.</p></li>
@@ -312,7 +312,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </div>
 <div class="section" id="persistence-plot">
 <h2>Persistence plot<a class="headerlink" href="#persistence-plot" title="Permalink to this headline">¶</a></h2>
-<p>The persistence plot is called with the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code>, and provides two plots.
+<p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
@@ -331,7 +331,7 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </div>
 <div class="section" id="d-mesh">
 <h2>3D-mesh<a class="headerlink" href="#d-mesh" title="Permalink to this headline">¶</a></h2>
-<p>The mesh plot can easily be created using the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code>.
+<p>The mesh plot can easily be created using the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mesh" title="findpeaks.findpeaks.findpeaks.plot_mesh"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code></a>.
 It converts the two image into a 3d mesh plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>

@@ -87,23 +87,24 @@
               
             
             
-              <p class="caption"><span class="caption-text">Background</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Installation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Algorithms</span></p>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Topology</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#persistent-homology">persistent homology</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#efficiency">Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#one-dimensional">One-dimensional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#two-dimensional">Two-dimensional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
@@ -112,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Pre-processing</span></p>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
@@ -121,17 +122,17 @@
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Plots</span></p>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional plots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional plots</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Use-cases</span></p>
+<p class="caption" role="heading"><span class="caption-text">Use-cases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Code Documentation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Code Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
@@ -258,7 +259,7 @@ So this implementation should be fast in practice and is easily implemented. The
 <p>The initialization with contains many variables for which only a few are applicable for the <strong>topology</strong> method.
 The general parameters are <em>figsize</em> and <em>verbose</em> which are for setting the figure size and printing messages to the screen.
 Specific for the topology method, the method should be set at “topology”, and in addition, the parameters <em>interpolate</em> and <em>limit</em> can be used for some pre-processing, and output adjustments.
-By default, no interpolation is applied and there is no limit on the final results. See here for the details <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks()</span></code></p>
+By default, no interpolation is applied and there is no limit on the final results. See here for the details <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks" title="findpeaks.findpeaks.findpeaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
@@ -270,7 +271,7 @@ By default, no interpolation is applied and there is no limit on the final resul
 <span class="c1"># dict_keys([&#39;persistence&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;groups0&#39;, &#39;df&#39;])</span>
 </pre></div>
 </div>
-<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. See: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code>
+<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. See: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a>
 Note that this DataFrame is <em>NOT</em> filtered on <em>limit</em> variable as it should be in line with the input dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print results to screen</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">])</span>
@@ -428,7 +429,7 @@ However, there are few parameters that can be used to control the pre-processing
 <li><p>cu</p></li>
 </ul>
 </div></blockquote>
-<p>The docstring provide the information regarding the input/output parameters: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code>.</p>
+<p>The docstring provide the information regarding the input/output parameters: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
@@ -443,7 +444,7 @@ However, there are few parameters that can be used to control the pre-processing
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector.
-Details about the input/output parameters can be found here: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code>
+Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
 The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -461,6 +462,12 @@ The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has t
 <div class="figure align-default" id="figure-6">
 <img alt="_images/2dpeaks_peristence.png" src="_images/2dpeaks_peristence.png" />
 </div>
+</div>
+<div class="section" id="output">
+<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<p>The topology method for 2d arrays outputs a dictionary with the following keys Xdetect, Xranked and persistence.
+Xdetect and Xranked is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley).
+The persistence is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
