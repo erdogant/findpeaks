@@ -16,16 +16,16 @@ def test_fit():
 
     # CHECK RESULTS METHOD TOPOLOGY
     # assert len(results['peak'])==20
-    assert len(results['Xdetect'][results['Xdetect']!=0])==20
-    assert len(results['Xranked'][results['Xranked']!=0])==22
+    assert len(results['Xdetect'][results['Xdetect']!=0])==18
+    assert len(results['Xranked'][results['Xranked']!=0])==21
     assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==18
 
     # CHECK RESULTS METHOD with LIMIT functionality
     fp = findpeaks(method="topology", limit=0)
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
-    assert len(results['Xdetect'][results['Xdetect']!=0])==20
-    assert len(results['Xranked'][results['Xranked']!=0])==20
+    assert len(results['Xdetect'][results['Xdetect']!=0])==18
+    assert len(results['Xranked'][results['Xranked']!=0])==21
     
     # CHECK OUTPUT METHOD MASK
     fp = findpeaks(method="mask", verbose=3)
@@ -40,6 +40,39 @@ def test_fit():
     assert results['Xraw'].shape==results['Xdetect'].shape
     assert results['Xproc'].shape==results['Xdetect'].shape
 
+    # CHECK WHITELIST
+    import numpy as np
+    from scipy.ndimage import gaussian_filter
+    from findpeaks import findpeaks
+    rng = np.random.default_rng(42)
+    x = rng.normal(size=(50, 50))
+    x = gaussian_filter(x, sigma=10.)
+    # peak and valley
+    fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
+    results = fp.fit(x)
+    assert results['persistence']['peak'].sum()==4
+    assert results['persistence']['valley'].sum()==4
+    assert np.sum(results['Xdetect']>0)==3
+    assert np.sum(results['Xdetect']<0)==3
+    assert np.sum(results['Xranked']>0)==4
+    assert np.sum(results['Xranked']<0)==4
+
+    # valley
+    fp = findpeaks(method="topology", whitelist='peak', denoise=None, verbose=3)
+    results = fp.fit(x)
+    assert results['persistence']['peak'].shape[0]==results['persistence']['peak'].sum()
+    assert np.sum(results['Xdetect']>0)==3
+    assert np.sum(results['Xdetect']<0)==0
+    assert np.sum(results['Xranked']>0)==4
+    assert np.sum(results['Xranked']<0)==0
+
+    fp = findpeaks(method="topology", whitelist='valley', denoise=None, verbose=3)
+    results = fp.fit(x)
+    assert results['persistence']['valley'].shape[0]==results['persistence']['valley'].sum()
+    assert np.sum(results['Xdetect']>0)==0
+    assert np.sum(results['Xdetect']<0)==3
+    assert np.sum(results['Xranked']>0)==0
+    assert np.sum(results['Xranked']<0)==4
 
     # CHECK OUTPUT METHOD TOPOLOGY
     fp = findpeaks(method="topology")
