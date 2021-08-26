@@ -262,9 +262,75 @@ def mask(X, limit=0, verbose=3):
     # Return
     return detected_peaks
 
+# %%
+def topology2d(X, limit=None, verbose=3):
+    """Determine peaks and valleys in 2d-array using toplogy method.
+
+    Description
+    -----------
+    This function calls the topology function that ONLY computes peaks in case of 2d-arrays.
+    To detect the valleys, the image is inverted and the topology function is called.
+    The final results is the combined peak and valleys.
+    
+    Parameters
+    ----------
+    X : array-like data
+        Input data.
+    limit : float, (default : None)
+        score > limit are set as regions of interest (ROI).
+    verbose : int (default : 3)
+        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+    Returns
+    -------
+    dict()
+        Xdetect : array-like
+            detected peaks/valleys in the same shape as the input image. Elements are the scores. (high=best peak and low=best valley).
+        Xranked : array-like
+            detected peaks/valleys in the same shape as the input image. Elements are the ranked peaks (1=best peak and -1 is best valley).
+        persistence : DataFrame().
+            * x, y    : coordinates
+            * birth   : Birth level, tuple(coordinate, rgb value)
+            * death   : Death level, tuple(coordinate, rgb value)
+            * score   : persistence scores
+            * peak    : True if peak
+            * valley  : True if valley
+
+    """
+    # Detect peaks
+    result_peak = topology(X, limit=limit, verbose=verbose)
+    result_peak['persistence']['peak']=True
+    result_peak['persistence']['valley']=False
+
+    # Compute max value in array to create the negative image
+    max_val = 255 if np.max(X.ravel())>1 else 1
+    # Detect valleys
+    result_valley = topology(max_val-X, limit=limit, verbose=verbose)
+    result_valley['persistence']['peak']=False
+    result_valley['persistence']['valley']=True
+    result_valley['persistence']['death_level'] = result_valley['persistence']['death_level'] * -1
+    result_valley['persistence']['birth_level'] = result_valley['persistence']['birth_level'] * -1
+
+    # Combine results
+    persistence = pd.concat([result_peak['persistence'], result_valley['persistence']])
+    persistence.sort_values(by='score', ascending=False, inplace=True)
+    # Combine datamatrix
+    Xdetect = result_peak['Xdetect']
+    idx = np.where(result_valley['Xdetect'])
+    Xdetect[idx] = result_valley['Xdetect'][idx]*-1
+    # Combine the ranked ones
+    Xranked = result_peak['Xranked']
+    idx = np.where(result_valley['Xranked'])
+    Xranked[idx] = result_valley['Xranked'][idx]*-1
+    # Combine the group0
+    groups0 = result_peak['groups0'] + result_valley['groups0']
+    # Make dict
+    result = {'persistence' : persistence, 'Xdetect' : Xdetect, 'Xranked' : Xranked, 'groups0' : groups0}
+    # Return
+    return result
 
 def topology(X, limit=None, verbose=3):
-    """Determine peaks in 2d-array using toplogy method.
+    """Determine peaks using toplogy method.
 
     Description
     -----------
@@ -285,10 +351,10 @@ def topology(X, limit=None, verbose=3):
     Returns
     -------
     dict()
-        Xdetect : array-like (same shape as input data)
-            detected peaks with respect the input image. Elements are the scores.
-        Xranked : array-like (same shape as input data)
-            detected peaks with respect the input image. Elements are the ranked peaks (1=best).
+        Xdetect : array-like
+            detected peaks in the same shape as the input image. Elements are the scores (higher is better).
+        Xranked : array-like
+            detected peaks in the same shape as the input image. Elements are the ranked peaks (1=best).
         peak : array-like
             Detected peaks
         valley : array-like

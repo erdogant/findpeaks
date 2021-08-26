@@ -31,14 +31,17 @@ class findpeaks():
 
     Parameters
     ----------
-    X : array-like (1D-vector or 2d-image)
+    X : array-like (1d-vector or 2d-image)
         Input image data.
     method : String, (default : None).
-        Available methods. If method=None (default), then 'topology' is automatically choosen in case of 2d-data and and peakdetect for 1d-data.
-            'topology' : For 1d or 2d (image) data
-            'mask' For 2d (image) data
-            'peakdetect' : For 1d data
-            'cearus' : For 1d stock-market data
+        Available methods for peak detection. In case method=None, the default is choosen.
+        1d-vector approaches:
+            * 'topology'
+            * 'peakdetect' (default)
+            * 'cearus'
+        2d-array approaches:
+            * 'topology' (default)
+            * 'mask'
     lookahead : int, (default : 200)
         Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
     interpolate : int, (default : None)
@@ -382,7 +385,7 @@ class findpeaks():
 
         Description
         -----------
-        This function only eats the input data. Use the .fit() function for more information regarding the input parameters:
+        To handle 2d-arrays or images. Use the .fit() function for more information regarding the input parameters:
             * method : method to be used for peak detection: 'topology', or 'mask'
             * limit : Values > limit are set as regions of interest (ROI).
             * scale : Scaling data in range [0-255] by img*(255/max(img))
@@ -452,7 +455,7 @@ class findpeaks():
         # Compute peaks based on method
         if method=='topology':
             # Compute persistence based on topology method
-            result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
+            result = stats.topology2d(Xproc, limit=self.limit, verbose=self.verbose)
         elif method=='mask':
             # Compute peaks using local maximum filter.
             result = stats.mask(Xproc, limit=self.limit)
@@ -725,12 +728,11 @@ class findpeaks():
             if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function with 2d-array (image) data.')
             return None
 
-        if limit is None:
-            limit = self.limit
-        # Show only above threshold
-        Xdetect = self.results['Xdetect']
+        if limit is None: limit = self.limit
+        # Only show above the limit
+        Xdetect = self.results['Xdetect'].copy()
         if limit is not None:
-            Xdetect[Xdetect<limit]=0
+            Xdetect[np.abs(Xdetect)<limit]=0
         if cmap is None:
             cmap = 'gray' if self.args['togray'] else None
             cmap = cmap + '_r'
@@ -744,14 +746,14 @@ class findpeaks():
         ax1.set_title('Input')
         ax1.grid(False)
 
-        # Preprocessing
+        # For vizualisation purposes, plot all absolute numbers
         ax2.imshow(self.results['Xproc'], cmap, interpolation="nearest")
         ax2.set_title('Processed image')
         ax2.grid(False)
 
         # Masking
-        ax3.imshow(Xdetect, 'gray_r', interpolation="nearest")
-        ax3.set_title(self.method + ' method')
+        ax3.imshow(np.abs(Xdetect), 'gray_r', interpolation="nearest")
+        ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect>0)[0])) + ' peaks and ' + str(len(np.where(Xdetect<0)[0])) + ' valleys)')
         ax3.grid(False)
         
         # Show plot
