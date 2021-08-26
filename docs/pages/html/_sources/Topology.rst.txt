@@ -245,7 +245,7 @@ Two-dimensional
 
 The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.
 The implementation uses a union-find data structure instead of the more efficient implemention used for one-dimensional data.
-However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The detection of valleys is however by first negating the input image and then finding the "peaks". The valleys are stored in the output as negative values.
+However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The valleys are stored in the output as negative values.
 
 The initialization with contains many variables for which only *limit* is applicable for the **topology** method for *2d-peak* detection.
 However, there are few parameters that can be used to control the pre-processing steps, such as:
