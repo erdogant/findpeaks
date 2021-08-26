@@ -104,7 +104,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#efficiency">Efficiency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#one-dimensional">One-dimensional</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#two-dimensional">Two-dimensional</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
@@ -416,7 +415,7 @@ In this use-case, the results are very similar as no-interpolation. However, the
 <h2>Two-dimensional<a class="headerlink" href="#two-dimensional" title="Permalink to this headline">¶</a></h2>
 <p>The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.
 The implementation uses a union-find data structure instead of the more efficient implemention used for one-dimensional data.
-However, there is a differences in the pre-processing steps.</p>
+However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The detection of valleys is however by first negating the input image and then finding the “peaks”. The valleys are stored in the output as negative values.</p>
 <p>The initialization with contains many variables for which only <em>limit</em> is applicable for the <strong>topology</strong> method for <em>2d-peak</em> detection.
 However, there are few parameters that can be used to control the pre-processing steps, such as:</p>
 <blockquote>
@@ -440,12 +439,11 @@ However, there are few parameters that can be used to control the pre-processing
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1"># The output contains multiple variables</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-<span class="c1"># dict_keys([&#39;Xraw&#39;, &#39;Xproc&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;persistence&#39;, &#39;peak&#39;, &#39;valley&#39;, &#39;groups0&#39;])</span>
+<span class="c1"># dict_keys([&#39;Xraw&#39;, &#39;Xproc&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;persistence&#39;, &#39;groups0&#39;])</span>
 </pre></div>
 </div>
-<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector.
-Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
-The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
+<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector. Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
+The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley). The key <strong>persistence</strong> is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
@@ -462,12 +460,6 @@ The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has t
 <div class="figure align-default" id="figure-6">
 <img alt="_images/2dpeaks_peristence.png" src="_images/2dpeaks_peristence.png" />
 </div>
-</div>
-<div class="section" id="output">
-<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
-<p>The topology method for 2d arrays outputs a dictionary with the following keys Xdetect, Xranked and persistence.
-Xdetect and Xranked is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley).
-The persistence is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>

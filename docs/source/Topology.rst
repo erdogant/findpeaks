@@ -245,7 +245,7 @@ Two-dimensional
 
 The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.
 The implementation uses a union-find data structure instead of the more efficient implemention used for one-dimensional data.
-However, there is a differences in the pre-processing steps.
+However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The detection of valleys is however by first negating the input image and then finding the "peaks". The valleys are stored in the output as negative values.
 
 The initialization with contains many variables for which only *limit* is applicable for the **topology** method for *2d-peak* detection.
 However, there are few parameters that can be used to control the pre-processing steps, such as:
@@ -271,11 +271,10 @@ The docstring provide the information regarding the input/output parameters: :fu
     results = fp.fit(X)
     # The output contains multiple variables
     print(results.keys())
-    # dict_keys(['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'peak', 'valley', 'groups0'])
+    # dict_keys(['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'groups0'])
 
-The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector.
-Details about the input/output parameters can be found here: :func:`findpeaks.findpeaks.findpeaks.peaks2d`
-The output variables **Xdetect** and **Xranked** has the same shape as the input data. The elements with value > 0 depict a region of interest.
+The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector. Details about the input/output parameters can be found here: :func:`findpeaks.findpeaks.findpeaks.peaks2d`
+The output variables **Xdetect** and **Xranked** is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley). The key **persistence** is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.
 
 Plot the image with the detected peaks:
 
@@ -300,12 +299,6 @@ Plot the image with the persistence. Note that the left-bottom figure is the sam
 
 .. figure:: ../figs/2dpeaks_peristence.png
 
-
-Output
------------
-The topology method for 2d arrays outputs a dictionary with the following keys Xdetect, Xranked and persistence.
-Xdetect and Xranked is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley).
-The persistence is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.
 
 
 References
