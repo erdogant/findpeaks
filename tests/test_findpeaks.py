@@ -16,17 +16,16 @@ def test_fit():
 
     # CHECK RESULTS METHOD TOPOLOGY
     # assert len(results['peak'])==20
-    assert len(results['Xdetect'][results['Xdetect']!=0])==18
-    assert len(results['Xranked'][results['Xranked']!=0])==20
+    assert len(results['Xdetect'][results['Xdetect']!=0])==20
+    assert len(results['Xranked'][results['Xranked']!=0])==22
     assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==18
 
     # CHECK RESULTS METHOD with LIMIT functionality
     fp = findpeaks(method="topology", limit=0)
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
-    assert len(results['Xdetect'][results['Xdetect']!=0])==18
-    assert len(results['Xranked'][results['Xranked']!=0])==18
-    assert np.all(results['Xdetect'][results['Xranked']!=0]>0)
+    assert len(results['Xdetect'][results['Xdetect']!=0])==20
+    assert len(results['Xranked'][results['Xranked']!=0])==20
     
     # CHECK OUTPUT METHOD MASK
     fp = findpeaks(method="mask", verbose=3)
