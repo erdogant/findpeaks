@@ -301,6 +301,13 @@ Plot the image with the persistence. Note that the left-bottom figure is the sam
 .. figure:: ../figs/2dpeaks_peristence.png
 
 
+Output
+-----------
+The topology method for 2d arrays outputs a dictionary with the following keys Xdetect, Xranked and persistence.
+Xdetect and Xranked is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley).
+The persistence is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.
+
+
 References
 -----------
 * [1] Persistent Homology in Data Science, Proc. 3rd Int. Data Sci. Conf. (iDSC '20)

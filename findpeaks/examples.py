@@ -1,9 +1,25 @@
 # %%
-import os
-os.chdir(os.path.dirname(os.path.abspath('examples.py')))
-import findpeaks
-print(dir(findpeaks))
-print(findpeaks.__version__)
+# import os
+# os.chdir(os.path.dirname(os.path.abspath('examples.py')))
+# import findpeaks
+# print(dir(findpeaks))
+# print(findpeaks.__version__)
+
+# %% find peak and valleys in 2d images.
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
+from findpeaks import findpeaks
+rng = np.random.default_rng(42)
+
+x = rng.normal(size=(50, 50))
+x = gaussian_filter(x, sigma=10.)
+
+fp = findpeaks(method="topology", denoise=None, limit=0, verbose=3)
+results = fp.fit(x)
+
+results['persistence']
+fp.plot(cmap='coolwarm')
 
 # %%
 import numpy as np
@@ -14,13 +30,13 @@ rng = np.random.default_rng(42)
 
 x = rng.normal(size=(50, 50))
 x = gaussian_filter(x, sigma=10.)
-x -= x.min()
-x = 255 * x / x.max()
+
 
 fp = findpeaks(method="topology", denoise=None, limit=0, verbose=3)
 results = fp.fit(x)
 
 results['persistence']
+fp.plot(cmap='coolwarm')
 
 # Plot
 plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255)
@@ -37,7 +53,6 @@ results["persistence"]
 
 results.keys()
 results['persistence']
-results['groups0']
 results['Xdetect']
 
 # %%
@@ -80,9 +95,9 @@ fp.plot_mesh()
 # %%
 from findpeaks import findpeaks
 fp = findpeaks(method="topology", verbose=0)
-# X = fp.import_example("2dpeaks_image")
 X = fp.import_example("2dpeaks")
 results = fp.fit(X)
+fp.plot()
 
 # %%
 # Load library
@@ -96,11 +111,39 @@ results = fp.fit(X)
 fig=fp.plot()
 
 # %%
+# Import library
+from findpeaks import findpeaks
+# Import image example
+img = fp.import_example('2dpeaks_image')
+# Initializatie
+fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300))
+# Fit
+fp.fit(img)
+
+
+# Take the minimum score for the top peaks off the diagonal.
+limit = fp.results['persistence'][0:5]['score'].min()
+fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=limit)
+# Fit
+fp.fit(img)
+
+
+fp.plot_preprocessing()
+fp.plot()
+
+# Plot
+fp.plot_mesh()
+# Rotate to make a top view
+fp.plot_mesh(view=(90,0))
+
+# %%
 from findpeaks import findpeaks
 fp = findpeaks(method="topology", denoise=None, window=3, limit=None)
-# X = fp.import_example("2dpeaks_image")
-X = fp.import_example("2dpeaks")
+X = fp.import_example("2dpeaks_image")
+# X = fp.import_example("2dpeaks")
 results = fp.fit(X)
+
+fp.plot_persistence()
 
 results["persistence"]
 
