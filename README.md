@@ -357,23 +357,17 @@ fp.plot()
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig_facebook_minperc5.png" width="600" />
 </p>
 
-#### Citation
-Please cite findpeaks in your publications if this is useful for your research. Here is an example BibTeX entry:
-```BibTeX
-@misc{erdogant2020findpeaks,
-  title={findpeaks},
-  author={Erdogan Taskesen},
-  year={2020},
-  howpublished={\url{https://github.com/erdogant/findpeaks}},
-}
-```
+### Citation
+Please cite in your publications if this is useful for your research (see citation).
+
+### Maintainer
+	* Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
+	* Contributions are welcome.
+	* If you wish to buy me a <a href="https://www.buymeacoffee.com/erdogant">Coffee</a> for this work, it is very appreciated :)
+	* See [LICENSE](LICENSE) for details.
 
 #### References
 * https://github.com/erdogant/findpeaks
 * https://github.com/Anaxilaus/peakdetect
 * https://www.sthu.org/blog/13-perstopology-peakdetection/index.html
 
-### Maintainer
-	Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
-	Contributions are welcome.
-	See [LICENSE](LICENSE) for details.
