@@ -5,6 +5,9 @@
 # print(dir(findpeaks))
 # print(findpeaks.__version__)
 
+# pip install opencv-python
+import matplotlib.pyplot as plt
+
 # %%
 from findpeaks import findpeaks
 import cv2
