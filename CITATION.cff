@@ -1,0 +1,25 @@
+# YAML 1.2
+---
+authors: 
+  -
+    family-names: Taskesen
+    given-names: Erdogan
+    orcid: "https://orcid.org/0000-0002-3430-9618"
+cff-version: "1.1.0"
+date-released: 2020-10-07
+keywords: 
+  - "python"
+  - "peak-detection"
+  - "peak-analysis"
+  - "topology"
+  - "mesh"
+  - "speckle-noise"
+  - "sonar"
+  - "sar"
+  - "mask"
+license: "MIT"
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/erdogant/findpeaks"
+title: "findpeaks is for the detection of peaks and valleys in a 1D vector and 2D array (image)."
+version: "2.3.1"
+...
