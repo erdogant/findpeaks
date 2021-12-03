@@ -6,13 +6,13 @@
 # Licence     : MIT
 # ----------------------------------------------------
 
-import findpeaks.utils.union_find as union_find
-from findpeaks.filters.lee import lee_filter
-from findpeaks.filters.lee_enhanced import lee_enhanced_filter
-from findpeaks.filters.kuan import kuan_filter
-from findpeaks.filters.frost import frost_filter
-from findpeaks.filters.median import median_filter
-from findpeaks.filters.mean import mean_filter
+import utils.union_find as union_find
+from filters.lee import lee_filter
+from filters.lee_enhanced import lee_enhanced_filter
+from filters.kuan import kuan_filter
+from filters.frost import frost_filter
+from filters.median import median_filter
+from filters.mean import mean_filter
 
 from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
 from scipy.ndimage.filters import maximum_filter, uniform_filter
@@ -408,7 +408,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
-        if i == 0: groups0[p] = (v, v, None)
+        if i == 0: groups0[p] = (int(v), int(v), None)
         uf.add(p, -i)
 
         if len(nc) > 0:
@@ -417,7 +417,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
             # Merge all others with oldp
             for bl, q in nc[1:]:
                 if uf[q] not in groups0:
-                    groups0[uf[q]] = (bl, bl - v, p)
+                    groups0[uf[q]] = (int(bl), int(bl) - int(v), p)
                 uf.union(oldp, q)
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
@@ -457,9 +457,9 @@ def topology(X, limit=None, reverse=True, verbose=3):
         df_persistence = pd.DataFrame()
         df_persistence['x'] = np.array(list(map(lambda x: x[0][1], groups0)))
         df_persistence['y'] = np.array(list(map(lambda x: x[0][0], groups0)))
-        df_persistence['birth_level'] = np.array(list(map(lambda x: x[1], groups0)))
-        df_persistence['death_level'] = np.array(list(map(lambda x: x[1] - x[2], groups0)))
-        df_persistence['score'] = np.array(list(map(lambda x: x[2], groups0)))
+        df_persistence['birth_level'] = np.array(list(map(lambda x: int(x[1]), groups0)))
+        df_persistence['death_level'] = np.array(list(map(lambda x: int(x[1]) - int(x[2]), groups0)))
+        df_persistence['score'] = np.array(list(map(lambda x: int(x[2]), groups0)))
         # Results
         results = {}
         results['groups0'] = groups0

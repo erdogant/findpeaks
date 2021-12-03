@@ -161,17 +161,17 @@ def test_fit():
     # bilateral
     img_bilateral = findpeaks.stats.denoise(img.copy(), method='bilateral', window=winsize)
     # frost filter
-    image_frost = findpeaks.frost_filter(img.copy(), damping_factor=k_value1, win_size=winsize)
+    image_frost = findpeaks.stats.frost_filter(img.copy(), damping_factor=k_value1, win_size=winsize)
     # kuan filter
     image_kuan = findpeaks.kuan_filter(img.copy(), win_size=winsize, cu=cu_value)
     # lee filter
-    image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
+    image_lee = findpeaks.stats.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
     # lee enhanced filter
-    image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
+    image_lee_enhanced = findpeaks.stats.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
     # mean filter
-    image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
+    image_mean = findpeaks.stats.mean_filter(img.copy(), win_size=winsize)
     # median filter
-    image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
+    image_median = findpeaks.stats.median_filter(img.copy(), win_size=winsize)
 
     
     # Loop throughout many combinations of parameter settings

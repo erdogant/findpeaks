@@ -1,7 +1,7 @@
 from findpeaks.findpeaks import findpeaks
 
-from findpeaks.utils.interpolate import interpolate_line1d, interpolate_line2d
-import findpeaks.utils.stats as stats
+# from findpeaks.utils.interpolate import interpolate_line1d, interpolate_line2d
+# import findpeaks.utils.stats as stats
 
 # Import the denosing filters
 from findpeaks.filters.lee import lee_filter

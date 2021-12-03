@@ -6,8 +6,6 @@
 # Licence     : See Licences
 # ----------------------------------------------------
 
-import findpeaks.utils.stats as stats
-from findpeaks.utils.interpolate import interpolate_line1d
 from peakdetect import peakdetect
 from caerus import caerus
 import caerus.utils.csplots as csplots
@@ -18,7 +16,14 @@ import numpy as np
 import os
 import requests
 from urllib.parse import urlparse
+import sys
 
+fpath = os.path.join(os.path.dirname(__file__), 'utils')
+# print(fpath)
+# if not np.isin(fpath, sys.path): sys.path.append(fpath)
+sys.path.append(fpath)
+import utils.stats as stats
+import utils.interpolate as interpolate
 
 class findpeaks():
     """For the detection of peaks in 1d and 2d data.
