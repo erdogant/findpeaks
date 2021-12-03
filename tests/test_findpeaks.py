@@ -1,6 +1,8 @@
 from findpeaks import findpeaks
 import numpy as np
+import unittest
 
+# class TestFINDPEAKS(unittest.TestCase):
 
 def test_fit():
     # CHECK OUTPUT METHOD TOPOLOGY
@@ -25,7 +27,7 @@ def test_fit():
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
     assert len(results['Xdetect'][results['Xdetect']!=0])==18
-    assert len(results['Xranked'][results['Xranked']!=0])==21
+    assert len(results['Xranked'][results['Xranked']!=0])==18
     
     # CHECK OUTPUT METHOD MASK
     fp = findpeaks(method="mask", verbose=3)
@@ -52,8 +54,8 @@ def test_fit():
     results = fp.fit(x)
     assert results['persistence']['peak'].sum()==4
     assert results['persistence']['valley'].sum()==4
-    assert np.sum(results['Xdetect']>0)==3
-    assert np.sum(results['Xdetect']<0)==3
+    assert np.sum(results['Xdetect']>0)==6
+    assert np.sum(results['Xdetect']<0)==0
     assert np.sum(results['Xranked']>0)==4
     assert np.sum(results['Xranked']<0)==4
 
@@ -69,8 +71,8 @@ def test_fit():
     fp = findpeaks(method="topology", whitelist='valley', denoise=None, verbose=3)
     results = fp.fit(x)
     assert results['persistence']['valley'].shape[0]==results['persistence']['valley'].sum()
-    assert np.sum(results['Xdetect']>0)==0
-    assert np.sum(results['Xdetect']<0)==3
+    assert np.sum(results['Xdetect']>0)==3
+    assert np.sum(results['Xdetect']<0)==0
     assert np.sum(results['Xranked']>0)==0
     assert np.sum(results['Xranked']<0)==4
 
@@ -96,9 +98,9 @@ def test_fit():
     # CHECK RESULTS METHOD with LIMIT functionality
     fp = findpeaks(method="topology", limit=0.02)
     results = fp.fit(X)
-    assert results['persistence'].shape[0]==4
+    assert results['persistence'].shape[0]==2
     assert len(results['Xdetect'][results['Xdetect']!=0])==len(results['Xranked'][results['Xranked']!=0])
-    assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==4
+    assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==2
 
     
     # CHECK OUTPUT METHOD PEAKDETECT
@@ -191,4 +193,4 @@ def test_fit():
                 assert fp.plot_persistence()
                 assert fp.plot()
                 # assert fp.plot_preprocessing()
-    
+
