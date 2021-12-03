@@ -6,6 +6,7 @@
 # Licence     : See Licences
 # ----------------------------------------------------
 
+import findpeaks
 from peakdetect import peakdetect
 from caerus import caerus
 import caerus.utils.csplots as csplots
@@ -20,8 +21,8 @@ import sys
 
 fpath = os.path.join(os.path.dirname(__file__), 'utils')
 # print(fpath)
-# if not np.isin(fpath, sys.path): sys.path.append(fpath)
-sys.path.append(fpath)
+if not np.isin(fpath, sys.path): sys.path.append(fpath)
+# sys.path.append(fpath)
 import utils.stats as stats
 import utils.interpolate as interpolate
 
