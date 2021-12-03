@@ -245,7 +245,7 @@ class findpeaks():
 
         # Interpolation
         if self.interpolate is not None:
-            X = interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
+            X = interpolate.interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
 
         # Compute peaks based on method
         if method=='peakdetect':
@@ -843,7 +843,8 @@ class findpeaks():
         # Plot the figure
         if wireframe:
             fig = plt.figure(figsize=figsize)
-            ax1 = fig.gca(projection='3d')
+            ax1 = fig.add_subplot(projection='3d')
+            ax1 = fig.gca()
             ax1.plot_wireframe(xx, yy, self.results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
             ax1.set_xlabel('x-axis')
             ax1.set_ylabel('y-axis')
@@ -860,7 +861,8 @@ class findpeaks():
         if surface:
             # Plot the figure
             fig = plt.figure(figsize=figsize)
-            ax2 = fig.gca(projection='3d')
+            ax2 = fig.add_subplot(projection='3d')
+            ax2 = fig.gca()
             ax2.plot_surface(xx, yy, self.results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
             if view is not None:
                 ax2.view_init(view[0], view[1])
@@ -1079,7 +1081,7 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
         url='https://erdogant.github.io/datasets/' + data + '.zip'
         fn = "2dpeaks.zip"
     elif data=='1dpeaks':
-        x = [0,   13,  22,  30,  35,  38,   42,   51,   57,   67,  73,   75,  89,   126,  141,  150,  200 ]
+        # x = [0,   13,  22,  30,  35,  38,   42,   51,   57,   67,  73,   75,  89,   126,  141,  150,  200 ]
         y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04,  0.02, 0.01]
         # X = np.c_[x, y]
         return y
