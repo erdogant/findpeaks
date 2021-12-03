@@ -57,7 +57,7 @@ class findpeaks():
     interpolate : int, (default : None)
         Interpolation factor. The higher the number, the less sharp the edges will be.
     limit : float, (default : None)
-        Values > limit are set as regions of interest (ROI).
+        Values > limit are active search areas to detect regions of interest (ROI).
     scale : bool, (default : False)
         Scaling in range [0-255] by img*(255/max(img))
     denoise : string, (default : 'fastnl', None to disable)
