@@ -82,7 +82,7 @@ def test_fit():
     results = fp.fit(X)
     assert fp.type=='peaks1d'
     assert [*results.keys()]==['persistence', 'Xdetect', 'Xranked', 'groups0', 'df']
-    assert [*fp.args]==['method', 'params', 'lookahead', 'interpolate', 'figsize', 'type']
+    assert [*fp.args]==['method', 'params_caerus', 'lookahead', 'interpolate', 'figsize', 'type']
     assert len(X)==len(results['Xdetect'])
     assert len(X)==len(results['Xranked'])
     assert len(X)==results['df'].shape[0]
@@ -109,7 +109,7 @@ def test_fit():
     results = fp.fit(X)
     assert fp.type=='peaks1d'
     assert [*results.keys()]==['df']
-    assert [*fp.args]==['method', 'params', 'lookahead', 'interpolate', 'figsize', 'type']
+    assert [*fp.args]==['method', 'params_caerus', 'lookahead', 'interpolate', 'figsize', 'type']
     assert len(X)==results['df'].shape[0]
     assert np.all(np.isin(results['df'].columns, ['x', 'y', 'labx', 'valley', 'peak', 'rank', 'score']))
     

@@ -476,7 +476,7 @@ class findpeaks():
             # Compute peaks using local maximum filter.
             result = stats.mask(Xproc, limit=self.limit)
         else:
-            print('[findpeaks] >Method [%s] is not supported in 2d-array (image) data. <return>' %(self.method))
+            if self.verbose>=2: print('[findpeaks] >WARNING: [method="%s"] is not supported in 2d-array (image) data. <return>' %(self.method))
             return None
 
         # Store
@@ -502,7 +502,8 @@ class findpeaks():
             # results['valley'] = result['valley'] # These values are incorrect when using 2d
             results['groups0'] = result['groups0']
         if self.method=='mask':
-            results['Xdetect'] = result
+            results['Xdetect'] = result['Xdetect']
+            results['Xranked'] = result['Xranked']
 
         # Store arguments
         args = {}
@@ -556,7 +557,7 @@ class findpeaks():
 
         # Resize
         if self.imsize:
-            X = stats.resize(X, size=self.imsize)
+            X = stats.resize(X, size=self.imsize, verbose=self.verbose)
             if showfig:
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
@@ -614,7 +615,7 @@ class findpeaks():
 
         """
         if not hasattr(self, 'results'):
-            print('[findpeaks] Nothing to plot.')
+            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. <return>')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -625,7 +626,7 @@ class findpeaks():
             # fig_axis = self.plot2d(figsize=figsize)
             fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text)
         else:
-            print('[findpeaks] Nothing to plot for %s' %(self.args['type']))
+            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot for %s' %(self.args['type']))
             return None
 
         # Return
@@ -647,7 +648,7 @@ class findpeaks():
 
         """
         if not self.args['type']=='peaks1d':
-            print('[findpeaks] >Requires results of 1D data <return>.')
+            if self.verbose>=3: print('[findpeaks] >Requires results of 1D data <return>.')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -691,7 +692,7 @@ class findpeaks():
 
         """
         if not self.args['type']=='peaks2d':
-            print('[findpeaks] >Requires results of 2D data <return>.')
+            if self.verbose>=3: print('[findpeaks] >Requires results of 2D data <return>.')
             return None
         ax_method, ax_mesh = None, None
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -720,7 +721,7 @@ class findpeaks():
 
         """
         if (not hasattr(self, 'results')) or (self.type=='peaks1d'):
-            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function with image data.')
+            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the (image) data. <return>')
             return None
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
@@ -743,7 +744,7 @@ class findpeaks():
 
         """
         if (self.type=='peaks1d'):
-            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function with 2d-array (image) data.')
+            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the 2d-array (image). <return>')
             return None
 
         if limit is None: limit = self.limit
@@ -781,11 +782,11 @@ class findpeaks():
         ax3.grid(False)
         
         if text:
-            for idx in tqdm(zip(idx_peaks[0], idx_peaks[1])):
+            for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
                 ax2.text(idx[1], idx[0], 'p'+self.results['Xranked'][idx].astype(str))
                 ax3.text(idx[1], idx[0], 'p'+self.results['Xranked'][idx].astype(str))
     
-            for idx in tqdm(zip(idx_valleys[0], idx_valleys[1])):
+            for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
                 ax2.text(idx[1], idx[0], 'v'+self.results['Xranked'][idx].astype(str))
                 ax3.text(idx[1], idx[0], 'v'+self.results['Xranked'][idx].astype(str))
         
@@ -830,7 +831,7 @@ class findpeaks():
 
         """
         if not hasattr(self, 'results'):
-            if self.verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the fit() function.')
+            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the fit() function. <return>')
             return None
         if self.results.get('Xproc', None) is None:
             if self.verbose>=3: print('[findpeaks] >These analysis do not support mesh plotting. This may be caused because your are analysing 1D.')
@@ -914,14 +915,13 @@ class findpeaks():
         """
         if verbose is None: verbose=self.verbose
         if (self.method!='topology') or (not hasattr(self, 'results')):
-            if verbose>=3: print('[findpeaks] >Nothing to plot. Hint: run the .fit(method="topology") function.')
+            if verbose>=3: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the .fit(method="topology") function. <return>')
             return None
 
         # Setup figure
         figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
-        disable = (True if ((verbose==0 or verbose is None) or verbose>3) else False)
         if self.args['type']=='peaks1d':
             # minpers = 0
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
@@ -932,7 +932,7 @@ class findpeaks():
             y = self.results['df']['y'].values
             x = self.results['df']['x'].values
             idx = np.where(self.results['df']['rank']>0)[0]
-            for i in tqdm(idx, disable=disable):
+            for i in tqdm(idx, disable=disable_tqdm(verbose)):
                 ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b')
 
         else:
@@ -944,7 +944,7 @@ class findpeaks():
             # Plot the detected loci
             if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
             ax1.set_title("Loci of births")
-            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable):
+            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm(verbose)):
                 p_birth, bl, pers, p_death = homclass
                 if (self.limit is None):
                     y, x = p_birth
@@ -968,7 +968,7 @@ class findpeaks():
         x = self.results['persistence']['birth_level'].values
         y = self.results['persistence']['death_level'].values
         plt.plot(x, y, '.', c='b')
-        for i in tqdm(range(0,len(x)), disable=disable):
+        for i in tqdm(range(0,len(x)), disable=disable_tqdm(verbose)):
             plt.text(x[i], (y[i] + y[i] * 0.01),  str(i + 1), color='b')
 
         # if verbose>=3: print('[findpeaks] >Plotting Peristence..')
@@ -1096,10 +1096,10 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     elif (data=='btc') or (data=='facebook'):
         from caerus import caerus
         cs = caerus()
-        X = cs.download_example(name=data)
+        X = cs.download_example(name=data, verbose=verbose)
         return X
     else:
-        if verbose>=3: print('[findpeaks] >Nothing to download <return>.')
+        if verbose>=2: print('[findpeaks] >WARNING: Nothing to download. <return>')
         return None
 
     if datadir is None: datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -1124,3 +1124,9 @@ def _import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
         X = pd.read_csv(PATH_TO_DATA, sep=sep).values
     # Return
     return X
+
+
+# %%
+# def disable_tqdm(verbose):
+    # """Set the verbosity messages."""
+    # return  (True if ((verbose==0 or verbose is None) or verbose>3) else False)
