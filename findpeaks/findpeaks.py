@@ -553,7 +553,7 @@ class findpeaks():
 
         # Resize
         if self.imsize:
-            X = stats.resize(X, size=self.imsize)
+            X = stats.resize(X, size=self.imsize, verbose=self.verbose)
             if showfig:
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
