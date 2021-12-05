@@ -1,4 +1,4 @@
-name: Pytest with pandas
+name: Pytest for findpeaks
 on: [push]
 
 jobs:
@@ -19,9 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # install pandas because we have unittests that include pd.DataFrame()
           pip install -r requirements.txt
-          pip install pandas
       - name: Test with pytest
         run: |
           pip install pytest
