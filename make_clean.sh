@@ -16,3 +16,4 @@ rm -rf tests/__pycache__
 rm -rf *.js
 rm -rf *.html
 rm -rf *.css
+rm -rf *.png
