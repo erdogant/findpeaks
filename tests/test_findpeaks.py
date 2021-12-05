@@ -34,7 +34,7 @@ def test_fit():
     X = fp.import_example('2dpeaks')
     results = fp.fit(X)
     assert fp.type=='peaks2d'
-    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect']
+    assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect','Xranked']
     assert [*fp.args]==['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
 
     # CHECK RESULTS METHOD TOPOLOGY
@@ -98,9 +98,9 @@ def test_fit():
     # CHECK RESULTS METHOD with LIMIT functionality
     fp = findpeaks(method="topology", limit=0.02)
     results = fp.fit(X)
-    assert results['persistence'].shape[0]==2
+    assert results['persistence'].shape[0]==4
     assert len(results['Xdetect'][results['Xdetect']!=0])==len(results['Xranked'][results['Xranked']!=0])
-    assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==2
+    assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==4
 
     
     # CHECK OUTPUT METHOD PEAKDETECT
@@ -183,7 +183,7 @@ def test_fit():
     windows = [None, 3, 63]
     cus = [None, 0, 0.75]
     img = fp.import_example('2dpeaks')
-    
+
     for getfilter in filters:
         for window in windows:
             for cu in cus:
@@ -193,4 +193,3 @@ def test_fit():
                 assert fp.plot_persistence()
                 assert fp.plot()
                 # assert fp.plot_preprocessing()
-

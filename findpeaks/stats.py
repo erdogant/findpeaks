@@ -416,7 +416,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
-        if i == 0: groups0[p] = (int(v), int(v), None)
+        if i == 0: groups0[p] = (v, v, None)
         uf.add(p, -i)
 
         if len(nc) > 0:
@@ -425,7 +425,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
             # Merge all others with oldp
             for bl, q in nc[1:]:
                 if uf[q] not in groups0:
-                    groups0[uf[q]] = (int(bl), int(bl) - int(v), p)
+                    groups0[uf[q]] = (float(bl), float(bl) - float(v), p)
                 uf.union(oldp, q)
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
