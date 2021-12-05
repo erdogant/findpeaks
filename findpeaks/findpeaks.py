@@ -44,7 +44,7 @@ class findpeaks():
         1d-vector approaches:
             * 'topology'
             * 'peakdetect' (default)
-            * 'cearus'
+            * 'caerus'
         2d-array approaches:
             * 'topology' (default)
             * 'mask'
@@ -77,7 +77,7 @@ class findpeaks():
     cu : float, (default: 0.25)
         The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
     params : dict() (Default: None)
-        Caerus parameters can be defined in this dict. If None defined, then all default caerus parameters are used:
+        caerus parameters can be defined in this dict. If None defined, then all default caerus parameters are used:
         {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
     togray : bool, (default : False)
         Conversion to gray scale.
@@ -124,14 +124,10 @@ class findpeaks():
 
     """
 
-    def __init__(self, method=None, whitelist=['peak','valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params=None, figsize=(15, 8), verbose=3):
+    def __init__(self, method=None, whitelist=['peak','valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters."""
 
         # Store in object
-        params_caerus = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-        if params is not None:
-            params_caerus.update(params)
-
         if isinstance(whitelist, str): whitelist=[whitelist]
         if lookahead is None: lookahead=1
         lookahead = np.maximum(1, lookahead)
@@ -147,9 +143,13 @@ class findpeaks():
         self.denoise = denoise
         self.window = window
         self.cu = cu
-        self.params = params_caerus
         self.figsize = figsize
         self.verbose = verbose
+
+        # Store parameters for caerus
+        caerus_defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+        params_caerus   = {**caerus_defaults, **params_caerus}
+        self.params_caerus = params_caerus
 
     def fit(self, X, x=None):
         """Detect peaks and valleys in a 1D vector or 2D-array (image).
@@ -265,13 +265,13 @@ class findpeaks():
             # Post processing for the topology method
             result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
         elif method=='caerus':
-            cs = caerus(**self.params)
-            result = cs.fit(X, return_as_dict=True)
+            cs = caerus(**self.params_caerus)
+            result = cs.fit(X, return_as_dict=True, verbose=self.verbose)
             # Post processing for the caerus method
             result['caerus'] = stats._post_processing(X, Xraw, np.c_[result['loc_start_best'], result['loc_start_best']], np.c_[result['loc_stop_best'], result['loc_stop_best']], self.interpolate, 1, labxRaw=result['df']['labx'].values)
             result['caerus']['model'] = cs
         else:
-            print('[findpeaks] >Method [%s] is not supported in 1d-vector data. <return>' %(self.method))
+            if self.verbose>=2: print('[findpeaks] >WARNING: [method="%s"] is not supported in 1d-vector data. <return>' %(self.method))
             return None
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, result)
@@ -384,7 +384,7 @@ class findpeaks():
         # Arguments
         args = {}
         args['method'] = self.method
-        args['params'] = self.params
+        args['params_caerus'] = self.params_caerus
         args['lookahead'] = self.lookahead
         args['interpolate'] = self.interpolate
         args['figsize'] = self.figsize
