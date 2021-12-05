@@ -4,7 +4,7 @@
 
 Some of the explanations of **topology**, and **persitent homology** are gathered from various sources on the internet (articles, stackoverflow, blog pages, and git pages), and combined on this page.
 All references are depicted at the bottom of the page. Note that all examples are made with ``findpeaks``.
-The function with docstrings for the topology method can be found here :func:`findpeaks.utils.stats.topology`.
+The function with docstrings for the topology method can be found here :func:`findpeaks.stats.topology`.
 
 
 Topology

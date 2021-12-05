@@ -7,7 +7,7 @@ One-dimensional plots
 
 Pre-processing
 '''''''''''''''
-The pre-processing in a 1d-vector is based on the interpolation: function: :func:`findpeaks.utils.interpolate.interpolate_line1d`
+The pre-processing in a 1d-vector is based on the interpolation: function: :func:`findpeaks.interpolate.interpolate_line1d`
 
 .. code:: python
 

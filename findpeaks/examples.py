@@ -9,14 +9,13 @@
 import matplotlib.pyplot as plt
 from findpeaks import findpeaks
 
-
 # %%
 # Load library
 from findpeaks import findpeaks
 # Data
 X = [10,11,9,23,21,11,45,20,11,12]
 # Initialize
-fp = findpeaks(method='topology', lookahead=1)
+fp = findpeaks(method='topology', lookahead=1, verbose=0)
 results = fp.fit(X)
 fp.plot()
 results['df']
@@ -51,7 +50,7 @@ x = cv2.imread('C://temp/LbK2I.png')
 fp = findpeaks(method="peakdetect", whitelist=['peak', 'valley'], denoise=None, limit=0, verbose=3)
 results = fp.fit(x)
 
-results['df']
+# results['df']
 fp.plot()
 fp.plot_persistence()
 fp.plot_mesh(view=(90,0))
@@ -93,22 +92,24 @@ results['Xdetect']
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks()
+verbose=0
+
+fp = findpeaks(verbose=verbose)
 # Import example
 X = fp.import_example("btc")
 
 # Make fit
-fp = findpeaks(method="topology")
+fp = findpeaks(method="topology", verbose=verbose)
 results = fp.fit(X)
 fp.plot()
 fp.plot_persistence()
 
-fp = findpeaks(method="peakdetect", lookahead=15)
+fp = findpeaks(method="peakdetect", lookahead=15, verbose=verbose)
 # Make fit
 results = fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method="caerus", params={'minperc':100}, interpolate = None)
+fp = findpeaks(method="caerus", params_caerus={'minperc':100}, interpolate=None, verbose=verbose)
 # Make fit
 results = fp.fit(X)
 ax = fp.plot()
@@ -122,7 +123,7 @@ import numpy as np
 np.random.seed(200)
 X = np.random.randint(200, size=400)
 
-fp = findpeaks(method = 'topology', interpolate = 10, lookahead = 1)
+fp = findpeaks(method = 'topology', interpolate = 10, lookahead = 1, verbose=3)
 results = fp.fit(X)
 
 fig=fp.plot()
@@ -130,7 +131,7 @@ fp.plot_mesh()
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", verbose=0)
+fp = findpeaks(method="topology", verbose=3)
 X = fp.import_example("2dpeaks")
 results = fp.fit(X)
 fp.plot()
@@ -141,7 +142,7 @@ from findpeaks import findpeaks
 # Data
 X = [10,11,9,23,21,11,45,20,11,12]
 # Initialize
-fp = findpeaks(method='peakdetect', lookahead=1)
+fp = findpeaks(method='peakdetect', lookahead=1, verbose=3)
 results = fp.fit(X)
 # Plot
 fig=fp.plot()
@@ -152,7 +153,7 @@ from findpeaks import findpeaks
 # Import image example
 img = fp.import_example('2dpeaks_image')
 # Initializatie
-fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), whitelist=['peak', 'valley'])
+fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), whitelist=['peak', 'valley'], verbose=3)
 # Fit
 fp.fit(img)
 fp.plot()
@@ -160,7 +161,7 @@ fp.results["persistence"]
 
 # Take the minimum score for the top peaks off the diagonal.
 limit = fp.results['persistence'][0:5]['score'].min()
-fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=254, whitelist=['peak', 'valley'])
+fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=254, whitelist=['peak', 'valley'], verbose=3)
 fp.fit(img)
 
 fp.results["persistence"]
@@ -173,7 +174,7 @@ fp.plot_mesh(view=(90,0))
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", denoise=None, window=3, limit=None)
+fp = findpeaks(method="topology", denoise=None, window=3, limit=None, verbose=0)
 X = fp.import_example("2dpeaks_image")
 # X = fp.import_example("2dpeaks")
 results = fp.fit(X)
@@ -218,7 +219,7 @@ fp.results['df']
 # %%
 from findpeaks import findpeaks
 X = [10,11,9,23,21,11,45,20,11,12]
-fp = findpeaks(lookahead=1, method="topology")
+fp = findpeaks(lookahead=1, method="topology", verbose=3)
 results = fp.fit(X)
 fp.plot()
 fp.plot_persistence()
@@ -226,15 +227,16 @@ fp.plot_persistence()
 
 # %% Run over all methods and many parameters
 from findpeaks import findpeaks
-savepath='./comparison_methods/'
+savepath=''
 methods = ['mask','topology', None]
 filters = ['fastnl','bilateral','frost','median','mean', None]
 windows = [3, 9, 15, 31, 63]
 cus = [0.25, 0.5, 0.75]
+verbose=3
 
 for getfilter in filters:
     for window in windows:
-            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, togray=True, imsize=(300,300), verbose=3)
+            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, togray=True, imsize=(300,300), verbose=verbose)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window)
@@ -244,7 +246,7 @@ filters = ['lee','lee_enhanced','kuan']
 for getfilter in filters:
     for window in windows:
         for cu in cus:
-            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=(300,300), verbose=3)
+            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=(300,300), verbose=verbose)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
@@ -273,14 +275,14 @@ fp.plot_persistence()
 
 
 from findpeaks import findpeaks
-fp = findpeaks(method='topology')
+fp = findpeaks(method='topology', verbose=3)
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
 fp.plot_persistence()
 
 from findpeaks import findpeaks
-fp = findpeaks(method='topology',  interpolate=10)
+fp = findpeaks(method='topology',  interpolate=10, verbose=3)
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
@@ -306,7 +308,7 @@ fp.plot(cmap='hot')
 fp.plot()
 fp.plot_persistence()
 
-fp = findpeaks(method='mask')
+fp = findpeaks(method='mask', verbose=3)
 img = fp.import_example()
 fp.fit(img)
 fp.plot()
@@ -364,11 +366,11 @@ xs = np.linspace(0,3.7*pi,i)
 X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
 
 # Findpeaks
-fp = findpeaks(method='peakdetect')
+fp = findpeaks(method='peakdetect', verbose=0)
 results=fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method='topology')
+fp = findpeaks(method='topology', verbose=0)
 results=fp.fit(X)
 
 fp.plot_persistence()

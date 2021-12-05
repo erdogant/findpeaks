@@ -206,7 +206,7 @@ The use of peak detection techniques such as topology require a very specific se
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
 <span class="c1"># The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minperc&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">,</span> <span class="n">params_caerus</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minperc&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
 <span class="c1"># Import example data</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;btc&#39;</span><span class="p">)</span>
 <span class="c1"># Fit</span>

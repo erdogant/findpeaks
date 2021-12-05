@@ -7,11 +7,11 @@ API References
     :undoc-members:
 
 
-.. automodule:: findpeaks.utils.stats
+.. automodule:: findpeaks.stats
     :members:
     :undoc-members:
 
-.. automodule:: findpeaks.utils.interpolate
+.. automodule:: findpeaks.interpolate
     :members:
     :undoc-members:
 

@@ -227,7 +227,7 @@ Median
 Fastnl
 ----------------------------------------------------
 
-:func:`findpeaks.utils.stats.denoise`
+:func:`findpeaks.stats.denoise`
 
 .. code:: python
     
@@ -251,7 +251,7 @@ Fastnl
 Bilateral
 ----------------------------------------------------
 
-The bilateral filter, :func:`findpeaks.utils.stats.denoise`, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
+The bilateral filter, :func:`findpeaks.stats.denoise`, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
 The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
 while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
 ensures that only those pixels with intensities similar to that of the central pixel ("intensity neighbors")

@@ -397,7 +397,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </div>
 <div class="section" id="fastnl">
 <h2>Fastnl<a class="headerlink" href="#fastnl" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.utils.stats.denoise" title="findpeaks.utils.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.utils.stats.denoise()</span></code></a></p>
+<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># fastnl</span>
 <span class="n">img_fastnl</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -417,7 +417,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </div>
 <div class="section" id="bilateral">
 <h2>Bilateral<a class="headerlink" href="#bilateral" title="Permalink to this headline">¶</a></h2>
-<p>The bilateral filter, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.utils.stats.denoise" title="findpeaks.utils.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.utils.stats.denoise()</span></code></a>, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
+<p>The bilateral filter, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a>, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
 The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
 while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
 ensures that only those pixels with intensities similar to that of the central pixel (“intensity neighbors”)

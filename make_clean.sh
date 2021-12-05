@@ -11,7 +11,6 @@ rm -rf findpeaks/data/*.png
 rm -rf findpeaks/.pylint.d
 rm -rf findpeaks/__pycache__
 rm -rf findpeaks/filters/__pycache__
-rm -rf findpeaks/utils/__pycache__
 rm -rf tests/__pycache__
 rm -rf *.js
 rm -rf *.html

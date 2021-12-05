@@ -1,7 +1,7 @@
 from findpeaks.findpeaks import findpeaks
 
-# from findpeaks.utils.interpolate import interpolate_line1d, interpolate_line2d
-# import findpeaks.utils.stats as stats
+# from findpeaks.interpolate import interpolate_line1d, interpolate_line2d
+# import findpeaks.stats as stats
 
 # Import the denosing filters
 from findpeaks.filters.lee import lee_filter
@@ -10,6 +10,7 @@ from findpeaks.filters.kuan import kuan_filter
 from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
+# from findpeaks.stats.disable_tqdm import disable_tqdm
 
 
 

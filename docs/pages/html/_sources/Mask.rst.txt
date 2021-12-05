@@ -36,7 +36,7 @@ The *mask* method is only avaiable for 2d-image data. Below is shown an example:
     # dict_keys(['Xraw', 'Xproc', 'Xdetect'])
 
 The output is a dictionary containing multiple variables that can be of use for follow-up analysis.
-Details about the input/output parameters can be found here: :func:`findpeaks.utils.stats.mask`
+Details about the input/output parameters can be found here: :func:`findpeaks.stats.mask`
 The output variables **Xdetect** and **Xranked** has the same shape as the input data. The elements with value > 0 depict a region of interest.
 
 

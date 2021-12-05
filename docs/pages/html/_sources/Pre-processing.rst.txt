@@ -9,9 +9,9 @@ The input parameter "interpolate" extens the data by this factor and is usefull 
 A smoothed signal can be more robust agains noise, and perform better in the detection of peaks and valleys.
 This step can be seen as pre-processing step before applying any method.
 The input is 1D numpy vector that can be interpolated by various methods for which the default is **linear**. Note that the initialization of ``findpeaks`` is fixed to **linear**.
-If another method is desired, it can be done by directly using the functionality: :func:`findpeaks.utils.interpolate.interpolate_line1d`
+If another method is desired, it can be done by directly using the functionality: :func:`findpeaks.interpolate.interpolate_line1d`
 
-Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: :func:`findpeaks.utils.interpolate.interpolate_line2d`
+Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: :func:`findpeaks.interpolate.interpolate_line2d`
 
     Interpolation methods:
         * String or integer
@@ -50,7 +50,7 @@ Besides the 1d functionality, there is also a 2d functionlity in case you have x
    | |figP0|  |
    +----------+
 
-As mentioned before, the interpolate function :func:`findpeaks.utils.interpolate.interpolate_line1d` can also handle missing data.
+As mentioned before, the interpolate function :func:`findpeaks.interpolate.interpolate_line1d` can also handle missing data.
 Lets demonstrate this by example:
 
 .. code:: python
@@ -98,14 +98,14 @@ Otherwise, the detected peaks coordinates on the x-axis would always be differen
 Resize
 ''''''''''''
 
-The resize function :func:`findpeaks.utils.stats.resize` is only applicable for 2D-arrays (images).
+The resize function :func:`findpeaks.stats.resize` is only applicable for 2D-arrays (images).
 The function resizes the images using functionality of ``python-opencv`` using default parameter settings.
 
 
 Scale
 ''''''''''''
 
-The *scale* function :func:`findpeaks.utils.stats.scale` is only applicable for 2D-arrays (images).
+The *scale* function :func:`findpeaks.stats.scale` is only applicable for 2D-arrays (images).
 Scaling data is an import pre-processing step to make sure all data is ranged between the minimum and maximum range.
 
 The images are scaled between [0-255] by the following equation:
@@ -116,7 +116,7 @@ The images are scaled between [0-255] by the following equation:
 Gray
 ''''''''''''
 
-The *gray* function :func:`findpeaks.utils.stats.togray` is only applicable for 2D-arrays (images).
+The *gray* function :func:`findpeaks.stats.togray` is only applicable for 2D-arrays (images).
 The function sets the color to gray using functionality of ``python-opencv`` using the ``cv2.COLOR_BGR2GRAY`` settings.
 
 
