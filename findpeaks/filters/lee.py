@@ -52,11 +52,12 @@ def _weighting(window, cu=0.25):
 
 
 def lee_filter(img, win_size=3, cu=0.25):
-    """
-    Apply lee to a numpy matrix containing the image, with a window of
-    win_size x win_size.
-
-    The Additive Noise Lee Despeckling Filter
+    """Lee filter.
+    
+    Description
+    -----------
+    The Additive Noise Lee Despeckling Filter.
+    Apply lee to a numpy matrix containing the image, with a window of win_size x win_size.
     Let's assume that the despeckling noise is additive with a constant mean of zero, a constant variance, and drawn from a Gaussian distribution. Use a window (I x J pixels) to scan the image with a stride of 1 pixels (and I will use reflective boundary conditions). The despeckled value of the pixel in the center of the window located in the ith row and jth column is, zhat_ij = mu_k + W*(z_ij = mu_z), where mu_k is the mean value of all pixels in the window centered on pixel i,j, z_ij is the unfiltered value of the pixel, and W is a weight calculated as, W = var_k / (var_k + var_noise), where var_k is the variance of all pixels in the window and var_noise is the variance of the speckle noise. A possible alternative to using the actual value of the center pixel for z_ij is to use the median pixel value in the window.
     The parameters of the filter are the window/kernel size and the variance of the noise (which is unknown but can perhaps be estimated from the image as the variance over a uniform feature smooth like the surface of still water). Using a larger window size and noise variance will increase radiometric resolution at the expense of spatial resolution.
     For more info on the Lee Filter and other despeckling filters see http://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/speckle-function.htm
@@ -64,6 +65,38 @@ def lee_filter(img, win_size=3, cu=0.25):
     If you don't want the window to be a square of size x size, just replace uniform_filter with something else (convolution with a disk, gaussian filter, etc). Any type of (weighted) averaging filter will do, as long as it is the same for calculating both img_mean and img_square_mean.
     The Lee filter seems rather old-fashioned as a filter. It won't behave well at edges because for any window that has an edge in it, the variance is going to be much higher than the overall image variance, and therefore the weights (of the unfiltered image relative to the filtered image) are going to be close to 1.
 
+    Parameters
+    ----------
+    img : array-like
+        Input image.
+    win_size : int, int (default: 3)
+        Window size.
+    cu : float (default: 0.25)
+        cu factor.
+
+    Returns
+    -------
+    img_filtered : array-like
+        Filtered image.
+
+    Examples
+    --------
+    >>> import findpeaks
+    >>> import matplotlib.pyplot as plt
+    >>> img = findpeaks.import_example('2dpeaks_image')
+    >>> # Resize
+    >>> img = findpeaks.stats.resize(img, size=(300,300))
+    >>> # Make grey image
+    >>> img = findpeaks.stats.togray(img)
+    >>> # Scale between [0-255]
+    >>> img = findpeaks.stats.scale(img)
+    >>> # Filter
+    >>> img_filtered = findpeaks.stats.lee_filter(img.copy(), win_size=15, cu=0.25)
+    >>>
+    >>> plt.figure()
+    >>> fig, axs = plt.subplots(1,2)
+    >>> axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+    >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee filter')
 
     """
     if win_size < 3: raise Exception('[findpeaks] >ERROR: window size (win_size) must be at least 3')

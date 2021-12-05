@@ -52,9 +52,45 @@ def weighting(window, cu=0.25):
 
 
 def kuan_filter(img, win_size=3, cu=0.25):
-    """
-    Apply kuan to a numpy matrix containing the image, with a window of
-    win_size x win_size.
+    """Kuan filter.
+
+    Description
+    -----------
+    Apply kuan to a numpy matrix containing the image, with a window of win_size x win_size.
+
+    Parameters
+    ----------
+    img : array-like
+        Input image.
+    win_size : int, int (default: 3)
+        Window size.
+    cu : float (default: 0.25)
+        cu factor.
+
+    Returns
+    -------
+    img_filtered : array-like
+        Filtered image.
+
+    Examples
+    --------
+    >>> import findpeaks
+    >>> import matplotlib.pyplot as plt
+    >>> img = findpeaks.import_example('2dpeaks_image')
+    >>> # Resize
+    >>> img = findpeaks.stats.resize(img, size=(300,300))
+    >>> # Make grey image
+    >>> img = findpeaks.stats.togray(img)
+    >>> # Scale between [0-255]
+    >>> img = findpeaks.stats.scale(img)
+    >>> # Filter
+    >>> img_filtered = findpeaks.stats.kuan_filter(img.copy(), win_size=15, cu=0.25)
+    >>>
+    >>> plt.figure()
+    >>> fig, axs = plt.subplots(1,2)
+    >>> axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+    >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Kuan filter')
+
     """
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')

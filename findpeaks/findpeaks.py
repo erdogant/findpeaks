@@ -6,7 +6,7 @@
 # Licence     : See Licences
 # ----------------------------------------------------
 
-import findpeaks
+# import findpeaks
 from peakdetect import peakdetect
 from caerus import caerus
 import caerus.utils.csplots as csplots
@@ -17,8 +17,8 @@ import numpy as np
 import os
 import requests
 from urllib.parse import urlparse
-import sys
 
+# import sys
 # fpath = os.path.join(os.path.dirname(__file__), 'utils')
 # print(fpath)
 # if not np.isin(fpath, sys.path): sys.path.append(fpath)
@@ -26,6 +26,7 @@ import sys
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
+
 
 # %%
 class findpeaks():
@@ -1022,7 +1023,7 @@ class findpeaks():
             Dataset containing mixed features.
 
         """
-        X = _import_example(data=data, url=url, sep=sep, verbose=self.verbose, datadir=datadir)
+        X = import_example(data=data, url=url, sep=sep, verbose=self.verbose, datadir=datadir)
         return X
 
 
@@ -1051,7 +1052,7 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
 
 
 # %% Import example dataset from github.
-def _import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
+def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     """Import example dataset from github source.
 
     Description

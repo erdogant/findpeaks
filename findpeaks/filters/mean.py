@@ -26,11 +26,43 @@ import numpy as np
 
 
 def mean_filter(img, win_size=3):
-    """
+    """Mean filter.
+
+    Description
+    -----------
     Apply a 'mean filter' to 'img' with a window size equal to 'win_size'.
-    Parameters:
-        - img: a numpy matrix representing the image.
-        - win_size: the size of the windows (by default 3).
+
+    Parameters
+    ----------
+    img : array-like
+        Input image.
+    win_size : int, int (default: 3)
+        The size of the windows.
+
+    Returns
+    -------
+    img_filtered : array-like
+        Filtered image.
+
+    Examples
+    --------
+    >>> import findpeaks
+    >>> import matplotlib.pyplot as plt
+    >>> img = findpeaks.import_example('2dpeaks_image')
+    >>> # Resize
+    >>> img = findpeaks.stats.resize(img, size=(300,300))
+    >>> # Make grey image
+    >>> img = findpeaks.stats.togray(img)
+    >>> # Scale between [0-255]
+    >>> img = findpeaks.stats.scale(img)
+    >>> # Filter
+    >>> img_filtered = findpeaks.stats.mean_filter(img.copy(), win_size=15)
+    >>>
+    >>> plt.figure()
+    >>> fig, axs = plt.subplots(1,2)
+    >>> axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+    >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Mean filter')
+
     """
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')

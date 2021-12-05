@@ -4,8 +4,9 @@
 # Copyright 2012 - 2013
 # Matías Herranz <matiasherranz@gmail.com>
 # Joaquín Tita <joaquintita@gmail.com>
-#
 # https://github.com/PyRadar/pyradar
+#
+# 2020: Erdogan Taskesen: <erdogant@gmail.com> Converted to python3.
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,13 +26,45 @@ import numpy as np
 
 
 def median_filter(img, win_size=3):
-    """
+    """Median Filter.
+    
+    Description
+    -----------
     Apply a 'median filter' to 'img' with a window size equal to 'win_size'.
-    Parameters:
-        - img: a numpy matrix representing the image.
-        - win_size: the size of the windows (by default 3)
-    """
 
+
+    Parameters
+    ----------
+    img : array-like
+        Input image.
+    win_size : int, int (default: 3)
+        The size of the windows.
+
+    Returns
+    -------
+    img_filtered : array-like
+        Filtered image.
+
+    Examples
+    --------
+    >>> import findpeaks
+    >>> import matplotlib.pyplot as plt
+    >>> img = findpeaks.import_example('2dpeaks_image')
+    >>> # Resize
+    >>> img = findpeaks.stats.resize(img, size=(300,300))
+    >>> # Make grey image
+    >>> img = findpeaks.stats.togray(img)
+    >>> # Scale between [0-255]
+    >>> img = findpeaks.stats.scale(img)
+    >>> # Filter
+    >>> img_filtered = findpeaks.stats.median_filter(img.copy(), win_size=15)
+    >>>
+    >>> plt.figure()
+    >>> fig, axs = plt.subplots(1,2)
+    >>> axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+    >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Median filter')
+
+    """
     # assert_window_size(win_size)
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('ERROR: Image should be 2D. Hint: set the parameter: togray=True')

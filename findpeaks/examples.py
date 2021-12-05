@@ -81,8 +81,8 @@ fp.plot_persistence()
 fp.plot_mesh()
 
 
-plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255)
-plt.imshow(fp.results['Xdetect'], cmap='gray_r')
+plt.imshow(x, cmap="coolwarm", interpolation="none", vmin=0, vmax=255); plt.grid(True)
+plt.imshow(fp.results['Xdetect'], cmap='gray_r'); plt.grid(True)
 results["persistence"]
 
 
@@ -92,7 +92,7 @@ results['Xdetect']
 
 # %%
 from findpeaks import findpeaks
-verbose=0
+verbose=3
 
 fp = findpeaks(verbose=verbose)
 # Import example
@@ -377,12 +377,8 @@ fp.plot_persistence()
 # fp.results['Xdetect']>1
 
 # %% Denoising example
-from findpeaks import findpeaks
-fp = findpeaks()
-
-
-img = fp.import_example('2dpeaks_image')
 import findpeaks
+img = findpeaks.import_example('2dpeaks_image')
 
 # filters parameters
 # window size

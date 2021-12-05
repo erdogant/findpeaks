@@ -71,11 +71,50 @@ def assert_parameters(win_size, k, cu, cmax):
 
 
 def lee_enhanced_filter(img, win_size=3, k=K_DEFAULT, cu=CU_DEFAULT, cmax=CMAX_DEFAULT):
-    """
-    Apply Enhanced Lee filter to a numpy matrix containing the image, with a
-    window of win_size x win_size.
-    """
+    """Lee enhanced filter.
 
+    Description
+    -----------
+    Apply Enhanced Lee filter to a numpy matrix containing the image, with a window of win_size x win_size.
+
+    Parameters
+    ----------
+    img : array-like
+        Input image.
+    win_size : int, int (default: 3)
+        Window size.
+    cu : float (default: 0.25)
+        cu factor.
+    k : float, (default: 1.0)
+        Kvalue.
+    cmax : float, (default: 1.73)
+        cmax value.
+
+    Returns
+    -------
+    img_filtered : array-like
+        Filtered image.
+
+    Examples
+    --------
+    >>> import findpeaks
+    >>> import matplotlib.pyplot as plt
+    >>> img = findpeaks.import_example('2dpeaks_image')
+    >>> # Resize
+    >>> img = findpeaks.stats.resize(img, size=(300,300))
+    >>> # Make grey image
+    >>> img = findpeaks.stats.togray(img)
+    >>> # Scale between [0-255]
+    >>> img = findpeaks.stats.scale(img)
+    >>> # Filter
+    >>> img_filtered = findpeaks.stats.lee_enhanced_filter(img.copy(), win_size=15)
+    >>>
+    >>> plt.figure()
+    >>> fig, axs = plt.subplots(1,2)
+    >>> axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+    >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee enhanced filter')
+
+    """
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
     if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))

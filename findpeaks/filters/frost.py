@@ -80,12 +80,46 @@ def calculate_local_weight_matrix(window, factor_A):
 
 
 def frost_filter(img, damping_factor=2.0, win_size=3):
-    """
-    Apply frost filter to a numpy matrix containing the image, with a window of
-    win_size x win_size.
-    By default, the window size is 3x3.
-    """
+    """Frost filter.
+    
+    Description
+    -----------
+    Apply frost filter to a numpy matrix containing the image, with a window of win_size x win_size. By default, the window size is 3x3.
 
+    Parameters
+    ----------
+    img : array-like
+        Input image.
+    damping_factor : float (default: 2.0)
+        Damping factor.
+    win_size : int, int (default: 3)
+        Window size.
+
+    Returns
+    -------
+    img_filtered : array-like
+        Filtered image.
+    
+    Examples
+    --------
+    >>> import findpeaks
+    >>> import matplotlib.pyplot as plt
+    >>> img = findpeaks.import_example('2dpeaks_image')
+    >>> # Resize
+    >>> img = findpeaks.stats.resize(img, size=(300,300))
+    >>> # Make grey image
+    >>> img = findpeaks.stats.togray(img)
+    >>> # Scale between [0-255]
+    >>> img = findpeaks.stats.scale(img)
+    >>> # frost filter
+    >>> img_filtered = findpeaks.stats.frost_filter(img.copy(), damping_factor=2, win_size=15)
+    >>>
+    >>> plt.figure()
+    >>> fig, axs = plt.subplots(1,2)
+    >>> axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+    >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Frost filter')
+
+    """
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
     if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to user odd window sizes. You provided %s, an even number.' % (win_size))
