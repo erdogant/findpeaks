@@ -13,13 +13,12 @@ from findpeaks.filters.kuan import kuan_filter
 from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
-# from findpeaks.stats.disable_tqdm import disable_tqdm
 
 
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.3.4'
+__version__ = '2.4.0'
 
 # module level doc-string
 __doc__ = """
