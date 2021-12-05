@@ -6,3 +6,4 @@ pandas
 tqdm
 requests
 caerus
+opencv-python
