@@ -5,3 +5,4 @@ sphinx
 pytest
 git+git://github.com/SuperKogito/sphinxcontrib-pdfembed
 opencv-python
+tabulate
