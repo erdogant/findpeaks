@@ -19,13 +19,15 @@ import requests
 from urllib.parse import urlparse
 import sys
 
-fpath = os.path.join(os.path.dirname(__file__), 'utils')
+# fpath = os.path.join(os.path.dirname(__file__), 'utils')
 # print(fpath)
-if not np.isin(fpath, sys.path): sys.path.append(fpath)
+# if not np.isin(fpath, sys.path): sys.path.append(fpath)
 # sys.path.append(fpath)
-import utils.stats as stats
-import utils.interpolate as interpolate
+import findpeaks.stats as stats
+from findpeaks.stats import disable_tqdm
+import findpeaks.interpolate as interpolate
 
+# %%
 class findpeaks():
     """For the detection of peaks in 1d and 2d data.
 
