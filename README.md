@@ -35,11 +35,11 @@ from findpeaks import findpeaks
 
 ### Documentation
 
-I moved all examples to the [documentation pages](https://erdogant.github.io/findpeaks/).
+[Documentation pages](https://erdogant.github.io/findpeaks/).
 
-#
+### Examples
 
-* [Example 1: Find peaks in 1D-vector with low number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-vector)
+[Example 1: Find peaks in 1D-vector with low number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-vector)
 
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_raw.png" width="400" />
@@ -48,25 +48,16 @@ I moved all examples to the [documentation pages](https://erdogant.github.io/fin
 
 #
 
+[Example 2: Comparison peak detection methods](https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1)
+
 #### Example 2: 1D vector low resolution
 
-```python
-# Load library
-from findpeaks import findpeaks
-# Data
-X = [10,11,9,23,21,11,45,20,11,12]
-# Initialize
-fp = findpeaks(method='peakdetect', lookahead=1)
-results = fp.fit(X)
-# Plot
-fp.plot()
+<p align="center">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect_int.png" width="400" />  
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology_int.png" width="400" />    
+</p>
 
-fp = findpeaks(method='topology', lookahead=1)
-results = fp.fit(X)
-fp.plot()
-fp.plot_persistence()
 
-```
 
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect.png" width="400" />
@@ -85,11 +76,6 @@ results = fp.fit(X)
 fp.plot()
 
 ```
-<p align="center">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect_int.png" width="400" />  
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology_int.png" width="400" />  
-  
-</p>
 
 
 #### Example 3: 1D-vector high resolution
