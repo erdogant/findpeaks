@@ -57,11 +57,13 @@ Content
 
 .. toctree::
   :maxdepth: 1
-  :caption: Code Documentation
-  
+  :caption: Documentation
+
+  Documentation
   Coding quality
   findpeaks.findpeaks
 
+* :ref:`genindex`
 
 
 Quick install
@@ -74,22 +76,36 @@ Quick install
 
 
 
+Quick install
+---------------
+
+.. code-block:: console
+
+   pip install findpeaks
+
+
 Source code and issue tracker
 ------------------------------
 
-Available on Github, `erdogant/findpeaks <https://github.com/erdogant/findpeaks/>`_.
+`Github findpeaks <https://github.com/erdogant/findpeaks/>`_.
 Please report bugs, issues and feature extensions there.
 
-Citing *findpeaks*
+
+Citing findpeaks
 ------------------
-Here is an example BibTeX entry:
 
-@misc{erdogant2019findpeaks,
-  title={findpeaks},
-  author={Erdogan Taskesen},
-  year={2019},
-  howpublished={\url{https://github.com/erdogant/findpeaks}}}
+The bibtex can be found in the right side menu at the `github page <https://github.com/erdogant/findpeaks/>`_.
 
+
+Sponsor
+------------------------------
+
+If you like this project, **star** this repo and become a **sponsor**!
+Read more why this is important on my sponsor page!
+
+.. raw:: html
+
+	<iframe src="https://github.com/sponsors/erdogant/button" title="Sponsor erdogant" height="35" width="116" style="border: 0;"></iframe>
 
 
 Indices and tables
@@ -98,3 +114,12 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. raw:: html
+
+	<hr>
+	<center>
+		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+	</center>
+	<hr>
+

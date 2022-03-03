@@ -79,3 +79,11 @@ The following tests are secured using :func:`tests.test_findpeaks`:
 .. code-block:: bash
 
     pytest tests\test_findpeaks.py
+
+.. raw:: html
+
+	<hr>
+	<center>
+		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+	</center>
+	<hr>

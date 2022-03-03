@@ -104,3 +104,11 @@ References peakdetect
     * [1] https://github.com/anaxilaus/peakdetect
     * [2] http://billauer.co.il/peakdet.html
     * [3] https://gist.github.com/sixtenbe/1178136
+
+.. raw:: html
+
+	<hr>
+	<center>
+		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+	</center>
+	<hr>

@@ -236,3 +236,12 @@ But this information allows to limit the model, and focus only on the peaks that
    +----------+
 
 The final results show that peak-detection for Sonar images is possible using a emperical approach.
+
+
+.. raw:: html
+
+	<hr>
+	<center>
+		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+	</center>
+	<hr>

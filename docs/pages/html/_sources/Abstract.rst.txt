@@ -1,7 +1,3 @@
-.. _code_directive:
-
--------------------------------------
-
 Abstract
 ''''''''
 
@@ -19,3 +15,11 @@ Results
 
 [1] Peak detection. Data Analysis and Signal Processing in Chromatography, https://doi.org/10.1016/S0922-3487(98)80027-0, Volume 21, 1998, Pages 183-190
 
+
+.. raw:: html
+
+	<hr>
+	<center>
+		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+	</center>
+	<hr>
