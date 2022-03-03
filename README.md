@@ -35,40 +35,15 @@ from findpeaks import findpeaks
 ```
 
 
-#### Documentation
+### Documentation
 
-I moved all examples to the documentation pages!
+I moved all examples to the [documentation pages](https://erdogant.github.io/findpeaks/).
 
-<a href="https://erdogant.github.io/findpeaks/"> <img src="https://img.shields.io/badge/Sphinx-Docs-Green" alt="Open documentation pages"/> </a> findpeaks documentation pages 
-
-
-#### Example 1: Find peaks in 1D-vector with low number of samples
-
-[XXX](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-vector)
-
-
-```python
-# Load library
-from findpeaks import findpeaks
-# Data
-X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-# Initialize
-fp = findpeaks(lookahead=1)
-results = fp.fit(X)
-# Plot
-fp.plot()
-```
+* [Example 1: Find peaks in 1D-vector with low number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-vector)
 
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_raw.png" width="400" />
 </p>
-
-```python
-# Initialize with interpolation parameter
-fp = findpeaks(lookahead=1, interpolate=10)
-results = fp.fit(X)
-fp.plot()
-```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="400" />  
 </p>
