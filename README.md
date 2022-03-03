@@ -34,9 +34,7 @@ from findpeaks import findpeaks
 # 
 
 
-### Documentation
-
-[Documentation pages](https://erdogant.github.io/findpeaks/).
+### [Documentation pages](https://erdogant.github.io/findpeaks/).
 
 # 
 
