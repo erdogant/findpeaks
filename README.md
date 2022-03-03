@@ -20,25 +20,32 @@ The library ``findpeaks`` aims to detect peaks in a 1-dimensional vector and 2-d
 **Star this repo if you like it! ⭐️**
 #
 
-## Blog/Documentation
+#### Installation
 
-* <a href="https://erdogant.github.io/findpeaks/"> <img src="https://img.shields.io/badge/Sphinx-Docs-Green" alt="Open documentation pages"/> </a> findpeaks documentation pages 
-
-
-### Installation
-* Install findpeaks from PyPI (recommended). findpeaks is compatible with Python 3.6+ and runs on Linux, MacOS X and Windows. 
-* A new environment can be created as following:
+Install findpeaks from PyPI (recommended).
 
 ```bash
 pip install findpeaks
 ```
 
 #### Import findpeaks package
+
 ```python
 from findpeaks import findpeaks
 ```
 
-#### Example 1: 1D-vector low resolution
+
+#### Documentation
+
+I moved all examples to the documentation pages!
+
+<a href="https://erdogant.github.io/findpeaks/"> <img src="https://img.shields.io/badge/Sphinx-Docs-Green" alt="Open documentation pages"/> </a> findpeaks documentation pages 
+
+
+#### Example 1: Find peaks in 1D-vector with low number of samples
+
+[XXX](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-vector)
+
 
 ```python
 # Load library
