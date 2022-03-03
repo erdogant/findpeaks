@@ -20,9 +20,7 @@ The library ``findpeaks`` aims to detect peaks in a 1-dimensional vector and 2-d
 **Star this repo if you like it! ⭐️**
 #
 
-#### Installation
-
-Install findpeaks from PyPI (recommended).
+#### Install findpeaks from PyPI
 
 ```bash
 pip install findpeaks
@@ -45,8 +43,6 @@ I moved all examples to the [documentation pages](https://erdogant.github.io/fin
 
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_raw.png" width="400" />
-</p>
-<p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="400" />  
 </p>
 
