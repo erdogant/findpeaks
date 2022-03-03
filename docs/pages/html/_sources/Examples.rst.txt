@@ -27,7 +27,8 @@ Find peaks in low sampled dataset
 .. image:: ../figs/fig1_raw.png
   :width: 600
 
-interpolation
+
+Interpolation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
@@ -42,8 +43,8 @@ interpolation
   :width: 600
 
 
-Comparison methods (1)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Comparison peak detection methods (1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -79,7 +80,7 @@ Comparison methods (1)
 
 
 
-Comparison methods (2)
+Comparison peak detection methods (2)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
