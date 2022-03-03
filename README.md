@@ -36,6 +36,8 @@ from findpeaks import findpeaks
 
 ### [Documentation pages](https://erdogant.github.io/findpeaks/).
 
+On the documentation pages you can find detailed information about the working of the ``findpeaks`` with many examples.
+
 # 
 
 ### Examples
