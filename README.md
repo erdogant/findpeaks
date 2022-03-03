@@ -39,6 +39,8 @@ from findpeaks import findpeaks
 
 I moved all examples to the [documentation pages](https://erdogant.github.io/findpeaks/).
 
+#
+
 * [Example 1: Find peaks in 1D-vector with low number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-vector)
 
 <p align="center">
@@ -47,6 +49,8 @@ I moved all examples to the [documentation pages](https://erdogant.github.io/fin
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="400" />  
 </p>
+
+#
 
 #### Example 2: 1D vector low resolution
 
