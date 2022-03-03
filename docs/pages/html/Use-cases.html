@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Blog" href="Documentation.html" />
-    <link rel="prev" title="One-dimensional plots" href="Plots.html" /> 
+    <link rel="prev" title="Quick Examples" href="Examples.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -71,10 +71,20 @@
 <li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional plots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional plots</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Use-cases</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Stock Markets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#sonar">SONAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Stock Markets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bitcoin">Bitcoin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#facebook-stocks">Facebook stocks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#sonar">SONAR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#denoising">Denoising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plots">Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-peaks-on-the-denoised-image">Find peaks on the denoised image</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
@@ -118,6 +128,8 @@
 The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.</p>
 <p>To overcome these challanges, I developed the method <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> and incorporated it in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
 <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package (<a class="reference external" href="https://github.com/erdogant/caerus">https://github.com/erdogant/caerus</a>) that determines the local-minima with the corresponding local-maxima within the given time-frame.</p>
+<section id="bitcoin">
+<h2>Bitcoin<a class="headerlink" href="#bitcoin" title="Permalink to this headline"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
@@ -166,6 +178,24 @@ The use of peak detection techniques such as topology require a very specific se
 <span class="c1"># 39</span>
 </pre></div>
 </div>
+</section>
+<section id="facebook-stocks">
+<h2>Facebook stocks<a class="headerlink" href="#facebook-stocks" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize findpeaks with cearus method.</span>
+<span class="c1"># The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">)</span>
+<span class="c1"># Import example data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;facebook&#39;</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Make the plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fig_facebook_minperc5.png"><img alt="_images/fig_facebook_minperc5.png" src="_images/fig_facebook_minperc5.png" style="width: 600px;" /></a>
+</section>
 </section>
 <section id="sonar">
 <h1>SONAR<a class="headerlink" href="#sonar" title="Permalink to this headline"></a></h1>
@@ -320,17 +350,90 @@ But this information allows to limit the model, and focus only on the peaks that
 </tbody>
 </table>
 <p>The final results show that peak-detection for Sonar images is possible using a emperical approach.</p>
+<section id="denoising">
+<h2>Denoising<a class="headerlink" href="#denoising" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">findpeaks</span>
+
+<span class="c1"># filters parameters</span>
+<span class="c1"># window size</span>
+<span class="n">winsize</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="c1"># damping factor for frost</span>
+<span class="n">k_value1</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="c1"># damping factor for lee enhanced</span>
+<span class="n">k_value2</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="c1"># coefficient of variation of noise</span>
+<span class="n">cu_value</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="c1"># coefficient of variation for lee enhanced of noise</span>
+<span class="n">cu_lee_enhanced</span> <span class="o">=</span> <span class="mf">0.523</span>
+<span class="c1"># max coefficient of variation for lee enhanced</span>
+<span class="n">cmax_value</span> <span class="o">=</span> <span class="mf">1.73</span>
+
+<span class="c1"># Some pre-processing</span>
+<span class="c1"># Resize</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="c1"># Make grey image</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">togray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># Scale between [0-255]</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+<span class="c1"># Denoising</span>
+<span class="c1"># fastnl</span>
+<span class="n">img_fastnl</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+<span class="c1"># bilateral</span>
+<span class="n">img_bilateral</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bilateral&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+<span class="c1"># frost filter</span>
+<span class="n">image_frost</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">frost_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">damping_factor</span><span class="o">=</span><span class="n">k_value1</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+<span class="c1"># kuan filter</span>
+<span class="n">image_kuan</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">kuan_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
+<span class="c1"># lee filter</span>
+<span class="n">image_lee</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
+<span class="c1"># lee enhanced filter</span>
+<span class="n">image_lee_enhanced</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_enhanced_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_value2</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_lee_enhanced</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="n">cmax_value</span><span class="p">)</span>
+<span class="c1"># mean filter</span>
+<span class="n">image_mean</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">mean_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+<span class="c1"># median filter</span>
+<span class="n">image_median</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="plots">
+<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_fastnl</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fastnl&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_bilateral</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Bilateral&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_frost</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Frost&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_kuan</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kuan&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_lee</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Lee&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_lee_enhanced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Lee Enhanced&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_mean</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mean&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_median</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="find-peaks-on-the-denoised-image">
+<h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">image_lee_enhanced</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;image_lee_enhanced&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <hr>
 <center>
         <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
 </center>
 <hr></section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Plots.html" class="btn btn-neutral float-left" title="One-dimensional plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Examples.html" class="btn btn-neutral float-left" title="Quick Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Documentation.html" class="btn btn-neutral float-right" title="Blog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

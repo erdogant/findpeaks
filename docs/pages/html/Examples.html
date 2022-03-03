@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Examples &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Stock Markets" href="Use-cases.html" />
+    <link rel="prev" title="One-dimensional plots" href="Plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> findpeaks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#scale">Scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#gray">Gray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional plots</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#d-vector">1D-vector</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-in-low-sampled-dataset">Find peaks in low sampled dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interpolation">interpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-methods-1">Comparison methods (1)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-methods-2">Comparison methods (2)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-in-high-sampled-dataset">Find peaks in high sampled dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#d-array-image">2D-array (image)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-using-default-settings">Find peaks using default settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-with-pre-processing">Find peaks with pre-processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#sponsor-this-project">Sponsor this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Quick Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <hr class="docutils" id="code-directive" />
+<section id="quick-examples">
+<h1>Quick Examples<a class="headerlink" href="#quick-examples" title="Permalink to this headline"></a></h1>
+<section id="d-vector">
+<h2>1D-vector<a class="headerlink" href="#d-vector" title="Permalink to this headline"></a></h2>
+<section id="find-peaks-in-low-sampled-dataset">
+<h3>Find peaks in low sampled dataset<a class="headerlink" href="#find-peaks-in-low-sampled-dataset" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">377</span><span class="p">,</span><span class="mi">985</span><span class="p">,</span><span class="mi">1153</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">501</span><span class="p">,</span><span class="mi">1068</span><span class="p">,</span><span class="mi">1110</span><span class="p">,</span><span class="mi">574</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">252</span><span class="p">,</span><span class="mi">812</span><span class="p">,</span><span class="mi">1182</span><span class="p">,</span><span class="mi">741</span><span class="p">,</span><span class="mi">263</span><span class="p">,</span><span class="mi">33</span><span class="p">]</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fig1_raw.png"><img alt="_images/fig1_raw.png" src="_images/fig1_raw.png" style="width: 600px;" /></a>
+</section>
+<section id="interpolation">
+<h3>interpolation<a class="headerlink" href="#interpolation" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with interpolation parameter</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fig1_interpol.png"><img alt="_images/fig1_interpol.png" src="_images/fig1_interpol.png" style="width: 600px;" /></a>
+</section>
+<section id="comparison-methods-1">
+<h3>Comparison methods (1)<a class="headerlink" href="#comparison-methods-1" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Comparison methods</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex3" src="_images/fig2_peakdetect.png" /></p></td>
+<td><p><img alt="ex4" src="_images/fig2_topology.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/fig2_persistence.png"><img alt="_images/fig2_persistence.png" src="_images/fig2_persistence.png" style="width: 600px;" /></a>
+</section>
+<section id="comparison-methods-2">
+<h3>Comparison methods (2)<a class="headerlink" href="#comparison-methods-2" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with interpolate parameter</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Comparison methods</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex5" src="_images/fig2_peakdetect_int.png" /></p></td>
+<td><p><img alt="ex6" src="_images/fig2_topology_int.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="find-peaks-in-high-sampled-dataset">
+<h3>Find peaks in high sampled dataset<a class="headerlink" href="#find-peaks-in-high-sampled-dataset" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Data</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.7</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">4.2</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.06</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot1d</span><span class="p">()</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot1d</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Comparison methods</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex7" src="_images/fig3.png" /></p></td>
+<td><p><img alt="ex8" src="_images/fig3_topology.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/fig3_persistence_limit.png"><img alt="_images/fig3_persistence_limit.png" src="_images/fig3_persistence_limit.png" style="width: 600px;" /></a>
+</section>
+</section>
+<section id="d-array-image">
+<h2>2D-array (image)<a class="headerlink" href="#d-array-image" title="Permalink to this headline"></a></h2>
+<section id="find-peaks-using-default-settings">
+<h3>Find peaks using default settings<a class="headerlink" href="#find-peaks-using-default-settings" title="Permalink to this headline"></a></h3>
+<p>The input image</p>
+<a class="reference internal image-reference" href="_images/plot_example.png"><img alt="_images/plot_example.png" src="_images/plot_example.png" style="width: 600px;" /></a>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Import example</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 0. , 0.4, 0.4],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 0. , 0.7, 1.4, 2.2, 1.8],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 1.1, 4. , 6.5, 4.3, 1.8],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 1.4, 6.1, 7.2, 3.2, 0.7],</span>
+<span class="c1">#        [..., ..., ..., ..., ..., ..., ..., ..., ..., ...],</span>
+<span class="c1">#        [0. , 0.4, 2.9, 7.9, 5.4, 1.4, 0.7, 0.4, 1.1, 1.8],</span>
+<span class="c1">#        [0. , 0. , 1.8, 5.4, 3.2, 1.8, 4.3, 3.6, 2.9, 6.1],</span>
+<span class="c1">#        [0. , 0. , 0.4, 0.7, 0.7, 2.5, 9. , 7.9, 3.6, 7.9],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 1.1, 4.7, 4. , 1.4, 2.9],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 0.4, 0.7, 0.7, 0.4, 0.4]])</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mask&#39;</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot the pre-processing steps</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
+<span class="c1"># Plot all</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The masking approach detects the correct peaks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_mask.png"><img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" style="width: 600px;" /></a>
+<p>Conversion from 2d to 3d mesh plots looks very nice. But there is a rough surface because of the low-resolution input data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">Comparison methods</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex9" src="_images/2dpeaks_mesh1.png" /></p></td>
+<td><p><img alt="ex10" src="_images/2dpeaks_mesh2.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The persistence plot appears to detect the right peaks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_pers.png"><img alt="_images/2dpeaks_pers.png" src="_images/2dpeaks_pers.png" style="width: 600px;" /></a>
+</section>
+<section id="find-peaks-with-pre-processing">
+<h3>Find peaks with pre-processing<a class="headerlink" href="#find-peaks-with-pre-processing" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Import example</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">()</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Fit</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot all</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Plot preprocessing</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Comparison methods</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex11" src="_images/2dpeaks_raw.png" /></p></td>
+<td><p><img alt="ex12" src="_images/2dpeaks_interpolate.png" /></p></td>
+<td><p><img alt="ex13" src="_images/2dpeaks_raw_processed.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The masking does not work so well because the pre-processing steps includes some weighted smoothing which is not ideal for the masking approach.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_mask_proc.png"><img alt="_images/2dpeaks_mask_proc.png" src="_images/2dpeaks_mask_proc.png" style="width: 600px;" /></a>
+<p>The mesh plot has higher resolution because the pre-processing steps caused some smoothing.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id6">
+<caption><span class="caption-text">Comparison methods</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex13" src="_images/2dpeaks_raw_processed.png" /></p></td>
+<td><p><img alt="ex14" src="_images/2dpeaks_meshs1.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The Persistence plot does show the detection of correct peaks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_perss.png"><img alt="_images/2dpeaks_perss.png" src="_images/2dpeaks_perss.png" style="width: 600px;" /></a>
+<hr>
+<center>
+        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+</center>
+<hr></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Plots.html" class="btn btn-neutral float-left" title="One-dimensional plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Use-cases.html" class="btn btn-neutral float-right" title="Stock Markets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

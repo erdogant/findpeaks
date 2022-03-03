@@ -12,6 +12,9 @@ To overcome these challanges, I developed the method ``Caerus`` and incorporated
 ``Caerus`` is a python package (https://github.com/erdogant/caerus) that determines the local-minima with the corresponding local-maxima within the given time-frame.
 
 
+Bitcoin
+^^^^^^^^^^^^^^^^
+
 .. code:: python
 
     # Import library
@@ -62,6 +65,29 @@ Lets print out some of the detected results:
     # Number of valleys
     print(fp.results['df']['valley'].sum())
     # 39
+
+
+
+Facebook stocks
+^^^^^^^^^^^^^^^^
+
+.. code:: python
+
+	# Import library
+	from findpeaks import findpeaks
+	# Initialize findpeaks with cearus method.
+	# The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+	fp = findpeaks(method='caerus')
+	# Import example data
+	X = fp.import_example('facebook')
+	# Fit
+	results = fp.fit(X)
+	# Make the plot
+	fp.plot()
+
+
+.. image:: ../figs/fig_facebook_minperc5.png
+  :width: 600
 
 
 
@@ -236,6 +262,88 @@ But this information allows to limit the model, and focus only on the peaks that
    +----------+
 
 The final results show that peak-detection for Sonar images is possible using a emperical approach.
+
+
+
+Denoising
+^^^^^^^^^^
+
+.. code:: python
+
+	from findpeaks import findpeaks
+	fp = findpeaks()
+	img = fp.import_example('2dpeaks_image')
+	import findpeaks
+
+	# filters parameters
+	# window size
+	winsize = 15
+	# damping factor for frost
+	k_value1 = 2.0
+	# damping factor for lee enhanced
+	k_value2 = 1.0
+	# coefficient of variation of noise
+	cu_value = 0.25
+	# coefficient of variation for lee enhanced of noise
+	cu_lee_enhanced = 0.523
+	# max coefficient of variation for lee enhanced
+	cmax_value = 1.73
+
+	# Some pre-processing
+	# Resize
+	img = findpeaks.stats.resize(img, size=(300,300))
+	# Make grey image
+	img = findpeaks.stats.togray(img)
+	# Scale between [0-255]
+	img = findpeaks.stats.scale(img)
+
+	# Denoising
+	# fastnl
+	img_fastnl = findpeaks.stats.denoise(img.copy(), method='fastnl', window=winsize)
+	# bilateral
+	img_bilateral = findpeaks.stats.denoise(img.copy(), method='bilateral', window=winsize)
+	# frost filter
+	image_frost = findpeaks.frost_filter(img.copy(), damping_factor=k_value1, win_size=winsize)
+	# kuan filter
+	image_kuan = findpeaks.kuan_filter(img.copy(), win_size=winsize, cu=cu_value)
+	# lee filter
+	image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
+	# lee enhanced filter
+	image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
+	# mean filter
+	image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
+	# median filter
+	image_median = findpeaks.median_filter(img.copy(), win_size=winsize)
+
+
+
+Plots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+
+.. code:: python
+
+	import matplotlib.pyplot as plt
+	plt.figure(); plt.imshow(img_fastnl, cmap='gray'); plt.title('Fastnl'); plt.grid(False)
+	plt.figure(); plt.imshow(img_bilateral, cmap='gray'); plt.title('Bilateral')
+	plt.figure(); plt.imshow(image_frost, cmap='gray'); plt.title('Frost')
+	plt.figure(); plt.imshow(image_kuan, cmap='gray'); plt.title('Kuan')
+	plt.figure(); plt.imshow(image_lee, cmap='gray'); plt.title('Lee')
+	plt.figure(); plt.imshow(image_lee_enhanced, cmap='gray'); plt.title('Lee Enhanced')
+	plt.figure(); plt.imshow(image_mean, cmap='gray'); plt.title('Mean')
+	plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
+
+
+Find peaks on the denoised image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+
+.. code:: python
+
+	from findpeaks import findpeaks
+	fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
+	fp.fit(image_lee_enhanced)
+	fp.plot_persistence()
+	fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
+
 
 
 .. raw:: html

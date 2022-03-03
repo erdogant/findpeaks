@@ -50,8 +50,9 @@ Content
 
 .. toctree::
   :maxdepth: 1
-  :caption: Use-cases
+  :caption: Examples
 
+  Examples
   Use-cases
 
 
