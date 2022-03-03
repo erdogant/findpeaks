@@ -60,8 +60,7 @@ from findpeaks import findpeaks
 
 #
 
-[Example 3: Comparison peak detection methods](https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1)
-
+[Example 3: Find peaks in 1D-vector with high number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-high-sampled-dataset)
 
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect.png" width="400" />
@@ -69,48 +68,14 @@ from findpeaks import findpeaks
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_persistence.png" width="400" />
 </p>
 
-```python
-# Initialize with interpolate parameter
-fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10)
-results = fp.fit(X)
-fp.plot()
 
-fp = findpeaks(method='topology', lookahead=1, interpolate=10)
-results = fp.fit(X)
-fp.plot()
-
-```
-
-
-#### Example 3: 1D-vector high resolution
-
-```python
-# Load library
-import numpy as np
-from findpeaks import findpeaks
-
-# Data
-i = 10000
-xs = np.linspace(0,3.7*np.pi,i)
-X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
-
-# Initialize
-fp = findpeaks(method='peakdetect')
-results = fp.fit(X)
-# Plot
-fp.plot1d()
-
-fp = findpeaks(method='topology', limit=1)
-results = fp.fit(X)
-fp.plot1d()
-fp.plot_persistence()
-```
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_topology.png" width="600" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistence_limit.png" width="600" />
 </p>
 
+#
 
 #### Example 4: 2D-array (image) using default settings
 
