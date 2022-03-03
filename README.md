@@ -31,11 +31,14 @@ pip install findpeaks
 ```python
 from findpeaks import findpeaks
 ```
+# 
 
 
 ### Documentation
 
 [Documentation pages](https://erdogant.github.io/findpeaks/).
+
+# 
 
 ### Examples
 
@@ -50,13 +53,14 @@ from findpeaks import findpeaks
 
 [Example 2: Comparison peak detection methods](https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1)
 
-#### Example 2: 1D vector low resolution
-
 <p align="center">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect_int.png" width="400" />  
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology_int.png" width="400" />    
 </p>
 
+#
+
+[Example 3: Comparison peak detection methods](https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1)
 
 
 <p align="center">
