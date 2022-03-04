@@ -44,19 +44,23 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 
 * [Example: Find peaks in 1D-vector with low number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-low-sampled-dataset)
 
-
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-low-sampled-dataset">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_raw.png" width="400" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="400" />  
+  </a>
 </p>
+
 
 #
 
 * [Example: Comparison peak detection methods](https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1)
 
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_peakdetect_int.png" width="400" />  
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology_int.png" width="400" />    
+  </a>
 </p>
 
 #
@@ -64,10 +68,15 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * [Example: Find peaks in 1D-vector with high number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-high-sampled-dataset)
 
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-high-sampled-dataset">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3.png" width="600" />
+  </a>
 </p>
+
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-high-sampled-dataset">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistence_limit.png" width="600" />
+  </a>
 </p>
 
 #
@@ -75,16 +84,21 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * [Example: Find peaks in an image (2D-array)](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-array-image)
 
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-array-image">
  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_raw.png" width="115" />
  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_mask.png" width="500" />
+  </a>
 </p>
 
 * [Example: Conversion from 2d to 3d mesh plot)](https://erdogant.github.io/findpeaks/pages/html/Plots.html#d-mesh)
 
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Plots.html#d-mesh">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_mesh1.png" width="400" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_mesh2.png" width="400" />
+  </a>
 </p>
+
 
 #
 
@@ -92,7 +106,9 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * [Example: Find peaks and valleys in stockmarkets (Facebook)](https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#facebook-stocks)
 
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#facebook-stocks">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig_facebook_minperc5.png" width="600" />
+  </a>
 </p>
 
 #
@@ -100,30 +116,37 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * [Example: Find peaks in SAR/SONAR images)](https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#sonar)
 
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#sonar">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_plot.png" width="600" />
+  </a>
 </p>
+
+
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#sonar">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh1.png" width="300" />
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh2.png" width="300" />
+  </a>
 </p>
 
 <p align="left">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh1.png" width="300" />
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh2.png" width="300" />
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#sonar">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh3.png" width="300" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh4.png" width="300" />
+  </a>
 </p>
+
 
 #
 
 * [Example: Denoising images using Lee, Kuan, Fastnl, Bilateral, Frost, Mean, median)](https://erdogant.github.io/findpeaks/pages/html/Denoise.html#)
 
-
 <p align="left">
+  <a href="https://erdogant.github.io/findpeaks/pages/html/Denoise.html#">
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/noise_distr_examples.png" width="600" />
+  </a>
 </p>
 
-<p align="left">
-  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_plot.png" width="600" />
-</p>
 
 <hr> 
 
