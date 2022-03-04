@@ -17,7 +17,7 @@ The library ``findpeaks`` aims to detect peaks in a 1-dimensional vector and 2-d
 
  
 # 
-**Star this repo if you like it! ⭐️**
+**⭐️ Star this repo if you like it! ⭐️**
 #
 
 #### Install findpeaks from PyPI
