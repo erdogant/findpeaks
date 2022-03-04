@@ -57,19 +57,22 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * [Example: Find peaks in SAR/SONAR images)](https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#sonar)
 
 
-# 
+<hr> 
 
-### Citation
-Please cite in your publications if this is useful for your research (see citation).
 
-### Maintainer
-	* Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
-	* Contributions are welcome.
-	* If you wish to buy me a <a href="https://www.buymeacoffee.com/erdogant">Coffee</a> for this work, it is very appreciated :)
-	* See [LICENSE](LICENSE) for details.
-
-#### References
+### References
 * https://github.com/erdogant/findpeaks
 * https://github.com/Anaxilaus/peakdetect
 * https://www.sthu.org/blog/13-perstopology-peakdetection/index.html
 
+
+### Contribute
+* All kinds of contributions are welcome!
+
+### Citation
+Please cite d3graph in your publications if this is useful for your research. See column right for citation information.
+
+### Maintainer
+* Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
+* Contributions are welcome.
+* If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated :)
