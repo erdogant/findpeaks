@@ -50,6 +50,8 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig1_interpol.png" width="400" />  
 </p>
 
+#
+
 * [Example: Comparison peak detection methods](https://erdogant.github.io/findpeaks/pages/html/Examples.html#comparison-methods-1)
 
 <p align="left">
@@ -57,6 +59,7 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig2_topology_int.png" width="400" />    
 </p>
 
+#
 
 * [Example: Find peaks in 1D-vector with high number of samples](https://erdogant.github.io/findpeaks/pages/html/Examples.html#find-peaks-in-high-sampled-dataset)
 
@@ -67,6 +70,7 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig3_persistence_limit.png" width="600" />
 </p>
 
+#
 
 * [Example: Find peaks in an image (2D-array)](https://erdogant.github.io/findpeaks/pages/html/Examples.html#d-array-image)
 
@@ -82,6 +86,7 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/2dpeaks_mesh2.png" width="400" />
 </p>
 
+#
 
 * [Example: Find peaks and valleys in stockmarkets (Bitcoin)](https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#bitcoin)
 * [Example: Find peaks and valleys in stockmarkets (Facebook)](https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#facebook-stocks)
@@ -90,9 +95,35 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
   <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/fig_facebook_minperc5.png" width="600" />
 </p>
 
+#
+
 * [Example: Find peaks in SAR/SONAR images)](https://erdogant.github.io/findpeaks/pages/html/Use-cases.html#sonar)
 
+<p align="left">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_plot.png" width="600" />
+</p>
+<p align="left">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh1.png" width="300" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh2.png" width="300" />
+</p>
 
+<p align="left">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh1.png" width="300" />
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_mesh2.png" width="300" />
+</p>
+
+#
+
+* [Example: Denoising images using Lee, Kuan, Fastnl, Bilateral, Frost, Mean, median)](https://erdogant.github.io/findpeaks/pages/html/Denoise.html#)
+
+
+<p align="left">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/noise_distr_examples.png" width="600" />
+</p>
+
+<p align="left">
+  <img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/sonar_plot.png" width="600" />
+</p>
 
 <hr> 
 
