@@ -15,7 +15,7 @@
 
 The library ``findpeaks`` aims to detect peaks in a 1-dimensional vector and 2-dimensional arrays (images) without making any assumption on the peak shape or baseline noise. To make sure that peaks can be detected across global and local heights, and in noisy data, multiple pre-processing and denoising methods are implemented.
 
- 
+
 # 
 **⭐️ Star this repo if you like it ⭐️**
 #
