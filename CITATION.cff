@@ -19,7 +19,7 @@ keywords:
   - "mask"
 license: "MIT"
 message: "If you use this software, please cite it using these metadata."
-repository-code: "https://github.com/erdogant/findpeaks"
+repository-code: "https://erdogant.github.io/findpeaks"
 title: "findpeaks is for the detection of peaks and valleys in a 1D vector and 2D array (image)."
 version: "2.3.1"
 ...
