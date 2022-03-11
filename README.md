@@ -161,7 +161,7 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * All kinds of contributions are welcome!
 
 ### Citation
-Please cite d3graph in your publications if this is useful for your research. See column right for citation information.
+Please cite ``findpeaks`` in your publications if this is useful for your research. See column right for citation information.
 
 ### Maintainer
 * Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
