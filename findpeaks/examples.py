@@ -10,6 +10,13 @@ import matplotlib.pyplot as plt
 from findpeaks import findpeaks
 
 # %%
+from findpeaks import findpeaks
+fp = findpeaks(method="mask", denoise=None, window=3, limit=None, verbose=0)
+X = fp.import_example("2dpeaks_image")
+results = fp.fit(X)
+
+
+# %%
 # Load library
 from findpeaks import findpeaks
 # Data
@@ -28,7 +35,7 @@ from findpeaks import findpeaks
 
 rng = np.random.default_rng(42)
 x = rng.normal(size=(50, 50))
-x = gaussian_filter(x, sigma=10.)
+x = gaussian_filter(x, sigma=10)
 
 fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
 results = fp.fit(x)

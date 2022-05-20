@@ -475,7 +475,7 @@ class findpeaks():
             # result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
         elif method=='mask':
             # Compute peaks using local maximum filter.
-            result = stats.mask(Xproc, limit=self.limit)
+            result = stats.mask(Xproc, limit=self.limit, verbose=self.verbose)
         else:
             if self.verbose>=2: print('[findpeaks] >WARNING: [method="%s"] is not supported in 2d-array (image) data. <return>' %(self.method))
             return None
