@@ -6,10 +6,25 @@
 # print(findpeaks.__version__)
 
 # pip install opencv-python
-import matplotlib.pyplot as plt
-from findpeaks import findpeaks
+# import matplotlib.pyplot as plt
+# from findpeaks import findpeaks
 
-# %%
+# %% issue #12
+# https://github.com/erdogant/findpeaks/issues/12
+import numpy as np
+
+X = np.sin(np.linspace(0, 1, 100))
+from findpeaks import findpeaks
+fp = findpeaks(method='caerus', params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25})
+results = fp.fit(X)
+
+from caerus import caerus
+cs = caerus(window=50, threshold=0.25, minperc=10, nlargest=10)
+cs.fit(X, verbose=3)
+cs.plot()
+
+
+# %% Issue 
 from findpeaks import findpeaks
 fp = findpeaks(method="mask", denoise=None, window=3, limit=None, verbose=0)
 X = fp.import_example("2dpeaks_image")
@@ -60,7 +75,7 @@ results = fp.fit(x)
 # results['df']
 fp.plot()
 fp.plot_persistence()
-fp.plot_mesh(view=(90,0))
+fp.plot_mesh(view=(90, 0))
 
 
 # %%

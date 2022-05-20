@@ -18,11 +18,10 @@ import os
 import requests
 from urllib.parse import urlparse
 
-# import sys
-# fpath = os.path.join(os.path.dirname(__file__), 'utils')
-# print(fpath)
-# if not np.isin(fpath, sys.path): sys.path.append(fpath)
-# sys.path.append(fpath)
+# import stats as stats
+# from stats import disable_tqdm
+# import interpolate as interpolate
+
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
