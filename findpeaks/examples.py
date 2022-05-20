@@ -15,16 +15,12 @@ import numpy as np
 
 X = np.sin(np.linspace(0, 1, 100))
 from findpeaks import findpeaks
-fp = findpeaks(method='caerus', params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25})
+fp = findpeaks(method='caerus', params_caerus={'minperc': 5, 'window': 50})
 results = fp.fit(X)
 
-from caerus import caerus
-cs = caerus(window=50, threshold=0.25, minperc=10, nlargest=10)
-cs.fit(X, verbose=3)
-cs.plot()
 
-
-# %% Issue 
+# %% Issue 13
+# https://github.com/erdogant/findpeaks/issues/13
 from findpeaks import findpeaks
 fp = findpeaks(method="mask", denoise=None, window=3, limit=None, verbose=0)
 X = fp.import_example("2dpeaks_image")
