@@ -922,6 +922,21 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
+        # Plot the persistence
+        x = self.results['persistence']['birth_level'].values
+        y = self.results['persistence']['death_level'].values
+        ax2.plot(x, y, '.', c='b')
+        for i in tqdm(range(0, len(x)), disable=disable_tqdm(verbose)):
+            ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b')
+
+        X = np.c_[x, y]
+        ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
+        ax2.set_xlabel("Birth level")
+        ax2.set_ylabel("Death level")
+        ax2.set_xlim((np.min(X), np.max(X)))
+        ax2.set_ylim((np.min(X), np.max(X)))
+        ax2.grid(True)
+
         if self.args['type']=='peaks1d':
             # minpers = 0
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
@@ -960,40 +975,10 @@ class findpeaks():
             ax1.set_xlim((0, self.results['Xproc'].shape[1]))
             ax1.set_ylim((0, self.results['Xproc'].shape[0]))
             ax1.invert_yaxis()
-            plt.gca().invert_yaxis()
+            # plt.gca().invert_yaxis()
             ax1.grid(True)
-            ax2.plot([0, 255], [0, 255], '-', c='grey')
+            ax1.plot([0, 255], [0, 255], '-', c='grey')
 
-        # Plot the persistence
-        x = self.results['persistence']['birth_level'].values
-        y = self.results['persistence']['death_level'].values
-        plt.plot(x, y, '.', c='b')
-        for i in tqdm(range(0,len(x)), disable=disable_tqdm(verbose)):
-            plt.text(x[i], (y[i] + y[i] * 0.01),  str(i + 1), color='b')
-
-        # if verbose>=3: print('[findpeaks] >Plotting Peristence..')
-        # ax2.set_title("Peristence diagram")
-        # xcoord = []
-        # ycoord = []
-        # perssc = []
-        # for i, homclass in tqdm(enumerate(self.results['groups0'])):
-        #     p_birth, bl, pers, p_death = homclass
-        #     if pers > minpers:
-        #         x, y = bl, (bl - pers)
-        #         xcoord.append(x)
-        #         ycoord.append(y)
-        #         perssc.append(pers)
-        #         ax2.plot([x], [y], '.', c='b')
-        #         ax2.text(x, (y + y * 0.01), str(i + 1), color='b')
-        # X = xcoord + ycoord
-
-        X = np.c_[x, y]
-        ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
-        ax2.set_xlabel("Birth level")
-        ax2.set_ylabel("Death level")
-        ax2.set_xlim((np.min(X), np.max(X)))
-        ax2.set_ylim((np.min(X), np.max(X)))
-        ax2.grid(True)
         plt.show()
         return ax1, ax2
 
