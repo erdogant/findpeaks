@@ -1,18 +1,26 @@
-echo "Cleaning previous builds first.."
+echo "Cleaning repo first.."
 rm -rf dist
 rm -rf build
 rm -rf findpeaks.egg-info
 rm -rf __pycache__
 rm -rf .pytest_cache
+rm -rf findpeaks/__pycache__
+rm -rf findpeaks/.pylint.d
+rm -rf findpeaks/tests/__pycache__
+rm -rf tests/__pycache__
+rm -rf findpeaks/utils/__pycache__
 rm -rf .pylint.d
 rm -rf findpeaks/data/*.zip
 rm -rf findpeaks/data/*.csv
 rm -rf findpeaks/data/*.png
-rm -rf findpeaks/.pylint.d
-rm -rf findpeaks/__pycache__
-rm -rf findpeaks/filters/__pycache__
-rm -rf tests/__pycache__
+rm -rf findpeaks/data/*.jpg
+rm -rf findpeaks/data/*.jpeg
+rm -rf findpeaks/data/*.tiff
+rm -rf findpeaks/data/*.tif
 rm -rf *.js
 rm -rf *.html
 rm -rf *.css
+rm -rf *.dot
 rm -rf *.png
+rm -rf .coverage*
+rm -rf .pkl
