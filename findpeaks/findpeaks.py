@@ -21,11 +21,9 @@ from urllib.parse import urlparse
 # import stats as stats
 # from stats import disable_tqdm
 # import interpolate as interpolate
-
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
-
 
 # %%
 class findpeaks():
@@ -895,13 +893,17 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_persistence(self, figsize=(20, 8), verbose=None):
+    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, verbose=None):
         """Plot the homology-peristence.
 
         Parameters
         ----------
         figsize : (int, int), (default: None)
             (width, height) in inches.
+        fontsize_ax1 : int, (default: 14)
+            Font size for the labels in the left figure. Choose None for no text-labels.
+        fontsize_ax2 : int, (default: 14)
+            Font size for the labels in the right figure. Choose None for no text-labels.
         verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
@@ -922,34 +924,32 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
-        # Plot the persistence
-        x = self.results['persistence']['birth_level'].values
-        y = self.results['persistence']['death_level'].values
-        ax2.plot(x, y, '.', c='b')
-        for i in tqdm(range(0, len(x)), disable=disable_tqdm(verbose)):
-            ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b')
+        # Create the persistence ax2
+        ax2 = self._plot_persistence_ax2(fontsize_ax2, ax2, verbose)
+        # Create the persistence ax1
+        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, verbose)
+        # Plot
+        plt.show()
+        # Return
+        return ax1, ax2
 
-        X = np.c_[x, y]
-        ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
-        ax2.set_xlabel("Birth level")
-        ax2.set_ylabel("Death level")
-        ax2.set_xlim((np.min(X), np.max(X)))
-        ax2.set_ylim((np.min(X), np.max(X)))
-        ax2.grid(True)
-
+    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, verbose):
         if self.args['type']=='peaks1d':
+            # Attach the ranking-labels
+            if fontsize is not None:
+                y = self.results['df']['y'].values
+                x = self.results['df']['x'].values
+                idx = np.where(self.results['df']['rank']>0)[0]
+                for i in tqdm(idx, disable=disable_tqdm(verbose)):
+                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize)
+
             # minpers = 0
             min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
             max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
             ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistence', figsize=figsize, legend=True, ax=ax1)
-
-            # Attach the ranking-labels
-            y = self.results['df']['y'].values
-            x = self.results['df']['x'].values
-            idx = np.where(self.results['df']['rank']>0)[0]
-            for i in tqdm(idx, disable=disable_tqdm(verbose)):
-                ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b')
-
+            X = np.c_[self.results['df']['x'].values, self.results['df']['y'].values]
+            ax1.set_xlim((np.min(X), np.max(X)))
+            ax1.set_ylim((np.min(X), np.max(X)))
         else:
             # X = self.results['Xproc']
             # Make the figure
@@ -965,22 +965,38 @@ class findpeaks():
                     y, x = p_birth
                     Xdetect[y, x] = i + 1
                     ax1.plot([x], [y], '.', c='b')
-                    ax1.text(x, y + 0.25, str(i), color='b')
+                    ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize)
                 elif pers > self.limit:
                     y, x = p_birth
                     Xdetect[y, x] = i + 1
                     ax1.plot([x], [y], '.', c='b')
-                    ax1.text(x, y + 0.25, str(i), color='b')
+                    ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize)
 
             ax1.set_xlim((0, self.results['Xproc'].shape[1]))
             ax1.set_ylim((0, self.results['Xproc'].shape[0]))
             ax1.invert_yaxis()
-            # plt.gca().invert_yaxis()
+            plt.gca().invert_yaxis()
             ax1.grid(True)
-            ax1.plot([0, 255], [0, 255], '-', c='grey')
-
-        plt.show()
+            # Set the axis to 255-255 in ax2 because it is an image.
+            ax2.plot([0, 255], [0, 255], '-', c='grey')
         return ax1, ax2
+
+    def _plot_persistence_ax2(self, fontsize, ax2, verbose):
+        x = self.results['persistence']['birth_level'].values
+        y = self.results['persistence']['death_level'].values
+        ax2.plot(x, y, '.', c='b')
+        if fontsize is not None:
+            for i in tqdm(range(0, len(x)), disable=disable_tqdm(verbose)):
+                ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b', fontsize=fontsize)
+
+        X = np.c_[x, y]
+        ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')
+        ax2.set_xlabel("Birth level")
+        ax2.set_ylabel("Death level")
+        ax2.set_xlim((np.min(X), np.max(X)))
+        ax2.set_ylim((np.min(X), np.max(X)))
+        ax2.grid(True)
+        return ax2
 
     def import_example(self, data='2dpeaks', url=None, sep=';', datadir=None):
         """Import example dataset from github source.

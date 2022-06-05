@@ -13,6 +13,7 @@ from findpeaks.filters.kuan import kuan_filter
 from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
+
 # import union_find as union_find
 # from filters.lee import lee_filter
 # from filters.lee_enhanced import lee_enhanced_filter
@@ -472,9 +473,9 @@ def topology(X, limit=None, reverse=True, verbose=3):
         df_persistence = pd.DataFrame()
         df_persistence['x'] = np.array(list(map(lambda x: x[0][1], groups0)))
         df_persistence['y'] = np.array(list(map(lambda x: x[0][0], groups0)))
-        df_persistence['birth_level'] = np.array(list(map(lambda x: int(x[1]), groups0)))
-        df_persistence['death_level'] = np.array(list(map(lambda x: int(x[1]) - int(x[2]), groups0)))
-        df_persistence['score'] = np.array(list(map(lambda x: int(x[2]), groups0)))
+        df_persistence['birth_level'] = np.array(list(map(lambda x: float(x[1]), groups0)))
+        df_persistence['death_level'] = np.array(list(map(lambda x: float(x[1]) - float(x[2]), groups0)))
+        df_persistence['score'] = np.array(list(map(lambda x: float(x[2]), groups0)))
         # Results
         results = {}
         results['groups0'] = groups0
