@@ -1,4 +1,4 @@
-peakdetect
+peakdetect==1.1
 scipy
 matplotlib
 numpy

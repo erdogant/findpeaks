@@ -1,8 +1,10 @@
+numpy
 sphinx_rtd_theme
 rst2pdf
-spyder-kernels==2.1.*
+spyder-kernels==2.3.*
 sphinx
 pytest
-git+git://github.com/SuperKogito/sphinxcontrib-pdfembed
-opencv-python
-tabulate
+git+https://github.com/SuperKogito/sphinxcontrib-pdfembed.git
+irelease
+sphinxcontrib-fulltoc
+nbconvert # jupyter nbconvert --to html notebook.ipynb
