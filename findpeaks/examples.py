@@ -9,7 +9,21 @@
 # import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
-# %% issue XXX
+# %% issue in mail
+# Import library
+from findpeaks import findpeaks
+# Initialize
+fp = findpeaks(method='topology')
+# Example 1d-vector
+X = fp.import_example('1dpeaks')
+
+# Fit topology method on the 1d-vector
+results = fp.fit(X)
+# Plot the results
+fp.plot_persistence(fontsize_ax1=12, fontsize_ax2=14)
+
+
+# %% issue in mail
 import numpy as np
 from findpeaks import findpeaks
 
@@ -35,7 +49,7 @@ fp1.plot()
 
 # Plot topology
 fp2.plot()
-fp2.plot_persistence()
+fp2.plot_persistence(fontsize_ax1=None)
 
 
 # %% issue #12
@@ -146,7 +160,7 @@ X = fp.import_example("btc")
 fp = findpeaks(method="topology", verbose=verbose)
 results = fp.fit(X)
 fp.plot()
-fp.plot_persistence()
+fp.plot_persistence(fontsize_ax1=4)
 
 fp = findpeaks(method="peakdetect", lookahead=15, verbose=verbose)
 # Make fit
