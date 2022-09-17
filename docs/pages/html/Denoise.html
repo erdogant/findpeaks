@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -90,9 +91,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html#sponsor-this-project">Sponsor this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
 </ul>
@@ -125,7 +128,7 @@
              
   <hr class="docutils" id="code-directive" />
 <section id="denoise">
-<h1>Denoise<a class="headerlink" href="#denoise" title="Permalink to this headline"></a></h1>
+<h1>Denoise<a class="headerlink" href="#denoise" title="Permalink to this heading"></a></h1>
 <p>Images can be corrupted by noise. To suppress and improve the image analysis various filtering techniques have been developed.
 Denoising the image is very usefull before the detection of peaks.
 In <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> we incorporated some well-known filtering methods: <em>Frost</em>, <em>Lee</em>, and <em>Kuan</em>, but also other methods such as <em>fastnl</em>, <em>bilateral</em>, <em>mean</em> and <em>median</em> filters.
@@ -188,8 +191,8 @@ Reducing the noise enhances the resolution but tends to decrease the spatial res
 </tbody>
 </table>
 <section id="lee">
-<h2>Lee<a class="headerlink" href="#lee" title="Permalink to this headline"></a></h2>
-<p>The Additive Noise Lee Despeckling Filter can be used with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter" title="findpeaks.filters.lee.lee_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></a></p>
+<h2>Lee<a class="headerlink" href="#lee" title="Permalink to this heading"></a></h2>
+<p>The Additive Noise Lee Despeckling Filter can be used with the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></p>
 <p>Let’s assume that the despeckling noise is additive with a constant mean of zero, a constant variance, and drawn from a Gaussian distribution. Use a window (I x J pixels) to scan the image with a stride of 1 pixels (and I will use reflective boundary conditions).
 The despeckled value of the pixel in the center of the window located in the ith row and jth column is, zhat_ij = mu_k + W*(z_ij = mu_z), where mu_k is the mean value of all pixels in the window centered on pixel i,j, z_ij is the unfiltered value of the pixel, and W is a weight calculated as, W = var_k / (var_k + var_noise), where var_k is the variance of all pixels in the window and var_noise is the variance of the speckle noise.
 A possible alternative to using the actual value of the center pixel for z_ij is to use the median pixel value in the window. The Lee methods assumes noise mean = 0.</p>
@@ -213,8 +216,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="lee-enhanced">
-<h2>Lee enhanced<a class="headerlink" href="#lee-enhanced" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter" title="findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_enhanced.lee_enhanced_filter()</span></code></a></p>
+<h2>Lee enhanced<a class="headerlink" href="#lee-enhanced" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_enhanced.lee_enhanced_filter()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lee enhanced filter</span>
 <span class="n">image_lee_enhanced</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_enhanced_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_value2</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_lee_enhanced</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="n">cmax_value</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -233,8 +236,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="kuan">
-<h2>Kuan<a class="headerlink" href="#kuan" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a></p>
+<h2>Kuan<a class="headerlink" href="#kuan" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># kuan filter</span>
 <span class="n">image_kuan</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">kuan_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -253,8 +256,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="frost">
-<h2>Frost<a class="headerlink" href="#frost" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter" title="findpeaks.filters.frost.frost_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></a></p>
+<h2>Frost<a class="headerlink" href="#frost" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># frost filter</span>
 <span class="n">image_frost</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">frost_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">damping_factor</span><span class="o">=</span><span class="n">k_value1</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -273,8 +276,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="mean">
-<h2>Mean<a class="headerlink" href="#mean" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter" title="findpeaks.filters.mean.mean_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.mean.mean_filter()</span></code></a></p>
+<h2>Mean<a class="headerlink" href="#mean" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.mean.mean_filter()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># mean filter</span>
 <span class="n">image_mean</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">mean_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -293,8 +296,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="median">
-<h2>Median<a class="headerlink" href="#median" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter" title="findpeaks.filters.median.median_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.median.median_filter()</span></code></a></p>
+<h2>Median<a class="headerlink" href="#median" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.median.median_filter()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># median filter</span>
 <span class="n">image_median</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -313,8 +316,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="fastnl">
-<h2>Fastnl<a class="headerlink" href="#fastnl" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a></p>
+<h2>Fastnl<a class="headerlink" href="#fastnl" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># fastnl</span>
 <span class="n">img_fastnl</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
 <span class="c1"># Plot</span>
@@ -333,8 +336,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="bilateral">
-<h2>Bilateral<a class="headerlink" href="#bilateral" title="Permalink to this headline"></a></h2>
-<p>The bilateral filter, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a>, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
+<h2>Bilateral<a class="headerlink" href="#bilateral" title="Permalink to this heading"></a></h2>
+<p>The bilateral filter, <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code>, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
 The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
 while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
 ensures that only those pixels with intensities similar to that of the central pixel (“intensity neighbors”)
@@ -358,7 +361,7 @@ neighboring pixels placed on the other side of the edge, and therefore exhibitin
 </table>
 </section>
 <section id="references-denoise">
-<h2>References denoise<a class="headerlink" href="#references-denoise" title="Permalink to this headline"></a></h2>
+<h2>References denoise<a class="headerlink" href="#references-denoise" title="Permalink to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>[1] <a class="reference external" href="https://github.com/PyRadar/pyradar">https://github.com/PyRadar/pyradar</a></p></li>

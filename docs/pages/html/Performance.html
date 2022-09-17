@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -86,9 +87,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html#sponsor-this-project">Sponsor this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
 </ul>
@@ -121,12 +124,12 @@
              
   <hr class="docutils" id="code-directive" />
 <section id="performance">
-<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline"></a></h1>
+<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this heading"></a></h1>
 <p>Lets compare the methods and tune the parameters and find out how the peak detection is with and without noisy data.</p>
 <section id="comparison-peak-detection-in-one-dimensional-data">
-<h2>Comparison peak detection in one-dimensional data<a class="headerlink" href="#comparison-peak-detection-in-one-dimensional-data" title="Permalink to this headline"></a></h2>
+<h2>Comparison peak detection in one-dimensional data<a class="headerlink" href="#comparison-peak-detection-in-one-dimensional-data" title="Permalink to this heading"></a></h2>
 <section id="small-dataset">
-<h3>Small dataset<a class="headerlink" href="#small-dataset" title="Permalink to this headline"></a></h3>
+<h3>Small dataset<a class="headerlink" href="#small-dataset" title="Permalink to this heading"></a></h3>
 <p>For the first scenario we will create a dataset containing some small peaks and some larger ones.
 We will detect peaks using the topology and peakdetect method with and without interpolation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -197,7 +200,7 @@ We will detect peaks using the topology and peakdetect method with and without i
 </div>
 </section>
 <section id="large-dataset">
-<h3>Large dataset<a class="headerlink" href="#large-dataset" title="Permalink to this headline"></a></h3>
+<h3>Large dataset<a class="headerlink" href="#large-dataset" title="Permalink to this heading"></a></h3>
 <p>For this scenario we create a large dataset to detect peaks using <em>peakdetect</em> and <em>topology</em>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>

@@ -15,11 +15,12 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Blog" href="Documentation.html" />
+    <link rel="next" title="Sponsor" href="Documentation.html" />
     <link rel="prev" title="Quick Examples" href="Examples.html" /> 
 </head>
 
@@ -88,9 +89,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Documentation.html#sponsor-this-project">Sponsor this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
 </ul>
@@ -123,13 +126,13 @@
              
   <hr class="docutils" id="code-directive" />
 <section id="stock-markets">
-<h1>Stock Markets<a class="headerlink" href="#stock-markets" title="Permalink to this headline"></a></h1>
+<h1>Stock Markets<a class="headerlink" href="#stock-markets" title="Permalink to this heading"></a></h1>
 <p>The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
 The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.</p>
 <p>To overcome these challanges, I developed the method <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> and incorporated it in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
 <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package (<a class="reference external" href="https://github.com/erdogant/caerus">https://github.com/erdogant/caerus</a>) that determines the local-minima with the corresponding local-maxima within the given time-frame.</p>
 <section id="bitcoin">
-<h2>Bitcoin<a class="headerlink" href="#bitcoin" title="Permalink to this headline"></a></h2>
+<h2>Bitcoin<a class="headerlink" href="#bitcoin" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
@@ -180,7 +183,7 @@ The use of peak detection techniques such as topology require a very specific se
 </div>
 </section>
 <section id="facebook-stocks">
-<h2>Facebook stocks<a class="headerlink" href="#facebook-stocks" title="Permalink to this headline"></a></h2>
+<h2>Facebook stocks<a class="headerlink" href="#facebook-stocks" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
@@ -198,7 +201,7 @@ The use of peak detection techniques such as topology require a very specific se
 </section>
 </section>
 <section id="sonar">
-<h1>SONAR<a class="headerlink" href="#sonar" title="Permalink to this headline"></a></h1>
+<h1>SONAR<a class="headerlink" href="#sonar" title="Permalink to this heading"></a></h1>
 <p><em>SAR</em> and <em>SONAR</em> images are affected by <em>speckle</em> noise that inherently exists in and which degrades the image quality.
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.</p>
@@ -351,7 +354,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </table>
 <p>The final results show that peak-detection for Sonar images is possible using a emperical approach.</p>
 <section id="denoising">
-<h2>Denoising<a class="headerlink" href="#denoising" title="Permalink to this headline"></a></h2>
+<h2>Denoising<a class="headerlink" href="#denoising" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">()</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
@@ -400,7 +403,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </div>
 </section>
 <section id="plots">
-<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this headline"></a></h2>
+<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_fastnl</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fastnl&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_bilateral</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Bilateral&#39;</span><span class="p">)</span>
@@ -414,7 +417,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </div>
 </section>
 <section id="find-peaks-on-the-denoised-image">
-<h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Permalink to this headline"></a></h2>
+<h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">image_lee_enhanced</span><span class="p">)</span>
@@ -434,7 +437,7 @@ But this information allows to limit the model, and focus only on the peaks that
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Examples.html" class="btn btn-neutral float-left" title="Quick Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Documentation.html" class="btn btn-neutral float-right" title="Blog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Documentation.html" class="btn btn-neutral float-right" title="Sponsor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
