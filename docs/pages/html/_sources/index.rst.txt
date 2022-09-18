@@ -8,7 +8,7 @@ are readily available for pre-processing the data (denoising, normalizing, resiz
 
 You contribution is important
 ==============================
-If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/findpeaks/>`_ and have a look at the `sponser page <https://github.com/erdogant/findpeaks/pages/html/Documentation.html>`_!
+If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/findpeaks/>`_ and have a look at the `sponser page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_!
 
 
 Github
@@ -74,8 +74,6 @@ Content
   Documentation
   Coding quality
   findpeaks.findpeaks
-
-* :ref:`genindex`
 
 
 
