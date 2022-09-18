@@ -15,7 +15,6 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -121,13 +120,13 @@
              
   <hr class="docutils" id="code-directive" />
 <section id="peakdetect">
-<h1>Peakdetect<a class="headerlink" href="#peakdetect" title="Permalink to this heading"></a></h1>
+<h1>Peakdetect<a class="headerlink" href="#peakdetect" title="Permalink to this headline"></a></h1>
 <p>The library <code class="docutils literal notranslate"><span class="pre">peakdetect</span></code> [1] is based on Billauers work [2] and this gist [3]. The method is directly incorporated in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> and has a strong advantage to
 find the local maxima and minima in noisy signal. Noisy data is very common in real-life signals, which makes methods such as zero-derivates not applicable.
 The typical solution is to smooth the curve with some low-pass filter but this comes with the trade-off that the peaks in the original signal may be lost.
 This method works only for one-dimensional data.</p>
 <section id="one-dimensional-data">
-<h2>One-dimensional data<a class="headerlink" href="#one-dimensional-data" title="Permalink to this heading"></a></h2>
+<h2>One-dimensional data<a class="headerlink" href="#one-dimensional-data" title="Permalink to this headline"></a></h2>
 <p>For the <strong>peakdetect</strong> method, we need to set the <strong>lookahead</strong> parameter, which is the distance to look ahead from a peak candidate to determine if it is the actual peak.
 The default value is set to 200 but this value is way too large for small datasets (i.e., with &lt;50 data points).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -181,7 +180,7 @@ The default value is set to 200 but this value is way too large for small datase
 <span class="o">+----+-----+------+--------+----------+--------+</span>
 </pre></div>
 </div>
-<p>The output is a dictionary containing a single dataframe (<em>df</em>) that can be of use for follow-up analysis. See: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></p>
+<p>The output is a dictionary containing a single dataframe (<em>df</em>) that can be of use for follow-up analysis. See: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a></p>
 <figure class="align-default" id="figure-7">
 <img alt="_images/1dpeaks_peakdetect.png" src="_images/1dpeaks_peakdetect.png" />
 </figure>
@@ -207,7 +206,7 @@ The default value is set to 200 but this value is way too large for small datase
 </figure>
 </section>
 <section id="references-peakdetect">
-<h2>References peakdetect<a class="headerlink" href="#references-peakdetect" title="Permalink to this heading"></a></h2>
+<h2>References peakdetect<a class="headerlink" href="#references-peakdetect" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>[1] <a class="reference external" href="https://github.com/anaxilaus/peakdetect">https://github.com/anaxilaus/peakdetect</a></p></li>

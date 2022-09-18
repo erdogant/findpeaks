@@ -6,10 +6,9 @@ Peaks and valleys can be detected using **topology**, **mask**, and the **peakde
 are readily available for pre-processing the data (denoising, normalizing, resizing), and vizualizing the data (3d-mesh, persistence)
 
 
-
-Star is important
-======================
-If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/findpeaks/>`_!
+You contribution is important
+==============================
+If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/findpeaks/>`_ and have a look at the `sponser page <https://github.com/erdogant/findpeaks/pages/html/Documentation.html>`_!
 
 
 Github

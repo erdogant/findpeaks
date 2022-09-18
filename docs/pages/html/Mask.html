@@ -15,7 +15,6 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -120,7 +119,7 @@
              
   <hr class="docutils" id="code-directive" />
 <section id="mask">
-<h1>Mask<a class="headerlink" href="#mask" title="Permalink to this heading"></a></h1>
+<h1>Mask<a class="headerlink" href="#mask" title="Permalink to this headline"></a></h1>
 <p>The mask method takes an image and detect the peaks using the local maximum filter.
 Multiple steps are involved in this approach, first an 8-connected neighborhood is set.
 Then, the local maximum filter is applied, and pixel of maximal value in their neighborhood are set to 1.</p>
@@ -128,7 +127,7 @@ Then, the local maximum filter is applied, and pixel of maximal value in their n
 The background is eroded to subtract the peaks from the background. If the limit is to small for example, a line will appear along the background border (artifact of the local maximum filter).</p>
 <p>The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).</p>
 <section id="two-dimensional-data">
-<h2>Two-dimensional data<a class="headerlink" href="#two-dimensional-data" title="Permalink to this heading"></a></h2>
+<h2>Two-dimensional data<a class="headerlink" href="#two-dimensional-data" title="Permalink to this headline"></a></h2>
 <p>The <em>mask</em> method is only avaiable for 2d-image data. Below is shown an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -144,7 +143,7 @@ The background is eroded to subtract the peaks from the background. If the limit
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis.
-Details about the input/output parameters can be found here: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code>
+Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask" title="findpeaks.stats.mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code></a>
 The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
