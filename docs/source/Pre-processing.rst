@@ -1,7 +1,3 @@
-.. _code_directive:
-
--------------------------------------
-
 Interpolate/impute
 '''''''''''''''''''''
 
@@ -147,6 +143,7 @@ Each of these steps can be controlled by setting the input parameters.
     fp.plot()
     # fp.plot_persistence()
 
+
 .. |figP3| image:: ../figs/2dpeaks_interpolate.png
 
 .. table:: Interpolation example 2d-array (image)
@@ -157,7 +154,7 @@ Each of these steps can be controlled by setting the input parameters.
    +----------+
    
 
-   .. raw:: html
+.. raw:: html
 
 	<hr>
 	<center>
