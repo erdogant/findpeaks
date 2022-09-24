@@ -120,13 +120,14 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">findpeaks.findpeaks.</span></span><span class="sig-name descname"><span class="pre">findpeaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['peak',</span> <span class="pre">'valley']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookahead</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">togray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denoise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fastnl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_caerus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'minperc':</span> <span class="pre">3,</span> <span class="pre">'nlargest':</span> <span class="pre">10,</span> <span class="pre">'threshold':</span> <span class="pre">0.25,</span> <span class="pre">'window':</span> <span class="pre">50}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks" title="Permalink to this definition"></a></dt>
 <dd><p>For the detection of peaks in 1d and 2d data.</p>
 <p>findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
-In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector, pre-processing by interpolation is possible.
-Peaks can be detected using various methods, and the results can be vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.</p>
+In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector,
+pre-processing by interpolation is possible. Peaks can be detected using various methods, and the results can be
+vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like</em><em> (</em><em>1d-vector</em><em> or </em><em>2d-image</em><em>)</em>) – Input image data.</p></li>
-<li><p><strong>method</strong> (<em>String</em><em>, </em><em>(</em><em>default : None</em><em>)</em><em>.</em>) – <p>Available methods for peak detection. In case method=None, the default is choosen.
+<li><p><strong>method</strong> (<em>String</em><em>, </em><em>(</em><em>default : None</em><em>)</em><em></em>) – <p>Available methods for peak detection. In case method=None, the default is choosen.
 1d-vector approaches:</p>
 <blockquote>
 <div><ul>
@@ -564,8 +565,11 @@ of findpeaks install location.</p></li>
 <span class="sig-name descname"><span class="pre">plot_preprocessing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the pre-processing steps.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>None.</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -967,8 +971,11 @@ This function contains two steps. First interpolation of the input line followed
 <li><p><strong>verbose</strong> (<em>int</em><em> ( </em><em>default is 3</em><em>)</em>) – Print message to screen. A higher number will increase outputs.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>

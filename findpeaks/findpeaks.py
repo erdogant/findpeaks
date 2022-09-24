@@ -3,7 +3,7 @@
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # github      : https://github.com/erdogant/findpeaks
-# Licence     : See Licences
+# Licence     : See LICENSE
 # ----------------------------------------------------
 
 # import findpeaks
@@ -25,6 +25,7 @@ import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
 
+
 # %%
 class findpeaks():
     """For the detection of peaks in 1d and 2d data.
@@ -32,8 +33,9 @@ class findpeaks():
     Description
     -----------
     findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
-    In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector, pre-processing by interpolation is possible.
-    Peaks can be detected using various methods, and the results can be vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.
+    In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector,
+    pre-processing by interpolation is possible. Peaks can be detected using various methods, and the results can be
+    vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.
 
     Parameters
     ----------
@@ -124,9 +126,8 @@ class findpeaks():
 
     """
 
-    def __init__(self, method=None, whitelist=['peak','valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}, figsize=(15, 8), verbose=3):
+    def __init__(self, method=None, whitelist=['peak', 'valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}, figsize=(15, 8), verbose=3):
         """Initialize findpeaks parameters."""
-
         # Store in object
         if isinstance(whitelist, str): whitelist=[whitelist]
         if lookahead is None: lookahead=1
@@ -148,7 +149,7 @@ class findpeaks():
 
         # Store parameters for caerus
         caerus_defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-        params_caerus   = {**caerus_defaults, **params_caerus}
+        params_caerus = {**caerus_defaults, **params_caerus}
         self.params_caerus = params_caerus
 
     def fit(self, X, x=None):
@@ -402,7 +403,7 @@ class findpeaks():
             * method : method to be used for peak detection: 'topology', or 'mask'
             * limit : Values > limit are set as regions of interest (ROI).
             * scale : Scaling data in range [0-255] by img*(255/max(img))
-            * denoise : Remove noise using method: 
+            * denoise : Remove noise using method:
                 * None
                 * 'fastnl'
                 * 'bilateral'
@@ -706,7 +707,7 @@ class findpeaks():
 
         # Plot mesh
         ax_mesh = self.plot_mesh(figsize=figsize)
-        
+
         # Return axis
         return (ax_method, ax_mesh)
 
@@ -760,7 +761,7 @@ class findpeaks():
         # Setup figure
         figsize = figsize if figsize is not None else self.args['figsize']
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
-        
+
         # Plot input image
         ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
         ax1.set_title('Input')
@@ -778,16 +779,16 @@ class findpeaks():
         ax3.imshow(np.abs(Xdetect), 'gray_r', interpolation="nearest")
         ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect>0)[0])) + ' peaks and ' + str(len(np.where(Xdetect<0)[0])) + ' valleys)')
         ax3.grid(False)
-        
+
         if text:
             for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
-                ax2.text(idx[1], idx[0], 'p'+self.results['Xranked'][idx].astype(str))
-                ax3.text(idx[1], idx[0], 'p'+self.results['Xranked'][idx].astype(str))
-    
+                ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
+                ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
+
             for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
-                ax2.text(idx[1], idx[0], 'v'+self.results['Xranked'][idx].astype(str))
-                ax3.text(idx[1], idx[0], 'v'+self.results['Xranked'][idx].astype(str))
-        
+                ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
+                ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
+
         # Show plot
         plt.show()
         # Return
@@ -1091,7 +1092,7 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
         fn = "2dpeaks.zip"
     elif data=='1dpeaks':
         # x = [0,   13,  22,  30,  35,  38,   42,   51,   57,   67,  73,   75,  89,   126,  141,  150,  200 ]
-        y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04,  0.02, 0.01]
+        y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04, 0.02, 0.01]
         # X = np.c_[x, y]
         return y
     elif (data=='btc') or (data=='facebook'):
