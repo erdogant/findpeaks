@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mask &mdash; findpeaks findpeaks documentation</title>
+  <title>Python Module Index &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
@@ -19,8 +18,9 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Peakdetect" href="Peakdetect.html" />
-    <link rel="prev" title="Topology" href="Topology.html" /> 
+ 
+
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,12 +50,9 @@
 <li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Mask</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#two-dimensional-data">Two-dimensional data</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
@@ -107,9 +104,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Mask</li>
+      <li>Python Module Index</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Mask.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -117,56 +113,74 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <hr class="docutils" id="code-directive" />
-<section id="mask">
-<h1>Mask<a class="headerlink" href="#mask" title="Permalink to this headline"></a></h1>
-<p>The mask method takes an image and detect the peaks using the local maximum filter.
-Multiple steps are involved in this approach, first an 8-connected neighborhood is set.
-Then, the local maximum filter is applied, and pixel of maximal value in their neighborhood are set to 1.</p>
-<p>In order to isolate the peaks we must remove the background from the mask. The background is simply created by the input parameter <em>limit</em> so that the background = (X &lt;= limit)
-The background is eroded to subtract the peaks from the background. If the limit is to small for example, a line will appear along the background border (artifact of the local maximum filter).</p>
-<p>The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).</p>
-<section id="two-dimensional-data">
-<h2>Two-dimensional data<a class="headerlink" href="#two-dimensional-data" title="Permalink to this headline"></a></h2>
-<p>The <em>mask</em> method is only avaiable for 2d-image data. Below is shown an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
-<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mask&#39;</span><span class="p">)</span>
-<span class="c1"># Example 2d image</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks&#39;</span><span class="p">)</span>
-<span class="c1"># Fit topology method on the 1d-vector</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="c1"># The output contains multiple variables</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-<span class="c1"># dict_keys([&#39;Xraw&#39;, &#39;Xproc&#39;, &#39;Xdetect&#39;])</span>
-</pre></div>
-</div>
-<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis.
-Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask" title="findpeaks.stats.mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code></a>
-The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
-<p>Plot the image with the detected peaks:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-<figure class="align-default" id="figure-6">
-<img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" />
-</figure>
-<hr>
-<center>
-        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
-</center>
-<hr></section>
-</section>
+
+   <h1>Python Module Index</h1>
+
+   <div class="modindex-jumpbox">
+   <a href="#cap-f"><strong>f</strong></a>
+   </div>
+
+   <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-f"><td></td><td>
+       <strong>f</strong></td><td></td></tr>
+     <tr>
+       <td><img src="_static/minus.png" class="toggler"
+              id="toggle-1" style="display: none" alt="-" /></td>
+       <td>
+       <code class="xref">findpeaks</code></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.filters.frost"><code class="xref">findpeaks.filters.frost</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.filters.kuan"><code class="xref">findpeaks.filters.kuan</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.filters.lee"><code class="xref">findpeaks.filters.lee</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.filters.lee_enhanced"><code class="xref">findpeaks.filters.lee_enhanced</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.filters.mean"><code class="xref">findpeaks.filters.mean</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.filters.median"><code class="xref">findpeaks.filters.median</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.findpeaks"><code class="xref">findpeaks.findpeaks</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.interpolate"><code class="xref">findpeaks.interpolate</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="findpeaks.findpeaks.html#module-findpeaks.stats"><code class="xref">findpeaks.stats</code></a></td><td>
+       <em></em></td></tr>
+   </table>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Topology.html" class="btn btn-neutral float-left" title="Topology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Peakdetect.html" class="btn btn-neutral float-right" title="Peakdetect" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>One-dimensional plots &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -124,11 +125,11 @@
            <div itemprop="articleBody">
              
   <hr class="docutils" id="code-directive" />
-<div class="section" id="one-dimensional-plots">
+<section id="one-dimensional-plots">
 <h1>One-dimensional plots<a class="headerlink" href="#one-dimensional-plots" title="Permalink to this headline"></a></h1>
-<div class="section" id="pre-processing">
+<section id="pre-processing">
 <h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline"></a></h2>
-<p>The pre-processing in a 1d-vector is based on the interpolation: function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></p>
+<p>The pre-processing in a 1d-vector is based on the interpolation: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
@@ -153,10 +154,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="persistence">
+</section>
+<section id="persistence">
 <h2>Persistence<a class="headerlink" href="#persistence" title="Permalink to this headline"></a></h2>
-<p>The persistence plot is called with the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code>, and provides two plots.
+<p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
@@ -172,13 +173,13 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="two-dimensional-plots">
+</section>
+</section>
+<section id="two-dimensional-plots">
 <h1>Two-dimensional plots<a class="headerlink" href="#two-dimensional-plots" title="Permalink to this headline"></a></h1>
-<div class="section" id="pre-processing-plot">
+<section id="pre-processing-plot">
 <h2>Pre-processing plot<a class="headerlink" href="#pre-processing-plot" title="Permalink to this headline"></a></h2>
-<p>The pre-processing plot is developed for 2D arrays (images) only: function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code>
+<p>The pre-processing plot is developed for 2D arrays (images) only: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="findpeaks.findpeaks.findpeaks.plot_preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code></a>
 Depending on the number of user defined pre-processing steps, the plot will add new subplots.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -202,11 +203,11 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="plot">
+</section>
+<section id="plot">
 <h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline"></a></h2>
 <dl class="simple">
-<dt>The <strong>plot</strong> function <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code> plots the 3 major steps:</dt><dd><ul class="simple">
+<dt>The <strong>plot</strong> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a> plots the 3 major steps:</dt><dd><ul class="simple">
 <li><p>input data</p></li>
 <li><p>final pre-processed image</p></li>
 <li><p>peak detection.</p></li>
@@ -227,10 +228,10 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="persistence-plot">
+</section>
+<section id="persistence-plot">
 <h2>Persistence plot<a class="headerlink" href="#persistence-plot" title="Permalink to this headline"></a></h2>
-<p>The persistence plot is called with the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code>, and provides two plots.
+<p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
@@ -246,10 +247,10 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="d-mesh">
+</section>
+<section id="d-mesh">
 <h2>3D-mesh<a class="headerlink" href="#d-mesh" title="Permalink to this headline"></a></h2>
-<p>The mesh plot can easily be created using the function: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code>.
+<p>The mesh plot can easily be created using the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mesh" title="findpeaks.findpeaks.findpeaks.plot_mesh"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code></a>.
 It converts the two image into a 3d mesh plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
@@ -276,8 +277,8 @@ It converts the two image into a 3d mesh plot.</p>
 <center>
         <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
 </center>
-<hr></div>
-</div>
+<hr></section>
+</section>
 
 
            </div>

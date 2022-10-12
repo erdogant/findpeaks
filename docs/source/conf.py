@@ -57,7 +57,7 @@ extensions = [
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 
-autodoc_mock_imports = ['peakdetect']
+#autodoc_mock_imports = ['peakdetect']
 
 
 pdf_documents = [('index', u'findpeaks', u'findpeaks', u'Erdogan Taskesen'),]
