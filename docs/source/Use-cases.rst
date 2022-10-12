@@ -91,14 +91,14 @@ Facebook stocks
 
 
 
-SONAR
+SAR
 ''''''''''
 
-*SAR* and *SONAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
+*SAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
-Sonar images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.
+SAR images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.
 
 .. code:: python
 
@@ -261,7 +261,7 @@ But this information allows to limit the model, and focus only on the peaks that
    | |figU8|  |
    +----------+
 
-The final results show that peak-detection for Sonar images is possible using a emperical approach.
+The final results show that peak-detection for SAR images is possible using a emperical approach.
 
 
 

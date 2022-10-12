@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quick Examples &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -90,7 +89,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
@@ -130,11 +129,11 @@
            <div itemprop="articleBody">
              
   <hr class="docutils" id="code-directive" />
-<section id="quick-examples">
+<div class="section" id="quick-examples">
 <h1>Quick Examples<a class="headerlink" href="#quick-examples" title="Permalink to this headline"></a></h1>
-<section id="d-vector">
+<div class="section" id="d-vector">
 <h2>1D-vector<a class="headerlink" href="#d-vector" title="Permalink to this headline"></a></h2>
-<section id="find-peaks-in-low-sampled-dataset">
+<div class="section" id="find-peaks-in-low-sampled-dataset">
 <h3>Find peaks in low sampled dataset<a class="headerlink" href="#find-peaks-in-low-sampled-dataset" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -148,8 +147,8 @@
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fig1_raw.png"><img alt="_images/fig1_raw.png" src="_images/fig1_raw.png" style="width: 600px;" /></a>
-</section>
-<section id="interpolation">
+</div>
+<div class="section" id="interpolation">
 <h3>Interpolation<a class="headerlink" href="#interpolation" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with interpolation parameter</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -158,8 +157,8 @@
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fig1_interpol.png"><img alt="_images/fig1_interpol.png" src="_images/fig1_interpol.png" style="width: 600px;" /></a>
-</section>
-<section id="comparison-peak-detection-methods-1">
+</div>
+<div class="section" id="comparison-peak-detection-methods-1">
 <h3>Comparison peak detection methods (1)<a class="headerlink" href="#comparison-peak-detection-methods-1" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -190,8 +189,8 @@
 </tbody>
 </table>
 <a class="reference internal image-reference" href="_images/fig2_persistence.png"><img alt="_images/fig2_persistence.png" src="_images/fig2_persistence.png" style="width: 600px;" /></a>
-</section>
-<section id="comparison-peak-detection-methods-2">
+</div>
+<div class="section" id="comparison-peak-detection-methods-2">
 <h3>Comparison peak detection methods (2)<a class="headerlink" href="#comparison-peak-detection-methods-2" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with interpolate parameter</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -215,8 +214,8 @@
 </tr>
 </tbody>
 </table>
-</section>
-<section id="find-peaks-in-high-sampled-dataset">
+</div>
+<div class="section" id="find-peaks-in-high-sampled-dataset">
 <h3>Find peaks in high sampled dataset<a class="headerlink" href="#find-peaks-in-high-sampled-dataset" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -252,11 +251,11 @@
 </tbody>
 </table>
 <a class="reference internal image-reference" href="_images/fig3_persistence_limit.png"><img alt="_images/fig3_persistence_limit.png" src="_images/fig3_persistence_limit.png" style="width: 600px;" /></a>
-</section>
-</section>
-<section id="d-array-image">
+</div>
+</div>
+<div class="section" id="d-array-image">
 <h2>2D-array (image)<a class="headerlink" href="#d-array-image" title="Permalink to this headline"></a></h2>
-<section id="find-peaks-using-default-settings">
+<div class="section" id="find-peaks-using-default-settings">
 <h3>Find peaks using default settings<a class="headerlink" href="#find-peaks-using-default-settings" title="Permalink to this headline"></a></h3>
 <p>The input image</p>
 <a class="reference internal image-reference" href="_images/plot_example.png"><img alt="_images/plot_example.png" src="_images/plot_example.png" style="width: 600px;" /></a>
@@ -319,8 +318,8 @@
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/2dpeaks_pers.png"><img alt="_images/2dpeaks_pers.png" src="_images/2dpeaks_pers.png" style="width: 600px;" /></a>
-</section>
-<section id="find-peaks-with-pre-processing">
+</div>
+<div class="section" id="find-peaks-with-pre-processing">
 <h3>Find peaks with pre-processing<a class="headerlink" href="#find-peaks-with-pre-processing" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -385,9 +384,9 @@
 <center>
         <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
 </center>
-<hr></section>
-</section>
-</section>
+<hr></div>
+</div>
+</div>
 
 
            </div>

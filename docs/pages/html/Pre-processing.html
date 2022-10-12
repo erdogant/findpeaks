@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Interpolate/impute &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -75,7 +74,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
@@ -114,14 +113,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="interpolate-impute">
+  <div class="section" id="interpolate-impute">
 <h1>Interpolate/impute<a class="headerlink" href="#interpolate-impute" title="Permalink to this headline"></a></h1>
 <p>The input parameter “interpolate” extens the data by this factor and is usefull to “smooth” the signal by a (linear) interpolation. It can also handle missing (nan) data!
 A smoothed signal can be more robust agains noise, and perform better in the detection of peaks and valleys.
 This step can be seen as pre-processing step before applying any method.
 The input is 1D numpy vector that can be interpolated by various methods for which the default is <strong>linear</strong>. Note that the initialization of <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> is fixed to <strong>linear</strong>.
-If another method is desired, it can be done by directly using the functionality: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a></p>
-<p>Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a></p>
+If another method is desired, it can be done by directly using the functionality: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></p>
+<p>Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></p>
 <blockquote>
 <div><dl class="simple">
 <dt>Interpolation methods:</dt><dd><ul class="simple">
@@ -163,7 +162,7 @@ If another method is desired, it can be done by directly using the functionality
 </tr>
 </tbody>
 </table>
-<p>As mentioned before, the interpolate function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> can also handle missing data.
+<p>As mentioned before, the interpolate function <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code> can also handle missing data.
 Lets demonstrate this by example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">import</span> <span class="nn">findpeaks</span>
@@ -201,29 +200,29 @@ Otherwise, the detected peaks coordinates on the x-axis would always be differen
 </tr>
 </tbody>
 </table>
-</section>
-<section id="resize">
+</div>
+<div class="section" id="resize">
 <h1>Resize<a class="headerlink" href="#resize" title="Permalink to this headline"></a></h1>
-<p>The resize function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a> is only applicable for 2D-arrays (images).
+<p>The resize function <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code> is only applicable for 2D-arrays (images).
 The function resizes the images using functionality of <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code> using default parameter settings.</p>
-</section>
-<section id="scale">
+</div>
+<div class="section" id="scale">
 <h1>Scale<a class="headerlink" href="#scale" title="Permalink to this headline"></a></h1>
-<p>The <em>scale</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a> is only applicable for 2D-arrays (images).
+<p>The <em>scale</em> function <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code> is only applicable for 2D-arrays (images).
 Scaling data is an import pre-processing step to make sure all data is ranged between the minimum and maximum range.</p>
 <p>The images are scaled between [0-255] by the following equation:</p>
 <blockquote>
 <div><p>Ximg * (255 / max(Ximg) )</p>
 </div></blockquote>
-</section>
-<section id="gray">
+</div>
+<div class="section" id="gray">
 <h1>Gray<a class="headerlink" href="#gray" title="Permalink to this headline"></a></h1>
-<p>The <em>gray</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a> is only applicable for 2D-arrays (images).
+<p>The <em>gray</em> function <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code> is only applicable for 2D-arrays (images).
 The function sets the color to gray using functionality of <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code> using the <code class="docutils literal notranslate"><span class="pre">cv2.COLOR_BGR2GRAY</span></code> settings.</p>
-</section>
-<section id="preprocessing">
+</div>
+<div class="section" id="preprocessing">
 <h1>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline"></a></h1>
-<p>The preprocessing function is developed to pipeline the above mentioned functionalities <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
+<p>The preprocessing function is developed to pipeline the above mentioned functionalities <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code>.</p>
 <dl class="simple">
 <dt>The pre-processing has 4 (optional) steps and are exectued in this order. After the last step, the peak detection method is applied.</dt><dd><ul class="simple">
 <li><ol class="arabic simple">
@@ -273,7 +272,7 @@ The function sets the color to gray using functionality of <code class="docutils
 <center>
         <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
 </center>
-<hr></section>
+<hr></div>
 
 
            </div>

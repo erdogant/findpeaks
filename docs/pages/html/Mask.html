@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mask &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -78,7 +77,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
@@ -118,7 +117,7 @@
            <div itemprop="articleBody">
              
   <hr class="docutils" id="code-directive" />
-<section id="mask">
+<div class="section" id="mask">
 <h1>Mask<a class="headerlink" href="#mask" title="Permalink to this headline"></a></h1>
 <p>The mask method takes an image and detect the peaks using the local maximum filter.
 Multiple steps are involved in this approach, first an 8-connected neighborhood is set.
@@ -126,7 +125,7 @@ Then, the local maximum filter is applied, and pixel of maximal value in their n
 <p>In order to isolate the peaks we must remove the background from the mask. The background is simply created by the input parameter <em>limit</em> so that the background = (X &lt;= limit)
 The background is eroded to subtract the peaks from the background. If the limit is to small for example, a line will appear along the background border (artifact of the local maximum filter).</p>
 <p>The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).</p>
-<section id="two-dimensional-data">
+<div class="section" id="two-dimensional-data">
 <h2>Two-dimensional data<a class="headerlink" href="#two-dimensional-data" title="Permalink to this headline"></a></h2>
 <p>The <em>mask</em> method is only avaiable for 2d-image data. Below is shown an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -143,22 +142,22 @@ The background is eroded to subtract the peaks from the background. If the limit
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis.
-Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask" title="findpeaks.stats.mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code></a>
+Details about the input/output parameters can be found here: <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code>
 The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has the same shape as the input data. The elements with value &gt; 0 depict a region of interest.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<figure class="align-default" id="figure-6">
+<div class="figure align-default" id="figure-6">
 <img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" />
-</figure>
+</div>
 <hr>
 <center>
         <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
 </center>
-<hr></section>
-</section>
+<hr></div>
+</div>
 
 
            </div>

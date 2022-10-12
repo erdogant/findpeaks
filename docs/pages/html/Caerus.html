@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Caerus &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -79,7 +78,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sonar">SONAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
 <ul>
@@ -119,7 +118,7 @@
            <div itemprop="articleBody">
              
   <hr class="docutils" id="code-directive" />
-<section id="caerus">
+<div class="section" id="caerus">
 <h1>Caerus<a class="headerlink" href="#caerus" title="Permalink to this headline"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package [1] that determines the local-minima with the corresponding local-maxima independent of the timeframe, scale or trend.
 The method is directly incorporated in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> and has a strong advantage to find the local maxima and minima in stock-market data.</p>
@@ -129,7 +128,7 @@ The typical solution is to optimize parameters in specific peakdetection methods
 The method is build using a forward rolling window to iteratively evaluate thousands of windows. For each window a score of percentages is computed from the start-to-stop position. The resulting matrix is a [window x length dataframe] for which only the high scoring percentages, e.g. those above a certain value (minperc) are used.
 The best scoring percentages is then aggregated by sum per time-point followed by a cut using the threshold. The resulting regions are subsequently detected, and represent the starting-locations of the trade. The stop-locations are determined based on the distance and percentage of te start-locations.</p>
 <p>This method works only for one-dimensional data.</p>
-<section id="stock-market-data">
+<div class="section" id="stock-market-data">
 <h2>Stock market data<a class="headerlink" href="#stock-market-data" title="Permalink to this headline"></a></h2>
 <p>For <strong>caerus</strong> method, we can set the minimum percentage (minperc) parameter to declare a starting position with window relevant.
 The window size is used to determine whether there is an increase in percentage. start location + window.
@@ -184,8 +183,8 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 </pre></div>
 </div>
 <p>The output is a dictionary containing a single dataframe (<em>df</em>) that can be of use for follow-up analysis.</p>
-</section>
-<section id="references-caerus">
+</div>
+<div class="section" id="references-caerus">
 <h2>References Caerus<a class="headerlink" href="#references-caerus" title="Permalink to this headline"></a></h2>
 <blockquote>
 <div><ul class="simple">
@@ -196,8 +195,8 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 <center>
         <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
 </center>
-<hr></section>
-</section>
+<hr></div>
+</div>
 
 
            </div>

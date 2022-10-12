@@ -22,7 +22,7 @@ It is generally known that noise can follow various distributions, and requires 
    +----------+
 
 
-*SAR* and *SONAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
+*SAR* images are affected by *speckle* noise that inherently exists in and which degrades the image quality.
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
@@ -64,7 +64,7 @@ Lets demonstrate the denoising by example. First we will import the example data
 
 .. |figDO| image:: ../figs/sonar_raw.png
 
-.. table:: RAW Sonar image
+.. table:: RAW SAR image
    :align: center
 
    +----------+
