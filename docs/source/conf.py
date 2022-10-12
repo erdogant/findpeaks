@@ -13,7 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
-import findpeaks
+#import findpeaks
 
 # -- Download rst file -----------------------------------------------------
 try:
@@ -57,7 +57,7 @@ extensions = [
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 
-# autodoc_mock_imports = ['cv2','keras']
+autodoc_mock_imports = ['peakdetect']
 
 
 pdf_documents = [('index', u'findpeaks', u'findpeaks', u'Erdogan Taskesen'),]
