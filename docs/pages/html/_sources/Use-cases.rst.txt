@@ -153,7 +153,7 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 
 .. |figU0| image:: ../figs/sonar_pre_processing.png
 
-.. table:: Pre-processing Sonar image
+.. table:: Pre-processing SAR image
    :align: center
 
    +----------+
