@@ -8,10 +8,11 @@ make.bat clean
 echo "Building new html.."
 make.bat html
 
-cd ..
-
 echo "Press [q]uit to Quit and [Enter] key to: git add -> commit -> push."
 read VAR
+
+cd ..
+
 
 
 if [[ $VAR = "" ]]; then 

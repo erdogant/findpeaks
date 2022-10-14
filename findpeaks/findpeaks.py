@@ -18,9 +18,12 @@ import os
 import requests
 from urllib.parse import urlparse
 
+# #### DEBUG ONLY ####
 # import stats as stats
 # from stats import disable_tqdm
 # import interpolate as interpolate
+# #####################
+
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
@@ -594,7 +597,7 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, legend=True, figsize=None, cmap=None, text=True):
+    def plot(self, legend=True, figsize=None, cmap=None, text=True, xlabel='x-axis', ylabel='y-axis'):
         """Plot results.
 
         Parameters
@@ -620,7 +623,7 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
 
         if self.args['type']=='peaks1d':
-            fig_axis = self.plot1d(legend=legend, figsize=figsize)
+            fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel)
         elif self.args['type']=='peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
             fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text)
@@ -631,7 +634,7 @@ class findpeaks():
         # Return
         return fig_axis
 
-    def plot1d(self, legend=True, figsize=None):
+    def plot1d(self, legend=True, figsize=None, xlabel='x-axis', ylabel='y-axis'):
         """Plot the 1D results.
 
         Parameters
@@ -658,22 +661,28 @@ class findpeaks():
             self.results['model']
             if self.results.get('model', None) is not None:
                 ax = self.results['model'].plot()
-                csplots._plot_graph(self.results['model'].results, figsize=self.figsize)
+                csplots._plot_graph(self.results['model'].results, figsize=self.figsize, xlabel=xlabel, ylabel=ylabel)
                 # Return axis
                 return ax
         else:
             # Make plot
+            min_peaks, max_peaks = np.array([]), np.array([])
             df = self.results['df']
-            min_peaks = df['x'].loc[df['valley']].values
-            max_peaks = df['x'].loc[df['peak']].values
-            ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title, figsize=figsize, legend=legend)
+            if np.any('valley' in self.whitelist):
+                min_peaks = df['x'].loc[df['valley']].values
+            if np.any('peak' in self.whitelist):
+                max_peaks = df['x'].loc[df['peak']].values
+            ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title, figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel)
 
             # Make interpolated plot
             if self.interpolate is not None:
+                min_peaks, max_peaks = np.array([]), np.array([])
                 df_interp = self.results['df_interp']
-                min_peaks = df_interp['x'].loc[df_interp['valley']].values
-                max_peaks = df_interp['x'].loc[df_interp['peak']].values
-                ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)', figsize=figsize, legend=legend)
+                if np.any('valley' in self.whitelist):
+                    min_peaks = df_interp['x'].loc[df_interp['valley']].values
+                if np.any('peak' in self.whitelist):
+                    max_peaks = df_interp['x'].loc[df_interp['peak']].values
+                ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)', figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel)
             # Return axis
             return (ax2, ax1)
 
@@ -894,7 +903,7 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, verbose=None):
+    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis', verbose=None):
         """Plot the homology-peristence.
 
         Parameters
@@ -928,13 +937,13 @@ class findpeaks():
         # Create the persistence ax2
         ax2 = self._plot_persistence_ax2(fontsize_ax2, ax2, verbose)
         # Create the persistence ax1
-        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, verbose)
+        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, xlabel, ylabel, verbose)
         # Plot
         plt.show()
         # Return
         return ax1, ax2
 
-    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, verbose):
+    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel, verbose):
         if self.args['type']=='peaks1d':
             # Attach the ranking-labels
             if fontsize is not None:
@@ -945,9 +954,14 @@ class findpeaks():
                     ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize)
 
             # minpers = 0
-            min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
-            max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
-            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistence', figsize=figsize, legend=True, ax=ax1)
+            min_peaks, max_peaks = np.array([]), np.array([])
+            if np.any('valley' in self.whitelist):
+                min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
+            if np.any('peak' in self.whitelist):
+                max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
+            # Make the plot
+            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistence', figsize=figsize, legend=True, ax=ax1, xlabel=xlabel, ylabel=ylabel)
+            # Set limits
             X = np.c_[self.results['df']['x'].values, self.results['df']['y'].values]
             ax1.set_xlim((np.min(X), np.max(X)))
             ax1.set_ylim((np.min(X), np.max(X)))
@@ -1029,14 +1043,16 @@ class findpeaks():
 
 
 # %%
-def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, ax=None, figsize=(15, 8)):
+def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, ax=None, figsize=(15, 8), xlabel=None, ylabel=None):
     uilabx = np.unique(labx)
     uilabx = uilabx[~np.isnan(uilabx)]
 
     if ax is None: fig, ax = plt.subplots(figsize=figsize)
     ax.plot(xs, X, 'k')
-    ax.plot(max_peaks, X[max_peaks], "x", label='Top')
-    ax.plot(min_peaks, X[min_peaks], "o", label='Bottom')
+    if np.any(max_peaks):
+        ax.plot(max_peaks, X[max_peaks], "x", label='Peak')
+    if np.any(min_peaks):
+        ax.plot(min_peaks, X[min_peaks], "o", label='Valley')
 
     # Color each detected label
     s=np.arange(0, len(X))
@@ -1047,6 +1063,8 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
 
     if legend: ax.legend(loc=0)
     ax.set_title(title)
+    if xlabel is not None: ax.set_xlabel(xlabel)
+    if ylabel is not None: ax.set_ylabel(ylabel)
     ax.grid(True)
     plt.show()
     return ax

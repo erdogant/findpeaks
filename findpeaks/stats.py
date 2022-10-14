@@ -14,6 +14,7 @@ from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
 
+# #### DEBUG ONLY ####
 # import union_find as union_find
 # from filters.lee import lee_filter
 # from filters.lee_enhanced import lee_enhanced_filter
@@ -21,6 +22,7 @@ from findpeaks.filters.mean import mean_filter
 # from filters.frost import frost_filter
 # from filters.median import median_filter
 # from filters.mean import mean_filter
+# ######################
 
 from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
 from scipy.ndimage.filters import maximum_filter
