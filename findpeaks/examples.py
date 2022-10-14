@@ -9,6 +9,23 @@
 # import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
+# %%
+from findpeaks import findpeaks
+X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
+
+fp = findpeaks(method='peakdetect', lookahead=1, verbose=3, whitelist=['peak', 'valley'])
+results = fp.fit(X)
+fp.plot()
+
+# %%
+from findpeaks import findpeaks
+X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
+
+fp = findpeaks(method='topology', whitelist=['valley'])
+results=fp.fit(X)
+fp.plot(xlabel='x', ylabel='y')
+fp.plot_persistence(xlabel='x', ylabel='y')
+
 # %% issue in mail
 # Import library
 from findpeaks import findpeaks
@@ -28,7 +45,7 @@ import numpy as np
 from findpeaks import findpeaks
 
 # Initialize peakdetect
-fp1 = findpeaks(method='peakdetect', lookahead=200)
+fp1 = findpeaks(method='peakdetect', lookahead=200, whitelist='peak')
 
 # Initialize topology
 fp2 = findpeaks(method='topology')
@@ -76,7 +93,7 @@ from findpeaks import findpeaks
 # Data
 X = [10,11,9,23,21,11,45,20,11,12]
 # Initialize
-fp = findpeaks(method='topology', lookahead=1, verbose=0)
+fp = findpeaks(method='topology', lookahead=1, verbose=0, whitelist=['valley', 'peak'])
 results = fp.fit(X)
 fp.plot()
 results['df']
@@ -389,19 +406,7 @@ fp.plot_preprocessing()
 fp.plot_mesh()
 fp.plot_persistence()
 
-# %%
-from findpeaks import findpeaks
-X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 
-fp = findpeaks(method='peakdetect', lookahead=1, verbose=3)
-results = fp.fit(X)
-fp.plot()
-fp.plot_persistence()
-
-fp = findpeaks(method='topology')
-results=fp.fit(X)
-fp.plot()
-fp.plot_persistence()
 
 # %%
 X = [10,11,9,23,21,11,45,20,11,12]
