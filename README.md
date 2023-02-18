@@ -1,17 +1,22 @@
 # findpeaks
 
 [![Python](https://img.shields.io/pypi/pyversions/findpeaks)](https://img.shields.io/pypi/pyversions/findpeaks)
-[![PyPI Version](https://img.shields.io/pypi/v/findpeaks)](https://pypi.org/project/findpeaks/)
+[![Pypi](https://img.shields.io/pypi/v/findpeaks)](https://pypi.org/project/findpeaks/)
+[![Docs](https://img.shields.io/badge/Sphinx-Docs-Green)](https://erdogant.github.io/findpeaks/)
+[![LOC](https://sloc.xyz/github/erdogant/findpeaks/?category=code)](https://github.com/erdogant/findpeaks/)
+[![Downloads](https://static.pepy.tech/personalized-badge/findpeaks?period=month&units=international_system&left_color=grey&right_color=brightgreen&left_text=PyPI%20downloads/month)](https://pepy.tech/project/findpeaks)
+[![Downloads](https://static.pepy.tech/personalized-badge/findpeaks?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/findpeaks)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/findpeaks/blob/master/LICENSE)
-[![Github Forks](https://img.shields.io/github/forks/erdogant/findpeaks.svg)](https://github.com/erdogant/findpeaks/network)
-[![GitHub Open Issues](https://img.shields.io/github/issues/erdogant/findpeaks.svg)](https://github.com/erdogant/findpeaks/issues)
+[![Forks](https://img.shields.io/github/forks/erdogant/findpeaks.svg)](https://github.com/erdogant/findpeaks/network)
+[![Issues](https://img.shields.io/github/issues/erdogant/findpeaks.svg)](https://github.com/erdogant/findpeaks/issues)
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Downloads](https://pepy.tech/badge/findpeaks)](https://pepy.tech/project/findpeaks)
-[![Downloads](https://pepy.tech/badge/findpeaks/month)](https://pepy.tech/project/findpeaks/month)
 [![DOI](https://zenodo.org/badge/260400472.svg)](https://zenodo.org/badge/latestdoi/260400472)
-[![Sphinx](https://img.shields.io/badge/Sphinx-Docs-Green)](https://erdogant.github.io/findpeaks/)
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg?logo=github%20sponsors)](https://erdogant.github.io/findpeaks/pages/html/Documentation.html#colab-notebook)
+[![Medium](https://img.shields.io/badge/Medium-Blog-green)](https://erdogant.github.io/findpeaks/pages/html/Documentation.html#medium-blog)
+[![Donate](https://img.shields.io/badge/Support%20this%20project-grey.svg?logo=github%20sponsors)](https://erdogant.github.io/findpeaks/pages/html/Documentation.html#)
 <!---[![BuyMeCoffee](https://img.shields.io/badge/buymea-coffee-yellow.svg)](https://www.buymeacoffee.com/erdogant)-->
 <!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
+
 
 The library ``findpeaks`` aims to detect peaks in a 1-dimensional vector and 2-dimensional arrays (images) without making any assumption on the peak shape or baseline noise. To make sure that peaks can be detected across global and local heights, and in noisy data, multiple pre-processing and denoising methods are implemented.
 
