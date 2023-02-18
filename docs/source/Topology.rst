@@ -1,6 +1,5 @@
-.. _code_directive:
+.. include:: add_top.add
 
--------------------------------------
 
 Some of the explanations of **topology**, and **persitent homology** are gathered from various sources on the internet (articles, stackoverflow, blog pages, and git pages), and combined on this page.
 All references are depicted at the bottom of the page. Note that all examples are made with ``findpeaks``.
@@ -309,10 +308,5 @@ References
 * [4] https://git.sthu.org/?p=persistence.git
 * [5] H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
 
-.. raw:: html
 
-	<hr>
-	<center>
-		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
-	</center>
-	<hr>
+.. include:: add_bottom.add

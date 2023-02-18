@@ -1,6 +1,5 @@
-.. _code_directive:
+.. include:: add_top.add
 
--------------------------------------
 
 Peakdetect
 ''''''''''''
@@ -105,10 +104,6 @@ References peakdetect
     * [2] http://billauer.co.il/peakdet.html
     * [3] https://gist.github.com/sixtenbe/1178136
 
-.. raw:: html
 
-	<hr>
-	<center>
-		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
-	</center>
-	<hr>
+
+.. include:: add_bottom.add

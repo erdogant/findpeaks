@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -89,7 +90,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -118,9 +118,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <hr class="docutils" id="code-directive" />
-<section id="caerus">
-<h1>Caerus<a class="headerlink" href="#caerus" title="Permalink to this headline"></a></h1>
+  <hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div>
+</center>
+<hr><section id="caerus">
+<h1>Caerus<a class="headerlink" href="#caerus" title="Permalink to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package [1] that determines the local-minima with the corresponding local-maxima independent of the timeframe, scale or trend.
 The method is directly incorporated in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> and has a strong advantage to find the local maxima and minima in stock-market data.</p>
 <p>The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
@@ -130,7 +136,7 @@ The method is build using a forward rolling window to iteratively evaluate thous
 The best scoring percentages is then aggregated by sum per time-point followed by a cut using the threshold. The resulting regions are subsequently detected, and represent the starting-locations of the trade. The stop-locations are determined based on the distance and percentage of te start-locations.</p>
 <p>This method works only for one-dimensional data.</p>
 <section id="stock-market-data">
-<h2>Stock market data<a class="headerlink" href="#stock-market-data" title="Permalink to this headline"></a></h2>
+<h2>Stock market data<a class="headerlink" href="#stock-market-data" title="Permalink to this heading"></a></h2>
 <p>For <strong>caerus</strong> method, we can set the minimum percentage (minperc) parameter to declare a starting position with window relevant.
 The window size is used to determine whether there is an increase in percentage. start location + window.
 The use of smaller window sizes (eg 50) are able to pickup better local-minima, whereas Larger window sizes (eg 1000) will more stress on global minma.
@@ -186,7 +192,7 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 <p>The output is a dictionary containing a single dataframe (<em>df</em>) that can be of use for follow-up analysis.</p>
 </section>
 <section id="references-caerus">
-<h2>References Caerus<a class="headerlink" href="#references-caerus" title="Permalink to this headline"></a></h2>
+<h2>References Caerus<a class="headerlink" href="#references-caerus" title="Permalink to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>[1] <a class="reference external" href="https://github.com/erdogant/caerus">https://github.com/erdogant/caerus</a></p></li>
@@ -194,7 +200,10 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 </div></blockquote>
 <hr>
 <center>
-        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div>
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div> -->
 </center>
 <hr></section>
 </section>

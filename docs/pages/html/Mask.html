@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -88,7 +89,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html">API References</a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -117,9 +117,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <hr class="docutils" id="code-directive" />
-<section id="mask">
-<h1>Mask<a class="headerlink" href="#mask" title="Permalink to this headline"></a></h1>
+  <hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div>
+</center>
+<hr><section id="mask">
+<h1>Mask<a class="headerlink" href="#mask" title="Permalink to this heading"></a></h1>
 <p>The mask method takes an image and detect the peaks using the local maximum filter.
 Multiple steps are involved in this approach, first an 8-connected neighborhood is set.
 Then, the local maximum filter is applied, and pixel of maximal value in their neighborhood are set to 1.</p>
@@ -127,7 +133,7 @@ Then, the local maximum filter is applied, and pixel of maximal value in their n
 The background is eroded to subtract the peaks from the background. If the limit is to small for example, a line will appear along the background border (artifact of the local maximum filter).</p>
 <p>The final mask, containing only peaks, is derived by removing the background from the local_max mask (xor operation).</p>
 <section id="two-dimensional-data">
-<h2>Two-dimensional data<a class="headerlink" href="#two-dimensional-data" title="Permalink to this headline"></a></h2>
+<h2>Two-dimensional data<a class="headerlink" href="#two-dimensional-data" title="Permalink to this heading"></a></h2>
 <p>The <em>mask</em> method is only avaiable for 2d-image data. Below is shown an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -155,7 +161,10 @@ The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> has t
 </figure>
 <hr>
 <center>
-        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div>
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div> -->
 </center>
 <hr></section>
 </section>
