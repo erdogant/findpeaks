@@ -19,15 +19,6 @@ Github
 	`Source code of findpeaks can be found at Github <https://github.com/erdogant/findpeaks/>`_
 
 
-Colab Notebook
-################
-
-.. note::
-	Experiment with ``findpeaks`` library using the `Colab notebook`_.
-
-.. _Colab notebook: https://colab.research.google.com/github/erdogant/pca/blob/master/notebooks/findpeaks.ipynb
-
-
 Citing
 #########
 
