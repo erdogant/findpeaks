@@ -9,8 +9,6 @@ are readily available for pre-processing the data (denoising, normalizing, resiz
 
 |python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
 
-.. include:: add_top.add
-
 
 You contribution is important
 ==============================
