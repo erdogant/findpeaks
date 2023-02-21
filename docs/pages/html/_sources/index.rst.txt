@@ -1,24 +1,25 @@
-
 findpeaks's documentation!
 ==========================
+
+|python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
+
 
 *findpeaks* is Python package for the detection of peaks and valleys in a 1d-vector and 2d-array (images).
 Peaks and valleys can be detected using **topology**, **mask**, and the **peakdetect** approach. In addition to peak-detection, various functions 
 are readily available for pre-processing the data (denoising, normalizing, resizing), and vizualizing the data (3d-mesh, persistence)
 
 
-|python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
+-----------------------------------
 
+.. note::
+	**Your ❤️ is important to keep maintaining this package.** You can `support <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_ in various ways, have a look at the `sponser page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_.
+	Report bugs, issues and feature extensions at `github <https://github.com/erdogant/findpeaks/>`_ page.
 
-You contribution is important
-==============================
-If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/findpeaks/>`_ and have a look at the `sponser page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_!
+	.. code-block:: console
 
+	   pip install findpeaks
 
-Github
-======
-Please report bugs, issues and feature extensions at `github <https://github.com/erdogant/findpeaks/>`_.
-
+-----------------------------------
 
 
 Content
