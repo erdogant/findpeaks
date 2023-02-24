@@ -15,10 +15,12 @@ path = r'https://user-images.githubusercontent.com/44827483/221152897-133839bb-7
 fp = findpeaks(method='topology', denoise='lee_enhanced', window=5, whitelist='peak')
 X = fp.imread(path)
 
-fp.fit(X)
+results = fp.fit(X)
 fp.plot_persistence()
 fp.plot()
 fp.plot_mesh()
+
+fp.results['persistence'].iloc[0:10,:]
 
 # %%
 from findpeaks import findpeaks

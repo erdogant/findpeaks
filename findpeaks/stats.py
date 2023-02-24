@@ -1,9 +1,9 @@
 # ----------------------------------------------------
-# Name        : findpeaks.py
-# Author      : E.Taskesen
-# Contact     : erdogant@gmail.com
-# github      : https://github.com/erdogant/findpeaks
-# Licence     : MIT
+# Name: findpeaks.py
+# Author: E.Taskesen
+# Contact: erdogant@gmail.com
+# github: https://github.com/erdogant/findpeaks
+# Licence: MIT
 # ----------------------------------------------------
 
 import findpeaks.union_find as union_find
@@ -31,6 +31,7 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 
+
 # %% Import cv2
 def _import_cv2():
     # Only for 2D images required
@@ -51,14 +52,14 @@ def scale(X, verbose=3):
 
     Parameters
     ----------
-    X : array-like
+    X: array-like
         Input image data.
-    verbose : int (default : 3)
+    verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
-    X : array-like
+    X: array-like
         Scaled image.
 
     """
@@ -85,14 +86,14 @@ def togray(X, verbose=3):
 
     Parameters
     ----------
-    X : array-like
+    X: array-like
         Input image data.
-    verbose : int (default : 3)
+    verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
-    X : array-like
+    X: array-like
         2d-image.
 
     """
@@ -112,16 +113,16 @@ def resize(X, size=None, verbose=3):
 
     Parameters
     ----------
-    X : array-like
+    X: array-like
         Input image data.
-    size : tuple, (default : None)
+    size: tuple, (default: None)
         size to desired (width,length).
-    verbose : int (default : 3)
+    verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
-    X : array-like
+    X: array-like
 
     """
     # Import cv2
@@ -153,9 +154,9 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
 
     Parameters
     ----------
-    X : array-like
+    X: array-like
         Input image data.
-    method : string, (default : 'fastnl', None to disable)
+    method: string, (default: 'fastnl', None to disable)
         Filtering method to remove noise
             * None
             * 'fastnl'
@@ -166,16 +167,16 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
             * 'frost'
             * 'median'
             * 'mean'
-    window : int, (default : 3)
+    window: int, (default: 3)
         Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
-    cu : float, (default: 0.25)
+    cu: float, (default: 0.25)
         The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
-    verbose : int (default : 3)
+    verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
-    X : array-like
+    X: array-like
         Denoised data.
 
     References
@@ -227,19 +228,19 @@ def mask(X, limit=0, verbose=3):
 
     Parameters
     ----------
-    X : array-like
+    X: array-like
         Input image data.
-    limit : float, (default : None)
+    limit: float, (default: None)
         Values > limit are set as regions of interest (ROI).
 
     Returns
     -------
     dict()
-        Xraw : array-like.
+        Xraw: array-like.
             Input image.
-        Xdetect : array-like (same shape as input data)
+        Xdetect: array-like (same shape as input data)
             detected peaks with respect the input image. Elements are the scores.
-        Xranked : array-like (same shape as input data)
+        Xranked: array-like (same shape as input data)
             detected peaks with respect the input image. Elements are the ranked peaks (1=best).
 
     References
@@ -275,10 +276,11 @@ def mask(X, limit=0, verbose=3):
         Xranked[idx]=i+1
 
     # Make dict
-    result = {'Xdetect' : Xdetect, 'Xranked' : Xranked}
+    result = {'Xdetect': Xdetect, 'Xranked': Xranked}
 
     # Return
     return result
+
 
 # %%
 def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
@@ -289,34 +291,34 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
     This function calls the topology function that ONLY computes peaks in case of 2d-arrays.
     To detect the valleys, the image is inverted and the topology function is called.
     The final results is the combined peak and valleys.
-    
+
     Parameters
     ----------
-    X : array-like data
+    X: array-like data
         Input data.
-    limit : float, (default : None)
+    limit: float, (default: None)
         score > limit are set as regions of interest (ROI).
-    verbose : int (default : 3)
+    verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
     dict()
-        Xdetect : array-like
+        Xdetect: array-like
             detected peaks/valleys in the same shape as the input image. Elements are the scores. (high=best peak and low=best valley).
-        Xranked : array-like
+        Xranked: array-like
             detected peaks/valleys in the same shape as the input image. Elements are the ranked peaks (1=best peak and -1 is best valley).
-        persistence : DataFrame().
-            * x, y    : coordinates
-            * birth   : Birth level, tuple(coordinate, rgb value)
-            * death   : Death level, tuple(coordinate, rgb value)
-            * score   : persistence scores
-            * peak    : True if peak
-            * valley  : True if valley
+        persistence: DataFrame().
+            * x, y: coordinates
+            * birth: Birth level, tuple(coordinate, rgb value)
+            * death: Death level, tuple(coordinate, rgb value)
+            * score: persistence scores
+            * peak: True if peak
+            * valley: True if valley
 
     """
-    result_peak = {'groups0' : [], 'Xdetect' : np.zeros_like(X).astype(float), 'Xranked' : np.zeros_like(X).astype(float), 'peak' : None, 'valley' : None, 'persistence' : pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
-    result_valley = {'groups0' : [], 'Xdetect' : np.zeros_like(X).astype(float), 'Xranked' : np.zeros_like(X).astype(float), 'peak' : None, 'valley' : None, 'persistence' : pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
+    result_peak = {'groups0': [], 'Xdetect': np.zeros_like(X).astype(float), 'Xranked': np.zeros_like(X).astype(float), 'peak': None, 'valley': None, 'persistence': pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
+    result_valley = {'groups0': [], 'Xdetect': np.zeros_like(X).astype(float), 'Xranked': np.zeros_like(X).astype(float), 'peak': None, 'valley': None, 'persistence': pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
 
     # Detect peaks
     if np.any(np.isin(whitelist, 'peak')):
@@ -341,17 +343,18 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
     # Combine datamatrix
     Xdetect = result_peak['Xdetect']
     idx = np.where(result_valley['Xdetect'])
-    if len(idx[0])>0: Xdetect[idx] = result_valley['Xdetect'][idx]*-1
+    if len(idx[0])>0: Xdetect[idx] = result_valley['Xdetect'][idx] * -1
     # Combine the ranked ones
     Xranked = result_peak['Xranked']
     idx = np.where(result_valley['Xranked'])
-    if len(idx[0])>0: Xranked[idx] = result_valley['Xranked'][idx]*-1
+    if len(idx[0])>0: Xranked[idx] = result_valley['Xranked'][idx] * -1
     # Combine the group0
     groups0 = result_peak['groups0'] + result_valley['groups0']
     # Make dict
-    result = {'persistence' : persistence, 'Xdetect' : Xdetect, 'Xranked' : Xranked, 'groups0' : groups0}
+    result = {'persistence': persistence, 'Xdetect': Xdetect, 'Xranked': Xranked, 'groups0': groups0}
     # Return
     return result
+
 
 # %%
 def topology(X, limit=None, reverse=True, verbose=3):
@@ -366,46 +369,46 @@ def topology(X, limit=None, reverse=True, verbose=3):
 
     Parameters
     ----------
-    X : array-like data
+    X: array-like data
         Input data.
-    limit : float, (default : None)
+    limit: float, (default: None)
         score > limit are set as regions of interest (ROI).
-    reverse : bool, (default : True)
+    reverse: bool, (default: True)
         For 1d-vectors, reverse should be True to detect peaks and valleys.
         For 2d-images, the peaks are detected by setting reverse=True and valleys by reverse=False.
-    verbose : int (default : 3)
+    verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
     dict()
-        Xdetect : array-like
+        Xdetect: array-like
             detected peaks in the same shape as the input image. Elements are the scores (higher is better).
-        Xranked : array-like
+        Xranked: array-like
             detected peaks in the same shape as the input image. Elements are the ranked peaks (1=best).
-        peak : array-like
+        peak: array-like
             Detected peaks
-        valley : array-like
+        valley: array-like
             Detected valley
-        groups0 : array-like
+        groups0: array-like
             Unstructured results
-        persistence : DataFrame()
-            * x, y    : coordinates
-            * birth   : Birth level, tuple(coordinate, rgb value)
-            * death   : Death level, tuple(coordinate, rgb value)
-            * score   : persistence scores
+        persistence: DataFrame()
+            * x, y: coordinates
+            * birth: Birth level, tuple(coordinate, rgb value)
+            * death: Death level, tuple(coordinate, rgb value)
+            * score: persistence scores
 
     References
     ----------
-    * https://www.sthu.org/code/codesnippets/imagepers.html
-    * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
-    * Initial implementation: Stefan Huber <shuber@sthu.org>
-    * Editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
+        * https://www.sthu.org/code/codesnippets/imagepers.html
+        * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
+        * Initial implementation: Stefan Huber <shuber@sthu.org>
+        * Editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
 
     """
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
 
-    results = {'groups0' : [], 'Xdetect' : np.zeros_like(X).astype(float), 'Xranked' : np.zeros_like(X).astype(float), 'peak' : None, 'valley' : None, 'persistence' : pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
+    results = {'groups0': [], 'Xdetect': np.zeros_like(X).astype(float), 'Xranked': np.zeros_like(X).astype(float), 'peak': None, 'valley': None, 'persistence': pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
     h, w = X.shape
     max_peaks, min_peaks = None, None
     groups0 = {}
@@ -456,7 +459,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
         min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
         idxsort = np.argsort(min_peaks[:, 0])
         min_peaks = min_peaks[idxsort, :]
-    
+
         # Build the output results in the same manner as the input image
         Xdetect = np.zeros_like(X).astype(float)
         Xranked = np.zeros_like(X).astype(int)
