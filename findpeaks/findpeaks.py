@@ -33,68 +33,10 @@ import findpeaks.interpolate as interpolate
 class findpeaks():
     """For the detection of peaks in 1d and 2d data.
 
-    Description
-    -----------
     findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
     In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector,
     pre-processing by interpolation is possible. Peaks can be detected using various methods, and the results can be
     vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.
-
-    Parameters
-    ----------
-    X : array-like (1d-vector or 2d-image)
-        Input image data.
-    method : String, (default : None).
-        Available methods for peak detection. In case method=None, the default is choosen.
-        1d-vector approaches:
-            * 'topology'
-            * 'peakdetect' (default)
-            * 'caerus'
-        2d-array approaches:
-            * 'topology' (default)
-            * 'mask'
-    whitelist : str or list ['peak','valley']
-        Choose what to detect:
-            * 'peak'
-            * 'valley'
-            * ['peak','valley']
-    lookahead : int, (default : 200)
-        Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
-    interpolate : int, (default : None)
-        Interpolation factor. The higher the number, the less sharp the edges will be.
-    limit : float, (default : None)
-        Values > limit are active search areas to detect regions of interest (ROI).
-    scale : bool, (default : False)
-        Scaling in range [0-255] by img*(255/max(img))
-    denoise : string, (default : 'fastnl', None to disable)
-        Filtering method to remove noise:
-            * None
-            * 'fastnl'
-            * 'bilateral'
-            * 'lee'
-            * 'lee_enhanced'
-            * 'kuan'
-            * 'frost'
-            * 'median'
-            * 'mean'
-    window : int, (default : 3)
-        Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
-    cu : float, (default: 0.25)
-        The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
-    params : dict() (Default: None)
-        caerus parameters can be defined in this dict. If None defined, then all default caerus parameters are used:
-        {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-    togray : bool, (default : False)
-        Conversion to gray scale.
-    imsize : tuple, (default : None)
-        size to desired (width,length).
-    verbose : int (default : 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
-
-    Returns
-    -------
-    dict()
-        * See 1dpeaks and 2dpeaks for more details.
 
     Examples
     --------
@@ -124,13 +66,99 @@ class findpeaks():
 
     References
     ----------
-    * https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html
-    * https://www.sthu.org/code/codesnippets/imagepers.html
+        * https://erdogant.github.io/findpeaks/
 
     """
 
     def __init__(self, method=None, whitelist=['peak', 'valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}, figsize=(15, 8), verbose=3):
-        """Initialize findpeaks parameters."""
+        """Initialize findpeaks parameters.
+
+        Parameters
+        ----------
+        X : array-like (1d-vector or 2d-image)
+            Input image data.
+        method : String, (default : None).
+            Available methods for peak detection. In case method=None, the default is choosen.
+            1d-vector approaches:
+                * 'topology'
+                * 'peakdetect' (default)
+                * 'caerus'
+            2d-array approaches:
+                * 'topology' (default)
+                * 'mask'
+        whitelist : str or list ['peak','valley']
+            Choose what to detect:
+                * 'peak'
+                * 'valley'
+                * ['peak','valley']
+        lookahead : int, (default : 200)
+            Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
+        interpolate : int, (default : None)
+            Interpolation factor. The higher the number, the less sharp the edges will be.
+        limit : float, (default : None)
+            Values > limit are active search areas to detect regions of interest (ROI).
+        scale : bool, (default : False)
+            Scaling in range [0-255] by img*(255/max(img))
+        denoise : string, (default : 'fastnl', None to disable)
+            Filtering method to remove noise:
+                * None
+                * 'fastnl'
+                * 'bilateral'
+                * 'lee'
+                * 'lee_enhanced'
+                * 'kuan'
+                * 'frost'
+                * 'median'
+                * 'mean'
+        window : int, (default : 3)
+            Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
+        cu : float, (default: 0.25)
+            The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
+        params : dict() (Default: None)
+            caerus parameters can be defined in this dict. If None defined, then all default caerus parameters are used:
+            {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+        togray : bool, (default : False)
+            Conversion to gray scale.
+        imsize : tuple, (default : None)
+            size to desired (width,length).
+        verbose : int (default : 3)
+            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+
+        Returns
+        -------
+        dict()
+            * See 1dpeaks and 2dpeaks for more details.
+
+        Examples
+        --------
+        >>> from findpeaks import findpeaks
+        >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
+        >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
+        >>> results = fp.fit(X)
+        >>> fp.plot()
+        >>>
+        >>> # 2D array example
+        >>> from findpeaks import findpeaks
+        >>> X = fp.import_example('2dpeaks')
+        >>> results = fp.fit(X)
+        >>> fp.plot()
+        >>>
+        >>> # Image example
+        >>> from findpeaks import findpeaks
+        >>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
+        >>> X = fp.import_example('2dpeaks_image')
+        >>> results = fp.fit(X)
+        >>> fp.plot()
+        >>>
+        >>> # Plot each seperately
+        >>> fp.plot_preprocessing()
+        >>> fp.plot_persistence()
+        >>> fp.plot_mesh()
+
+        References
+        ----------
+            * https://erdogant.github.io/findpeaks/
+        """
         # Store in object
         if isinstance(whitelist, str): whitelist=[whitelist]
         if lookahead is None: lookahead=1
@@ -166,6 +194,7 @@ class findpeaks():
         Parameters
         ----------
         X : array-like data.
+            Input data.
         x : array-like data.
             Coordinates of the x-axis.
 
@@ -188,7 +217,7 @@ class findpeaks():
             # 1d-array (vector)
             results = self.peaks1d(X, x=x, method=self.method)
 
-        return(results)
+        return results
 
     # Find peaks in 1D vector
     def peaks1d(self, X, x=None, method='peakdetect'):
@@ -280,7 +309,7 @@ class findpeaks():
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, result)
         # Return
-        return(self.results)
+        return self.results
 
     # Store 1D vector
     def _store1d(self, X, Xraw, xs, result):
@@ -593,6 +622,32 @@ class findpeaks():
                 ax[iax].grid(False)
                 ax[iax].set_title('Denoise\n' + self.method)
                 iax = iax + 1
+        # Return
+        return X
+
+    # Pre-processing
+    def imread(self, path, verbose=3):
+        """Read file from disk or url.
+
+        Parameters
+        ----------
+        path : String
+            filepath or Url.
+
+        Returns
+        -------
+        X : Numpy array
+
+        """
+        cv2 = stats._import_cv2()
+        if is_url(path):
+            if verbose>=3: print('[findpeaks] >Downloading from github source: [%s]' %(path))
+            response = requests.get(path)
+            img_array = np.asarray(bytearray(response.content), dtype=np.uint8)
+            X = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+        elif os.path.isfile(path):
+            if verbose>=3: print('[findpeaks] >Import [%s]' %(path))
+            X = cv2.imread(path)
         # Return
         return X
 
@@ -1145,6 +1200,14 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     # Return
     return X
 
+
+# Check url
+def is_url(url):
+    try:
+        _ = urlparse(url)
+        return True
+    except ValueError:
+        return False
 
 # %%
 # def disable_tqdm(verbose):

@@ -18,7 +18,7 @@ from findpeaks.filters.mean import mean_filter
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.4.4'
+__version__ = '2.4.5'
 
 # module level doc-string
 __doc__ = """
@@ -61,9 +61,9 @@ Examples
 
 References
 ----------
-* https://github.com/erdogant/findpeaks
-* https://www.sthu.org/code/codesnippets/imagepers.html
-* H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
-* https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
+    * https://github.com/erdogant/findpeaks
+    * https://www.sthu.org/code/codesnippets/imagepers.html
+    * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
+    * https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
 
 """
