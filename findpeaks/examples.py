@@ -18,7 +18,7 @@ X = fp.imread(path)
 fp.fit(X)
 fp.plot_persistence()
 fp.plot()
-# fp.plot_mesh()
+fp.plot_mesh()
 
 # %%
 from findpeaks import findpeaks
