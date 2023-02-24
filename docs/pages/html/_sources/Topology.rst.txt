@@ -202,10 +202,8 @@ Lets demonstrate by example:
     fp = findpeaks(method='topology', interpolate=10, limit=None)
     # Fit topology method on the interpolated 1d-vector
     results = fp.fit(X)
-    # The results in the original dataframe
-    results['df']
     # The results for the interpolated data.
-    results['df_interp']
+    results['persistence']
 
     # Thet output vector is 10 times longer then the input, we expect 170 rows.
     +----+-----+---------+--------+--------+---------+----------+--------+
