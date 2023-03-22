@@ -5,5 +5,5 @@ numpy
 pandas
 tqdm
 requests
-caerus
+caerus>="0.1.9"
 opencv-python
