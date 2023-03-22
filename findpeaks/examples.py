@@ -13,12 +13,12 @@
 from findpeaks import findpeaks
 path = r'https://user-images.githubusercontent.com/44827483/221152897-133839bb-7364-492a-921b-c9077ab9930b.png'
 fp = findpeaks(method='topology', denoise='lee_enhanced', window=5, whitelist='peak')
-X = fp.imread(path)
 
+X = fp.imread(path)
 results = fp.fit(X)
 fp.plot_persistence()
 fp.plot()
-fp.plot_mesh()
+# fp.plot_mesh()
 
 fp.results['persistence'].iloc[0:10,:]
 
