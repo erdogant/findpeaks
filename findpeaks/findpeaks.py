@@ -1,3 +1,4 @@
+"""Python library for the detection of peaks and valleys."""
 # ----------------------------------------------------
 # Name        : findpeaks.py
 # Author      : E.Taskesen
@@ -31,7 +32,7 @@ import findpeaks.interpolate as interpolate
 
 # %%
 class findpeaks():
-    """For the detection of peaks in 1d and 2d data.
+    """Python library for the detection of peaks and valleys.
 
     findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
     In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector,
