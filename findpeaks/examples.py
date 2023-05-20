@@ -9,6 +9,22 @@
 # import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
+# %% Issue 18:
+from findpeaks import findpeaks
+
+fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, window=15)
+X = fp.import_example('2dpeaks')
+fp.fit(X)
+# fp.plot_mesh(wireframe=False, title='Test', cmap='RdBu', view=(70,5))
+fp.plot_mesh()
+fp.plot_mesh(xlim=[10, 30], ylim=[4, 10])
+fp.plot_mesh(xlim=[10, None], ylim=[4, 10])
+fp.plot_mesh(xlim=[10, None], ylim=[4, None])
+fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[0, 3])
+fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[0, None])
+fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[None, 6])
+fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[2, 6])
+
 # %%
 from findpeaks import findpeaks
 path = r'https://user-images.githubusercontent.com/44827483/221152897-133839bb-7364-492a-921b-c9077ab9930b.png'

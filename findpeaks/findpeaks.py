@@ -860,7 +860,19 @@ class findpeaks():
         # Return
         return (ax1, ax2, ax3)
 
-    def plot_mesh(self, wireframe=True, surface=True, rstride=2, cstride=2, cmap=plt.cm.hot_r, title='', figsize=None, view=None, savepath=None):
+    def plot_mesh(self,
+                  wireframe=True,
+                  surface=True,
+                  rstride=2,
+                  cstride=2,
+                  cmap=plt.cm.hot_r,
+                  view=None,
+                  xlim=None,
+                  ylim=None,
+                  zlim=None,
+                  title='',
+                  figsize=None,
+                  savepath=None):
         """Plot the 3d-mesh.
 
         Parameters
@@ -883,6 +895,24 @@ class findpeaks():
             * (90, 90) : x vs y
         cmap : object
             Colormap. The default is plt.cm.hot_r.
+        xlim : tuple(int, int), (default: None)
+            x-limit in the axis.
+            None: No limit.
+            [1, 5]: Limit between the range 1 and 5.
+            [1, None]: Limit between range 1 and unlimited.
+            [None, 5]: Limit between range unlimited and 5.
+        ylim : tuple(int, int), (default: None)
+            y-limit in the axis.
+            None: No limit.
+            [1, 5]: Limit between the range 1 and 5.
+            [1, None]: Limit between range 1 and unlimited.
+            [None, 5]: Limit between range unlimited and 5.
+        zlim : tuple(int, int), (default: None)
+            z-limit in the axis.
+            None: No limit.
+            [1, 5]: Limit between the range 1 and 5.
+            [1, None]: Limit between range 1 and unlimited.
+            [None, 5]: Limit between range unlimited and 5.
         figsize : (int, int), (default: None)
             (width, height) in inches.
         savepath : bool (default : None)
@@ -907,19 +937,28 @@ class findpeaks():
         ax1, ax2 = None, None
         if savepath is not None:
             savepath = str.replace(savepath, ',', '_')
-            # savepath = str.replace(savepath, ':', '_')
             savepath = str.replace(savepath, '=', '_')
-            # savepath = str.replace(savepath, ' ', '_')
 
         # Compute meshgrid
-        xx, yy = np.mgrid[0:self.results['Xproc'].shape[0], 0:self.results['Xproc'].shape[1]]
+        Z = self.results['Xproc'].copy()
+        X, Y = np.mgrid[0:Z.shape[0], 0:Z.shape[1]]
+        # To limit on the X and Y axis, we need to create a trick by setting all values to nan in the Z-axis that should be limited.
+        if xlim is not None:
+            if xlim[0] is not None: Z[X<xlim[0]]=np.nan
+            if xlim[1] is not None: Z[X>xlim[1]]=np.nan
+        if ylim is not None:
+            if ylim[0] is not None: Z[Y<ylim[0]]=np.nan
+            if ylim[1] is not None: Z[Y>ylim[1]]=np.nan
+        if zlim is not None:
+            if zlim[0] is not None: Z[Z<zlim[0]]=np.nan
+            if zlim[1] is not None: Z[Z>zlim[1]]=np.nan
 
         # Plot the figure
         if wireframe:
             fig = plt.figure(figsize=figsize)
             ax1 = fig.add_subplot(projection='3d')
             ax1 = fig.gca()
-            ax1.plot_wireframe(xx, yy, self.results['Xproc'], rstride=rstride, cstride=cstride, linewidth=0.8)
+            ax1.plot_wireframe(X, Y, Z, rstride=rstride, cstride=cstride, linewidth=0.8)
             ax1.set_xlabel('x-axis')
             ax1.set_ylabel('y-axis')
             ax1.set_zlabel('z-axis')
@@ -927,6 +966,10 @@ class findpeaks():
                 ax1.view_init(view[0], view[1])
                 # ax1.view_init(50, -10) # x vs y
             ax1.set_title(title)
+            if xlim is not None: ax1.set_xlim3d(xlim[0], xlim[1])
+            if ylim is not None: ax1.set_ylim3d(ylim[0], ylim[1])
+            if zlim is not None: ax1.set_zlim3d(zlim[0], zlim[1])
+
             plt.show()
             if savepath is not None:
                 if self.verbose>=3: print('[findpeaks] >Saving wireframe to disk..')
@@ -937,13 +980,16 @@ class findpeaks():
             fig = plt.figure(figsize=figsize)
             ax2 = fig.add_subplot(projection='3d')
             ax2 = fig.gca()
-            ax2.plot_surface(xx, yy, self.results['Xproc'], rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
+            ax2.plot_surface(X, Y, Z, rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
             if view is not None:
                 ax2.view_init(view[0], view[1])
             ax2.set_xlabel('x-axis')
             ax2.set_ylabel('y-axis')
             ax2.set_zlabel('z-axis')
             ax2.set_title(title)
+            if xlim is not None: ax2.set_xlim3d(xlim[0], xlim[1])
+            if ylim is not None: ax2.set_ylim3d(ylim[0], ylim[1])
+            if zlim is not None: ax2.set_zlim3d(zlim[0], zlim[1])
             plt.show()
             if savepath is not None:
                 if self.verbose>=3: print('[findpeaks] >Saving surface to disk..')
