@@ -919,6 +919,25 @@ class findpeaks():
             Path with filename to save the figure, eg: './tmp/my_image.png'
         verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+        
+        Example
+        -------
+        >>> # Import library
+        >>> from findpeaks import findpeaks
+        >>> #
+        >>> # Initialize
+        >>> fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, window=15)
+        >>> #
+        >>> # Load example data set
+        >>> X = fp.import_example('2dpeaks')
+        >>> #
+        >>> # Fit model
+        >>> fp.fit(X)
+        >>> #
+        >>> # Create mesh plot
+        >>> fp.plot_mesh()
+        >>> # Create mesh plot with limit on x-axis and y-axis
+        >>> fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[None, 8])
 
         Returns
         -------

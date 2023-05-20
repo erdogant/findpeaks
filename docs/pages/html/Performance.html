@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Performance &mdash; findpeaks findpeaks documentation</title>
@@ -13,9 +13,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -30,11 +27,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> findpeaks
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
           </a>
+              <div class="version">
+                2.4.7
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -138,8 +142,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Performance</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Performance</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/Performance.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -188,10 +192,6 @@ We will detect peaks using the topology and peakdetect method with and without i
 <p>A visual look of the results for the peakdetect with and without interpolation. Note that the interpolated results are readily mapped back to the original plot.</p>
 <table class="docutils align-center" id="id1">
 <caption><span class="caption-text">Peakdetect results without interpolation (left) and with (right)</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig8" src="_images/1dpeaks_perf_peakdetect.png" /></p></td>
 <td><p><img alt="fig9" src="_images/1dpeaks_perf_peakdetect_int.png" /></p></td>
@@ -201,10 +201,6 @@ We will detect peaks using the topology and peakdetect method with and without i
 <p>The differences become clear with and without the use of interpolation</p>
 <table class="docutils align-center" id="id2">
 <caption><span class="caption-text">Topology results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig10" src="_images/1dpeaks_perf_topology.png" /></p></td>
 <td><p><img alt="fig11" src="_images/1dpeaks_perf_topology_int.png" /></p></td>
@@ -255,9 +251,6 @@ We will detect peaks using the topology and peakdetect method with and without i
 <p>The topology methods detects thousands of local minima and maxima whereas the peakdetect approach finds the correct ones.</p>
 <table class="docutils align-center" id="id3">
 <caption><span class="caption-text">Peakdetect on a large noisy dataset</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig3" src="_images/fig3.png" /></p></td>
 </tr>
@@ -267,9 +260,6 @@ We will detect peaks using the topology and peakdetect method with and without i
 Only a few points seems to be of interest; numbers one to eight. With this knowledge we can set the <em>limit</em> paramater and remove the false positive peaks.</p>
 <table class="docutils align-center" id="id4">
 <caption><span class="caption-text">Topology on a large noisy dataset</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig12" src="_images/fig_persistence_largedataset.png" /></p></td>
 </tr>
@@ -291,9 +281,6 @@ Only a few points seems to be of interest; numbers one to eight. With this knowl
 </div>
 <table class="docutils align-center" id="id5">
 <caption><span class="caption-text">Topology with limit parameter set to 1</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig13" src="_images/fig3_persistence_limit.png" /></p></td>
 </tr>

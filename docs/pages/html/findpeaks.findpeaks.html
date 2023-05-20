@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Description &mdash; findpeaks findpeaks documentation</title>
@@ -13,9 +13,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,11 +26,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> findpeaks
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
           </a>
+              <div class="version">
+                2.4.7
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -145,8 +149,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Description</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Description</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/findpeaks.findpeaks.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -156,10 +160,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-findpeaks.findpeaks"></span><dl class="py class">
+  <span class="target" id="module-findpeaks.findpeaks"></span><p>Python library for the detection of peaks and valleys.</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="findpeaks.findpeaks.findpeaks">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">findpeaks.findpeaks.</span></span><span class="sig-name descname"><span class="pre">findpeaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['peak',</span> <span class="pre">'valley']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookahead</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">togray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denoise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fastnl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_caerus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'minperc':</span> <span class="pre">3,</span> <span class="pre">'nlargest':</span> <span class="pre">10,</span> <span class="pre">'threshold':</span> <span class="pre">0.25,</span> <span class="pre">'window':</span> <span class="pre">50}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks" title="Permalink to this definition"></a></dt>
-<dd><p>For the detection of peaks in 1d and 2d data.</p>
+<dd><p>Python library for the detection of peaks and valleys.</p>
 <p>findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
 In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector,
 pre-processing by interpolation is possible. Peaks can be detected using various methods, and the results can be
@@ -205,24 +210,24 @@ vizualized, such as the preprocessing steps, the persistence of peaks, the maski
 <li><p>See 1dpeaks and 2dpeaks for more details about the input/output parameters.</p></li>
 </ul>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like data.</p>
 </dd>
-<dt class="field-odd">param x</dt>
+<dt class="field-odd">param x<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Coordinates of the x-axis.</p>
 </dd>
-<dt class="field-even">type x</dt>
+<dt class="field-even">type x<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like data.</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>See 1dpeaks and 2dpeaks for more details.</p></li>
 </ul>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict()</p>
 </dd>
 </dl>
@@ -237,35 +242,35 @@ vizualized, such as the preprocessing steps, the persistence of peaks, the maski
 <h1>Description<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
 <p>Import one of the few datasets from github source or specify your own download url link.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param data</dt>
+<dt class="field-odd">param data<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Name of datasets: “1dpeaks”, “2dpeaks”, “2dpeaks_image”, ‘btc’, ‘facebook’</p>
 </dd>
-<dt class="field-even">type data</dt>
+<dt class="field-even">type data<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
-<dt class="field-odd">param url</dt>
+<dt class="field-odd">param url<span class="colon">:</span></dt>
 <dd class="field-odd"><p>url link to to dataset.</p>
 </dd>
-<dt class="field-even">type url</dt>
+<dt class="field-even">type url<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
-<dt class="field-odd">param Verbose</dt>
+<dt class="field-odd">param Verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type Verbose</dt>
+<dt class="field-even">type Verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default : 3)</p>
 </dd>
-<dt class="field-odd">param datadir</dt>
+<dt class="field-odd">param datadir<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Directory to store downloaded datasets in. Defaults to data sub-directory
 of findpeaks install location.</p>
 </dd>
-<dt class="field-even">type datadir</dt>
+<dt class="field-even">type datadir<span class="colon">:</span></dt>
 <dd class="field-even"><p>path-like</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dataset containing mixed features.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>pd.DataFrame()</p>
 </dd>
 </dl>
@@ -277,13 +282,13 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">imread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.imread" title="Permalink to this definition"></a></dt>
 <dd><p>Read file from disk or url.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>String</em>) – filepath or Url.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>X</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Numpy array</p>
 </dd>
 </dl>
@@ -306,19 +311,19 @@ of findpeaks install location.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like 1D vector.</p>
 </dd>
-<dt class="field-odd">param x</dt>
+<dt class="field-odd">param x<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Coordinates of the x-axis.</p>
 </dd>
-<dt class="field-even">type x</dt>
+<dt class="field-even">type x<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like 1D vector.</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dict()</strong> (<em>Results in “df” are based on the input-data, whereas “df_interp” are the interpolated results.</em>) –</p>
 <ul>
@@ -400,13 +405,13 @@ of findpeaks install location.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like 1D vector.</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>Xraw    : The RAW input data</p></li>
 <li><p>Xproc   : The pre-processed data</p></li>
@@ -424,7 +429,7 @@ of findpeaks install location.</p>
 </li>
 </ul>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict()</p>
 </dd>
 </dl>
@@ -456,7 +461,7 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x-axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'y-axis'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot" title="Permalink to this definition"></a></dt>
 <dd><p>Plot results.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>legend</strong> (<em>bool</em><em>, </em><em>(</em><em>default: True</em><em>)</em>) – Show the legend.</p></li>
 <li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p></li>
@@ -464,10 +469,10 @@ of findpeaks install location.</p>
 <li><p><strong>text</strong> (<em>Bool</em><em> (</em><em>default : True</em><em>)</em>) – Include text to the 2d-image that shows the peaks (p-number) and valleys (v-number)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple containing (fig, ax)</p>
 </dd>
 </dl>
@@ -478,16 +483,16 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">plot1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x-axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'y-axis'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot1d" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the 1D results.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>legend</strong> (<em>bool</em><em>, </em><em>(</em><em>default: True</em><em>)</em>) – Show the legend.</p></li>
 <li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple containing axis for each figure.</p>
 </dd>
 </dl>
@@ -498,13 +503,13 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">plot2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot2d" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the 2d results.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple containing axis for each figure.</p>
 </dd>
 </dl>
@@ -515,17 +520,17 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">plot_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_mask" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the masking.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>limit</strong> (<em>float</em><em>, </em><em>(</em><em>default : None</em><em>)</em>) – Values &gt; limit are set as regions of interest (ROI).</p></li>
 <li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
 <li><p><strong>cmap</strong> (<em>object</em><em> (</em><em>default : None</em><em>)</em>) – Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig_axis</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple containing axis for each figure.</p>
 </dd>
 </dl>
@@ -533,10 +538,10 @@ of findpeaks install location.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="findpeaks.findpeaks.findpeaks.plot_mesh">
-<span class="sig-name descname"><span class="pre">plot_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wireframe=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstride=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cstride=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savepath=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_mesh" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plot_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wireframe=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstride=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cstride=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zlim=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savepath=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_mesh" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the 3d-mesh.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>wireframe</strong> (<em>bool</em><em>, </em><em>(</em><em>default is True</em><em>)</em>) – Plot the wireframe</p></li>
 <li><p><strong>surface</strong> (<em>bool</em><em>, </em><em>(</em><em>default is True</em><em>)</em>) – Plot the surface</p></li>
@@ -552,16 +557,52 @@ of findpeaks install location.</p>
 </ul>
 </p></li>
 <li><p><strong>cmap</strong> (<em>object</em>) – Colormap. The default is plt.cm.hot_r.</p></li>
+<li><p><strong>xlim</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – x-limit in the axis.
+None: No limit.
+[1, 5]: Limit between the range 1 and 5.
+[1, None]: Limit between range 1 and unlimited.
+[None, 5]: Limit between range unlimited and 5.</p></li>
+<li><p><strong>ylim</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – y-limit in the axis.
+None: No limit.
+[1, 5]: Limit between the range 1 and 5.
+[1, None]: Limit between range 1 and unlimited.
+[None, 5]: Limit between range unlimited and 5.</p></li>
+<li><p><strong>zlim</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – z-limit in the axis.
+None: No limit.
+[1, 5]: Limit between the range 1 and 5.
+[1, None]: Limit between range 1 and unlimited.
+[None, 5]: Limit between range unlimited and 5.</p></li>
 <li><p><strong>figsize</strong> – (width, height) in inches.</p></li>
 <li><p><strong>savepath</strong> (<em>bool</em><em> (</em><em>default : None</em><em>)</em>) – Path with filename to save the figure, eg: ‘./tmp/my_image.png’</p></li>
 <li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>fig_axis</strong></p>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Import library</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load example data set</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fit model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create mesh plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create mesh plot with limit on x-axis and y-axis</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">zlim</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fig_axis</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple containing axis for each figure.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple containing axis for each figure.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -571,7 +612,7 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">plot_persistence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(20,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize_ax1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize_ax2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x-axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'y-axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_persistence" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the homology-peristence.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – (width, height) in inches.</p></li>
 <li><p><strong>fontsize_ax1</strong> (<em>int</em><em>, </em><em>(</em><em>default: 14</em><em>)</em>) – Font size for the labels in the left figure. Choose None for no text-labels.</p></li>
@@ -579,7 +620,7 @@ of findpeaks install location.</p>
 <li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>ax1</strong> (<em>object</em>) – Figure axis 1.</p></li>
 <li><p><strong>ax2</strong> (<em>object</em>) – Figure axis 2.</p></li>
@@ -594,7 +635,7 @@ of findpeaks install location.</p>
 <span class="sig-name descname"><span class="pre">plot_preprocessing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the pre-processing steps.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None.</p>
 </dd>
 </dl>
@@ -616,22 +657,22 @@ of findpeaks install location.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input data or image.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy-array</p>
 </dd>
-<dt class="field-odd">param showfig</dt>
+<dt class="field-odd">param showfig<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Show the preocessing steps in figures. The default is None.</p>
 </dd>
-<dt class="field-even">type showfig</dt>
+<dt class="field-even">type showfig<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> – Processed image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy-array</p>
 </dd>
 </dl>
@@ -648,35 +689,35 @@ of findpeaks install location.</p>
 <h1>Description<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h1>
 <p>Import one of the few datasets from github source or specify your own download url link.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param data</dt>
+<dt class="field-odd">param data<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Name of datasets: “2dpeaks” or “2dpeaks_image”</p>
 </dd>
-<dt class="field-even">type data</dt>
+<dt class="field-even">type data<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
-<dt class="field-odd">param url</dt>
+<dt class="field-odd">param url<span class="colon">:</span></dt>
 <dd class="field-odd"><p>url link to to dataset.</p>
 </dd>
-<dt class="field-even">type url</dt>
+<dt class="field-even">type url<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
-<dt class="field-odd">param Verbose</dt>
+<dt class="field-odd">param Verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type Verbose</dt>
+<dt class="field-even">type Verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default : 3)</p>
 </dd>
-<dt class="field-odd">param datadir</dt>
+<dt class="field-odd">param datadir<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Directory to store downloaded datasets in. Defaults to data sub-directory
 of findpeaks install location.</p>
 </dd>
-<dt class="field-even">type datadir</dt>
+<dt class="field-even">type datadir<span class="colon">:</span></dt>
 <dd class="field-even"><p>path-like</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dataset containing mixed features.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>pd.DataFrame()</p>
 </dd>
 </dl>
@@ -704,13 +745,13 @@ are included to compute the blurred intensity value. As a result, this method pr
 neighboring pixels placed on the other side of the edge, and therefore exhibiting large intensity variations when
 compared to the central pixel, will not be included for blurring.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param method</dt>
+<dt class="field-odd">param method<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>Filtering method to remove noise</dt><dd><ul class="simple">
 <li><p>None</p></li>
@@ -726,31 +767,31 @@ compared to the central pixel, will not be included for blurring.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">type method</dt>
+<dt class="field-even">type method<span class="colon">:</span></dt>
 <dd class="field-even"><p>string, (default: ‘fastnl’, None to disable)</p>
 </dd>
-<dt class="field-odd">param window</dt>
+<dt class="field-odd">param window<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.</p>
 </dd>
-<dt class="field-even">type window</dt>
+<dt class="field-even">type window<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, (default: 3)</p>
 </dd>
-<dt class="field-odd">param cu</dt>
+<dt class="field-odd">param cu<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The noise variation coefficient, applies for methods: [‘kuan’,’lee’,’lee_enhanced’]</p>
 </dd>
-<dt class="field-even">type cu</dt>
+<dt class="field-even">type cu<span class="colon">:</span></dt>
 <dd class="field-even"><p>float, (default: 0.25)</p>
 </dd>
-<dt class="field-odd">param verbose</dt>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type verbose</dt>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> – Denoised data.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -776,19 +817,19 @@ compared to the central pixel, will not be included for blurring.</p>
 <p>Takes an image and detect the peaks using the local maximum filter.
 Returns a boolean mask of the peaks (i.e. 1 when the pixel’s value is the neighborhood maximum, 0 otherwise)</p>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param limit</dt>
+<dt class="field-odd">param limit<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Values &gt; limit are set as regions of interest (ROI).</p>
 </dd>
-<dt class="field-even">type limit</dt>
+<dt class="field-even">type limit<span class="colon">:</span></dt>
 <dd class="field-even"><p>float, (default: None)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>Xraw: array-like.</dt><dd><p>Input image.</p>
 </dd>
@@ -798,7 +839,7 @@ Returns a boolean mask of the peaks (i.e. 1 when the pixel’s value is the neig
 </dd>
 </dl>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict()</p>
 </dd>
 </dl>
@@ -814,17 +855,17 @@ Returns a boolean mask of the peaks (i.e. 1 when the pixel’s value is the neig
 <span class="sig-prename descclassname"><span class="pre">findpeaks.stats.</span></span><span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.stats.resize" title="Permalink to this definition"></a></dt>
 <dd><p>Resize image.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like</em>) – Input image data.</p></li>
 <li><p><strong>size</strong> (<em>tuple</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – size to desired (width,length).</p></li>
 <li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default: 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>X</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>array-like</p>
 </dd>
 </dl>
@@ -838,22 +879,22 @@ Returns a boolean mask of the peaks (i.e. 1 when the pixel’s value is the neig
 <h1>Description<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h1>
 <p>Scaling in range [0-255] by img*(255/max(img))</p>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param verbose</dt>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type verbose</dt>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> – Scaled image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -868,22 +909,22 @@ Returns a boolean mask of the peaks (i.e. 1 when the pixel’s value is the neig
 <h1>Description<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h1>
 <p>Convert 3d-RGB colors to 2d-grey image.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param verbose</dt>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type verbose</dt>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> – 2d-image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -901,32 +942,32 @@ Now consider a water level that continuously descents to lower levels. At local 
 The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
 This method not only gives the local maxima but also quantifies their “significance” by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like data</p>
 </dd>
-<dt class="field-odd">param limit</dt>
+<dt class="field-odd">param limit<span class="colon">:</span></dt>
 <dd class="field-odd"><p>score &gt; limit are set as regions of interest (ROI).</p>
 </dd>
-<dt class="field-even">type limit</dt>
+<dt class="field-even">type limit<span class="colon">:</span></dt>
 <dd class="field-even"><p>float, (default: None)</p>
 </dd>
-<dt class="field-odd">param reverse</dt>
+<dt class="field-odd">param reverse<span class="colon">:</span></dt>
 <dd class="field-odd"><p>For 1d-vectors, reverse should be True to detect peaks and valleys.
 For 2d-images, the peaks are detected by setting reverse=True and valleys by reverse=False.</p>
 </dd>
-<dt class="field-even">type reverse</dt>
+<dt class="field-even">type reverse<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool, (default: True)</p>
 </dd>
-<dt class="field-odd">param verbose</dt>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type verbose</dt>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>Xdetect: array-like</dt><dd><p>detected peaks in the same shape as the input image. Elements are the scores (higher is better).</p>
 </dd>
@@ -947,7 +988,7 @@ For 2d-images, the peaks are detected by setting reverse=True and valleys by rev
 </dd>
 </dl>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict()</p>
 </dd>
 </dl>
@@ -974,25 +1015,25 @@ For 2d-images, the peaks are detected by setting reverse=True and valleys by rev
 To detect the valleys, the image is inverted and the topology function is called.
 The final results is the combined peak and valleys.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param X</dt>
+<dt class="field-odd">param X<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input data.</p>
 </dd>
-<dt class="field-even">type X</dt>
+<dt class="field-even">type X<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like data</p>
 </dd>
-<dt class="field-odd">param limit</dt>
+<dt class="field-odd">param limit<span class="colon">:</span></dt>
 <dd class="field-odd"><p>score &gt; limit are set as regions of interest (ROI).</p>
 </dd>
-<dt class="field-even">type limit</dt>
+<dt class="field-even">type limit<span class="colon">:</span></dt>
 <dd class="field-even"><p>float, (default: None)</p>
 </dd>
-<dt class="field-odd">param verbose</dt>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p>
 </dd>
-<dt class="field-even">type verbose</dt>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>Xdetect: array-like</dt><dd><p>detected peaks/valleys in the same shape as the input image. Elements are the scores. (high=best peak and low=best valley).</p>
 </dd>
@@ -1009,7 +1050,7 @@ The final results is the combined peak and valleys.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict()</p>
 </dd>
 </dl>
@@ -1021,7 +1062,7 @@ The final results is the combined peak and valleys.</p>
 <span class="sig-prename descclassname"><span class="pre">findpeaks.interpolate.</span></span><span class="sig-name descname"><span class="pre">interpolate_line1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.interpolate.interpolate_line1d" title="Permalink to this definition"></a></dt>
 <dd><p>Interpolate 1d-vector.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like</em><em> (</em><em>1D-vector</em><em>)</em>) – Input image data.</p></li>
 <li><p><strong>n</strong> (<em>int</em><em>, </em><em>(</em><em>default : 3</em><em>)</em>) – The interpolation factor. The data is interpolation by a factor n.</p></li>
@@ -1048,10 +1089,10 @@ The final results is the combined peak and valleys.</p>
 <li><p><strong>verbose</strong> (<em>int</em><em> (</em><em>default : 3</em><em>)</em>) – Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>X</strong> – Interpolated data.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>array-like (1D-vector)</p>
 </dd>
 </dl>
@@ -1066,37 +1107,37 @@ The final results is the combined peak and valleys.</p>
 <p>Smoothing a 2d vector can be challanging if the data is low sampled.
 This function contains two steps. First interpolation of the input line followed by a convolution.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param xs</dt>
+<dt class="field-odd">param xs<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Data points for the x-axis.</p>
 </dd>
-<dt class="field-even">type xs</dt>
+<dt class="field-even">type xs<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param ys</dt>
+<dt class="field-odd">param ys<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Data points for the y-axis.</p>
 </dd>
-<dt class="field-even">type ys</dt>
+<dt class="field-even">type ys<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param interpol</dt>
+<dt class="field-odd">param interpol<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The interpolation factor. The data is interpolation by a factor n before the smoothing step.</p>
 </dd>
-<dt class="field-even">type interpol</dt>
+<dt class="field-even">type interpol<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, (default : 3)</p>
 </dd>
-<dt class="field-odd">param window</dt>
+<dt class="field-odd">param window<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Smoothing window that is used to create the convolution and gradually smoothen the line.</p>
 </dd>
-<dt class="field-even">type window</dt>
+<dt class="field-even">type window<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, (default : 3)</p>
 </dd>
-<dt class="field-odd">param verbose</dt>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print information to screen. A higher number will print more.</p>
 </dd>
-<dt class="field-even">type verbose</dt>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
 <dd class="field-even"><p>int [1-5], default: 3</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xnew</strong> (<em>array-like</em>) – Data points for the x-axis.</p></li>
 <li><p><strong>ynew</strong> (<em>array-like</em>) – Data points for the y-axis.</p></li>
@@ -1111,7 +1152,7 @@ This function contains two steps. First interpolation of the input line followed
 <span class="sig-prename descclassname"><span class="pre">findpeaks.interpolate.</span></span><span class="sig-name descname"><span class="pre">interpolate_nans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_value_to_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.interpolate.interpolate_nans" title="Permalink to this definition"></a></dt>
 <dd><p>Interpolate the nan values in an 1D array.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like</em>) – input data X.</p></li>
 <li><p><strong>replace_value_to_nan</strong> (<em>float</em><em> (</em><em>default: None</em><em>)</em>) – Replace value to np.nan.
@@ -1133,7 +1174,7 @@ This function contains two steps. First interpolation of the input line followed
 <li><p><strong>verbose</strong> (<em>int</em><em> ( </em><em>default is 3</em><em>)</em>) – Print message to screen. A higher number will increase outputs.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
 </dd>
 </dl>
@@ -1177,28 +1218,28 @@ This function contains two steps. First interpolation of the input line followed
 <h1>Description<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h1>
 <p>Apply frost filter to a numpy matrix containing the image, with a window of win_size x win_size. By default, the window size is 3x3.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param img</dt>
+<dt class="field-odd">param img<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image.</p>
 </dd>
-<dt class="field-even">type img</dt>
+<dt class="field-even">type img<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param damping_factor</dt>
+<dt class="field-odd">param damping_factor<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Damping factor.</p>
 </dd>
-<dt class="field-even">type damping_factor</dt>
+<dt class="field-even">type damping_factor<span class="colon">:</span></dt>
 <dd class="field-even"><p>float (default: 2.0)</p>
 </dd>
-<dt class="field-odd">param win_size</dt>
+<dt class="field-odd">param win_size<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Window size.</p>
 </dd>
-<dt class="field-even">type win_size</dt>
+<dt class="field-even">type win_size<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img_filtered</strong> – Filtered image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -1239,28 +1280,28 @@ Assumes noise mean = 0
 If you don’t want the window to be a square of size x size, just replace uniform_filter with something else (convolution with a disk, gaussian filter, etc). Any type of (weighted) averaging filter will do, as long as it is the same for calculating both img_mean and img_square_mean.
 The Lee filter seems rather old-fashioned as a filter. It won’t behave well at edges because for any window that has an edge in it, the variance is going to be much higher than the overall image variance, and therefore the weights (of the unfiltered image relative to the filtered image) are going to be close to 1.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param img</dt>
+<dt class="field-odd">param img<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image.</p>
 </dd>
-<dt class="field-even">type img</dt>
+<dt class="field-even">type img<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param win_size</dt>
+<dt class="field-odd">param win_size<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Window size.</p>
 </dd>
-<dt class="field-even">type win_size</dt>
+<dt class="field-even">type win_size<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, int (default: 3)</p>
 </dd>
-<dt class="field-odd">param cu</dt>
+<dt class="field-odd">param cu<span class="colon">:</span></dt>
 <dd class="field-odd"><p>cu factor.</p>
 </dd>
-<dt class="field-even">type cu</dt>
+<dt class="field-even">type cu<span class="colon">:</span></dt>
 <dd class="field-even"><p>float (default: 0.25)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img_filtered</strong> – Filtered image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -1294,28 +1335,28 @@ The Lee filter seems rather old-fashioned as a filter. It won’t behave well at
 <h1>Description<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h1>
 <p>Apply kuan to a numpy matrix containing the image, with a window of win_size x win_size.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param img</dt>
+<dt class="field-odd">param img<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image.</p>
 </dd>
-<dt class="field-even">type img</dt>
+<dt class="field-even">type img<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param win_size</dt>
+<dt class="field-odd">param win_size<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Window size.</p>
 </dd>
-<dt class="field-even">type win_size</dt>
+<dt class="field-even">type win_size<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, int (default: 3)</p>
 </dd>
-<dt class="field-odd">param cu</dt>
+<dt class="field-odd">param cu<span class="colon">:</span></dt>
 <dd class="field-odd"><p>cu factor.</p>
 </dd>
-<dt class="field-even">type cu</dt>
+<dt class="field-even">type cu<span class="colon">:</span></dt>
 <dd class="field-even"><p>float (default: 0.25)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img_filtered</strong> – Filtered image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -1370,40 +1411,40 @@ Parameters:</p>
 <h1>Description<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h1>
 <p>Apply Enhanced Lee filter to a numpy matrix containing the image, with a window of win_size x win_size.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param img</dt>
+<dt class="field-odd">param img<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image.</p>
 </dd>
-<dt class="field-even">type img</dt>
+<dt class="field-even">type img<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param win_size</dt>
+<dt class="field-odd">param win_size<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Window size.</p>
 </dd>
-<dt class="field-even">type win_size</dt>
+<dt class="field-even">type win_size<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, int (default: 3)</p>
 </dd>
-<dt class="field-odd">param cu</dt>
+<dt class="field-odd">param cu<span class="colon">:</span></dt>
 <dd class="field-odd"><p>cu factor.</p>
 </dd>
-<dt class="field-even">type cu</dt>
+<dt class="field-even">type cu<span class="colon">:</span></dt>
 <dd class="field-even"><p>float (default: 0.25)</p>
 </dd>
-<dt class="field-odd">param k</dt>
+<dt class="field-odd">param k<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Kvalue.</p>
 </dd>
-<dt class="field-even">type k</dt>
+<dt class="field-even">type k<span class="colon">:</span></dt>
 <dd class="field-even"><p>float, (default: 1.0)</p>
 </dd>
-<dt class="field-odd">param cmax</dt>
+<dt class="field-odd">param cmax<span class="colon">:</span></dt>
 <dd class="field-odd"><p>cmax value.</p>
 </dd>
-<dt class="field-even">type cmax</dt>
+<dt class="field-even">type cmax<span class="colon">:</span></dt>
 <dd class="field-even"><p>float, (default: 1.73)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img_filtered</strong> – Filtered image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -1450,22 +1491,22 @@ coefficient.</p>
 <h1>Description<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h1>
 <p>Apply a ‘mean filter’ to ‘img’ with a window size equal to ‘win_size’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param img</dt>
+<dt class="field-odd">param img<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image.</p>
 </dd>
-<dt class="field-even">type img</dt>
+<dt class="field-even">type img<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param win_size</dt>
+<dt class="field-odd">param win_size<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The size of the windows.</p>
 </dd>
-<dt class="field-even">type win_size</dt>
+<dt class="field-even">type win_size<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img_filtered</strong> – Filtered image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
@@ -1499,22 +1540,22 @@ coefficient.</p>
 <h1>Description<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h1>
 <p>Apply a ‘median filter’ to ‘img’ with a window size equal to ‘win_size’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param img</dt>
+<dt class="field-odd">param img<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Input image.</p>
 </dd>
-<dt class="field-even">type img</dt>
+<dt class="field-even">type img<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
-<dt class="field-odd">param win_size</dt>
+<dt class="field-odd">param win_size<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The size of the windows.</p>
 </dd>
-<dt class="field-even">type win_size</dt>
+<dt class="field-even">type win_size<span class="colon">:</span></dt>
 <dd class="field-even"><p>int, int (default: 3)</p>
 </dd>
-<dt class="field-odd">returns</dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img_filtered</strong> – Filtered image.</p>
 </dd>
-<dt class="field-even">rtype</dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>array-like</p>
 </dd>
 </dl>
