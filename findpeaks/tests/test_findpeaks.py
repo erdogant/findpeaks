@@ -176,12 +176,14 @@ class TestFINDPEAKS(unittest.TestCase):
         image_mean = findpeaks.stats.mean_filter(img.copy(), win_size=winsize)
         # median filter
         image_median = findpeaks.stats.median_filter(img.copy(), win_size=winsize)
+        # lee sigma filter
+        image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=winsize)
     
         
         # Loop throughout many combinations of parameter settings
         from findpeaks import findpeaks
         methods = ['caerus', 'mask','topology', None]
-        filters = ['lee','lee_enhanced','kuan','fastnl','bilateral','frost','median','mean', None]
+        filters = ['lee','lee_enhanced','kuan','fastnl','bilateral','frost','median','mean', 'lee_sigma', None]
         windows = [None, 3, 63]
         cus = [None, 0, 0.75]
         img = fp.import_example('2dpeaks')
