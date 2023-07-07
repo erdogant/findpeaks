@@ -17,11 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-import geopandas as gpd 
-import pandas as pd
-import xarray as xr
 import numpy as np
-import math
 
 sigma_DEFAULT = 0.9 # for general applications
 win_size_DEFAULT = 7
@@ -217,8 +213,8 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
             sigmaVP = 0.3991
 
     # variables 
-    win_size_h = math.floor(win_size/2) # "half" window as distance from center pixel in each direction
-    sigmaV = 1.0 / math.sqrt(num_looks) # standard deviation of the multiplicative speckle noise, depending on number of looks 
+    win_size_h = int(win_size/2) # "half" window as distance from center pixel in each direction
+    sigmaV = 1.0 / (num_looks ** 0.5) # standard deviation of the multiplicative speckle noise, depending on number of looks 
     sigmaVSqr = sigmaV**2 # variance of the multiplicative speckle noise
     Z98 = np.percentile(img, 98) # threshold of the 98th percentile of the SAR img
     N, M = img.shape
