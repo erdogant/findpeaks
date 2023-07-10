@@ -7,3 +7,4 @@ tqdm
 requests
 caerus>=0.1.9
 opencv-python
+joblib
