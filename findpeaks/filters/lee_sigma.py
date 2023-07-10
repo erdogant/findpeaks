@@ -18,12 +18,14 @@
 # License along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
+from joblib import Parallel, delayed
+
 
 sigma_DEFAULT = 0.9 # for general applications
 win_size_DEFAULT = 7
 num_looks_DEFAULT = 1
 Tk_DEFAULT = 5 # as in S1TBX
-
+num_cores_DEFAULT = -1 
 
 def assert_parameters(sigma, win_size, num_looks, Tk):
     """
@@ -32,12 +34,13 @@ def assert_parameters(sigma, win_size, num_looks, Tk):
         - sigma: in [0.5, 0.6, 0.7, 0.8, 0.9]
         - win_size: should be odd, at least 3
         - num_looks: in [1, 2, 3, 4]
+        - Tk: in [5, 6, 7]
     """
     
     if sigma not in [0.5, 0.6, 0.7, 0.8, 0.9]: raise Exception("Sigma parameter has to be 0.5, 0.6, 0.7, 0.8, or 0.9, submitted %s" %(sigma))
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
     if num_looks not in [1, 2, 3, 4]: raise Exception("num_looks parameter has to be 1, 2, 3 or 4, submitted %s" %(num_looks))
-    if Tk not in [5, 6, 7]: print('[findpeaks] >For general applications it is recommended to use threshold Tk between 5 and 7. You provided %s.' % (Tk))
+    if Tk not in [5, 6, 7]: print('[findpeaks] >For general applications it is recommended to use threshold Tk between 5 and 7. You provided %s.' %(Tk))
     
 
 def ptTar(x, y, img, Z98, Tk):
@@ -70,7 +73,7 @@ def ptTar(x, y, img, Z98, Tk):
     return(ptTarget)
 
     
-def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, num_looks = num_looks_DEFAULT, Tk = Tk_DEFAULT): 
+def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, num_looks = num_looks_DEFAULT, Tk = Tk_DEFAULT, num_cores = num_cores_DEFAULT): 
     """Lee sigma filter.
 
     Description
@@ -92,6 +95,8 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
         Number of looks of the SAR img.
     Tk: int, (default: 5)
         Threshold of neighbouring pixels outside of the 98th percentile, typically between 5 and 7.
+    num_cores: int, (default: -1)
+        Number of cores to use for parallel computing, if -1 all CPUs are used, if 1 no parallel computing is used.
 
     Returns
     -------
@@ -118,6 +123,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
     >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee sigma filter')
 
     """
+    
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
     if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to use odd window sizes. You provided %s, an even number.' % (win_size))
@@ -218,10 +224,9 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
     sigmaVSqr = sigmaV**2 # variance of the multiplicative speckle noise
     Z98 = np.percentile(img, 98) # threshold of the 98th percentile of the SAR img
     N, M = img.shape
-    img_filtered = np.zeros_like(img)  
+    img_filtered = np.zeros_like(img, dtype=float)  
     
-    # for all pixels in the image   
-    for i in range(0, N):
+    def filter_pixel(i, j):
         xleft = i - win_size_h # define left x coordinate of the selected window size
         xright = i + win_size_h+1 # define right x coordinate of the selected window size, add 1 for indexing ndarrays
         if xleft < 0: xleft = 0 # if outside the image dimensions set to min x coordinate
@@ -232,46 +237,47 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
         if xleft3 < 0: xleft3 = 0
         if xright3 >= N: xright3 = N
         
-        for j in range(0, M): 
-            yup = j - win_size_h # in y dimension
-            ydown = j + win_size_h+1 
-            if yup < 0: yup = 0
-            if ydown >= M: ydown = M
-            
-            yup3 = j - 1 # for 3x3 window
-            ydown3 = j + 2
-            if yup3 < 0: yup3 = 0
-            if ydown3 >= M: ydown3 = M
+        yup = j - win_size_h # in y dimension
+        ydown = j + win_size_h+1 
+        if yup < 0: yup = 0
+        if ydown >= M: ydown = M
 
-            # 1. Point target detection + preservation 
-            z = img[i, j] # center pixel value of window
-            window = img[xleft:xright, yup:ydown] # window of selected size
-            window_3x3 = img[xleft3:xright3, yup3:ydown3]  # 3x3 window
-                
-            K = np.count_nonzero(window_3x3 >= Z98) # number of pixels in the 3x3 window outside the Z98
+        yup3 = j - 1 # for 3x3 window
+        ydown3 = j + 2
+        if yup3 < 0: yup3 = 0
+        if ydown3 >= M: ydown3 = M
 
-            if (ptTar(i, j, img, Z98, Tk) == False # not part of a (earlier) point target
-                and (z.item() >= Z98) == False # pixel value is within the 98th percentile of the SAR img
-                or ((z.item() >= Z98) == True and (K >= Tk) == False) # is not in the 98th percentile, but has enough surrounding pixels that are neither -> it will be filtered
-               ): 
+        # 1. Point target detection + preservation 
+        z = img[i, j] # center pixel value of window
+        window = img[xleft:xright, yup:ydown] # window of selected size
+        window_3x3 = img[xleft3:xright3, yup3:ydown3]  # 3x3 window
 
-                # 2. Pixels selection based on the sigma range
-                # - MMSE on 3x3 using orig_sigmaVP to compute a priori mean (priori_x)                   
-                mean_z = window_3x3.mean() # local mean in 3x3
-                Var_z = window_3x3.var(dtype = np.float64) # local variance in 3x3
-                Var_x = (Var_z - mean_z**2 * sigmaVSqr) / (1 + sigmaVSqr) # Variance of x
-                if Var_x < 0: Var_x = 0.0 # according to s1tbx
-                b = Var_x / Var_z
+        K = np.count_nonzero(window_3x3 >= Z98) # number of pixels in the 3x3 window outside the Z98
 
-                priori_x = (1-b) * mean_z + b * z  # MMSE filter to calculate a priori mean
+        if (ptTar(i, j, img, Z98, Tk) == False # not part of a (earlier) point target
+            and (z.item() >= Z98) == False # pixel value is within the 98th percentile of the SAR img
+            or ((z.item() >= Z98) == True and (K >= Tk) == False) # is not in the 98th percentile, but has enough surrounding pixels that are neither -> it will be filtered
+           ): 
 
-                # - establish sigma range using LUT for sigma in Intensity img and num_looks:
-                I1x = I1 * priori_x # lower sigma range
-                I2x = I2 * priori_x # upper sigma range
-                sigmaVPSqr = sigmaVP**2 # speckle noise variance
+            # 2. Pixels selection based on the sigma range
+            # - MMSE on 3x3 using orig_sigmaVP to compute a priori mean (priori_x)                   
+            mean_z = window_3x3.mean() # local mean in 3x3
+            Var_z = window_3x3.var(dtype = np.float64) # local variance in 3x3
+            Var_x = (Var_z - mean_z**2 * sigmaVSqr) / (1 + sigmaVSqr) # Variance of x
+            if Var_x < 0: Var_x = 0.0 # according to s1tbx
+            b = Var_x / (Var_z+1e-50) # adding to avoid nan weight
 
-                # - select pixels in window if their values fall into sigma range, compute mean_z and Var_z
-                window = window[np.where(np.logical_and(window >= I1x, window <= I2x))]
+            priori_x = (1-b) * mean_z + b * z  # MMSE filter to calculate a priori mean
+
+            # - establish sigma range using LUT for sigma in Intensity img and num_looks:
+            I1x = I1 * priori_x # lower sigma range
+            I2x = I2 * priori_x # upper sigma range
+            sigmaVPSqr = sigmaVP**2 # weight function - added small values to avoid nan weights when all the values are similar in the window
+
+            # - select pixels in window if their values fall into sigma range, compute mean_z and Var_z
+            window = window[np.where(np.logical_and(window >= I1x, window <= I2x))]
+            if np.count_nonzero(window) == 0: new_pix_value = z # when window is empty, according to S1TBX
+            else:
                 mean_z = window.mean() # local mean in the sigma range
                 Var_z = window.var(dtype = np.float64) # local variance in the sigma range
 
@@ -279,17 +285,24 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
                 # - compute MMSE filter weight b using Var_x, based on mean_z, Var_z and sigmaVPSqr
                 Var_x = (Var_z - mean_z**2 * sigmaVPSqr) / (1 + sigmaVPSqr) # Variance of x
                 if Var_x < 0: Var_x = 0.0 # according to s1tbx
-                b = Var_x / Var_z # weight function
+                b = Var_x / (Var_z+1e-50) # weight function - added small values to avoid nan weights when all the values are similar in the window
 
                 # - filter center pixel using MMSE
                 new_pix_value = (1-b) * mean_z + b * z # new filtered pixel value
-                if np.count_nonzero(window) == 0: new_pix_value = z # when window is empty, according to S1TBX
-
-            else: # center pixel is part of a (earlier) point target or is a point target pixel -> it will NOT be filtered
-                new_pix_value = z
-            
-            # out_img[i-win_size, j-win_size] = new_pix_value
-            img_filtered[i, j] = new_pix_value
             
 
+        else: # center pixel is part of a (earlier) point target or is a point target pixel -> it will not be filtered
+            new_pix_value = z
+            
+        return new_pix_value
+    
+    # Process in parallel to make computation fast
+    result = Parallel(n_jobs = num_cores)(
+        delayed(filter_pixel)(i, j) for i in range(N) for j in range(M)
+    )
+    
+    # Unpack the results 
+    for (index, v), value in zip(np.ndenumerate(img_filtered), result):
+        img_filtered[index[0], index[1]] = value
+    
     return img_filtered
