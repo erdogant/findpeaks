@@ -18,6 +18,7 @@
 # License along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
+import xarray as xr
 from joblib import Parallel, delayed
 
 
@@ -85,7 +86,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
 
     Parameters
     ----------
-    img : xarray
+    img : numpy.ndarray or xarray.DataArray
         Input image.
     sigma : float, (default: 0.9)
         Speckle noise standard deviation.
@@ -100,8 +101,8 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
 
     Returns
     -------
-    img_filtered : array-like
-        Filtered image.
+    img_filtered : numpy.ndarray or xarray.DataArray
+        Filtered image, type depending on input type.
 
     Examples
     --------
@@ -218,7 +219,11 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
             I2 = 2.094
             sigmaVP = 0.3991
 
-    # variables 
+    # variables
+    final_img = None
+    if isinstance(img, xr.DataArray): # make it possible to use xarray dataarrays as well 
+        final_img = img.copy()
+        img = img.values
     win_size_h = int(win_size/2) # "half" window as distance from center pixel in each direction
     sigmaV = 1.0 / (num_looks ** 0.5) # standard deviation of the multiplicative speckle noise, depending on number of looks 
     sigmaVSqr = sigmaV**2 # variance of the multiplicative speckle noise
@@ -265,14 +270,14 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
             Var_z = window_3x3.var(dtype = np.float64) # local variance in 3x3
             Var_x = (Var_z - mean_z**2 * sigmaVSqr) / (1 + sigmaVSqr) # Variance of x
             if Var_x < 0: Var_x = 0.0 # according to s1tbx
-            b = Var_x / (Var_z+1e-50) # adding to avoid nan weight
+            b = Var_x / (Var_z+1e-50) # weight function - add small values to avoid nan weights when all the values are similar in the window
 
             priori_x = (1-b) * mean_z + b * z  # MMSE filter to calculate a priori mean
 
             # - establish sigma range using LUT for sigma in Intensity img and num_looks:
             I1x = I1 * priori_x # lower sigma range
             I2x = I2 * priori_x # upper sigma range
-            sigmaVPSqr = sigmaVP**2 # weight function - added small values to avoid nan weights when all the values are similar in the window
+            sigmaVPSqr = sigmaVP**2 # speckle noise variance
 
             # - select pixels in window if their values fall into sigma range, compute mean_z and Var_z
             window = window[np.where(np.logical_and(window >= I1x, window <= I2x))]
@@ -285,24 +290,28 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
                 # - compute MMSE filter weight b using Var_x, based on mean_z, Var_z and sigmaVPSqr
                 Var_x = (Var_z - mean_z**2 * sigmaVPSqr) / (1 + sigmaVPSqr) # Variance of x
                 if Var_x < 0: Var_x = 0.0 # according to s1tbx
-                b = Var_x / (Var_z+1e-50) # weight function - added small values to avoid nan weights when all the values are similar in the window
+                b = Var_x / (Var_z+1e-50) # weight function - add small values to avoid nan weights when all the values are similar in the window
 
                 # - filter center pixel using MMSE
                 new_pix_value = (1-b) * mean_z + b * z # new filtered pixel value
             
 
-        else: # center pixel is part of a (earlier) point target or is a point target pixel -> it will not be filtered
+        else: # center pixel is part of a (earlier) point target or is a point target pixel -> it will NOT be filtered
             new_pix_value = z
             
         return new_pix_value
     
-    # Process in parallel to make computation fast
-    result = Parallel(n_jobs = num_cores)(
+    # Parallel Process
+    result = Parallel(n_jobs=num_cores)(
         delayed(filter_pixel)(i, j) for i in range(N) for j in range(M)
     )
-    
+
     # Unpack the results 
     for (index, v), value in zip(np.ndenumerate(img_filtered), result):
         img_filtered[index[0], index[1]] = value
-    
-    return img_filtered
+
+    if isinstance(final_img, xr.DataArray): # in case xarray dataarray was used
+        final_img.values = img_filtered
+        return final_img
+    else:
+        return img_filtered
