@@ -8,4 +8,5 @@ git+https://github.com/SuperKogito/sphinxcontrib-pdfembed.git
 irelease
 sphinxcontrib-fulltoc
 nbconvert # jupyter nbconvert --to html notebook.ipynb
+xarray
 joblib
