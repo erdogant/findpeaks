@@ -94,14 +94,15 @@ SAR
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
-SAR images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.
+SAR images are corrupted by speckle noise which makes peak detection very challenging or somethimes not even possible.
+Let's load a SAR image, apply denoising techniques and then detect peaks.
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
     # Initializatie
-    fp = findpeaks(scale=None, denoise=None, togray=True, imsize=(300,300))
+    fp = findpeaks(scale=None, denoise=None, togray=True, imsize=(300, 300))
     # Import image example
     img = fp.import_example('2dpeaks_image')
     # Fit
@@ -133,10 +134,10 @@ From this point on, we will *pre-process* the image and apply the *topology* met
     # Import image example
     img = fp.import_example('2dpeaks_image')
     # Initializatie
-    fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300))
+    fp = findpeaks(scale=True, denoise='fastnl', params={'window': 31}, togray=True, imsize=(300,300))
     # Fit
     fp.fit(img)
-
+    
 At this point, the image is pre-processed and the peaks are detected. First we will examine the results by looking at the pre-processing steps.
 Below are depicted the four steps of pre-processing. Note that all images are colored in the same manner but the first three look different because RGB colors are used.
 The final denoised picture does show clear removal of the speckle noise. But is it good enough to detect the correct peaks?
@@ -175,7 +176,7 @@ In the next step, we can examine the detected peaks (see below). But these peaks
    +----------+
 
 The detection of peaks and pre-processing steps becomes clear when we create a 3D mesh plot.
-Below can be seen that the denoising has done a very good job in reducing the speckle noise and keeping the peak of interest.
+The image clearly shows that the denoising was very effective in reducing the speckle noise and keeping the peak of interest.
 
 .. code:: python
 
@@ -183,7 +184,6 @@ Below can be seen that the denoising has done a very good job in reducing the sp
     fp.plot_mesh()
     # Rotate to make a top view
     fp.plot_mesh(view=(90,0))
-
 
 .. |figU3| image:: ../figs/sonar_mesh1.png
 .. |figU4| image:: ../figs/sonar_mesh2.png
@@ -271,9 +271,17 @@ Denoising
 	img = fp.import_example('2dpeaks_image')
 	import findpeaks
 
+	# Some pre-processing
+	# Resize
+	img = findpeaks.stats.resize(img, size=(300,300))
+	# Make grey image
+	img = findpeaks.stats.togray(img)
+	# Scale between [0-255]
+	img = findpeaks.stats.scale(img)
+
 	# filters parameters
 	# window size
-	winsize = 15
+	winsize = 31
 	# damping factor for frost
 	k_value1 = 2.0
 	# damping factor for lee enhanced
@@ -284,14 +292,6 @@ Denoising
 	cu_lee_enhanced = 0.523
 	# max coefficient of variation for lee enhanced
 	cmax_value = 1.73
-
-	# Some pre-processing
-	# Resize
-	img = findpeaks.stats.resize(img, size=(300,300))
-	# Make grey image
-	img = findpeaks.stats.togray(img)
-	# Scale between [0-255]
-	img = findpeaks.stats.scale(img)
 
 	# Denoising
 	# fastnl
@@ -306,6 +306,8 @@ Denoising
 	image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
 	# lee enhanced filter
 	image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
+    # lee sigma filter
+    image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=winsize)
 	# mean filter
 	image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
 	# median filter
@@ -325,6 +327,7 @@ Plots
 	plt.figure(); plt.imshow(image_kuan, cmap='gray'); plt.title('Kuan')
 	plt.figure(); plt.imshow(image_lee, cmap='gray'); plt.title('Lee')
 	plt.figure(); plt.imshow(image_lee_enhanced, cmap='gray'); plt.title('Lee Enhanced')
+	plt.figure(); plt.imshow(image_lee_sigma, cmap='gray'); plt.title('Lee Sigma')
 	plt.figure(); plt.imshow(image_mean, cmap='gray'); plt.title('Mean')
 	plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
 
@@ -336,10 +339,11 @@ Find peaks on the denoised image
 
 	from findpeaks import findpeaks
 	fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
-	fp.fit(image_lee_enhanced)
+	fp.fit(image_lee_sigma)
 	fp.plot_persistence()
-	fp.plot_mesh(wireframe=False, title='image_lee_enhanced')
+	fp.plot_mesh(wireframe=False, title='Lee Sigma')
 
+    
 
 
 .. include:: add_bottom.add
