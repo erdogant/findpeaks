@@ -55,7 +55,7 @@ class findpeaks():
     >>>
     >>> # Image example
     >>> from findpeaks import findpeaks
-    >>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
+    >>> fp = findpeaks(method='topology', denoise='fastnl', params={'window': 30}, imsize=(300,300))
     >>> X = fp.import_example('2dpeaks_image')
     >>> results = fp.fit(X)
     >>> fp.plot()
@@ -71,7 +71,22 @@ class findpeaks():
 
     """
 
-    def __init__(self, method=None, whitelist=['peak', 'valley'], lookahead=200, interpolate=None, limit=None, imsize=None, scale=True, togray=True, denoise='fastnl', window=3, cu=0.25, params_caerus={'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}, figsize=(15, 8), verbose=3):
+    def __init__(self,
+                 method=None,
+                 whitelist=['peak', 'valley'],
+                 lookahead=200,
+                 interpolate=None,
+                 limit=None,
+                 imsize=None,
+                 scale=True,
+                 togray=True,
+                 denoise='fastnl',
+                 window=None,  # DEPRECATED IN LATER VERSIONS: specify in params
+                 cu=None,  # DEPRECATED IN LATER VERSIONS: specify in params
+                 params_caerus={},  # DEPRECATED IN LATER VERSIONS: use params instead
+                 params={'window': 3, 'cu': 0.25},
+                 figsize=(15, 8),
+                 verbose=3):
         """Initialize findpeaks parameters.
 
         Parameters
@@ -99,6 +114,8 @@ class findpeaks():
         limit : float, (default : None)
             In case method='topology'
             Values > limit are active search areas to detect regions of interest (ROI).
+        imsize : tuple, (default : None)
+            resize to (width,length).
         scale : bool, (default : False)
             Scaling in range [0-255] by img*(255/max(img))
         denoise : string, (default : 'fastnl', None to disable)
@@ -113,24 +130,24 @@ class findpeaks():
                 * 'frost'
                 * 'median'
                 * 'mean'
-        window : int, (default : 3)
-            Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
-        cu : float, (default: 0.25)
-            The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
-        params : dict() (Default: None)
-            caerus parameters can be defined in this dict. If None defined, then all default caerus parameters are used:
-            {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+        params : dict():
+            Denoising parameters for the methods. If None are defined, the default will be used:
+            caerus (default): {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+            lee_sigma (default): {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
+                * 'sigma': float, (default: 0.9): Speckle noise standard deviation, applies for methods: ['lee_sigma']
+                * 'num_looks': int, (default: 1): Number of looks of the SAR img, applies for methods: ['lee_sigma']
+                * 'tk': int, (default: 5): Threshold of neighbouring pixels outside of the 98th percentile, applies for methods: ['lee_sigma']
+                * cu : float, (default: 0.25): The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
+                * window : int, (default : 3): Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
         togray : bool, (default : False)
             Conversion to gray scale.
-        imsize : tuple, (default : None)
-            size to desired (width,length).
         verbose : int (default : 3)
             Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
         Returns
         -------
         dict()
-            * See 1dpeaks and 2dpeaks for more details.
+            See 1dpeaks and 2dpeaks for more details.
 
         Examples
         --------
@@ -148,7 +165,7 @@ class findpeaks():
         >>>
         >>> # Image example
         >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
+        >>> fp = findpeaks(method='topology', denoise='fastnl', params={'window': 30}, imsize=(300,300))
         >>> X = fp.import_example('2dpeaks_image')
         >>> results = fp.fit(X)
         >>> fp.plot()
@@ -162,6 +179,9 @@ class findpeaks():
         ----------
             * https://erdogant.github.io/findpeaks/
         """
+        if window is not None: print('The input parameter "window" will be deprecated in future releases. Please use "params={"window": 5}" instead.')
+        if cu is not None: print('The input parameter "cu" will be deprecated in future releases. Please use "params={"cu": 3}" instead.')
+
         # Store in object
         if isinstance(whitelist, str): whitelist=[whitelist]
         if lookahead is None: lookahead=1
@@ -176,15 +196,24 @@ class findpeaks():
         self.scale = scale
         self.togray = togray
         self.denoise = denoise
-        self.window = window
-        self.cu = cu
         self.figsize = figsize
         self.verbose = verbose
 
         # Store parameters for caerus
-        caerus_defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-        params_caerus = {**caerus_defaults, **params_caerus}
-        self.params_caerus = params_caerus
+        defaults={}
+        if method=='caerus':
+            if len(params_caerus)>0:
+                print('The input parameter "params_caerus" will be deprecated in future releases. Please use "params" instead.')
+                params = params_caerus
+            defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+        elif method=='lee_sigma':
+            defaults = {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
+        defaults = {**{'window': 3, 'cu': 3}, **defaults}
+
+        params = {**defaults, **params}
+        self.window = params['window']
+        self.cu = params['cu']
+        self.params = params
 
     def fit(self, X, x=None):
         """Detect peaks and valleys in a 1D vector or 2D-array (image).
@@ -301,7 +330,7 @@ class findpeaks():
             # Post processing for the topology method
             result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
         elif method=='caerus':
-            cs = caerus(**self.params_caerus)
+            cs = caerus(**self.params)
             result = cs.fit(X, return_as_dict=True, verbose=self.verbose)
             # Post processing for the caerus method
             result['caerus'] = stats._post_processing(X, Xraw, np.c_[result['loc_start_best'], result['loc_start_best']], np.c_[result['loc_stop_best'], result['loc_stop_best']], self.interpolate, 1, labxRaw=result['df']['labx'].values)
@@ -420,7 +449,7 @@ class findpeaks():
         # Arguments
         args = {}
         args['method'] = self.method
-        args['params_caerus'] = self.params_caerus
+        args['params'] = self.params
         args['lookahead'] = self.lookahead
         args['interpolate'] = self.interpolate
         args['figsize'] = self.figsize
@@ -484,7 +513,7 @@ class findpeaks():
         >>> # Image example
         >>> from findpeaks import findpeaks
         >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(denoise='fastnl', window=30, imsize=(300,300))
+        >>> fp = findpeaks(denoise='fastnl', params={'window': 30}, imsize=(300,300))
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -556,8 +585,6 @@ class findpeaks():
     def preprocessing(self, X, showfig=False):
         """Preprocessing steps of the 2D array (image).
 
-        Description
-        -----------
         The pre-processing has 4 (optional) steps.
             1. Resizing (to reduce computation time).
             2. Scaling color pixels between [0-255]
@@ -588,7 +615,7 @@ class findpeaks():
             ax[iax].grid(False)
             ax[iax].set_title('Input\nRange: [%.3g,%.3g]' %(X.min(), X.max()))
             iax = iax + 1
-            plt.show()
+            # plt.show()
 
         # Resize
         if self.imsize:
@@ -928,7 +955,7 @@ class findpeaks():
         >>> from findpeaks import findpeaks
         >>> #
         >>> # Initialize
-        >>> fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, window=15)
+        >>> fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, params={'window': 15})
         >>> #
         >>> # Load example data set
         >>> X = fp.import_example('2dpeaks')

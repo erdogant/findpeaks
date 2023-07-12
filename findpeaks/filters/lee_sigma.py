@@ -25,26 +25,26 @@ from joblib import Parallel, delayed
 sigma_DEFAULT = 0.9 # for general applications
 win_size_DEFAULT = 7
 num_looks_DEFAULT = 1
-Tk_DEFAULT = 5 # as in S1TBX
+tk_DEFAULT = 5 # as in S1TBX
 num_cores_DEFAULT = -1 
 
-def assert_parameters(sigma, win_size, num_looks, Tk):
+def assert_parameters(sigma, win_size, num_looks, tk):
     """
     Asserts parameters in range.
     Parameters:
         - sigma: in [0.5, 0.6, 0.7, 0.8, 0.9]
         - win_size: should be odd, at least 3
         - num_looks: in [1, 2, 3, 4]
-        - Tk: in [5, 6, 7]
+        - tk: in [5, 6, 7]
     """
-    
+
     if sigma not in [0.5, 0.6, 0.7, 0.8, 0.9]: raise Exception("Sigma parameter has to be 0.5, 0.6, 0.7, 0.8, or 0.9, submitted %s" %(sigma))
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
     if num_looks not in [1, 2, 3, 4]: raise Exception("num_looks parameter has to be 1, 2, 3 or 4, submitted %s" %(num_looks))
-    if Tk not in [5, 6, 7]: print('[findpeaks] >For general applications it is recommended to use threshold Tk between 5 and 7. You provided %s.' %(Tk))
-    
+    if tk not in [5, 6, 7]: print('[findpeaks] >For general applications it is recommended to use threshold tk between 5 and 7. You provided %s.' %(tk))
 
-def ptTar(x, y, img, Z98, Tk):
+
+def ptTar(x, y, img, Z98, tk):
     """
     Detect if the pixel is part of a point target of surrounding pixels
     Parameters:
@@ -56,16 +56,16 @@ def ptTar(x, y, img, Z98, Tk):
             Input image.
         - Z98: ndarray
             Threshold of the 98th percentile of the img.
-        - Tk: int
+        - tk: int
             Threshold for number of K neighbouring pixels > Z98 to classify the pixel as point target, typically 5.
     """
-    
+
     for c in [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]:
         a = x+c[0]
         b = y+c[1]
         win = img[a-1:a+1, b-1:b+1] # 3x3 windows for pixels surrounding the center pixel
         K_win = np.count_nonzero(win >= Z98) # number of pixels outside the Z98
-        if K_win >= Tk: # is point target
+        if K_win >= tk: # is point target
             ptTarget = True
             break
         else: 
@@ -73,8 +73,13 @@ def ptTar(x, y, img, Z98, Tk):
             continue
     return(ptTarget)
 
-    
-def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, num_looks = num_looks_DEFAULT, Tk = Tk_DEFAULT, num_cores = num_cores_DEFAULT): 
+
+def lee_sigma_filter(img,
+                     sigma = sigma_DEFAULT,
+                     win_size = win_size_DEFAULT,
+                     num_looks = num_looks_DEFAULT,
+                     tk = tk_DEFAULT,
+                     num_cores = num_cores_DEFAULT): 
     """Lee sigma filter.
 
     Description
@@ -94,7 +99,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
         Window size.
     num_looks : int, (default: 1)
         Number of looks of the SAR img.
-    Tk: int, (default: 5)
+    tk: int, (default: 5)
         Threshold of neighbouring pixels outside of the 98th percentile, typically between 5 and 7.
     num_cores: int, (default: -1)
         Number of cores to use for parallel computing, if -1 all CPUs are used, if 1 no parallel computing is used.
@@ -124,24 +129,24 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
     >>> axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee sigma filter')
 
     """
-    
+
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
     if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to use odd window sizes. You provided %s, an even number.' % (win_size))
-    assert_parameters(sigma, win_size, num_looks, Tk) # check validity of input parameters
+    assert_parameters(sigma, win_size, num_looks, tk) # check validity of input parameters
 
     if num_looks == 1:
         if sigma == 0.5:
             I1 = 0.436 # lower sigma range
             I2 = 1.920 # upper sigma range
             sigmaVP = 0.4057 # speckle noise standard deviation (adjusted)
-            
+
         elif sigma == 0.6:
             I1 = 0.343
             I2 = 2.210
             sigmaVP = 0.4954
         elif sigma == 0.7:
-            I1 = 0.254                
+            I1 = 0.254
             I2 = 2.582
             sigmaVP = 0.5911
         elif sigma == 0.8:
@@ -153,7 +158,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
             I2 = 3.941
             sigmaVP = 0.8191
 
-    elif numLooks == 2:
+    elif num_looks == 2:
         if sigma == 0.5:
             I1 = 0.582
             I2 = 1.584
@@ -175,7 +180,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
             I2 = 2.744
             sigmaVP = 0.5699
 
-    elif numLooks == 3:
+    elif num_looks == 3:
         if sigma == 0.5:
             I1 = 0.652
             I2 = 1.458
@@ -197,7 +202,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
             I2 = 2.320
             sigmaVP = 0.4624
 
-    elif numLooks == 4:
+    elif num_looks == 4:
         if sigma == 0.5:
             I1 = 0.694
             I2 = 1.385
@@ -230,7 +235,7 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
     Z98 = np.percentile(img, 98) # threshold of the 98th percentile of the SAR img
     N, M = img.shape
     img_filtered = np.zeros_like(img, dtype=float)  
-    
+
     def filter_pixel(i, j):
         xleft = i - win_size_h # define left x coordinate of the selected window size
         xright = i + win_size_h+1 # define right x coordinate of the selected window size, add 1 for indexing ndarrays
@@ -259,9 +264,9 @@ def lee_sigma_filter(img, sigma = sigma_DEFAULT, win_size = win_size_DEFAULT, nu
 
         K = np.count_nonzero(window_3x3 >= Z98) # number of pixels in the 3x3 window outside the Z98
 
-        if (ptTar(i, j, img, Z98, Tk) == False # not part of a (earlier) point target
+        if (ptTar(i, j, img, Z98, tk) == False # not part of a (earlier) point target
             and (z.item() >= Z98) == False # pixel value is within the 98th percentile of the SAR img
-            or ((z.item() >= Z98) == True and (K >= Tk) == False) # is not in the 98th percentile, but has enough surrounding pixels that are neither -> it will be filtered
+            or ((z.item() >= Z98) == True and (K >= tk) == False) # is not in the 98th percentile, but has enough surrounding pixels that are neither -> it will be filtered
            ): 
 
             # 2. Pixels selection based on the sigma range

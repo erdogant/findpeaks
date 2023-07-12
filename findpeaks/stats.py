@@ -178,7 +178,7 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
         Speckle noise standard deviation, applies for methods: ['lee_sigma']
     num_looks : int, (default: 1)
         Number of looks of the SAR img, applies for methods: ['lee_sigma']
-    Tk: int, (default: 5)
+    tk: int, (default: 5)
         Threshold of neighbouring pixels outside of the 98th percentile, applies for methods: ['lee_sigma']
     verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
@@ -214,7 +214,7 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
     elif method=='lee_enhanced':
         X = lee_enhanced_filter(X, win_size=window, cu=cu, k=1, cmax=1.73)
     elif method=='lee_sigma':
-        X = lee_sigma_filter(X, sigma=0.9, win_size=window, num_looks=1, Tk=5)
+        X = lee_sigma_filter(X, sigma=0.9, win_size=window, num_looks=1, tk=5)
     elif method=='kuan':
         X = kuan_filter(X, win_size=window, cu=cu)
     elif method=='frost':

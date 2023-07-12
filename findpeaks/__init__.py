@@ -26,8 +26,6 @@ __doc__ = """
 findpeaks
 =====================================================================
 
-Description
------------
 findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
 In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising.
 Peaks are detected using the masking and the topology method.

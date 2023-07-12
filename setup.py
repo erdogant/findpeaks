@@ -13,7 +13,15 @@ else:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['scipy','matplotlib','numpy','pandas','tqdm','peakdetect==1.1','requests','caerus>=0.1.9'],
+     install_requires=['scipy',
+                       'matplotlib',
+                       'numpy',
+                       'pandas',
+                       'tqdm',
+                       'peakdetect==1.1',
+                       'requests',
+                       'caerus>=0.1.9',
+                       'xarray'],
      python_requires='>=3',
      name='findpeaks',
      version=new_version,

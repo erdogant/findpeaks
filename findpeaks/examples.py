@@ -9,10 +9,39 @@
 # import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
+# %% New functionality:
+import findpeaks
+import matplotlib.pyplot as plt
+img = findpeaks.import_example('2dpeaks_image')
+# Resize
+img = findpeaks.stats.resize(img, size=(300,300))
+# Make grey image
+img = findpeaks.stats.togray(img)
+# Scale between [0-255]
+img = findpeaks.stats.scale(img)
+# Filter
+img_filtered = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=7)
+
+plt.figure()
+fig, axs = plt.subplots(1,2)
+axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
+axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee sigma filter')
+
+
+import findpeaks
+img = findpeaks.import_example('2dpeaks_image')
+
+from findpeaks import findpeaks
+fp = findpeaks(method='topology', scale=True, denoise='lee_sigma', togray=True, params={'window': 31})
+results = fp.fit(img)
+fp.plot_persistence()
+fp.plot()
+
+
 # %% Issue 18:
 from findpeaks import findpeaks
 
-fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, window=15)
+fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, params={'window': 15})
 X = fp.import_example('2dpeaks')
 fp.fit(X)
 # fp.plot_mesh(wireframe=False, title='Test', cmap='RdBu', view=(70,5))
@@ -28,8 +57,8 @@ fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[2, 6])
 # %%
 from findpeaks import findpeaks
 path = r'https://user-images.githubusercontent.com/44827483/221152897-133839bb-7364-492a-921b-c9077ab9930b.png'
-fp = findpeaks(method='topology', denoise='lee_enhanced', window=5, whitelist='peak')
-
+fp = findpeaks(method='topology', denoise='lee_enhanced', params={'window':5}, whitelist='peak')
+fp = findpeaks(method='topology', denoise='lee_sigma', params={'window':5}, whitelist='peak')
 X = fp.imread(path)
 results = fp.fit(X)
 fp.plot_persistence()
@@ -104,14 +133,15 @@ import numpy as np
 
 X = np.sin(np.linspace(0, 1, 100))
 from findpeaks import findpeaks
-fp = findpeaks(method='caerus', params_caerus={'minperc': 5, 'window': 50})
+# fp = findpeaks(method='caerus', params_caerus={'minperc': 5, 'window': 50})
+fp = findpeaks(method='caerus', params={'minperc': 5, 'window': 50})
 results = fp.fit(X)
 
 
 # %% Issue 13
 # https://github.com/erdogant/findpeaks/issues/13
 from findpeaks import findpeaks
-fp = findpeaks(method="mask", denoise=None, window=3, limit=None, verbose=0)
+fp = findpeaks(method="mask", denoise=None, params={'window': 3}, limit=None, verbose=0)
 X = fp.import_example("2dpeaks_image")
 results = fp.fit(X)
 fp.plot()
@@ -214,7 +244,7 @@ fp = findpeaks(method="peakdetect", lookahead=15, verbose=verbose)
 results = fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method="caerus", params_caerus={'minperc':100}, interpolate=None, verbose=verbose)
+fp = findpeaks(method="caerus", params={'minperc':100}, interpolate=None, verbose=verbose)
 # Make fit
 results = fp.fit(X)
 ax = fp.plot()
@@ -258,7 +288,7 @@ from findpeaks import findpeaks
 # Import image example
 img = fp.import_example('2dpeaks_image')
 # Initializatie
-fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), whitelist=['peak', 'valley'], verbose=3)
+fp = findpeaks(scale=True, denoise='fastnl', params={'window': 31}, togray=True, imsize=(300,300), whitelist=['peak', 'valley'], verbose=3)
 # Fit
 fp.fit(img)
 fp.plot()
@@ -266,7 +296,7 @@ fp.results["persistence"]
 
 # Take the minimum score for the top peaks off the diagonal.
 limit = fp.results['persistence'][0:5]['score'].min()
-fp = findpeaks(scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), limit=254, whitelist=['peak', 'valley'], verbose=3)
+fp = findpeaks(scale=True, denoise='fastnl', params={'window': 31}, togray=True, imsize=(300,300), limit=254, whitelist=['peak', 'valley'], verbose=3)
 fp.fit(img)
 
 fp.results["persistence"]
@@ -279,7 +309,7 @@ fp.plot_mesh(view=(90,0))
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", denoise=None, window=3, limit=None, verbose=0)
+fp = findpeaks(method="topology", denoise=None, params={'window': 3}, limit=None, verbose=0)
 X = fp.import_example("2dpeaks_image")
 # X = fp.import_example("2dpeaks")
 results = fp.fit(X)
@@ -341,7 +371,7 @@ verbose=3
 
 for getfilter in filters:
     for window in windows:
-            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, togray=True, imsize=(300,300), verbose=verbose)
+            fp = findpeaks(method='topology', scale=True, denoise=getfilter, params={'window': window}, togray=True, imsize=(300,300), verbose=verbose)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window)
@@ -351,7 +381,7 @@ filters = ['lee','lee_enhanced','kuan']
 for getfilter in filters:
     for window in windows:
         for cu in cus:
-            fp = findpeaks(method='topology', scale=True, denoise=getfilter, window=window, cu=cu, togray=True, imsize=(300,300), verbose=verbose)
+            fp = findpeaks(method='topology', scale=True, denoise=getfilter, params={'window': window, 'cu': cu}, togray=True, imsize=(300,300), verbose=verbose)
             img = fp.import_example('2dpeaks_image')
             results = fp.fit(img)
             title = 'Method=' + str(getfilter) + ', window='+str(window) + ', cu='+str(cu)
@@ -420,7 +450,7 @@ fp.plot()
 
 
 # 2dpeaks example with other settings
-fp = findpeaks(method='topology', scale=True, denoise='fastnl', window=31, togray=True, imsize=(300,300), verbose=3)
+fp = findpeaks(method='topology', scale=True, denoise='fastnl', params={'window': 31}, togray=True, imsize=(300,300), verbose=3)
 img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()
