@@ -12,6 +12,8 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -232,11 +234,12 @@ The use of peak detection techniques such as topology require a very specific se
 <p><em>SAR</em> images are affected by <em>speckle</em> noise that inherently exists in and which degrades the image quality.
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.</p>
-<p>SAR images are corrupted by speckle noise, and peak detection is very dificult or may not even be possible.</p>
+<p>SAR images are corrupted by speckle noise which makes peak detection very challenging or somethimes not even possible.
+Let’s load a SAR image, apply denoising techniques and then detect peaks.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initializatie</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
 <span class="c1"># Import image example</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="c1"># Fit</span>
@@ -261,7 +264,7 @@ Reducing the noise enhances the resolution but tends to decrease the spatial res
 <span class="c1"># Import image example</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="c1"># Initializatie</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">31</span><span class="p">},</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
 <span class="c1"># Fit</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 </pre></div>
@@ -293,7 +296,7 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 </tbody>
 </table>
 <p>The detection of peaks and pre-processing steps becomes clear when we create a 3D mesh plot.
-Below can be seen that the denoising has done a very good job in reducing the speckle noise and keeping the peak of interest.</p>
+The image clearly shows that the denoising was very effective in reducing the speckle noise and keeping the peak of interest.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
 <span class="c1"># Rotate to make a top view</span>
@@ -366,50 +369,52 @@ But this information allows to limit the model, and focus only on the peaks that
 <p>The final results show that peak-detection for SAR images is possible using a emperical approach.</p>
 <section id="denoising">
 <h2>Denoising<a class="headerlink" href="#denoising" title="Permalink to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">()</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">findpeaks</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">()</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">findpeaks</span>
 
-<span class="c1"># filters parameters</span>
-<span class="c1"># window size</span>
-<span class="n">winsize</span> <span class="o">=</span> <span class="mi">15</span>
-<span class="c1"># damping factor for frost</span>
-<span class="n">k_value1</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="c1"># damping factor for lee enhanced</span>
-<span class="n">k_value2</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="c1"># coefficient of variation of noise</span>
-<span class="n">cu_value</span> <span class="o">=</span> <span class="mf">0.25</span>
-<span class="c1"># coefficient of variation for lee enhanced of noise</span>
-<span class="n">cu_lee_enhanced</span> <span class="o">=</span> <span class="mf">0.523</span>
-<span class="c1"># max coefficient of variation for lee enhanced</span>
-<span class="n">cmax_value</span> <span class="o">=</span> <span class="mf">1.73</span>
+    <span class="c1"># Some pre-processing</span>
+    <span class="c1"># Resize</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+    <span class="c1"># Make grey image</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">togray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="c1"># Scale between [0-255]</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 
-<span class="c1"># Some pre-processing</span>
-<span class="c1"># Resize</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
-<span class="c1"># Make grey image</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">togray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="c1"># Scale between [0-255]</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="c1"># filters parameters</span>
+    <span class="c1"># window size</span>
+    <span class="n">winsize</span> <span class="o">=</span> <span class="mi">31</span>
+    <span class="c1"># damping factor for frost</span>
+    <span class="n">k_value1</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="c1"># damping factor for lee enhanced</span>
+    <span class="n">k_value2</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="c1"># coefficient of variation of noise</span>
+    <span class="n">cu_value</span> <span class="o">=</span> <span class="mf">0.25</span>
+    <span class="c1"># coefficient of variation for lee enhanced of noise</span>
+    <span class="n">cu_lee_enhanced</span> <span class="o">=</span> <span class="mf">0.523</span>
+    <span class="c1"># max coefficient of variation for lee enhanced</span>
+    <span class="n">cmax_value</span> <span class="o">=</span> <span class="mf">1.73</span>
 
-<span class="c1"># Denoising</span>
-<span class="c1"># fastnl</span>
-<span class="n">img_fastnl</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-<span class="c1"># bilateral</span>
-<span class="n">img_bilateral</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bilateral&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-<span class="c1"># frost filter</span>
-<span class="n">image_frost</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">frost_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">damping_factor</span><span class="o">=</span><span class="n">k_value1</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-<span class="c1"># kuan filter</span>
-<span class="n">image_kuan</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">kuan_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
-<span class="c1"># lee filter</span>
-<span class="n">image_lee</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
-<span class="c1"># lee enhanced filter</span>
-<span class="n">image_lee_enhanced</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_enhanced_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_value2</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_lee_enhanced</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="n">cmax_value</span><span class="p">)</span>
-<span class="c1"># mean filter</span>
-<span class="n">image_mean</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">mean_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
-<span class="c1"># median filter</span>
-<span class="n">image_median</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1"># Denoising</span>
+    <span class="c1"># fastnl</span>
+    <span class="n">img_fastnl</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1"># bilateral</span>
+    <span class="n">img_bilateral</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;bilateral&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1"># frost filter</span>
+    <span class="n">image_frost</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">frost_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">damping_factor</span><span class="o">=</span><span class="n">k_value1</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1"># kuan filter</span>
+    <span class="n">image_kuan</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">kuan_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
+    <span class="c1"># lee filter</span>
+    <span class="n">image_lee</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
+    <span class="c1"># lee enhanced filter</span>
+    <span class="n">image_lee_enhanced</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_enhanced_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_value2</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_lee_enhanced</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="n">cmax_value</span><span class="p">)</span>
+<span class="c1"># lee sigma filter</span>
+<span class="n">image_lee_sigma</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">lee_sigma_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1"># mean filter</span>
+    <span class="n">image_mean</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">mean_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
+    <span class="c1"># median filter</span>
+    <span class="n">image_median</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -422,6 +427,7 @@ But this information allows to limit the model, and focus only on the peaks that
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_kuan</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kuan&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_lee</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Lee&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_lee_enhanced</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Lee Enhanced&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_lee_sigma</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Lee Sigma&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_mean</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mean&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_median</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median&#39;</span><span class="p">)</span>
 </pre></div>
@@ -431,9 +437,9 @@ But this information allows to limit the model, and focus only on the peaks that
 <h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">image_lee_enhanced</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">image_lee_sigma</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;image_lee_enhanced&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Lee Sigma&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <hr>

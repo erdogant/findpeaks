@@ -12,6 +12,8 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -72,7 +74,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Denoise</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lee">Lee</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#lee-enhanced">Lee enhanced</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lee-enhanced">Lee Enhanced</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lee-sigma">Lee Sigma</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kuan">Kuan</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#frost">Frost</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mean">Mean</a></li>
@@ -182,6 +185,16 @@ Reducing the noise enhances the resolution but tends to decrease the spatial res
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">findpeaks</span>
 
+<span class="c1"># Some pre-processing</span>
+<span class="c1"># Resize</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="c1"># Make grey image</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">togray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># Scale between [0-255]</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
+
 <span class="c1"># filters parameters</span>
 <span class="c1"># window size</span>
 <span class="n">winsize</span> <span class="o">=</span> <span class="mi">15</span>
@@ -195,16 +208,6 @@ Reducing the noise enhances the resolution but tends to decrease the spatial res
 <span class="n">cu_lee_enhanced</span> <span class="o">=</span> <span class="mf">0.523</span>
 <span class="c1"># max coefficient of variation for lee enhanced</span>
 <span class="n">cmax_value</span> <span class="o">=</span> <span class="mf">1.73</span>
-
-<span class="c1"># Some pre-processing</span>
-<span class="c1"># Resize</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
-<span class="c1"># Make grey image</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">togray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="c1"># Scale between [0-255]</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="c1"># Plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
@@ -237,7 +240,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="lee-enhanced">
-<h2>Lee enhanced<a class="headerlink" href="#lee-enhanced" title="Permalink to this heading"></a></h2>
+<h2>Lee Enhanced<a class="headerlink" href="#lee-enhanced" title="Permalink to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter" title="findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_enhanced.lee_enhanced_filter()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lee enhanced filter</span>
 <span class="n">image_lee_enhanced</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_enhanced_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_value2</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_lee_enhanced</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="n">cmax_value</span><span class="p">)</span>
@@ -253,6 +256,30 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </tbody>
 </table>
 </section>
+<section id="lee-sigma">
+<h2>Lee Sigma<a class="headerlink" href="#lee-sigma" title="Permalink to this heading"></a></h2>
+<p>Improved Lee Sigma, according to Lee Sigma filter in SNAP Sentinel-1 Toolbox.
+Apply the filter with a window of win_size x win_size to a numpy matrix (containing the image), before converting to dB.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Jong-Sen Lee, Jen-Hung Wen, T. L. Ainsworth, Kun-Shan Chen and A. J. Chen, “Improved Sigma Filter for Speckle Filtering of SAR Imagery”,
+IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213, Jan. 2009, doi: 10.1109/TGRS.2008.2002881.</p>
+</div>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_sigma.lee_sigma_filter()</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lee enhanced filter</span>
+<span class="n">image_lee_sigma</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_sigma_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_looks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tk</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_lee_sigma</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Lee Sigma filtering</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figLS1" src="_images/sonar_lee_sigma.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="kuan">
 <h2>Kuan<a class="headerlink" href="#kuan" title="Permalink to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a></p>
@@ -262,8 +289,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_kuan</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id5">
-<caption><span class="caption-text">Kuan filtering</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id6">
+<caption><span class="caption-text">Kuan filtering</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD2" src="_images/sonar_kuan.png" /></p></td>
 </tr>
@@ -279,8 +306,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_frost</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id6">
-<caption><span class="caption-text">Frost filtering</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id7">
+<caption><span class="caption-text">Frost filtering</span><a class="headerlink" href="#id7" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD3" src="_images/sonar_frost.png" /></p></td>
 </tr>
@@ -296,8 +323,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_mean</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id7">
-<caption><span class="caption-text">Mean filtering</span><a class="headerlink" href="#id7" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id8">
+<caption><span class="caption-text">Mean filtering</span><a class="headerlink" href="#id8" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD4" src="_images/sonar_mean.png" /></p></td>
 </tr>
@@ -313,8 +340,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_median</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id8">
-<caption><span class="caption-text">Median filtering</span><a class="headerlink" href="#id8" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id9">
+<caption><span class="caption-text">Median filtering</span><a class="headerlink" href="#id9" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD5" src="_images/sonar_median.png" /></p></td>
 </tr>
@@ -330,8 +357,8 @@ Note that the Lee filter may not behave well at edges because for any window tha
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_fastnl</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id9">
-<caption><span class="caption-text">Fastnl filtering</span><a class="headerlink" href="#id9" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id10">
+<caption><span class="caption-text">Fastnl filtering</span><a class="headerlink" href="#id10" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD6" src="_images/sonar_fastnl.png" /></p></td>
 </tr>
@@ -352,8 +379,8 @@ neighboring pixels placed on the other side of the edge, and therefore exhibitin
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_bilateral</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id10">
-<caption><span class="caption-text">Bilateral filtering</span><a class="headerlink" href="#id10" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id11">
+<caption><span class="caption-text">Bilateral filtering</span><a class="headerlink" href="#id11" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD7" src="_images/sonar_bilateral.png" /></p></td>
 </tr>

@@ -33,6 +33,16 @@ Lets demonstrate the denoising by example. First we will import the example data
     img = fp.import_example('2dpeaks_image')
     import findpeaks
     
+    # Some pre-processing
+    # Resize
+    img = findpeaks.stats.resize(img, size=(300,300))
+    # Make grey image
+    img = findpeaks.stats.togray(img)
+    # Scale between [0-255]
+    img = findpeaks.stats.scale(img)
+    # Plot
+    plt.imshow(img, cmap='gray_r')
+
     # filters parameters
     # window size
     winsize = 15
@@ -46,16 +56,6 @@ Lets demonstrate the denoising by example. First we will import the example data
     cu_lee_enhanced = 0.523
     # max coefficient of variation for lee enhanced
     cmax_value = 1.73
-    
-    # Some pre-processing
-    # Resize
-    img = findpeaks.stats.resize(img, size=(300,300))
-    # Make grey image
-    img = findpeaks.stats.togray(img)
-    # Scale between [0-255]
-    img = findpeaks.stats.scale(img)
-    # Plot
-    plt.imshow(img, cmap='gray_r')
 
 
 .. |figDO| image:: ../figs/sonar_raw.png
@@ -101,7 +101,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 
 
 
-Lee enhanced
+Lee Enhanced
 ----------------------------------------------------
 
 :func:`findpeaks.filters.lee_enhanced.lee_enhanced_filter`
@@ -123,6 +123,37 @@ Lee enhanced
    | |figD1|  |
    +----------+
 
+
+Lee Sigma
+----------------------------------------------------
+
+Improved Lee Sigma, according to Lee Sigma filter in SNAP Sentinel-1 Toolbox.
+Apply the filter with a window of win_size x win_size to a numpy matrix (containing the image), before converting to dB.
+
+.. note::
+    
+    Jong-Sen Lee, Jen-Hung Wen, T. L. Ainsworth, Kun-Shan Chen and A. J. Chen, "Improved Sigma Filter for Speckle Filtering of SAR Imagery",
+    IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213, Jan. 2009, doi: 10.1109/TGRS.2008.2002881.
+
+
+:func:`findpeaks.filters.lee_sigma.lee_sigma_filter`
+
+.. code:: python
+
+    # lee enhanced filter
+    image_lee_sigma = findpeaks.lee_sigma_filter(img, sigma=0.9, win_size=7, num_looks=1, tk=5)
+    # Plot
+    plt.imshow(image_lee_sigma, cmap='gray_r')
+
+
+.. |figLS1| image:: ../figs/sonar_lee_sigma.png
+
+.. table:: Lee Sigma filtering
+   :align: center
+
+   +-----------+
+   | |figLS1|  |
+   +-----------+
 
 Kuan
 ----------------------------------------------------

@@ -12,6 +12,8 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -163,26 +165,26 @@ Such conventions are helpfull to improve the quality, make the code cleaner and 
 <h2>library<a class="headerlink" href="#library" title="Permalink to this heading"></a></h2>
 <p>The file structure of the generated package looks like:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>path/to/findpeaks/
-├── .gitignore
-├── CHANGELOG.rst
-├── docs
-│   ├── conf.py
-│   ├── index.rst
-│   └── ...
-├── LICENSE
-├── MANIFEST.in
-├── NOTICE
-├── findpeaks
-│   ├── __init__.py
-│   ├── __version__.py
-│   └── findpeaks.py
-├── README.md
-├── requirements.txt
-├── setup.cfg
-├── setup.py
-└── tests
-    ├── __init__.py
-    └── test_findpeaks.py
+├──<span class="w"> </span>.gitignore
+├──<span class="w"> </span>CHANGELOG.rst
+├──<span class="w"> </span>docs
+│<span class="w">   </span>├──<span class="w"> </span>conf.py
+│<span class="w">   </span>├──<span class="w"> </span>index.rst
+│<span class="w">   </span>└──<span class="w"> </span>...
+├──<span class="w"> </span>LICENSE
+├──<span class="w"> </span>MANIFEST.in
+├──<span class="w"> </span>NOTICE
+├──<span class="w"> </span>findpeaks
+│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+│<span class="w">   </span>├──<span class="w"> </span>__version__.py
+│<span class="w">   </span>└──<span class="w"> </span>findpeaks.py
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>requirements.txt
+├──<span class="w"> </span>setup.cfg
+├──<span class="w"> </span>setup.py
+└──<span class="w"> </span>tests
+<span class="w">    </span>├──<span class="w"> </span>__init__.py
+<span class="w">    </span>└──<span class="w"> </span>test_findpeaks.py
 </pre></div>
 </div>
 </section>
@@ -213,7 +215,7 @@ The following tests are secured using <code class="xref py py-func docutils lite
 <li><p>The output values are checked and whether they are encoded properly.</p></li>
 <li><p>The check of whether parameters are handled correctly.</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest tests<span class="se">\t</span>est_findpeaks.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>tests<span class="se">\t</span>est_findpeaks.py
 </pre></div>
 </div>
 <hr>
