@@ -19,7 +19,7 @@ from findpeaks.filters.mean import mean_filter
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.4.7'
+__version__ = '2.5.0'
 
 # module level doc-string
 __doc__ = """
@@ -48,7 +48,7 @@ Examples
 >>>
 >>> # Image example
 >>> from findpeaks import findpeaks
->>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300,300))
+>>> fp = findpeaks(method='topology', denoise='fastnl', window=30, imsize=(300, 300))
 >>> X = fp.import_example('2dpeaks_image')
 >>> results = fp.fit(X)
 >>> fp.plot()

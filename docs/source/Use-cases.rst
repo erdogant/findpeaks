@@ -306,8 +306,8 @@ Denoising
 	image_lee = findpeaks.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
 	# lee enhanced filter
 	image_lee_enhanced = findpeaks.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
-    # lee sigma filter
-    image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=winsize)
+	# lee sigma filter
+	image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=winsize)
 	# mean filter
 	image_mean = findpeaks.mean_filter(img.copy(), win_size=winsize)
 	# median filter
