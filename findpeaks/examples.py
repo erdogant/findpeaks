@@ -10,17 +10,19 @@
 # from findpeaks import findpeaks
 
 # %% New functionality:
-import findpeaks
+import findpeaks as fp
 import matplotlib.pyplot as plt
-img = findpeaks.import_example('2dpeaks_image')
+
+# Import example
+img = fp.import_example('2dpeaks_image')
 # Resize
-img = findpeaks.stats.resize(img, size=(300,300))
+img = fp.stats.resize(img, size=(150, 150))
 # Make grey image
-img = findpeaks.stats.togray(img)
+img = fp.stats.togray(img)
 # Scale between [0-255]
-img = findpeaks.stats.scale(img)
+img = fp.stats.scale(img)
 # Filter
-img_filtered = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=7)
+img_filtered = fp.stats.lee_sigma_filter(img, win_size=17)
 
 plt.figure()
 fig, axs = plt.subplots(1,2)
@@ -28,14 +30,25 @@ axs[0].imshow(img, cmap='gray'); axs[0].set_title('Input')
 axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee sigma filter')
 
 
-import findpeaks
-img = findpeaks.import_example('2dpeaks_image')
-
+# %%
+# Import library
 from findpeaks import findpeaks
-fp = findpeaks(method='topology', scale=True, denoise='lee_sigma', togray=True, params={'window': 31})
+
+# Set 
+fp = findpeaks(method='topology',
+               scale=True,
+               togray=True,
+               imsize=(150, 150),
+               denoise='lee_sigma',
+               params={'window': 17})
+
+# Import example image
+img = fp.import_example('2dpeaks_image')
+
 results = fp.fit(img)
-fp.plot_persistence()
-fp.plot()
+fp.plot_mesh()
+# fp.plot_persistence()
+fp.plot(limit=3)
 
 
 # %% Issue 18:

@@ -683,7 +683,7 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, legend=True, figsize=None, cmap=None, text=True, xlabel='x-axis', ylabel='y-axis'):
+    def plot(self, limit=None, legend=True, figsize=None, cmap=None, text=True, xlabel='x-axis', ylabel='y-axis'):
         """Plot results.
 
         Parameters
@@ -712,7 +712,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel)
         elif self.args['type']=='peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit)
         else:
             if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot for %s' %(self.args['type']))
             return None
@@ -772,7 +772,7 @@ class findpeaks():
             # Return axis
             return (ax2, ax1)
 
-    def plot2d(self, figsize=None):
+    def plot2d(self, figsize=None, limit=None):
         """Plot the 2d results.
 
         Parameters
@@ -795,7 +795,7 @@ class findpeaks():
 
         # Setup figure
         if self.method=='mask':
-            ax_method = self.plot_mask(figsize=figsize)
+            ax_method = self.plot_mask(figsize=figsize, limit=limit)
         if self.method=='topology':
             # Plot topology/persistence
             ax_method = self.plot_persistence(figsize=figsize)
