@@ -34,7 +34,7 @@ axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee sigma filter')
 # Import library
 from findpeaks import findpeaks
 
-# Set 
+# Initialize
 fp = findpeaks(method='topology',
                scale=True,
                togray=True,
@@ -45,15 +45,17 @@ fp = findpeaks(method='topology',
 # Import example image
 img = fp.import_example('2dpeaks_image')
 
+# Denoising and detecting peaks
 results = fp.fit(img)
+# Create mesh plot
 fp.plot_mesh()
-# fp.plot_persistence()
-fp.plot(limit=3)
+# Create denoised plot
+fp.plot(limit=80)
 
 
 # %% Issue 18:
 from findpeaks import findpeaks
-
+    
 fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, params={'window': 15})
 X = fp.import_example('2dpeaks')
 fp.fit(X)
