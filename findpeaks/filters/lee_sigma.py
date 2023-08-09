@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# 2023: Caroline Goehner: <carosophie.goehner@gmail.com>
-# https://github.com/carolinegoehner
+# 2023: Caroline Goehner: <carolinesophie.goehner@eurac.edu> <carosophie.goehner@gmail.com>
+# This part of the library was written at Eurac Research in the 
+# framework of the project ScaleAgData (SCALING ΑGRICULTURAL SENSOR 
+# DATA for an improved monitoring of agri-environmental conditions. 
+# Duration: 01/01/2023 - 31/12/2026) funded by the Horizon Europe 
+# program under the grant agreement no 101086355.
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -28,8 +32,9 @@ win_size_DEFAULT = 7
 num_looks_DEFAULT = 1
 tk_DEFAULT = 5 # as in S1TBX
 num_cores_DEFAULT = -1 
+data_measure_DEFAULT = "intensity"
 
-def assert_parameters(sigma, win_size, num_looks, tk):
+def assert_parameters(sigma, win_size, num_looks, tk, data_measure):
     """
     Asserts parameters in range.
     Parameters:
@@ -37,12 +42,14 @@ def assert_parameters(sigma, win_size, num_looks, tk):
         - win_size: should be odd, at least 3
         - num_looks: in [1, 2, 3, 4]
         - tk: in [5, 6, 7]
+        - data_measure: "intensity" or "amplitude"
     """
 
     if sigma not in [0.5, 0.6, 0.7, 0.8, 0.9]: raise Exception("Sigma parameter has to be 0.5, 0.6, 0.7, 0.8, or 0.9, submitted %s" %(sigma))
     if win_size < 3: raise Exception('ERROR: win size must be at least 3')
     if num_looks not in [1, 2, 3, 4]: raise Exception("num_looks parameter has to be 1, 2, 3 or 4, submitted %s" %(num_looks))
     if tk not in [5, 6, 7]: print('[findpeaks] >For general applications it is recommended to use threshold tk between 5 and 7. You provided %s.' %(tk))
+    if data_measure not in ["intensity", "amplitude"]: raise Exception('ERROR: data_measure has to be "intensity" or "amplitude". You provided %s.' %(data_measure))
 
 
 def ptTar(x, y, img, Z98, tk):
@@ -80,7 +87,8 @@ def lee_sigma_filter(img,
                      win_size = win_size_DEFAULT,
                      num_looks = num_looks_DEFAULT,
                      tk = tk_DEFAULT,
-                     num_cores = num_cores_DEFAULT): 
+                     num_cores = num_cores_DEFAULT,
+                     data_measure = data_measure_DEFAULT): 
     """Lee sigma filter.
 
     Description
@@ -134,96 +142,186 @@ def lee_sigma_filter(img,
     if win_size < 3: raise Exception('[findpeaks] >ERROR: win size must be at least 3')
     if len(img.shape) > 2: raise Exception('[findpeaks] >ERROR: Image should be 2D. Hint: set the parameter: togray=True')
     if ((win_size % 2) == 0): print('[findpeaks] >It is highly recommended to use odd window sizes. You provided %s, an even number.' % (win_size))
-    assert_parameters(sigma, win_size, num_looks, tk) # check validity of input parameters
+    assert_parameters(sigma, win_size, num_looks, tk, data_measure) # check validity of input parameters
 
-    if num_looks == 1:
-        if sigma == 0.5:
-            I1 = 0.436 # lower sigma range
-            I2 = 1.920 # upper sigma range
-            sigmaVP = 0.4057 # speckle noise standard deviation (adjusted)
+    if data_measure == "intensity":
+        if num_looks == 1:
+            if sigma == 0.5:
+                I1 = 0.436 # lower sigma range
+                I2 = 1.920 # upper sigma range
+                IsigmaVP = 0.4057 # speckle noise standard deviation (adjusted)
 
-        elif sigma == 0.6:
-            I1 = 0.343
-            I2 = 2.210
-            sigmaVP = 0.4954
-        elif sigma == 0.7:
-            I1 = 0.254
-            I2 = 2.582
-            sigmaVP = 0.5911
-        elif sigma == 0.8:
-            I1 = 0.168
-            I2 = 3.094
-            sigmaVP = 0.6966
-        elif sigma == 0.9:
-            I1 = 0.084
-            I2 = 3.941
-            sigmaVP = 0.8191
+            elif sigma == 0.6:
+                I1 = 0.343
+                I2 = 2.210
+                IsigmaVP = 0.4954
+            elif sigma == 0.7:
+                I1 = 0.254
+                I2 = 2.582
+                IsigmaVP = 0.5911
+            elif sigma == 0.8:
+                I1 = 0.168
+                I2 = 3.094
+                IsigmaVP = 0.6966
+            elif sigma == 0.9:
+                I1 = 0.084
+                I2 = 3.941
+                IsigmaVP = 0.8191
 
-    elif num_looks == 2:
-        if sigma == 0.5:
-            I1 = 0.582
-            I2 = 1.584
-            sigmaVP = 0.2763
-        elif sigma == 0.6:
-            I1 = 0.501
-            I2 = 1.755
-            sigmaVP = 0.3388
-        elif sigma == 0.7:
-            I1 = 0.418
-            I2 = 1.972
-            sigmaVP = 0.4062
-        elif sigma == 0.8:
-            I1 = 0.327
-            I2 = 2.260
-            sigmaVP = 0.4810
-        elif sigma == 0.9:
-            I1 = 0.221
-            I2 = 2.744
-            sigmaVP = 0.5699
+        elif num_looks == 2:
+            if sigma == 0.5:
+                I1 = 0.582
+                I2 = 1.584
+                IsigmaVP = 0.2763
+            elif sigma == 0.6:
+                I1 = 0.501
+                I2 = 1.755
+                IsigmaVP = 0.3388
+            elif sigma == 0.7:
+                I1 = 0.418
+                I2 = 1.972
+                IsigmaVP = 0.4062
+            elif sigma == 0.8:
+                I1 = 0.327
+                I2 = 2.260
+                IsigmaVP = 0.4810
+            elif sigma == 0.9:
+                I1 = 0.221
+                I2 = 2.744
+                IsigmaVP = 0.5699
 
-    elif num_looks == 3:
-        if sigma == 0.5:
-            I1 = 0.652
-            I2 = 1.458
-            sigmaVP = 0.2222
-        elif sigma == 0.6:
-            I1 = 0.580
-            I2 = 1.586
-            sigmaVP = 0.2736
-        elif sigma == 0.7:
-            I1 = 0.505
-            I2 = 1.751
-            sigmaVP = 0.3280
-        elif sigma == 0.8:
-            I1 = 0.419
-            I2 = 1.965
-            sigmaVP = 0.3892
-        elif sigma == 0.9:
-            I1 = 0.313
-            I2 = 2.320
-            sigmaVP = 0.4624
+        elif num_looks == 3:
+            if sigma == 0.5:
+                I1 = 0.652
+                I2 = 1.458
+                IsigmaVP = 0.2222
+            elif sigma == 0.6:
+                I1 = 0.580
+                I2 = 1.586
+                IsigmaVP = 0.2736
+            elif sigma == 0.7:
+                I1 = 0.505
+                I2 = 1.751
+                IsigmaVP = 0.3280
+            elif sigma == 0.8:
+                I1 = 0.419
+                I2 = 1.965
+                IsigmaVP = 0.3892
+            elif sigma == 0.9:
+                I1 = 0.313
+                I2 = 2.320
+                IsigmaVP = 0.4624
 
-    elif num_looks == 4:
-        if sigma == 0.5:
-            I1 = 0.694
-            I2 = 1.385
-            sigmaVP = 0.1921
-        elif sigma == 0.6:
-            I1 = 0.630
-            I2 = 1.495
-            sigmaVP = 0.2348
-        elif sigma == 0.7:
-            I1 = 0.560
-            I2 = 1.627
-            sigmaVP = 0.2825
-        elif sigma == 0.8:
-            I1 = 0.480
-            I2 = 1.804
-            sigmaVP = 0.3354
-        elif sigma == 0.9:
-            I1 = 0.378
-            I2 = 2.094
-            sigmaVP = 0.3991
+        elif num_looks == 4:
+            if sigma == 0.5:
+                I1 = 0.694
+                I2 = 1.385
+                IsigmaVP = 0.1921
+            elif sigma == 0.6:
+                I1 = 0.630
+                I2 = 1.495
+                IsigmaVP = 0.2348
+            elif sigma == 0.7:
+                I1 = 0.560
+                I2 = 1.627
+                IsigmaVP = 0.2825
+            elif sigma == 0.8:
+                I1 = 0.480
+                I2 = 1.804
+                IsigmaVP = 0.3354
+            elif sigma == 0.9:
+                I1 = 0.378
+                I2 = 2.094
+                IsigmaVP = 0.3991
+    
+    elif data_measure == "amplitude":
+        if num_looks == 1:
+            if sigma == 0.5:
+                A1 = 0.653997
+                A2 = 1.40002
+                AsigmaVP = 0.208349
+            elif sigma == 0.6:
+                A1 = 0.578998
+                A2 = 1.50601
+                AsigmaVP = 0.255358
+            elif sigma == 0.7:
+                A1 = 0.496999
+                A2 = 1.63201
+                AsigmaVP = 0.305303
+            elif sigma == 0.8:
+                A1 = 0.403999
+                A2 = 1.79501
+                AsigmaVP = 0.361078
+            elif sigma == 0.9:
+                A1 = 0.286
+                A2 = 2.04301
+                AsigmaVP = 0.426375
+        
+        elif num_looks == 2:
+            if sigma == 0.5:
+                A1 = 0.76
+                A2 = 1.263
+                AsigmaVP = 0.139021
+            elif sigma == 0.6:
+                A1 = 0.705
+                A2 = 1.332
+                AsigmaVP = 0.169777
+            elif sigma == 0.7:
+                A1 = 0.643
+                A2 = 1.412
+                AsigmaVP = 0.206675
+            elif sigma == 0.8:
+                A1 = 0.568
+                A2 = 1.515
+                AsigmaVP = 0.244576
+            elif sigma == 0.9:
+                A1 = 0.467
+                A2 = 1.673
+                AsigmaVP = 0.29107
+        
+        elif num_looks == 3:
+            if sigma == 0.5:
+                A1 = 0.806
+                A2 = 1.21
+                AsigmaVP = 0.109732
+            elif sigma == 0.6:
+                A1 = 0.76
+                A2 = 1.263
+                AsigmaVP = 0.138001
+            elif sigma == 0.7:
+                A1 = 0.708
+                A2 = 1.327
+                AsigmaVP = 0.163686
+            elif sigma == 0.8:
+                A1 = 0.645
+                A2 = 1.408
+                AsigmaVP = 0.19597
+            elif sigma == 0.9:
+                A1 = 0.557
+                A2 = 1.531
+                AsigmaVP = 0.234219
+        
+        elif num_looks == 4:
+            if sigma == 0.5:
+                A1 = 0.832
+                A2 = 1.179
+                AsigmaVP = 0.0894192
+            elif sigma == 0.6:
+                A1 = 0.793
+                A2 = 1.226
+                AsigmaVP = 0.112018
+            elif sigma == 0.7:
+                A1 = 0.747
+                A2 = 1.279
+                AsigmaVP = 0.139243
+            elif sigma == 0.8:
+                A1 = 0.691
+                A2 = 1.347
+                AsigmaVP = 0.167771
+            elif sigma == 0.9:
+                A1 = 0.613
+                A2 = 1.452
+                AsigmaVP = 0.201036
 
     # variables
     final_img = None
@@ -231,8 +329,19 @@ def lee_sigma_filter(img,
         final_img = img.copy()
         img = img.values
     win_size_h = int(win_size/2) # "half" window as distance from center pixel in each direction
-    sigmaV = 1.0 / (num_looks ** 0.5) # standard deviation of the multiplicative speckle noise, depending on number of looks 
+    
+    if data_measure == "intensity":
+        sigmaV = 1.0 / (num_looks ** 0.5) # standard deviation of the multiplicative speckle noise, depending on number of looks
+        sigmaVP = IsigmaVP
+        sigmaRangeLow = I1
+        sigmaRangeHigh = I2
+    elif data_measure == "amplitude":
+        sigmaV = 0.5227 / (num_looks ** 0.5)
+        sigmaVP = AsigmaVP
+        sigmaRangeLow = A1
+        sigmaRangeHigh = A2
     sigmaVSqr = sigmaV**2 # variance of the multiplicative speckle noise
+    
     Z98 = np.percentile(img, 98) # threshold of the 98th percentile of the SAR img
     N, M = img.shape
     img_filtered = np.zeros_like(img, dtype=float)  
@@ -281,12 +390,12 @@ def lee_sigma_filter(img,
             priori_x = (1-b) * mean_z + b * z  # MMSE filter to calculate a priori mean
 
             # - establish sigma range using LUT for sigma in Intensity img and num_looks:
-            I1x = I1 * priori_x # lower sigma range
-            I2x = I2 * priori_x # upper sigma range
+            XsigmaRangeLow = sigmaRangeLow * priori_x # lower sigma range
+            XsigmaRangeHigh = sigmaRangeHigh * priori_x # upper sigma range
             sigmaVPSqr = sigmaVP**2 # speckle noise variance
 
             # - select pixels in window if their values fall into sigma range, compute mean_z and Var_z
-            window = window[np.where(np.logical_and(window >= I1x, window <= I2x))]
+            window = window[np.where(np.logical_and(window >= XsigmaRangeLow, window <= XsigmaRangeHigh))]
             if np.count_nonzero(window) == 0: new_pix_value = z # when window is empty, according to S1TBX
             else:
                 mean_z = window.mean() # local mean in the sigma range
