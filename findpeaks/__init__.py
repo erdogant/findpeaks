@@ -15,8 +15,6 @@ from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
 
-
-
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
 __version__ = '2.5.2'
