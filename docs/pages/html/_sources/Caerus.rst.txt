@@ -31,7 +31,7 @@ The default value for minperc is set to 5 and window size is set to 50.
     from findpeaks import findpeaks
     # Initialize findpeaks with cearus method.
     # The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
-    fp = findpeaks(method='caerus', params_caerus={'minperc':5, 'window':50})
+    fp = findpeaks(method='caerus', params={'minperc':5, 'window':50})
     # Import example data
     X = fp.import_example('facebook')
     # Fit

@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=816012cb"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +36,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.4.7
+                2.5.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -161,14 +161,14 @@
            <div itemprop="articleBody">
              
   <section id="denoise">
-<h1>Denoise<a class="headerlink" href="#denoise" title="Permalink to this heading"></a></h1>
+<h1>Denoise<a class="headerlink" href="#denoise" title="Link to this heading"></a></h1>
 <p>Images can be corrupted by noise. To suppress and improve the image analysis various filtering techniques have been developed.
 Denoising the image is very usefull before the detection of peaks.
 In <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> we incorporated some well-known filtering methods: <em>Frost</em>, <em>Lee</em>, and <em>Kuan</em>, but also other methods such as <em>fastnl</em>, <em>bilateral</em>, <em>mean</em> and <em>median</em> filters.
 Some of the methods are adopted from <code class="docutils literal notranslate"><span class="pre">pyradar</span></code> [1], for which the code is refactored and rewritten for Python 3. Other methods are adopted from <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code>.</p>
 <p>It is generally known that noise can follow various distributions, and requires different approaches to effectly reduce the noise.</p>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Noise distributions</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Noise distributions</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD8" src="_images/noise_distr_examples.png" /></p></td>
 </tr>
@@ -211,14 +211,14 @@ Reducing the noise enhances the resolution but tends to decrease the spatial res
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">RAW SAR image</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">RAW SAR image</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figDO" src="_images/sonar_raw.png" /></p></td>
 </tr>
 </tbody>
 </table>
 <section id="lee">
-<h2>Lee<a class="headerlink" href="#lee" title="Permalink to this heading"></a></h2>
+<h2>Lee<a class="headerlink" href="#lee" title="Link to this heading"></a></h2>
 <p>The Additive Noise Lee Despeckling Filter can be used with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter" title="findpeaks.filters.lee.lee_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></a></p>
 <p>Let’s assume that the despeckling noise is additive with a constant mean of zero, a constant variance, and drawn from a Gaussian distribution. Use a window (I x J pixels) to scan the image with a stride of 1 pixels (and I will use reflective boundary conditions).
 The despeckled value of the pixel in the center of the window located in the ith row and jth column is, zhat_ij = mu_k + W*(z_ij = mu_z), where mu_k is the mean value of all pixels in the window centered on pixel i,j, z_ij is the unfiltered value of the pixel, and W is a weight calculated as, W = var_k / (var_k + var_noise), where var_k is the variance of all pixels in the window and var_noise is the variance of the speckle noise.
@@ -232,7 +232,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Lee filtering</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Lee filtering</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD0" src="_images/sonar_lee.png" /></p></td>
 </tr>
@@ -240,7 +240,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="lee-enhanced">
-<h2>Lee Enhanced<a class="headerlink" href="#lee-enhanced" title="Permalink to this heading"></a></h2>
+<h2>Lee Enhanced<a class="headerlink" href="#lee-enhanced" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter" title="findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_enhanced.lee_enhanced_filter()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lee enhanced filter</span>
 <span class="n">image_lee_enhanced</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">lee_enhanced_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k_value2</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_lee_enhanced</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="n">cmax_value</span><span class="p">)</span>
@@ -249,7 +249,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Lee enhanced filtering</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Lee enhanced filtering</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD1" src="_images/sonar_lee_enhanced.png" /></p></td>
 </tr>
@@ -257,7 +257,7 @@ Note that the Lee filter may not behave well at edges because for any window tha
 </table>
 </section>
 <section id="lee-sigma">
-<h2>Lee Sigma<a class="headerlink" href="#lee-sigma" title="Permalink to this heading"></a></h2>
+<h2>Lee Sigma<a class="headerlink" href="#lee-sigma" title="Link to this heading"></a></h2>
 <p>Improved Lee Sigma, according to Lee Sigma filter in SNAP Sentinel-1 Toolbox.
 Apply the filter with a window of win_size x win_size to a numpy matrix (containing the image), before converting to dB.</p>
 <div class="admonition note">
@@ -273,7 +273,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </pre></div>
 </div>
 <table class="docutils align-center" id="id5">
-<caption><span class="caption-text">Lee Sigma filtering</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Lee Sigma filtering</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figLS1" src="_images/sonar_lee_sigma.png" /></p></td>
 </tr>
@@ -281,7 +281,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </table>
 </section>
 <section id="kuan">
-<h2>Kuan<a class="headerlink" href="#kuan" title="Permalink to this heading"></a></h2>
+<h2>Kuan<a class="headerlink" href="#kuan" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># kuan filter</span>
 <span class="n">image_kuan</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">kuan_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">,</span> <span class="n">cu</span><span class="o">=</span><span class="n">cu_value</span><span class="p">)</span>
@@ -290,7 +290,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </pre></div>
 </div>
 <table class="docutils align-center" id="id6">
-<caption><span class="caption-text">Kuan filtering</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Kuan filtering</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD2" src="_images/sonar_kuan.png" /></p></td>
 </tr>
@@ -298,7 +298,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </table>
 </section>
 <section id="frost">
-<h2>Frost<a class="headerlink" href="#frost" title="Permalink to this heading"></a></h2>
+<h2>Frost<a class="headerlink" href="#frost" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter" title="findpeaks.filters.frost.frost_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># frost filter</span>
 <span class="n">image_frost</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">frost_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">damping_factor</span><span class="o">=</span><span class="n">k_value1</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
@@ -307,7 +307,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </pre></div>
 </div>
 <table class="docutils align-center" id="id7">
-<caption><span class="caption-text">Frost filtering</span><a class="headerlink" href="#id7" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Frost filtering</span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD3" src="_images/sonar_frost.png" /></p></td>
 </tr>
@@ -315,7 +315,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </table>
 </section>
 <section id="mean">
-<h2>Mean<a class="headerlink" href="#mean" title="Permalink to this heading"></a></h2>
+<h2>Mean<a class="headerlink" href="#mean" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter" title="findpeaks.filters.mean.mean_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.mean.mean_filter()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># mean filter</span>
 <span class="n">image_mean</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">mean_filter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
@@ -324,7 +324,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </pre></div>
 </div>
 <table class="docutils align-center" id="id8">
-<caption><span class="caption-text">Mean filtering</span><a class="headerlink" href="#id8" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Mean filtering</span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD4" src="_images/sonar_mean.png" /></p></td>
 </tr>
@@ -332,7 +332,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </table>
 </section>
 <section id="median">
-<h2>Median<a class="headerlink" href="#median" title="Permalink to this heading"></a></h2>
+<h2>Median<a class="headerlink" href="#median" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter" title="findpeaks.filters.median.median_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.median.median_filter()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># median filter</span>
 <span class="n">image_median</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">win_size</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
@@ -341,7 +341,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </pre></div>
 </div>
 <table class="docutils align-center" id="id9">
-<caption><span class="caption-text">Median filtering</span><a class="headerlink" href="#id9" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Median filtering</span><a class="headerlink" href="#id9" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD5" src="_images/sonar_median.png" /></p></td>
 </tr>
@@ -349,7 +349,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </table>
 </section>
 <section id="fastnl">
-<h2>Fastnl<a class="headerlink" href="#fastnl" title="Permalink to this heading"></a></h2>
+<h2>Fastnl<a class="headerlink" href="#fastnl" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># fastnl</span>
 <span class="n">img_fastnl</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">denoise</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">winsize</span><span class="p">)</span>
@@ -358,7 +358,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </pre></div>
 </div>
 <table class="docutils align-center" id="id10">
-<caption><span class="caption-text">Fastnl filtering</span><a class="headerlink" href="#id10" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Fastnl filtering</span><a class="headerlink" href="#id10" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD6" src="_images/sonar_fastnl.png" /></p></td>
 </tr>
@@ -366,7 +366,7 @@ IEEE Transactions on Geoscience and Remote Sensing, vol. 47, no. 1, pp. 202-213,
 </table>
 </section>
 <section id="bilateral">
-<h2>Bilateral<a class="headerlink" href="#bilateral" title="Permalink to this heading"></a></h2>
+<h2>Bilateral<a class="headerlink" href="#bilateral" title="Link to this heading"></a></h2>
 <p>The bilateral filter, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a>, uses a Gaussian filter in the space domain, but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
 The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
 while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
@@ -380,7 +380,7 @@ neighboring pixels placed on the other side of the edge, and therefore exhibitin
 </pre></div>
 </div>
 <table class="docutils align-center" id="id11">
-<caption><span class="caption-text">Bilateral filtering</span><a class="headerlink" href="#id11" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Bilateral filtering</span><a class="headerlink" href="#id11" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figD7" src="_images/sonar_bilateral.png" /></p></td>
 </tr>
@@ -388,7 +388,7 @@ neighboring pixels placed on the other side of the edge, and therefore exhibitin
 </table>
 </section>
 <section id="references-denoise">
-<h2>References denoise<a class="headerlink" href="#references-denoise" title="Permalink to this heading"></a></h2>
+<h2>References denoise<a class="headerlink" href="#references-denoise" title="Link to this heading"></a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>[1] <a class="reference external" href="https://github.com/PyRadar/pyradar">https://github.com/PyRadar/pyradar</a></p></li>

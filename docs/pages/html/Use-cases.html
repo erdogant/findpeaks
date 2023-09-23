@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=816012cb"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +36,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.4.7
+                2.5.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -158,18 +158,18 @@
            <div itemprop="articleBody">
              
   <section id="stock-markets">
-<h1>Stock Markets<a class="headerlink" href="#stock-markets" title="Permalink to this heading"></a></h1>
+<h1>Stock Markets<a class="headerlink" href="#stock-markets" title="Link to this heading"></a></h1>
 <p>The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
 The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.</p>
 <p>To overcome these challanges, I developed the method <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> and incorporated it in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
 <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package (<a class="reference external" href="https://github.com/erdogant/caerus">https://github.com/erdogant/caerus</a>) that determines the local-minima with the corresponding local-maxima within the given time-frame.</p>
 <section id="bitcoin">
-<h2>Bitcoin<a class="headerlink" href="#bitcoin" title="Permalink to this heading"></a></h2>
+<h2>Bitcoin<a class="headerlink" href="#bitcoin" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
 <span class="c1"># The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">,</span> <span class="n">params_caerus</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minperc&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minperc&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
 <span class="c1"># Import example data</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;btc&#39;</span><span class="p">)</span>
 <span class="c1"># Fit</span>
@@ -179,7 +179,7 @@ The use of peak detection techniques such as topology require a very specific se
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Detection of peaks and valleys</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Detection of peaks and valleys</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig_btc_minperc5" src="_images/btc_minperc5.png" /></p></td>
 </tr>
@@ -212,7 +212,7 @@ The use of peak detection techniques such as topology require a very specific se
 </div>
 </section>
 <section id="facebook-stocks">
-<h2>Facebook stocks<a class="headerlink" href="#facebook-stocks" title="Permalink to this heading"></a></h2>
+<h2>Facebook stocks<a class="headerlink" href="#facebook-stocks" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
@@ -230,7 +230,7 @@ The use of peak detection techniques such as topology require a very specific se
 </section>
 </section>
 <section id="sar">
-<h1>SAR<a class="headerlink" href="#sar" title="Permalink to this heading"></a></h1>
+<h1>SAR<a class="headerlink" href="#sar" title="Link to this heading"></a></h1>
 <p><em>SAR</em> images are affected by <em>speckle</em> noise that inherently exists in and which degrades the image quality.
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.</p>
@@ -250,7 +250,7 @@ Let’s load a SAR image, apply denoising techniques and then detect peaks.</p>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Results without pre-processing</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Results without pre-processing</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figU9" src="_images/sonar_plot_no_preprocessing.png" /></p></td>
 </tr>
@@ -277,7 +277,7 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Pre-processing SAR image</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Pre-processing SAR image</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figU0" src="_images/sonar_pre_processing.png" /></p></td>
 </tr>
@@ -289,7 +289,7 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Detected peaks</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Detected peaks</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figU1" src="_images/sonar_plot.png" /></p></td>
 </tr>
@@ -304,7 +304,7 @@ The image clearly shows that the denoising was very effective in reducing the sp
 </pre></div>
 </div>
 <table class="docutils align-center" id="id5">
-<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figU3" src="_images/sonar_mesh1.png" /></p></td>
 <td><p><img alt="figU4" src="_images/sonar_mesh2.png" /></p></td>
@@ -358,7 +358,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </pre></div>
 </div>
 <table class="docutils align-center" id="id6">
-<caption><span class="caption-text">persistence-homology. Top: no limit. Bottom: with limit</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">persistence-homology. Top: no limit. Bottom: with limit</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figU7" src="_images/sonar_persitence.png" /></p></td>
 </tr>
@@ -368,7 +368,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </table>
 <p>The final results show that peak-detection for SAR images is possible using a emperical approach.</p>
 <section id="denoising">
-<h2>Denoising<a class="headerlink" href="#denoising" title="Permalink to this heading"></a></h2>
+<h2>Denoising<a class="headerlink" href="#denoising" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">()</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
@@ -419,7 +419,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </div>
 </section>
 <section id="plots">
-<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this heading"></a></h2>
+<h2>Plots<a class="headerlink" href="#plots" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_fastnl</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fastnl&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_bilateral</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Bilateral&#39;</span><span class="p">)</span>
@@ -434,7 +434,7 @@ But this information allows to limit the model, and focus only on the peaks that
 </div>
 </section>
 <section id="find-peaks-on-the-denoised-image">
-<h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Permalink to this heading"></a></h2>
+<h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">image_lee_sigma</span><span class="p">)</span>

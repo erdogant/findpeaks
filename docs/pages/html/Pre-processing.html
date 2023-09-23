@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=816012cb"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +36,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.4.7
+                2.5.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -149,7 +149,7 @@
            <div itemprop="articleBody">
              
   <section id="interpolate-impute">
-<h1>Interpolate/impute<a class="headerlink" href="#interpolate-impute" title="Permalink to this heading"></a></h1>
+<h1>Interpolate/impute<a class="headerlink" href="#interpolate-impute" title="Link to this heading"></a></h1>
 <p>The input parameter “interpolate” extens the data by this factor and is usefull to “smooth” the signal by a (linear) interpolation. It can also handle missing (nan) data!
 A smoothed signal can be more robust agains noise, and perform better in the detection of peaks and valleys.
 This step can be seen as pre-processing step before applying any method.
@@ -188,7 +188,7 @@ If another method is desired, it can be done by directly using the functionality
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Interpolation example</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Interpolation example</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP0" src="_images/interpolate_example.png" /></p></td>
 </tr>
@@ -221,7 +221,7 @@ Otherwise, the detected peaks coordinates on the x-axis would always be differen
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP1" src="_images/fig2_peakdetect.png" /></p></td>
 <td><p><img alt="figP2" src="_images/fig2_peakdetect_int.png" /></p></td>
@@ -230,12 +230,12 @@ Otherwise, the detected peaks coordinates on the x-axis would always be differen
 </table>
 </section>
 <section id="resize">
-<h1>Resize<a class="headerlink" href="#resize" title="Permalink to this heading"></a></h1>
+<h1>Resize<a class="headerlink" href="#resize" title="Link to this heading"></a></h1>
 <p>The resize function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a> is only applicable for 2D-arrays (images).
 The function resizes the images using functionality of <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code> using default parameter settings.</p>
 </section>
 <section id="scale">
-<h1>Scale<a class="headerlink" href="#scale" title="Permalink to this heading"></a></h1>
+<h1>Scale<a class="headerlink" href="#scale" title="Link to this heading"></a></h1>
 <p>The <em>scale</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a> is only applicable for 2D-arrays (images).
 Scaling data is an import pre-processing step to make sure all data is ranged between the minimum and maximum range.</p>
 <p>The images are scaled between [0-255] by the following equation:</p>
@@ -244,12 +244,12 @@ Scaling data is an import pre-processing step to make sure all data is ranged be
 </div></blockquote>
 </section>
 <section id="gray">
-<h1>Gray<a class="headerlink" href="#gray" title="Permalink to this heading"></a></h1>
+<h1>Gray<a class="headerlink" href="#gray" title="Link to this heading"></a></h1>
 <p>The <em>gray</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a> is only applicable for 2D-arrays (images).
 The function sets the color to gray using functionality of <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code> using the <code class="docutils literal notranslate"><span class="pre">cv2.COLOR_BGR2GRAY</span></code> settings.</p>
 </section>
 <section id="preprocessing">
-<h1>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this heading"></a></h1>
+<h1>Preprocessing<a class="headerlink" href="#preprocessing" title="Link to this heading"></a></h1>
 <p>The preprocessing function is developed to pipeline the above mentioned functionalities <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
 <dl class="simple">
 <dt>The pre-processing has 4 (optional) steps and are exectued in this order. After the last step, the peak detection method is applied.</dt><dd><ul class="simple">
@@ -287,7 +287,7 @@ The function sets the color to gray using functionality of <code class="docutils
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Interpolation example 2d-array (image)</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Interpolation example 2d-array (image)</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP3" src="_images/2dpeaks_interpolate.png" /></p></td>
 </tr>

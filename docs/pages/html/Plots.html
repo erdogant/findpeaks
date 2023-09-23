@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=816012cb"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +36,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.4.7
+                2.5.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -159,9 +159,9 @@
            <div itemprop="articleBody">
              
   <section id="one-dimensional-plots">
-<h1>One-dimensional plots<a class="headerlink" href="#one-dimensional-plots" title="Permalink to this heading"></a></h1>
+<h1>One-dimensional plots<a class="headerlink" href="#one-dimensional-plots" title="Link to this heading"></a></h1>
 <section id="pre-processing">
-<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this heading"></a></h2>
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading"></a></h2>
 <p>The pre-processing in a 1d-vector is based on the interpolation: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -176,7 +176,7 @@
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Inerpolation</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Inerpolation</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP4" src="_images/1dpeaks_interpolate_original.png" /></p></td>
 <td><p><img alt="figP5" src="_images/1dpeaks_interpolate.png" /></p></td>
@@ -185,7 +185,7 @@
 </table>
 </section>
 <section id="persistence">
-<h2>Persistence<a class="headerlink" href="#persistence" title="Permalink to this heading"></a></h2>
+<h2>Persistence<a class="headerlink" href="#persistence" title="Link to this heading"></a></h2>
 <p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
@@ -193,7 +193,7 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP6" src="_images/1d_plot_persistence.png" /></p></td>
 </tr>
@@ -202,9 +202,9 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </section>
 </section>
 <section id="two-dimensional-plots">
-<h1>Two-dimensional plots<a class="headerlink" href="#two-dimensional-plots" title="Permalink to this heading"></a></h1>
+<h1>Two-dimensional plots<a class="headerlink" href="#two-dimensional-plots" title="Link to this heading"></a></h1>
 <section id="pre-processing-plot">
-<h2>Pre-processing plot<a class="headerlink" href="#pre-processing-plot" title="Permalink to this heading"></a></h2>
+<h2>Pre-processing plot<a class="headerlink" href="#pre-processing-plot" title="Link to this heading"></a></h2>
 <p>The pre-processing plot is developed for 2D arrays (images) only: function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="findpeaks.findpeaks.findpeaks.plot_preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code></a>
 Depending on the number of user defined pre-processing steps, the plot will add new subplots.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -220,7 +220,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Preprocessing plot</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Preprocessing plot</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP0" src="_images/plot_example_norm.png" /></p></td>
 </tr>
@@ -228,7 +228,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </table>
 </section>
 <section id="plot">
-<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this heading"></a></h2>
+<h2>Plot<a class="headerlink" href="#plot" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>The <strong>plot</strong> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a> plots the 3 major steps:</dt><dd><ul class="simple">
 <li><p>input data</p></li>
@@ -242,7 +242,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Final results</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Final results</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP1" src="_images/plot_example1.png" /></p></td>
 </tr>
@@ -250,7 +250,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </table>
 </section>
 <section id="persistence-plot">
-<h2>Persistence plot<a class="headerlink" href="#persistence-plot" title="Permalink to this heading"></a></h2>
+<h2>Persistence plot<a class="headerlink" href="#persistence-plot" title="Link to this heading"></a></h2>
 <p>The persistence plot is called with the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, and provides two plots.
 The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
@@ -258,7 +258,7 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </pre></div>
 </div>
 <table class="docutils align-center" id="id5">
-<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Persistence Plot</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP2" src="_images/plot_persistence.png" /></p></td>
 </tr>
@@ -266,7 +266,7 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 </table>
 </section>
 <section id="d-mesh">
-<h2>3D-mesh<a class="headerlink" href="#d-mesh" title="Permalink to this heading"></a></h2>
+<h2>3D-mesh<a class="headerlink" href="#d-mesh" title="Link to this heading"></a></h2>
 <p>The mesh plot can easily be created using the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mesh" title="findpeaks.findpeaks.findpeaks.plot_mesh"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code></a>.
 It converts the two image into a 3d mesh plot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
@@ -276,7 +276,7 @@ It converts the two image into a 3d mesh plot.</p>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id6">
-<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id6" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Mesh plot. Top: 3D mesh. Bottom: top view.</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP7" src="_images/2dpeaks_mesh1_norm.png" /></p></td>
 <td><p><img alt="figP8" src="_images/2dpeaks_mesh2_norm.png" /></p></td>

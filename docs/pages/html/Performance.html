@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=816012cb"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +36,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.4.7
+                2.5.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -156,12 +156,12 @@
            <div itemprop="articleBody">
              
   <section id="performance">
-<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this heading"></a></h1>
+<h1>Performance<a class="headerlink" href="#performance" title="Link to this heading"></a></h1>
 <p>Lets compare the methods and tune the parameters and find out how the peak detection is with and without noisy data.</p>
 <section id="comparison-peak-detection-in-one-dimensional-data">
-<h2>Comparison peak detection in one-dimensional data<a class="headerlink" href="#comparison-peak-detection-in-one-dimensional-data" title="Permalink to this heading"></a></h2>
+<h2>Comparison peak detection in one-dimensional data<a class="headerlink" href="#comparison-peak-detection-in-one-dimensional-data" title="Link to this heading"></a></h2>
 <section id="small-dataset">
-<h3>Small dataset<a class="headerlink" href="#small-dataset" title="Permalink to this heading"></a></h3>
+<h3>Small dataset<a class="headerlink" href="#small-dataset" title="Link to this heading"></a></h3>
 <p>For the first scenario we will create a dataset containing some small peaks and some larger ones.
 We will detect peaks using the topology and peakdetect method with and without interpolation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -193,7 +193,7 @@ We will detect peaks using the topology and peakdetect method with and without i
 </div>
 <p>A visual look of the results for the peakdetect with and without interpolation. Note that the interpolated results are readily mapped back to the original plot.</p>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Peakdetect results without interpolation (left) and with (right)</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Peakdetect results without interpolation (left) and with (right)</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig8" src="_images/1dpeaks_perf_peakdetect.png" /></p></td>
 <td><p><img alt="fig9" src="_images/1dpeaks_perf_peakdetect_int.png" /></p></td>
@@ -202,7 +202,7 @@ We will detect peaks using the topology and peakdetect method with and without i
 </table>
 <p>The differences become clear with and without the use of interpolation</p>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Topology results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Topology results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig10" src="_images/1dpeaks_perf_topology.png" /></p></td>
 <td><p><img alt="fig11" src="_images/1dpeaks_perf_topology_int.png" /></p></td>
@@ -224,7 +224,7 @@ We will detect peaks using the topology and peakdetect method with and without i
 </div>
 </section>
 <section id="large-dataset">
-<h3>Large dataset<a class="headerlink" href="#large-dataset" title="Permalink to this heading"></a></h3>
+<h3>Large dataset<a class="headerlink" href="#large-dataset" title="Link to this heading"></a></h3>
 <p>For this scenario we create a large dataset to detect peaks using <em>peakdetect</em> and <em>topology</em>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
@@ -252,7 +252,7 @@ We will detect peaks using the topology and peakdetect method with and without i
 </div>
 <p>The topology methods detects thousands of local minima and maxima whereas the peakdetect approach finds the correct ones.</p>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Peakdetect on a large noisy dataset</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Peakdetect on a large noisy dataset</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig3" src="_images/fig3.png" /></p></td>
 </tr>
@@ -261,7 +261,7 @@ We will detect peaks using the topology and peakdetect method with and without i
 <p>The homology-persistence plots can help to filter the thousands of hits that are mostly alongside the diagonal and therefore not of interest.
 Only a few points seems to be of interest; numbers one to eight. With this knowledge we can set the <em>limit</em> paramater and remove the false positive peaks.</p>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Topology on a large noisy dataset</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Topology on a large noisy dataset</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig12" src="_images/fig_persistence_largedataset.png" /></p></td>
 </tr>
@@ -282,7 +282,7 @@ Only a few points seems to be of interest; numbers one to eight. With this knowl
 </pre></div>
 </div>
 <table class="docutils align-center" id="id5">
-<caption><span class="caption-text">Topology with limit parameter set to 1</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Topology with limit parameter set to 1</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig13" src="_images/fig3_persistence_limit.png" /></p></td>
 </tr>

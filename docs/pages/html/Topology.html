@@ -12,11 +12,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=816012cb"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,7 +36,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.4.7
+                2.5.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -159,12 +159,12 @@
 All references are depicted at the bottom of the page. Note that all examples are made with <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
 The function with docstrings for the topology method can be found here <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a>.</p>
 <section id="topology">
-<h1>Topology<a class="headerlink" href="#topology" title="Permalink to this heading"></a></h1>
+<h1>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h1>
 <p>Topological data analysis (TDA) applies methods of topology in data analysis and found many applications in data science[1].
 TDA builds upon the observation that data often possesses a certain intrinsic shape such as the shape of a point cloud, the shape of a signal or the shape of a geometric object.
 Persistent homology is probably the most prominent tool in TDA that gives us the means to describe and quantify topological properties of these shapes [1].</p>
 <section id="persistent-homology">
-<h2>persistent homology<a class="headerlink" href="#persistent-homology" title="Permalink to this heading"></a></h2>
+<h2>persistent homology<a class="headerlink" href="#persistent-homology" title="Link to this heading"></a></h2>
 <p>In computational topology the idea of persistent homology leads to an efficient – fast as sorting numbers – solution.
 It does not only detect peaks, it quantifies the “significance” of the peaks in a natural way that allows you to select the peaks that are significant for you[2].
 The idea of persistent homology is intuitive: Consider the function graph of the function that assigns each pixel its level. It looks like this:</p>
@@ -201,12 +201,12 @@ One would then filter out all islands with a too low persistence, i.e. those at 
 </figure>
 </section>
 <section id="efficiency">
-<h2>Efficiency<a class="headerlink" href="#efficiency" title="Permalink to this heading"></a></h2>
+<h2>Efficiency<a class="headerlink" href="#efficiency" title="Link to this heading"></a></h2>
 <p>The topology method is implementated in such a manner that it runs in linear time – in fact it is a single, simple loop – after the function values were sorted. The time complexity is <strong>O(n log n)</strong>.
 So this implementation should be fast in practice and is easily implemented. The original implementation was in Python 2.7 [4], but in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> it is (slightly) adjusted and rewritten for python 3.</p>
 </section>
 <section id="one-dimensional">
-<h2>One-dimensional<a class="headerlink" href="#one-dimensional" title="Permalink to this heading"></a></h2>
+<h2>One-dimensional<a class="headerlink" href="#one-dimensional" title="Link to this heading"></a></h2>
 <p>The initialization with contains many variables for which only a few are applicable for the <strong>topology</strong> method.
 The general parameters are <em>figsize</em> and <em>verbose</em> which are for setting the figure size and printing messages to the screen.
 Specific for the topology method, the method should be set at “topology”, and in addition, the parameters <em>interpolate</em> and <em>limit</em> can be used for some pre-processing, and output adjustments.
@@ -349,7 +349,7 @@ In this use-case, the results are very similar as no-interpolation. However, the
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Interpolated data with topology method. Results are mapped to the original input data.</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Interpolated data with topology method. Results are mapped to the original input data.</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig3" src="_images/1dpeaks_interpolate.png" /></p></td>
 <td><p><img alt="fig4" src="_images/1dpeaks_interpolation_pers.png" /></p></td>
@@ -358,7 +358,7 @@ In this use-case, the results are very similar as no-interpolation. However, the
 </table>
 </section>
 <section id="two-dimensional">
-<h2>Two-dimensional<a class="headerlink" href="#two-dimensional" title="Permalink to this heading"></a></h2>
+<h2>Two-dimensional<a class="headerlink" href="#two-dimensional" title="Link to this heading"></a></h2>
 <p>The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.
 The implementation uses a union-find data structure instead of the more efficient implemention used for one-dimensional data.
 However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The valleys are stored in the output as negative values.</p>
@@ -408,7 +408,7 @@ The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in
 </figure>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>[1] Persistent Homology in Data Science, Proc. 3rd Int. Data Sci. Conf. (iDSC ‘20)</p></li>
 <li><p>[2] <a class="reference external" href="https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data/46680769#46680769">https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data/46680769#46680769</a></p></li>
