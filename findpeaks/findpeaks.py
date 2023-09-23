@@ -24,10 +24,10 @@ from urllib.parse import urlparse
 # from stats import disable_tqdm
 # import interpolate as interpolate
 # #####################
-
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
+# #####################
 
 
 # %%
@@ -84,7 +84,7 @@ class findpeaks():
                  window=None,  # DEPRECATED IN LATER VERSIONS: specify in params
                  cu=None,  # DEPRECATED IN LATER VERSIONS: specify in params
                  params_caerus={},  # DEPRECATED IN LATER VERSIONS: use params instead
-                 params={'window': 3, 'cu': 0.25},
+                 params={'window': 3},
                  figsize=(15, 8),
                  verbose=3):
         """Initialize findpeaks parameters.
@@ -208,11 +208,11 @@ class findpeaks():
             defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
         elif method=='lee_sigma':
             defaults = {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
-        defaults = {**{'window': 3, 'cu': 3}, **defaults}
+        defaults = {**{'window': 3}, **defaults}
 
         params = {**defaults, **params}
         self.window = params['window']
-        self.cu = params['cu']
+        self.cu = params.get('cu', 0.25)
         self.params = params
 
     def fit(self, X, x=None):
@@ -744,9 +744,8 @@ class findpeaks():
         title = self.method
 
         if self.method=='caerus':
-            self.results['model']
             if self.results.get('model', None) is not None:
-                ax = self.results['model'].plot()
+                ax = self.results['model'].plot(figsize=self.figsize)
                 csplots._plot_graph(self.results['model'].results, figsize=self.figsize, xlabel=xlabel, ylabel=ylabel)
                 # Return axis
                 return ax
