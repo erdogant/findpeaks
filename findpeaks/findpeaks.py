@@ -84,7 +84,7 @@ class findpeaks():
                  window=None,  # DEPRECATED IN LATER VERSIONS: specify in params
                  cu=None,  # DEPRECATED IN LATER VERSIONS: specify in params
                  params_caerus={},  # DEPRECATED IN LATER VERSIONS: use params instead
-                 params={'window': 3},
+                 params={'window': 3, 'delta': 0},
                  figsize=(15, 8),
                  verbose=3):
         """Initialize findpeaks parameters.
@@ -132,13 +132,17 @@ class findpeaks():
                 * 'mean'
         params : dict():
             Denoising parameters for the methods. If None are defined, the default will be used:
-            caerus (default): {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-            lee_sigma (default): {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
+            * caerus (default): {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
+            * lee_sigma (default): {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
                 * 'sigma': float, (default: 0.9): Speckle noise standard deviation, applies for methods: ['lee_sigma']
                 * 'num_looks': int, (default: 1): Number of looks of the SAR img, applies for methods: ['lee_sigma']
                 * 'tk': int, (default: 5): Threshold of neighbouring pixels outside of the 98th percentile, applies for methods: ['lee_sigma']
                 * cu : float, (default: 0.25): The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
                 * window : int, (default : 3): Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
+            * peakdetect
+                'delta' : int (default: 0): this specifies a minimum difference between a peak and the following points, before a peak may be considered a peak. Useful to hinder the function
+                from picking up false peaks towards to end of the signal. To work well delta should be set to delta >= RMSnoise * 5.
+                When omitted delta function causes a 20% decrease in speed. When used Correctly it can double the speed of the function
         togray : bool, (default : False)
             Conversion to gray scale.
         verbose : int (default : 3)
@@ -208,6 +212,8 @@ class findpeaks():
             defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
         elif method=='lee_sigma':
             defaults = {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
+        elif method=='peakdetect':
+            defaults = {'delta': 0}
         defaults = {**{'window': 3}, **defaults}
 
         params = {**defaults, **params}
@@ -321,7 +327,7 @@ class findpeaks():
         # Compute peaks based on method
         if method=='peakdetect':
             # Peakdetect method
-            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead)
+            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead, delta=self.params['delta'])
             # Post processing for the peak-detect
             result['peakdetect'] = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
         elif method=='topology':
