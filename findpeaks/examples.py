@@ -8,6 +8,24 @@
 # pip install opencv-python
 # import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
+# %% Issue
+
+from findpeaks import findpeaks
+import os
+import cv2
+path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
+# path=r'tmp_peak.PNG.png'
+fp = findpeaks(method='topology', denoise='lee_enhanced', params={'window':5}, whitelist='peak', limit=20)
+X = fp.imread(path)
+results = fp.fit(X)
+
+result_df = results['persistence']
+peak = result_df.index[result_df['peak']==True].tolist()
+print(result_df.loc[peak])
+fp.plot_persistence()
+fp.plot(figsize=(35, 16))
+fp.plot_mesh(view=(90, 90))
+
 
 # %%
 from findpeaks import findpeaks
