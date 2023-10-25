@@ -425,8 +425,10 @@ def topology(X, limit=None, reverse=True, verbose=3):
     groups0 = {}
 
     # Get indices orderd by value from high to low
-    indices = [(i, j) for i in range(h) for j in range(w)]
+    # indices = [(i, j) for i in range(h) for j in range(w)]
+    indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) > limit]
     indices.sort(key=lambda p: _get_indices(X, p), reverse=reverse)
+    # indices = indices[list(map(lambda x: _get_indices(X, x)>limit, indices))].tolist()
 
     # Maintains the growing sets
     uf = union_find.UnionFind()
