@@ -604,6 +604,30 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labx
     # Return
     return results
 
+# %% Normalize.
+def normalize(X, minscale = 0.5, maxscale = 4, scaler: str = 'zscore'):
+    # Instead of Min-Max scaling, that shrinks any distribution in the [0, 1] interval, scaling the variables to
+    # Z-scores is better. Min-Max Scaling is too sensitive to outlier observations and generates unseen problems,
+
+    # Set sizes to 0 if not available
+    X[np.isinf(X)]=0
+    X[np.isnan(X)]=0
+    if minscale is None: minscale=0.5
+
+    # out-of-scale datapoints.
+    if scaler == 'zscore' and len(np.unique(X)) > 3:
+        X = (X.flatten() - np.mean(X)) / np.std(X)
+        X = X + (minscale - np.min(X))
+    elif scaler == 'minmax':
+        min_val = np.min(X)
+        max_val = np.max(X)
+        X = minscale + maxscale * (X - min_val) / (max_val - min_val)
+    else:
+        X = X.ravel()
+    # Max digits is 4
+    X = np.array(list(map(lambda x: round(x, 4), X)))
+
+    return X
 
 # %%
 def disable_tqdm(verbose):

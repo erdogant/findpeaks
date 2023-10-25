@@ -76,7 +76,7 @@ class findpeaks():
                  whitelist=['peak', 'valley'],
                  lookahead=200,
                  interpolate=None,
-                 limit=None,
+                 limit=0,
                  imsize=None,
                  scale=True,
                  togray=True,
@@ -689,7 +689,7 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, limit=None, legend=True, figsize=None, cmap=None, text=True, xlabel='x-axis', ylabel='y-axis'):
+    def plot(self, limit=None, legend=True, figsize=None, cmap=None, text=True, s=None, marker='o', color='#000000',  xlabel='x-axis', ylabel='y-axis'):
         """Plot results.
 
         Parameters
@@ -718,7 +718,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel)
         elif self.args['type']=='peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color)
         else:
             if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot for %s' %(self.args['type']))
             return None
@@ -825,7 +825,7 @@ class findpeaks():
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
-    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True):
+    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=10, marker='o', color='#000000'):
         """Plot the masking.
 
         Parameters
@@ -879,6 +879,16 @@ class findpeaks():
         ax3.imshow(np.abs(Xdetect), 'gray_r', interpolation="nearest")
         ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect>0)[0])) + ' peaks and ' + str(len(np.where(Xdetect<0)[0])) + ' valleys)')
         ax3.grid(False)
+
+        X = self.results['persistence'].loc[self.results['persistence']['score']>limit,:]
+        for i in range(X.shape[0]):
+            if s is None:
+                X['score'] = stats.normalize(X['score'].values, minscale=2, maxscale=10, scaler='minmax')
+            else:
+                X['score'] = s
+            ax1.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+            ax2.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+            ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
 
         if text:
             for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
@@ -1082,7 +1092,7 @@ class findpeaks():
 
         """
         if verbose is None: verbose=self.verbose
-        if (self.method!='topology') or (not hasattr(self, 'results')):
+        if (self.method!='topology') or (not hasattr(self, 'results')) or len(self.results['persistence']['birth_level'].values)<=0:
             if verbose>=3: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the .fit(method="topology") function. <return>')
             return None
 
@@ -1152,9 +1162,12 @@ class findpeaks():
             ax2.plot([0, 255], [0, 255], '-', c='grey')
         return ax1, ax2
 
-    def _plot_persistence_ax2(self, fontsize, ax2, verbose):
+    def _plot_persistence_ax2(self, fontsize, ax2, verbose=3):
         x = self.results['persistence']['birth_level'].values
         y = self.results['persistence']['death_level'].values
+        if len(x)<=0:
+            if verbose>=3: print('[[findpeaks]> Nothing to plot.')
+            return None
         ax2.plot(x, y, '.', c='b')
         if fontsize is not None:
             for i in tqdm(range(0, len(x)), disable=disable_tqdm(verbose)):
