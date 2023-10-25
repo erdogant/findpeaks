@@ -8,23 +8,51 @@
 # pip install opencv-python
 # import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
-# %% Issue
+# %%
 
 from findpeaks import findpeaks
 import os
 import cv2
 path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
-# path=r'tmp_peak.PNG.png'
-fp = findpeaks(method='topology', denoise='lee_enhanced', params={'window':5}, whitelist='peak', limit=20)
+fp = findpeaks(method='topology', denoise='lee_sigma', params={'window': 5}, whitelist='peak', limit=5)
 X = fp.imread(path)
+# X = fp.import_example('2dpeaks_image')
 results = fp.fit(X)
 
 result_df = results['persistence']
 peak = result_df.index[result_df['peak']==True].tolist()
 print(result_df.loc[peak])
+print(result_df.shape)
 fp.plot_persistence()
-fp.plot(figsize=(35, 16))
-fp.plot_mesh(view=(90, 90))
+fp.plot(figsize=(35, 16), text=False, marker='x', color='r')
+fp.plot_mesh(view=(90, 0))
+
+# %%
+# Import library
+from findpeaks import findpeaks
+
+# Initialize
+fp = findpeaks(method='topology',
+               scale=True,
+               togray=True,
+               imsize=(150, 150),
+               denoise='lee_sigma',
+               params={'window': 17},
+               )
+
+# Import example image
+img = fp.import_example('2dpeaks_image')
+
+# Denoising and detecting peaks
+results = fp.fit(img)
+# Create mesh plot
+fp.plot_mesh()
+# Create denoised plot
+fp.plot(limit=160)
+fp.plot_persistence()
+
+# %% Issue
+
 
 
 # %%
@@ -338,7 +366,16 @@ fp.results["persistence"]
 
 # Take the minimum score for the top peaks off the diagonal.
 limit = fp.results['persistence'][0:5]['score'].min()
-fp = findpeaks(scale=True, denoise='fastnl', params={'window': 31}, togray=True, imsize=(300,300), limit=254, whitelist=['peak', 'valley'], verbose=3)
+fp.plot(text=True, limit=limit)
+
+fp = findpeaks(scale=True,
+               denoise='fastnl',
+               params={'window': 31},
+               togray=True,
+               imsize=(300,300),
+               limit=limit,
+               whitelist=['peak', 'valley'],
+               verbose=3)
 fp.fit(img)
 
 fp.results["persistence"]
