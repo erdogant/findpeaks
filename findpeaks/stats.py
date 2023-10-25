@@ -368,7 +368,7 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
 
 
 # %%
-def topology(X, limit=None, reverse=True, verbose=3):
+def topology(X, limit=0, reverse=True, verbose=3):
     """Determine peaks using toplogy method.
 
     Description
@@ -382,8 +382,9 @@ def topology(X, limit=None, reverse=True, verbose=3):
     ----------
     X: array-like data
         Input data.
-    limit: float, (default: None)
+    limit: float, (default: 0)
         score > limit are set as regions of interest (ROI).
+        None: Take all positions into consideration.
     reverse: bool, (default: True)
         For 1d-vectors, reverse should be True to detect peaks and valleys.
         For 2d-images, the peaks are detected by setting reverse=True and valleys by reverse=False.
@@ -417,6 +418,10 @@ def topology(X, limit=None, reverse=True, verbose=3):
         * Editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
 
     """
+    if limit is None: limit = np.min(np.min(X))-1
+    if X.max().max()<limit:
+        limit=X.max().max()-1
+        if verbose>=3: print('[findpeaks] >Minimum limit should be %s or smaller.' %(limit))
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
 
     results = {'groups0': [], 'Xdetect': np.zeros_like(X).astype(float), 'Xranked': np.zeros_like(X).astype(float), 'peak': None, 'valley': None, 'persistence': pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
@@ -425,10 +430,8 @@ def topology(X, limit=None, reverse=True, verbose=3):
     groups0 = {}
 
     # Get indices orderd by value from high to low
-    # indices = [(i, j) for i in range(h) for j in range(w)]
-    indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) > limit]
+    indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]
     indices.sort(key=lambda p: _get_indices(X, p), reverse=reverse)
-    # indices = indices[list(map(lambda x: _get_indices(X, x)>limit, indices))].tolist()
 
     # Maintains the growing sets
     uf = union_find.UnionFind()
@@ -442,10 +445,16 @@ def topology(X, limit=None, reverse=True, verbose=3):
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
-        # if i == 0: groups0[p] = (v, v, None)
+        if i == 0:
+            xc, yc = np.where(X==v)
+            coordinates = list(zip(xc,yc))
+            for xy in coordinates:
+                groups0[xy] = (v, v, None)
+                uf.add(xy, -i)
         uf.add(p, -i)
 
         if len(nc) > 0:
+            # checked = set(checked)
             oldp = nc[0][1]
             uf.union(oldp, p)
             # Merge all others with oldp
@@ -453,8 +462,8 @@ def topology(X, limit=None, reverse=True, verbose=3):
                 if uf[q] not in groups0:
                     groups0[uf[q]] = (float(bl), float(bl) - float(v), p)
                 uf.union(oldp, q)
-        elif groups0.get(p, None) is None:
-                groups0[p] = (v, v, p)
+        # elif len(nc) == 0 and len(ni)==0 and groups0.get(p, None) is None:
+            # groups0[p] = (v, v, p)
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
@@ -466,7 +475,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
         groups0 = groups0[Ikeep].tolist()
 
     if len(groups0)>0:
-    # Extract the max peaks and sort
+        # Extract the max peaks and sort
         max_peaks = np.array(list(map(lambda x: [x[0][0], x[1]], groups0)))
         idxsort = np.argsort(max_peaks[:, 0])
         max_peaks = max_peaks[idxsort, :]
