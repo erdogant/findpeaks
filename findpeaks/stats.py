@@ -429,6 +429,11 @@ def topology(X, limit=0, reverse=True, verbose=3):
     max_peaks, min_peaks = None, None
     groups0 = {}
 
+    # It is important to add random noise to the values because the method sorts the values and the unique values are processed.
+    # Without random noise, peaks with exactly the same height will be skipped.
+    X = np.maximum(X + ((X>0).astype(int) * np.random.rand(X.shape[0], X.shape[1])/10), 0)
+    # X = np.maximum(X - (np.random.rand(X.shape[0], X.shape[1])/10), 0)
+
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]
     indices.sort(key=lambda p: _get_indices(X, p), reverse=reverse)
@@ -446,15 +451,17 @@ def topology(X, limit=0, reverse=True, verbose=3):
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
         if i == 0:
-            xc, yc = np.where(X==v)
-            coordinates = list(zip(xc,yc))
-            for xy in coordinates:
-                groups0[xy] = (v, v, None)
-                uf.add(xy, -i)
+            groups0[p] = (v, v, None)
+
+        # if i == 0:
+        #     xc, yc = np.where(X==v)
+        #     coordinates = list(zip(xc,yc))
+        #     for xy in coordinates:
+        #         groups0[xy] = (v, v, None)
+        #         uf.add(xy, -i)
         uf.add(p, -i)
 
         if len(nc) > 0:
-            # checked = set(checked)
             oldp = nc[0][1]
             uf.union(oldp, p)
             # Merge all others with oldp
@@ -462,8 +469,6 @@ def topology(X, limit=0, reverse=True, verbose=3):
                 if uf[q] not in groups0:
                     groups0[uf[q]] = (float(bl), float(bl) - float(v), p)
                 uf.union(oldp, q)
-        # elif len(nc) == 0 and len(ni)==0 and groups0.get(p, None) is None:
-            # groups0[p] = (v, v, p)
 
     groups0 = [(k, groups0[k][0], groups0[k][1], groups0[k][2]) for k in groups0]
     groups0.sort(key=lambda g: g[2], reverse=True)
