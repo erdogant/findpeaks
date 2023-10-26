@@ -1213,7 +1213,7 @@ class findpeaks():
         Parameters
         ----------
         data : str
-            Name of datasets: "1dpeaks", "2dpeaks", "2dpeaks_image", 'btc', 'facebook'
+            Name of datasets: "1dpeaks", "2dpeaks", "2dpeaks_image", '2dpeaks_image_2', 'btc', 'facebook'
         url : str
             url link to to dataset.
         Verbose : int (default : 3)
@@ -1271,7 +1271,7 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     Parameters
     ----------
     data : str
-        Name of datasets: "2dpeaks" or "2dpeaks_image"
+        Name of datasets: "2dpeaks" or "2dpeaks_image" or '2dpeaks_image_2'
     url : str
         url link to to dataset.
     Verbose : int (default : 3)
@@ -1292,9 +1292,9 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
             if verbose>=3: print('[findpeaks] >Could not determine filename to download <return>.')
             return None
         data, _ = os.path.splitext(fn)
-    elif data=='2dpeaks_image':
+    elif data=='2dpeaks_image' or data=='2dpeaks_image_2':
         url='https://erdogant.github.io/datasets/' + data + '.png'
-        fn = "2dpeaks_image.png"
+        fn = data + '.png'
     elif data=='2dpeaks':
         url='https://erdogant.github.io/datasets/' + data + '.zip'
         fn = "2dpeaks.zip"
@@ -1327,7 +1327,7 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
 
     # Import local dataset
     if verbose>=3: print('[findpeaks] >Import [%s]' %(PATH_TO_DATA))
-    if data=='2dpeaks_image':
+    if data=='2dpeaks_image' or data=='2dpeaks_image_2':
         cv2 = stats._import_cv2()
         X = cv2.imread(PATH_TO_DATA)
     else:
