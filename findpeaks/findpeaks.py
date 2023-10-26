@@ -689,7 +689,18 @@ class findpeaks():
         return X
 
     # %% Plotting
-    def plot(self, limit=None, legend=True, figsize=None, cmap=None, text=True, s=None, marker='o', color='#000000',  xlabel='x-axis', ylabel='y-axis'):
+    def plot(self,
+             limit=None,
+             legend=True,
+             figsize=None,
+             cmap=None,
+             text=True,
+             s=None,
+             marker='x',
+             color='#FF0000',
+             xlabel='x-axis',
+             ylabel='y-axis',
+             figure_order='vertical'):
         """Plot results.
 
         Parameters
@@ -702,6 +713,13 @@ class findpeaks():
             Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
         text : Bool (default : True)
             Include text to the 2d-image that shows the peaks (p-number) and valleys (v-number)
+        s : size (default: None)
+            size of the marker.
+            None: Automatically sizes based on peak value
+        marker: str (default: 'x')
+            Marker type.
+        color: str (default: '#FF0000')
+            Hex color of the marker.
 
         Returns
         -------
@@ -718,7 +736,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel)
         elif self.args['type']=='peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color, figure_order=figure_order)
         else:
             if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot for %s' %(self.args['type']))
             return None
@@ -777,7 +795,7 @@ class findpeaks():
             # Return axis
             return (ax2, ax1)
 
-    def plot2d(self, figsize=None, limit=None):
+    def plot2d(self, figsize=None, limit=None, figure_order='vertical'):
         """Plot the 2d results.
 
         Parameters
@@ -800,7 +818,7 @@ class findpeaks():
 
         # Setup figure
         if self.method=='mask':
-            ax_method = self.plot_mask(figsize=figsize, limit=limit)
+            ax_method = self.plot_mask(figsize=figsize, limit=limit, figure_order=figure_order)
         if self.method=='topology':
             # Plot topology/persistence
             ax_method = self.plot_persistence(figsize=figsize)
@@ -825,7 +843,7 @@ class findpeaks():
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
-    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=10, marker='o', color='#000000'):
+    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=None, marker='x', color='#FF0000', figure_order='vertical'):
         """Plot the masking.
 
         Parameters
@@ -850,17 +868,20 @@ class findpeaks():
         # Only show above the limit
         Xdetect = self.results['Xdetect'].copy()
         if limit is not None:
-            Xdetect[np.abs(Xdetect)<limit]=0
+            Xdetect[np.abs(Xdetect) < limit] = 0
         if cmap is None:
             cmap = 'gray' if self.args['togray'] else None
             cmap = cmap + '_r'
         # Get the index for the detected peaks/valleys
-        idx_peaks = np.where(Xdetect>0)
-        idx_valleys = np.where(Xdetect<0)
+        idx_peaks = np.where(Xdetect > 0)
+        idx_valleys = np.where(Xdetect < 0)
 
         # Setup figure
         figsize = figsize if figsize is not None else self.args['figsize']
-        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
+        if figure_order=='vertical':
+            fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=figsize)
+        else:
+            fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
 
         # Plot input image
         ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
@@ -869,18 +890,18 @@ class findpeaks():
 
         # For vizualisation purposes, plot all absolute numbers
         Xproc = self.results['Xproc'].copy()
-        Xproc[idx_peaks]=0
-        Xproc[idx_valleys]=1
+        Xproc[idx_peaks] = 0
+        Xproc[idx_valleys] = 1
         ax2.imshow(Xproc, cmap, interpolation="nearest")
         ax2.set_title('Processed image')
         ax2.grid(False)
 
         # Masking
         ax3.imshow(np.abs(Xdetect), 'gray_r', interpolation="nearest")
-        ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect>0)[0])) + ' peaks and ' + str(len(np.where(Xdetect<0)[0])) + ' valleys)')
+        ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect > 0)[0])) + ' peaks and ' + str(len(np.where(Xdetect < 0)[0])) + ' valleys)')
         ax3.grid(False)
 
-        X = self.results['persistence'].loc[self.results['persistence']['score']>limit,:]
+        X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :]
         for i in range(X.shape[0]):
             if s is None:
                 X['score'] = stats.normalize(X['score'].values, minscale=2, maxscale=10, scaler='minmax')
