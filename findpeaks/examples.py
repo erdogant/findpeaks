@@ -11,8 +11,6 @@ import matplotlib.pyplot as plt
 # %%
 
 from findpeaks import findpeaks
-import os
-import cv2
 path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
 fp = findpeaks(method='topology', denoise='lee_sigma', params={'window': 5}, whitelist='peak', limit=5)
 X = fp.imread(path)
