@@ -6,7 +6,7 @@
 # Licence: MIT
 # ----------------------------------------------------
 
-import findpeaks.union_find as union_find
+# import findpeaks.union_find as union_find
 from findpeaks.filters.lee import lee_filter
 from findpeaks.filters.lee_enhanced import lee_enhanced_filter
 from findpeaks.filters.lee_sigma import lee_sigma_filter
@@ -368,7 +368,7 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
 
 
 # %%
-def topology(X, limit=0, reverse=True, verbose=3):
+def topology(X, limit=None, reverse=True, verbose=3):
     """Determine peaks using toplogy method.
 
     Description
@@ -424,6 +424,10 @@ def topology(X, limit=0, reverse=True, verbose=3):
         if verbose>=3: print('[findpeaks] >Minimum limit should be %s or smaller.' %(limit))
     if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
 
+    if not reverse:
+        X = reverse_values(X.copy())
+        reverse=True
+
     results = {'groups0': [], 'Xdetect': np.zeros_like(X).astype(float), 'Xranked': np.zeros_like(X).astype(float), 'peak': None, 'valley': None, 'persistence': pd.DataFrame(columns=['x','y','birth_level','death_level','score'])}
     h, w = X.shape
     max_peaks, min_peaks = None, None
@@ -432,10 +436,10 @@ def topology(X, limit=0, reverse=True, verbose=3):
     # It is important to add random noise to the values because the method sorts the values and the unique values are processed.
     # Without random noise, peaks with exactly the same height will be skipped.
     X = np.maximum(X + ((X>0).astype(int) * np.random.rand(X.shape[0], X.shape[1])/10), 0)
-    # X = np.maximum(X - (np.random.rand(X.shape[0], X.shape[1])/10), 0)
 
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]
+    # indices = [(i, j) for i in range(h) for j in range(w)]
     indices.sort(key=lambda p: _get_indices(X, p), reverse=reverse)
 
     # Maintains the growing sets
@@ -453,12 +457,6 @@ def topology(X, limit=0, reverse=True, verbose=3):
         if i == 0:
             groups0[p] = (v, v, None)
 
-        # if i == 0:
-        #     xc, yc = np.where(X==v)
-        #     coordinates = list(zip(xc,yc))
-        #     for xy in coordinates:
-        #         groups0[xy] = (v, v, None)
-        #         uf.add(xy, -i)
         uf.add(p, -i)
 
         if len(nc) > 0:
@@ -488,6 +486,7 @@ def topology(X, limit=0, reverse=True, verbose=3):
         min_peaks = np.array(list(map(lambda x: [(x[3][0] if x[3] is not None else 0), x[2]], groups0)))
         idxsort = np.argsort(min_peaks[:, 0])
         min_peaks = min_peaks[idxsort, :]
+        # min_peaks = np.round(min_peaks, decimals=3)
 
         # Build the output results in the same manner as the input image
         Xdetect = np.zeros_like(X).astype(float)
@@ -498,8 +497,8 @@ def topology(X, limit=0, reverse=True, verbose=3):
             Xdetect[y, x] = pers
             Xranked[y, x] = i + 1
 
-        # If data is 1d-vector, make single vector
-        if (X.shape[1]==2) and (np.all(Xdetect[:, 1]==0)):
+        # If data is 1d-vector (and not image), make single vector
+        if (X.shape[1]==2): #and (np.all(Xdetect[:, 1]==0)):
             Xdetect = Xdetect[:, 0]
             Xranked = Xranked[:, 0]
 
@@ -522,6 +521,15 @@ def topology(X, limit=0, reverse=True, verbose=3):
     # return
     return results
 
+
+def reverse_values(image_array):
+    # Clip the values to ensure they are between 0 and 255
+    clipped_array = np.clip(image_array, np.min(image_array), np.max(image_array))
+    
+    # Reverse the values
+    reversed_array = np.max(image_array) - clipped_array
+    
+    return reversed_array
 
 def _get_indices(im, p):
     return im[p[0]][p[1]]
