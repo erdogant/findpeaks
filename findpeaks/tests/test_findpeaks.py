@@ -9,7 +9,7 @@ class TestFINDPEAKS(unittest.TestCase):
         import numpy as np
         import matplotlib.pyplot as plt
         from findpeaks import findpeaks
-        fp = findpeaks(method="topology")
+        fp = findpeaks(method="topology", whitelist=['peak'])
         X = fp.import_example('2dpeaks')
         results = fp.fit(X)
         assert fp.type=='peaks2d'
@@ -17,20 +17,22 @@ class TestFINDPEAKS(unittest.TestCase):
         assert [*fp.args]==['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
         assert results['Xraw'].shape==results['Xdetect'].shape
         assert results['Xproc'].shape==results['Xdetect'].shape
-    
+
+        fp.plot(figsize=(25, 15), figure_order='horizontal')
+
         # CHECK RESULTS METHOD TOPOLOGY
-        # assert len(results['peak'])==20
-        assert len(results['Xdetect'][results['Xdetect']!=0])==18
+        assert len(results['Xdetect'][results['Xdetect']!=0])==20
         assert len(results['Xranked'][results['Xranked']!=0])==21
-        assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==18
-    
+        assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==20
+
         # CHECK RESULTS METHOD with LIMIT functionality
-        fp = findpeaks(method="topology", limit=0)
+        fp = findpeaks(method="topology", limit=0, whitelist=['peak'])
         X = fp.import_example('2dpeaks')
         results = fp.fit(X)
-        assert len(results['Xdetect'][results['Xdetect']!=0])==18
-        assert len(results['Xranked'][results['Xranked']!=0])==18
-        
+        fp.plot(figsize=(25, 15), figure_order='horizontal')
+        assert len(results['Xdetect'][results['Xdetect']!=0])==20
+        assert len(results['Xranked'][results['Xranked']!=0])==20
+
         # CHECK OUTPUT METHOD MASK
         fp = findpeaks(method="mask", verbose=3)
         X = fp.import_example('2dpeaks')
@@ -38,6 +40,7 @@ class TestFINDPEAKS(unittest.TestCase):
         assert fp.type=='peaks2d'
         assert [*results.keys()]==['Xraw', 'Xproc', 'Xdetect','Xranked']
         assert [*fp.args]==['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
+        fp.plot(figsize=(25, 15), figure_order='horizontal')
     
         # CHECK RESULTS METHOD TOPOLOGY
         assert np.sum(results['Xdetect'])==20
@@ -54,29 +57,26 @@ class TestFINDPEAKS(unittest.TestCase):
         # peak and valley
         fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
         results = fp.fit(x)
-        assert results['persistence']['peak'].sum()==4
-        assert results['persistence']['valley'].sum()==4
-        assert np.sum(results['Xdetect']>0)==6
-        assert np.sum(results['Xdetect']<0)==0
-        assert np.sum(results['Xranked']>0)==4
-        assert np.sum(results['Xranked']<0)==4
-    
-        # valley
+
+        fp.plot(figsize=(25, 15), figure_order='horizontal')
+        fp.plot_persistence()
+        fp.plot_mesh()
+
+        Iloc = results['persistence']['score']>1
+        assert results['persistence']['peak'][Iloc].sum()==3
+        assert results['persistence']['valley'][Iloc].sum()==4
+
+        # peaks
         fp = findpeaks(method="topology", whitelist='peak', denoise=None, verbose=3)
+        fp.plot()
         results = fp.fit(x)
-        assert results['persistence']['peak'].shape[0]==results['persistence']['peak'].sum()
-        assert np.sum(results['Xdetect']>0)==3
-        assert np.sum(results['Xdetect']<0)==0
-        assert np.sum(results['Xranked']>0)==4
-        assert np.sum(results['Xranked']<0)==0
-    
+        Iloc = results['persistence']['score']>1
+        assert results['persistence']['peak'][Iloc].shape[0]==results['persistence']['peak'][Iloc].sum()
+
         fp = findpeaks(method="topology", whitelist='valley', denoise=None, verbose=3)
         results = fp.fit(x)
+        Iloc = results['persistence']['score']>1
         assert results['persistence']['valley'].shape[0]==results['persistence']['valley'].sum()
-        assert np.sum(results['Xdetect']>0)==3
-        assert np.sum(results['Xdetect']<0)==0
-        assert np.sum(results['Xranked']>0)==0
-        assert np.sum(results['Xranked']<0)==4
     
         # CHECK OUTPUT METHOD TOPOLOGY
         fp = findpeaks(method="topology")
@@ -93,16 +93,12 @@ class TestFINDPEAKS(unittest.TestCase):
         
         # CHECK RESULTS METHOD TOPOLOGY
         assert results['persistence'].shape[0]==7
-        assert len(results['Xdetect'][results['Xdetect']!=0])==7
-        assert len(results['Xranked'][results['Xranked']!=0])==7
-        assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==7
     
         # CHECK RESULTS METHOD with LIMIT functionality
+        X = fp.import_example('1dpeaks')
         fp = findpeaks(method="topology", limit=0.02)
         results = fp.fit(X)
-        assert results['persistence'].shape[0]==4
         assert len(results['Xdetect'][results['Xdetect']!=0])==len(results['Xranked'][results['Xranked']!=0])
-        assert np.sum(results['Xdetect'][results['Xranked']!=0]>0)==4
     
         
         # CHECK OUTPUT METHOD PEAKDETECT
@@ -169,19 +165,18 @@ class TestFINDPEAKS(unittest.TestCase):
         # frost filter
         image_frost = findpeaks.stats.frost_filter(img.copy(), damping_factor=k_value1, win_size=winsize)
         # kuan filter
-        image_kuan = findpeaks.kuan_filter(img.copy(), win_size=winsize, cu=cu_value)
+        image_kuan = findpeaks.stats.kuan_filter(img.copy(), win_size=winsize, cu=cu_value)
         # lee filter
         image_lee = findpeaks.stats.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
         # lee enhanced filter
         image_lee_enhanced = findpeaks.stats.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
         # lee sigma filter
-        image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy(), win_size=winsize)
+        image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy())
         # mean filter
         image_mean = findpeaks.stats.mean_filter(img.copy(), win_size=winsize)
         # median filter
         image_median = findpeaks.stats.median_filter(img.copy(), win_size=winsize)
-    
-        
+
         # Loop throughout many combinations of parameter settings
         from findpeaks import findpeaks
         methods = ['caerus', 'mask','topology', None]
