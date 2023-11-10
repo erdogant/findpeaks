@@ -25,6 +25,7 @@
 import numpy as np
 import xarray as xr
 from joblib import Parallel, delayed
+from joblib import parallel_backend
 
 
 sigma_DEFAULT = 0.9 # for general applications
@@ -417,9 +418,11 @@ def lee_sigma_filter(img,
         return new_pix_value
     
     # Parallel Process
-    result = Parallel(n_jobs=num_cores)(
-        delayed(filter_pixel)(i, j) for i in range(N) for j in range(M)
-    )
+    try:
+        result = Parallel(n_jobs=num_cores)(delayed(filter_pixel)(i, j) for i in range(N) for j in range(M))
+    except:
+        with parallel_backend('threading', n_jobs=num_cores):
+            result = Parallel()(delayed(filter_pixel)(i, j) for i in range(N) for j in range(M))
 
     # Unpack the results 
     for (index, v), value in zip(np.ndenumerate(img_filtered), result):
