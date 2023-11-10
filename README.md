@@ -38,10 +38,12 @@ from findpeaks import findpeaks
 ```
 # 
 
+### [Blog findpeaks](https://towardsdatascience.com/a-step-by-step-guide-to-accurately-detect-peaks-and-valleys-9abc49a2eac3)
 
 ### [Documentation pages](https://erdogant.github.io/findpeaks/)
 
 On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find detailed information about the working of the ``findpeaks`` with many examples. 
+
 
 # 
 
