@@ -901,24 +901,25 @@ class findpeaks():
         ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect > 0)[0])) + ' peaks and ' + str(len(np.where(Xdetect < 0)[0])) + ' valleys)')
         ax3.grid(False)
 
-        X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :]
-        for i in range(X.shape[0]):
-            if s is None:
-                X['score'] = stats.normalize(X['score'].values, minscale=2, maxscale=10, scaler='minmax')
-            else:
-                X['score'] = s
-            ax1.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
-            ax2.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
-            ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+        if self.results.get('persistence', None) is not None:
+            X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :]
+            for i in range(X.shape[0]):
+                if s is None:
+                    X['score'] = stats.normalize(X['score'].values, minscale=2, maxscale=10, scaler='minmax')
+                else:
+                    X['score'] = s
+                ax1.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+                ax2.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+                ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
 
-        if text:
-            for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
-                ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
-                ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
-
-            for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
-                ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
-                ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
+            if text:
+                for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
+                    ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
+                    ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
+    
+                for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
+                    ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
+                    ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
 
         # Show plot
         plt.show()
@@ -1241,8 +1242,12 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
     ax.plot(xs, X, 'k')
     if np.any(max_peaks):
         ax.plot(max_peaks, X[max_peaks], "x", label='Peak')
+        # for i in max_peaks:
+            # ax.plot(i, X[i])
     if np.any(min_peaks):
         ax.plot(min_peaks, X[min_peaks], "o", label='Valley')
+        # for i in min_peaks:
+            # ax.plot(i, X[i])
 
     # Color each detected label
     s=np.arange(0, len(X))
