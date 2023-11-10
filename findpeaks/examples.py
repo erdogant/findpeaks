@@ -8,6 +8,40 @@
 # pip install opencv-python
 import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
+
+# %%
+# %% Issue
+# Load library
+from findpeaks import findpeaks
+# Data
+X = [10,11,9,23,21,11,45,20,11,12]
+# # Initialize
+# fp = findpeaks(method='peakdetect', lookahead=1)
+# results = fp.fit(X)
+# # Plot
+# fp.plot()
+
+fp = findpeaks(method='topology', lookahead=1)
+results = fp.fit(X)
+# fp.plot()
+fp.plot_persistence()
+
+
+# %%
+import numpy as np
+from scipy.ndimage import gaussian_filter
+from findpeaks import findpeaks
+rng = np.random.default_rng(42)
+x = rng.normal(size=(50, 50))
+x = gaussian_filter(x, sigma=10.)
+# peak and valley
+fp = findpeaks(method="topology", whitelist=['peak','valley'], denoise=None, verbose=3)
+results = fp.fit(x)
+
+fp.plot(figsize=(25, 15), figure_order='horizontal', cmap=plt.cm.hot_r)
+fp.plot_persistence()
+# fp.plot_mesh()
+
 # %%
 
 from findpeaks import findpeaks
@@ -46,7 +80,7 @@ results = fp.fit(img)
 # Create mesh plot
 fp.plot_mesh()
 # Create denoised plot
-fp.plot(limit=160)
+fp.plot(limit=160, figure_order='horizontal')
 fp.plot_persistence()
 
 # %% Issue
@@ -58,6 +92,7 @@ from findpeaks import findpeaks
 X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 
 fp = findpeaks(method='peakdetect', lookahead=1, verbose=3, whitelist=['peak', 'valley'], params={'delta': 1})
+# fp = findpeaks(method='topology')
 results = fp.fit(X)
 fp.plot()
 
@@ -103,7 +138,7 @@ results = fp.fit(img)
 # Create mesh plot
 fp.plot_mesh()
 # Create denoised plot
-fp.plot(limit=80)
+fp.plot(limit=80, figure_order='horizontal', cmap=plt.cm.hot_r)
 
 
 # %% Issue 18:
@@ -212,7 +247,7 @@ from findpeaks import findpeaks
 fp = findpeaks(method="mask", denoise=None, params={'window': 3}, limit=None, verbose=0)
 X = fp.import_example("2dpeaks_image")
 results = fp.fit(X)
-fp.plot()
+fp.plot(figure_order='horizontal')
 
 
 # %%
