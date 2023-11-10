@@ -6,7 +6,7 @@
 # Licence: MIT
 # ----------------------------------------------------
 
-# import findpeaks.union_find as union_find
+import findpeaks.union_find as union_find
 from findpeaks.filters.lee import lee_filter
 from findpeaks.filters.lee_enhanced import lee_enhanced_filter
 from findpeaks.filters.lee_sigma import lee_sigma_filter
