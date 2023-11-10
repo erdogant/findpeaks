@@ -382,7 +382,7 @@ def topology(X, limit=0, reverse=True, verbose=3):
     ----------
     X: array-like data
         Input data.
-    limit: float, (default: 0)
+    limit: float, (default: None)
         score > limit are set as regions of interest (ROI).
         None: Take all positions into consideration.
     reverse: bool, (default: True)

@@ -76,7 +76,7 @@ class findpeaks():
                  whitelist=['peak', 'valley'],
                  lookahead=200,
                  interpolate=None,
-                 limit=0,
+                 limit=None,
                  imsize=None,
                  scale=True,
                  togray=True,
