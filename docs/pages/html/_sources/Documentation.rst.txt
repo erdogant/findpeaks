@@ -8,7 +8,7 @@ Medium Blog
 ############
 
 .. note::
-	`Medium Blog: Coming soon (Wishfull thinking) <https://towardsdatascience.com/creating-beautiful-stand-alone-interactive-d3-charts-with-python-804117cb95a7>`_
+	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://towardsdatascience.com/a-step-by-step-guide-to-accurately-detect-peaks-and-valleys-9abc49a2eac3>`_
 
 Github
 ############

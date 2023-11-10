@@ -12,6 +12,11 @@ are readily available for pre-processing the data (denoising, normalizing, resiz
 -----------------------------------
 
 .. note::
+	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://towardsdatascience.com/a-step-by-step-guide-to-accurately-detect-peaks-and-valleys-9abc49a2eac3>`_
+
+-----------------------------------
+
+.. note::
 	**Your ❤️ is important to keep maintaining this package.** You can `support <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_ in various ways, have a look at the `sponser page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_.
 	Report bugs, issues and feature extensions at `github <https://github.com/erdogant/findpeaks/>`_ page.
 
