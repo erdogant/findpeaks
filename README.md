@@ -39,6 +39,7 @@ from findpeaks import findpeaks
 # 
 
 ### [Blog findpeaks](https://towardsdatascience.com/a-step-by-step-guide-to-accurately-detect-peaks-and-valleys-9abc49a2eac3)
+# 
 
 ### [Documentation pages](https://erdogant.github.io/findpeaks/)
 
