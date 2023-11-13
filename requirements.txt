@@ -1,4 +1,3 @@
-git+https://github.com/arvinnick/peakdetect.git
 matplotlib
 numpy
 pandas
@@ -8,3 +7,4 @@ caerus>=0.1.9
 opencv-python
 xarray
 joblib
+git+https://github.com/arvinnick/peakdetect.git
