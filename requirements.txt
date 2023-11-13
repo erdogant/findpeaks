@@ -1,5 +1,4 @@
-peakdetect==1.1
-scipy
+git+https://github.com/arvinnick/peakdetect.git
 matplotlib
 numpy
 pandas
