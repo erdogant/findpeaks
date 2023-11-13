@@ -27,6 +27,8 @@ from urllib.parse import urlparse
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
+
+
 # #####################
 
 
@@ -43,7 +45,7 @@ class findpeaks():
     --------
     >>> from findpeaks import findpeaks
     >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-    >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
+    >>> fp = findpeaks(method='peakdetect',lookahead=1,interpolate=10)
     >>> results = fp.fit(X)
     >>> fp.plot()
     >>>
@@ -55,7 +57,7 @@ class findpeaks():
     >>>
     >>> # Image example
     >>> from findpeaks import findpeaks
-    >>> fp = findpeaks(method='topology', denoise='fastnl', params={'window': 30}, imsize=(300,300))
+    >>> fp = findpeaks(method='topology',imsize=(300,300),denoise='fastnl',params={'window': 30})
     >>> X = fp.import_example('2dpeaks_image')
     >>> results = fp.fit(X)
     >>> fp.plot()
@@ -72,6 +74,7 @@ class findpeaks():
     """
 
     def __init__(self,
+                 height=None,
                  method=None,
                  whitelist=['peak', 'valley'],
                  lookahead=200,
@@ -157,7 +160,7 @@ class findpeaks():
         --------
         >>> from findpeaks import findpeaks
         >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
+        >>> fp = findpeaks(method='peakdetect',lookahead=1,interpolate=10)
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -169,7 +172,7 @@ class findpeaks():
         >>>
         >>> # Image example
         >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(method='topology', denoise='fastnl', params={'window': 30}, imsize=(300,300))
+        >>> fp = findpeaks(method='topology',imsize=(300,300),denoise='fastnl',params={'window': 30})
         >>> X = fp.import_example('2dpeaks_image')
         >>> results = fp.fit(X)
         >>> fp.plot()
@@ -183,14 +186,18 @@ class findpeaks():
         ----------
             * https://erdogant.github.io/findpeaks/
         """
-        if window is not None: print('The input parameter "window" will be deprecated in future releases. Please use "params={"window": 5}" instead.')
-        if cu is not None: print('The input parameter "cu" will be deprecated in future releases. Please use "params={"cu": 3}" instead.')
+        if window is not None: print(
+            'The input parameter "window" will be deprecated in future releases. Please use "params={"window": 5}" '
+            'instead.')
+        if cu is not None: print(
+            'The input parameter "cu" will be deprecated in future releases. Please use "params={"cu": 3}" instead.')
 
         # Store in object
-        if isinstance(whitelist, str): whitelist=[whitelist]
-        if lookahead is None: lookahead=1
+        if isinstance(whitelist, str): whitelist = [whitelist]
+        if lookahead is None: lookahead = 1
         lookahead = np.maximum(1, lookahead)
-        # if method is None: raise Exception('[findpeaks] >Specify the desired method="topology", "peakdetect", or "mask".')
+        # if method is None: raise Exception('[findpeaks] >Specify the desired method="topology", "peakdetect",
+        # or "mask".')
         self.method = method
         self.whitelist = whitelist
         self.lookahead = lookahead
@@ -202,17 +209,19 @@ class findpeaks():
         self.denoise = denoise
         self.figsize = figsize
         self.verbose = verbose
+        self.height = height
 
         # Store parameters for caerus
-        defaults={}
-        if method=='caerus':
-            if len(params_caerus)>0:
-                print('The input parameter "params_caerus" will be deprecated in future releases. Please use "params" instead.')
+        defaults = {}
+        if method == 'caerus':
+            if len(params_caerus) > 0:
+                print(
+                    'The input parameter "params_caerus" will be deprecated in future releases. Please use "params" instead.')
                 params = params_caerus
             defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-        elif method=='lee_sigma':
+        elif method == 'lee_sigma':
             defaults = {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
-        elif method=='peakdetect':
+        elif method == 'peakdetect':
             defaults = {'delta': 0}
         defaults = {**{'window': 3}, **defaults}
 
@@ -248,7 +257,7 @@ class findpeaks():
         if isinstance(X, type(pd.DataFrame())):
             X = X.values
 
-        if len(X.shape)>1:
+        if len(X.shape) > 1:
             # 2d-array (image)
             results = self.peaks2d(X, method=self.method)
         else:
@@ -258,7 +267,7 @@ class findpeaks():
         return results
 
     # Find peaks in 1D vector
-    def peaks1d(self, X, x=None, method='peakdetect'):
+    def peaks1d(self, X, x=None, method='peakdetect', height=0):
         """Detect of peaks in 1D array.
 
         Description
@@ -269,6 +278,7 @@ class findpeaks():
             * interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.
             * limit : Values > limit are set as regions of interest (ROI).
             * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+            * height: required height of the peaks.
 
         Parameters
         ----------
@@ -301,7 +311,7 @@ class findpeaks():
         --------
         >>> from findpeaks import findpeaks
         >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
+        >>> fp = findpeaks(method='peakdetect',lookahead=1,interpolate=10)
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -311,10 +321,10 @@ class findpeaks():
         >>> fp.plot_persistence()
 
         """
-        if method is None: method='peakdetect'
+        if method is None: method = 'peakdetect'
         self.method = method
         self.type = 'peaks1d'
-        if self.verbose>=3: print('[findpeaks] >Finding peaks in 1d-vector using [%s] method..' %(self.method))
+        if self.verbose >= 3: print('[findpeaks] >Finding peaks in 1d-vector using [%s] method..' % (self.method))
         # Make numpy array
         X = np.array(X)
         Xraw = X.copy()
@@ -325,24 +335,30 @@ class findpeaks():
             X = interpolate.interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
 
         # Compute peaks based on method
-        if method=='peakdetect':
+        if method == 'peakdetect':
             # Peakdetect method
-            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead, delta=self.params['delta'])
+            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead, delta=self.params['delta'],
+                                              height=self.height)
             # Post processing for the peak-detect
-            result['peakdetect'] = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate, self.lookahead)
-        elif method=='topology':
+            result['peakdetect'] = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate,
+                                                          self.lookahead)
+        elif method == 'topology':
             # Compute persistence using toplogy method
             result = stats.topology(np.c_[X, X], limit=self.limit, verbose=self.verbose)
             # Post processing for the topology method
             result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
-        elif method=='caerus':
+        elif method == 'caerus':
             cs = caerus(**self.params)
             result = cs.fit(X, return_as_dict=True, verbose=self.verbose)
             # Post processing for the caerus method
-            result['caerus'] = stats._post_processing(X, Xraw, np.c_[result['loc_start_best'], result['loc_start_best']], np.c_[result['loc_stop_best'], result['loc_stop_best']], self.interpolate, 1, labxRaw=result['df']['labx'].values)
+            result['caerus'] = stats._post_processing(X, Xraw,
+                                                      np.c_[result['loc_start_best'], result['loc_start_best']],
+                                                      np.c_[result['loc_stop_best'], result['loc_stop_best']],
+                                                      self.interpolate, 1, labxRaw=result['df']['labx'].values)
             result['caerus']['model'] = cs
         else:
-            if self.verbose>=2: print('[findpeaks] >WARNING: [method="%s"] is not supported in 1d-vector data. <return>' %(self.method))
+            if self.verbose >= 2: print(
+                '[findpeaks] >WARNING: [method="%s"] is not supported in 1d-vector data. <return>' % (self.method))
             return None
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, result)
@@ -360,7 +376,7 @@ class findpeaks():
         dfint['x'] = xs
         dfint['y'] = X
         # Store results for method
-        if self.method=='peakdetect':
+        if self.method == 'peakdetect':
             # peakdetect
             dfint['labx'] = result['peakdetect']['labx_s']
             dfint['valley'] = False
@@ -369,7 +385,7 @@ class findpeaks():
                 dfint['valley'].iloc[result['peakdetect']['min_peaks_s'][:, 0].astype(int)] = True
             if result['peakdetect']['max_peaks_s'] is not None:
                 dfint['peak'].iloc[result['peakdetect']['max_peaks_s'][:, 0].astype(int)] = True
-        elif self.method=='topology':
+        elif self.method == 'topology':
             # Topology
             dfint['labx'] = result['topology']['labx_s']
             dfint['rank'] = result['Xranked']
@@ -385,7 +401,7 @@ class findpeaks():
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
             results['groups0'] = result['groups0']
-        elif self.method=='caerus':
+        elif self.method == 'caerus':
             # caerus
             dfint = result['df'].copy()
             dfint['y'] = result['X']
@@ -404,7 +420,7 @@ class findpeaks():
             df = pd.DataFrame()
             df['y'] = Xraw
             # Store results for method
-            if self.method=='peakdetect':
+            if self.method == 'peakdetect':
                 # peakdetect
                 df['x'] = result['peakdetect']['xs']
                 df['labx'] = result['peakdetect']['labx']
@@ -414,7 +430,7 @@ class findpeaks():
                     df['valley'].iloc[result['peakdetect']['min_peaks'][:, 0].astype(int)] = True
                 if result['peakdetect']['max_peaks'] is not None:
                     df['peak'].iloc[result['peakdetect']['max_peaks'][:, 0].astype(int)] = True
-            elif self.method=='topology':
+            elif self.method == 'topology':
                 # Topology
                 df['x'] = result['topology']['xs']
                 df['labx'] = result['topology']['labx']
@@ -429,11 +445,13 @@ class findpeaks():
                 df['rank'] = 0
                 df['score'] = 0
 
-                df['rank'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['rank'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)].values
-                df['score'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['score'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)].values
+                df['rank'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['rank'].iloc[
+                    result['topology']['max_peaks_s'][:, 0].astype(int)].values
+                df['score'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['score'].iloc[
+                    result['topology']['max_peaks_s'][:, 0].astype(int)].values
                 # df['rank'].loc[df['peak']] = dfint['rank'].loc[dfint['peak']].values
                 # df['score'].loc[df['peak']] = dfint['score'].loc[dfint['peak']].values
-            if self.method=='caerus':
+            if self.method == 'caerus':
                 # caerus
                 df['x'] = result['caerus']['xs']
                 df['labx'] = result['df']['labx']
@@ -450,7 +468,7 @@ class findpeaks():
         else:
             results['df'] = dfint
 
-        if self.method=='caerus':
+        if self.method == 'caerus':
             results['model'] = result['caerus']['model']
         # Arguments
         args = {}
@@ -519,7 +537,7 @@ class findpeaks():
         >>> # Image example
         >>> from findpeaks import findpeaks
         >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(denoise='fastnl', params={'window': 30}, imsize=(300,300))
+        >>> fp = findpeaks(imsize=(300,300),denoise='fastnl',params={'window': 30})
         >>> results = fp.fit(X)
         >>> fp.plot()
         >>>
@@ -529,30 +547,33 @@ class findpeaks():
         >>> fp.plot_mesh()
 
         """
-        if method is None: method='topology'
+        if method is None: method = 'topology'
         self.method = method
         self.type = 'peaks2d'
-        if self.verbose>=3: print('[findpeaks] >Finding peaks in 2d-array using %s method..' %(self.method))
-        if (not self.togray) and (len(X.shape)==3) and (self.method=='topology'): raise Exception('[findpeaks] >Error: Topology method requires 2d-array. Your input is 3d. Hint: set togray=True.')
+        if self.verbose >= 3: print('[findpeaks] >Finding peaks in 2d-array using %s method..' % (self.method))
+        if (not self.togray) and (len(X.shape) == 3) and (self.method == 'topology'): raise Exception(
+            '[findpeaks] >Error: Topology method requires 2d-array. Your input is 3d. Hint: set togray=True.')
 
         # Preprocessing the image
         Xproc = self.preprocessing(X, showfig=False)
         # Compute peaks based on method
-        if method=='topology':
+        if method == 'topology':
             # Compute persistence based on topology method
             result = stats.topology2d(Xproc, limit=self.limit, whitelist=self.whitelist, verbose=self.verbose)
             # result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
-        elif method=='mask':
+        elif method == 'mask':
             # Compute peaks using local maximum filter.
             result = stats.mask(Xproc, limit=self.limit, verbose=self.verbose)
         else:
-            if self.verbose>=2: print('[findpeaks] >WARNING: [method="%s"] is not supported in 2d-array (image) data. <return>' %(self.method))
+            if self.verbose >= 2: print(
+                '[findpeaks] >WARNING: [method="%s"] is not supported in 2d-array (image) data. <return>' % (
+                    self.method))
             return None
 
         # Store
         self.results, self.args = self._store2d(X, Xproc, result)
         # Return
-        if self.verbose>=3: print('[findpeaks] >Fin.')
+        if self.verbose >= 3: print('[findpeaks] >Fin.')
         return self.results
 
     # Store 2D-array
@@ -563,7 +584,7 @@ class findpeaks():
         results['Xproc'] = Xproc
 
         # Store method specific results
-        if self.method=='topology':
+        if self.method == 'topology':
             # results['topology'] = result
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
@@ -571,7 +592,7 @@ class findpeaks():
             # results['peak'] = result['peak'] # These values are incorrect when using 2d
             # results['valley'] = result['valley'] # These values are incorrect when using 2d
             results['groups0'] = result['groups0']
-        if self.method=='mask':
+        if self.method == 'mask':
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
 
@@ -619,7 +640,7 @@ class findpeaks():
             # Plot RAW input image
             ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
             ax[iax].grid(False)
-            ax[iax].set_title('Input\nRange: [%.3g,%.3g]' %(X.min(), X.max()))
+            ax[iax].set_title('Input\nRange: [%.3g,%.3g]' % (X.min(), X.max()))
             iax = iax + 1
             # plt.show()
 
@@ -630,7 +651,7 @@ class findpeaks():
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
                 ax[iax].grid(False)
-                ax[iax].set_title('Resize\n(%s,%s)' %(self.imsize))
+                ax[iax].set_title('Resize\n(%s,%s)' % (self.imsize))
                 iax = iax + 1
         # Scaling color range between [0,255]
         if self.scale:
@@ -639,7 +660,7 @@ class findpeaks():
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
                 ax[iax].grid(False)
-                ax[iax].set_title('Scale\nRange: [%.3g %.3g]' %(X.min(), X.max()))
+                ax[iax].set_title('Scale\nRange: [%.3g %.3g]' % (X.min(), X.max()))
                 iax = iax + 1
         # Convert to gray image
         if self.togray:
@@ -678,12 +699,12 @@ class findpeaks():
         """
         cv2 = stats._import_cv2()
         if is_url(path):
-            if verbose>=3: print('[findpeaks] >Downloading from github source: [%s]' %(path))
+            if verbose >= 3: print('[findpeaks] >Downloading from github source: [%s]' % (path))
             response = requests.get(path)
             img_array = np.asarray(bytearray(response.content), dtype=np.uint8)
             X = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         elif os.path.isfile(path):
-            if verbose>=3: print('[findpeaks] >Import [%s]' %(path))
+            if verbose >= 3: print('[findpeaks] >Import [%s]' % (path))
             X = cv2.imread(path)
         # Return
         return X
@@ -727,18 +748,19 @@ class findpeaks():
 
         """
         if not hasattr(self, 'results'):
-            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. <return>')
+            if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot. <return>')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
 
-        if self.args['type']=='peaks1d':
+        if self.args['type'] == 'peaks1d':
             fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel)
-        elif self.args['type']=='peaks2d':
+        elif self.args['type'] == 'peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color, figure_order=figure_order)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker,
+                                      color=color, figure_order=figure_order)
         else:
-            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot for %s' %(self.args['type']))
+            if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot for %s' % (self.args['type']))
             return None
 
         # Return
@@ -759,15 +781,15 @@ class findpeaks():
         fig_axis : tuple containing axis for each figure.
 
         """
-        if not self.args['type']=='peaks1d':
-            if self.verbose>=3: print('[findpeaks] >Requires results of 1D data <return>.')
+        if not self.args['type'] == 'peaks1d':
+            if self.verbose >= 3: print('[findpeaks] >Requires results of 1D data <return>.')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
         ax1, ax2 = None, None
         title = self.method
 
-        if self.method=='caerus':
+        if self.method == 'caerus':
             if self.results.get('model', None) is not None:
                 ax = self.results['model'].plot(figsize=self.figsize)
                 csplots._plot_graph(self.results['model'].results, figsize=self.figsize, xlabel=xlabel, ylabel=ylabel)
@@ -781,7 +803,9 @@ class findpeaks():
                 min_peaks = df['x'].loc[df['valley']].values
             if np.any('peak' in self.whitelist):
                 max_peaks = df['x'].loc[df['peak']].values
-            ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title, figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel)
+            ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int),
+                                 max_peaks.astype(int), title=title, figsize=figsize, legend=legend, xlabel=xlabel,
+                                 ylabel=ylabel)
 
             # Make interpolated plot
             if self.interpolate is not None:
@@ -791,7 +815,9 @@ class findpeaks():
                     min_peaks = df_interp['x'].loc[df_interp['valley']].values
                 if np.any('peak' in self.whitelist):
                     max_peaks = df_interp['x'].loc[df_interp['peak']].values
-                ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)', figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel)
+                ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values,
+                                     min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)',
+                                     figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel)
             # Return axis
             return (ax2, ax1)
 
@@ -808,8 +834,8 @@ class findpeaks():
         fig_axis : tuple containing axis for each figure.
 
         """
-        if not self.args['type']=='peaks2d':
-            if self.verbose>=3: print('[findpeaks] >Requires results of 2D data <return>.')
+        if not self.args['type'] == 'peaks2d':
+            if self.verbose >= 3: print('[findpeaks] >Requires results of 2D data <return>.')
             return None
         ax_method, ax_mesh = None, None
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -817,9 +843,9 @@ class findpeaks():
         self.plot_preprocessing()
 
         # Setup figure
-        if self.method=='mask':
+        if self.method == 'mask':
             ax_method = self.plot_mask(figsize=figsize, limit=limit, figure_order=figure_order)
-        if self.method=='topology':
+        if self.method == 'topology':
             # Plot topology/persistence
             ax_method = self.plot_persistence(figsize=figsize)
 
@@ -837,13 +863,15 @@ class findpeaks():
         None.
 
         """
-        if (not hasattr(self, 'results')) or (self.type=='peaks1d'):
-            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the (image) data. <return>')
+        if (not hasattr(self, 'results')) or (self.type == 'peaks1d'):
+            if self.verbose >= 2: print(
+                '[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the (image) data. <return>')
             return None
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
-    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=None, marker='x', color='#FF0000', figure_order='vertical'):
+    def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=None, marker='x', color='#FF0000',
+                  figure_order='vertical'):
         """Plot the masking.
 
         Parameters
@@ -860,8 +888,9 @@ class findpeaks():
         fig_axis : tuple containing axis for each figure.
 
         """
-        if (self.type=='peaks1d'):
-            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the 2d-array (image). <return>')
+        if (self.type == 'peaks1d'):
+            if self.verbose >= 2: print(
+                '[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the 2d-array (image). <return>')
             return None
 
         if limit is None: limit = self.limit
@@ -878,7 +907,7 @@ class findpeaks():
 
         # Setup figure
         figsize = figsize if figsize is not None else self.args['figsize']
-        if figure_order=='vertical':
+        if figure_order == 'vertical':
             fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=figsize)
         else:
             fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
@@ -898,7 +927,8 @@ class findpeaks():
 
         # Masking
         ax3.imshow(np.abs(Xdetect), 'gray_r', interpolation="nearest")
-        ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect > 0)[0])) + ' peaks and ' + str(len(np.where(Xdetect < 0)[0])) + ' valleys)')
+        ax3.set_title(self.method + ' (' + str(len(np.where(Xdetect > 0)[0])) + ' peaks and ' + str(
+            len(np.where(Xdetect < 0)[0])) + ' valleys)')
         ax3.grid(False)
 
         if self.results.get('persistence', None) is not None:
@@ -916,7 +946,7 @@ class findpeaks():
                 for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
                     ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
                     ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
-    
+
                 for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
                     ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
                     ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
@@ -992,7 +1022,7 @@ class findpeaks():
         >>> from findpeaks import findpeaks
         >>> #
         >>> # Initialize
-        >>> fp = findpeaks(method='topology', scale=False, denoise=None, togray=False, imsize=False, params={'window': 15})
+        >>> fp = findpeaks(method='topology',imsize=False,scale=False,togray=False,denoise=None,params={'window': 15})
         >>> #
         >>> # Load example data set
         >>> X = fp.import_example('2dpeaks')
@@ -1011,14 +1041,15 @@ class findpeaks():
 
         """
         if not hasattr(self, 'results'):
-            if self.verbose>=2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the fit() function. <return>')
+            if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the fit() function. <return>')
             return None
         if self.results.get('Xproc', None) is None:
-            if self.verbose>=3: print('[findpeaks] >These analysis do not support mesh plotting. This may be caused because your are analysing 1D.')
+            if self.verbose >= 3: print(
+                '[findpeaks] >These analysis do not support mesh plotting. This may be caused because your are analysing 1D.')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
-        if self.verbose>=3: print('[findpeaks] >Plotting 3d-mesh..')
+        if self.verbose >= 3: print('[findpeaks] >Plotting 3d-mesh..')
         ax1, ax2 = None, None
         if savepath is not None:
             savepath = str.replace(savepath, ',', '_')
@@ -1029,14 +1060,14 @@ class findpeaks():
         X, Y = np.mgrid[0:Z.shape[0], 0:Z.shape[1]]
         # To limit on the X and Y axis, we need to create a trick by setting all values to nan in the Z-axis that should be limited.
         if xlim is not None:
-            if xlim[0] is not None: Z[X<xlim[0]]=np.nan
-            if xlim[1] is not None: Z[X>xlim[1]]=np.nan
+            if xlim[0] is not None: Z[X < xlim[0]] = np.nan
+            if xlim[1] is not None: Z[X > xlim[1]] = np.nan
         if ylim is not None:
-            if ylim[0] is not None: Z[Y<ylim[0]]=np.nan
-            if ylim[1] is not None: Z[Y>ylim[1]]=np.nan
+            if ylim[0] is not None: Z[Y < ylim[0]] = np.nan
+            if ylim[1] is not None: Z[Y > ylim[1]] = np.nan
         if zlim is not None:
-            if zlim[0] is not None: Z[Z<zlim[0]]=np.nan
-            if zlim[1] is not None: Z[Z>zlim[1]]=np.nan
+            if zlim[0] is not None: Z[Z < zlim[0]] = np.nan
+            if zlim[1] is not None: Z[Z > zlim[1]] = np.nan
 
         # Plot the figure
         if wireframe:
@@ -1057,7 +1088,7 @@ class findpeaks():
 
             plt.show()
             if savepath is not None:
-                if self.verbose>=3: print('[findpeaks] >Saving wireframe to disk..')
+                if self.verbose >= 3: print('[findpeaks] >Saving wireframe to disk..')
                 fig.savefig(savepath)
 
         if surface:
@@ -1065,7 +1096,8 @@ class findpeaks():
             fig = plt.figure(figsize=figsize)
             ax2 = fig.add_subplot(projection='3d')
             ax2 = fig.gca()
-            ax2.plot_surface(X, Y, Z, rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True, antialiased=False)
+            ax2.plot_surface(X, Y, Z, rstride=rstride, cstride=cstride, cmap=cmap, linewidth=0, shade=True,
+                             antialiased=False)
             if view is not None:
                 ax2.view_init(view[0], view[1])
             ax2.set_xlabel('x-axis')
@@ -1077,7 +1109,7 @@ class findpeaks():
             if zlim is not None: ax2.set_zlim3d(zlim[0], zlim[1])
             plt.show()
             if savepath is not None:
-                if self.verbose>=3: print('[findpeaks] >Saving surface to disk..')
+                if self.verbose >= 3: print('[findpeaks] >Saving surface to disk..')
                 fig.savefig(savepath)
 
         # Plot with contours
@@ -1091,7 +1123,8 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis', verbose=None):
+    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis',
+                         verbose=None):
         """Plot the homology-peristence.
 
         Parameters
@@ -1113,9 +1146,11 @@ class findpeaks():
             Figure axis 2.
 
         """
-        if verbose is None: verbose=self.verbose
-        if (self.method!='topology') or (not hasattr(self, 'results')) or len(self.results['persistence']['birth_level'].values)<=0:
-            if verbose>=3: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the .fit(method="topology") function. <return>')
+        if verbose is None: verbose = self.verbose
+        if (self.method != 'topology') or (not hasattr(self, 'results')) or len(
+                self.results['persistence']['birth_level'].values) <= 0:
+            if verbose >= 3: print(
+                '[findpeaks] >WARNING: Nothing to plot. Hint: run the .fit(method="topology") function. <return>')
             return None
 
         # Setup figure
@@ -1132,14 +1167,15 @@ class findpeaks():
         return ax1, ax2
 
     def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel, verbose):
-        if self.args['type']=='peaks1d':
+        if self.args['type'] == 'peaks1d':
             # Attach the ranking-labels
             if fontsize is not None:
                 y = self.results['df']['y'].values
                 x = self.results['df']['x'].values
-                idx = np.where(self.results['df']['rank']>0)[0]
+                idx = np.where(self.results['df']['rank'] > 0)[0]
                 for i in tqdm(idx, disable=disable_tqdm(verbose)):
-                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize)
+                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b',
+                             fontsize=fontsize)
 
             # minpers = 0
             min_peaks, max_peaks = np.array([]), np.array([])
@@ -1148,7 +1184,10 @@ class findpeaks():
             if np.any('peak' in self.whitelist):
                 max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
             # Make the plot
-            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values, self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int), title='Persistence', figsize=figsize, legend=True, ax=ax1, xlabel=xlabel, ylabel=ylabel)
+            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values,
+                                 self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int),
+                                 title='Persistence', figsize=figsize, legend=True, ax=ax1, xlabel=xlabel,
+                                 ylabel=ylabel)
             # Set limits
             X = np.c_[self.results['df']['x'].values, self.results['df']['y'].values]
             ax1.set_xlim((np.min(X), np.max(X)))
@@ -1160,7 +1199,7 @@ class findpeaks():
             # fig, ax1 = plt.subplots()
             # minpers = 1
             # Plot the detected loci
-            if verbose>=3: print('[findpeaks] >Plotting loci of birth..')
+            if verbose >= 3: print('[findpeaks] >Plotting loci of birth..')
             ax1.set_title("Loci of births")
             for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm(verbose)):
                 p_birth, bl, pers, p_death = homclass
@@ -1187,8 +1226,8 @@ class findpeaks():
     def _plot_persistence_ax2(self, fontsize, ax2, verbose=3):
         x = self.results['persistence']['birth_level'].values
         y = self.results['persistence']['death_level'].values
-        if len(x)<=0:
-            if verbose>=3: print('[[findpeaks]> Nothing to plot.')
+        if len(x) <= 0:
+            if verbose >= 3: print('[[findpeaks]> Nothing to plot.')
             return None
         ax2.plot(x, y, '.', c='b')
         if fontsize is not None:
@@ -1234,7 +1273,8 @@ class findpeaks():
 
 
 # %%
-def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, ax=None, figsize=(15, 8), xlabel=None, ylabel=None):
+def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, ax=None, figsize=(15, 8), xlabel=None,
+                   ylabel=None):
     uilabx = np.unique(labx)
     uilabx = uilabx[~np.isnan(uilabx)]
 
@@ -1243,16 +1283,16 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
     if np.any(max_peaks):
         ax.plot(max_peaks, X[max_peaks], "x", label='Peak')
         # for i in max_peaks:
-            # ax.plot(i, X[i])
+        # ax.plot(i, X[i])
     if np.any(min_peaks):
         ax.plot(min_peaks, X[min_peaks], "o", label='Valley')
         # for i in min_peaks:
-            # ax.plot(i, X[i])
+        # ax.plot(i, X[i])
 
     # Color each detected label
-    s=np.arange(0, len(X))
+    s = np.arange(0, len(X))
     for i in uilabx:
-        idx=(labx==i)
+        idx = (labx == i)
         ax.plot(s[idx], X[idx])
         # plt.plot(s[idx], X[idx], label='peak' + str(i))
 
@@ -1294,27 +1334,27 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     if url is not None:
         fn = os.path.basename(urlparse(url).path).strip()
         if not fn:
-            if verbose>=3: print('[findpeaks] >Could not determine filename to download <return>.')
+            if verbose >= 3: print('[findpeaks] >Could not determine filename to download <return>.')
             return None
         data, _ = os.path.splitext(fn)
-    elif data=='2dpeaks_image' or data=='2dpeaks_image_2':
-        url='https://erdogant.github.io/datasets/' + data + '.png'
+    elif data == '2dpeaks_image' or data == '2dpeaks_image_2':
+        url = 'https://erdogant.github.io/datasets/' + data + '.png'
         fn = data + '.png'
-    elif data=='2dpeaks':
-        url='https://erdogant.github.io/datasets/' + data + '.zip'
+    elif data == '2dpeaks':
+        url = 'https://erdogant.github.io/datasets/' + data + '.zip'
         fn = "2dpeaks.zip"
-    elif data=='1dpeaks':
+    elif data == '1dpeaks':
         # x = [0,   13,  22,  30,  35,  38,   42,   51,   57,   67,  73,   75,  89,   126,  141,  150,  200 ]
         y = [1.5, 0.8, 1.2, 0.2, 0.4, 0.39, 0.42, 0.22, 0.23, 0.1, 0.11, 0.1, 0.14, 0.09, 0.04, 0.02, 0.01]
         # X = np.c_[x, y]
         return y
-    elif (data=='btc') or (data=='facebook'):
+    elif (data == 'btc') or (data == 'facebook'):
         from caerus import caerus
         cs = caerus()
         X = cs.download_example(name=data, verbose=verbose)
         return X
     else:
-        if verbose>=2: print('[findpeaks] >WARNING: Nothing to download. <return>')
+        if verbose >= 2: print('[findpeaks] >WARNING: Nothing to download. <return>')
         return None
 
     if datadir is None: datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -1324,15 +1364,15 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
 
     # Check file exists.
     if not os.path.isfile(PATH_TO_DATA):
-        if verbose>=3: print('[findpeaks] >Downloading from github source: [%s]' %(url))
+        if verbose >= 3: print('[findpeaks] >Downloading from github source: [%s]' % (url))
         r = requests.get(url, stream=True)
         with open(PATH_TO_DATA, "wb") as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 fd.write(chunk)
 
     # Import local dataset
-    if verbose>=3: print('[findpeaks] >Import [%s]' %(PATH_TO_DATA))
-    if data=='2dpeaks_image' or data=='2dpeaks_image_2':
+    if verbose >= 3: print('[findpeaks] >Import [%s]' % (PATH_TO_DATA))
+    if data == '2dpeaks_image' or data == '2dpeaks_image_2':
         cv2 = stats._import_cv2()
         X = cv2.imread(PATH_TO_DATA)
     else:
@@ -1351,5 +1391,5 @@ def is_url(url):
 
 # %%
 # def disable_tqdm(verbose):
-    # """Set the verbosity messages."""
-    # return  (True if ((verbose==0 or verbose is None) or verbose>3) else False)
+# """Set the verbosity messages."""
+# return  (True if ((verbose==0 or verbose is None) or verbose>3) else False)
