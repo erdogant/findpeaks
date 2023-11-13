@@ -18,7 +18,7 @@ setuptools.setup(
                        'numpy',
                        'pandas',
                        'tqdm',
-                       'peakdetect==1.1',
+                       'git+https://github.com/arvinnick/peakdetect.git',
                        'requests',
                        'caerus>=0.1.9',
                        'xarray',
