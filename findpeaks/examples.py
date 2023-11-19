@@ -92,6 +92,7 @@ fp = findpeaks(method='topology',
                imsize=(150, 150),
                denoise='lee_sigma',
                params={'window': 17},
+               limit=160,
                )
 
 # Import example image
@@ -102,7 +103,7 @@ results = fp.fit(img)
 # Create mesh plot
 fp.plot_mesh()
 # Create denoised plot
-fp.plot(limit=160, figure_order='horizontal')
+fp.plot(figure_order='horizontal')
 fp.plot_persistence()
 
 # %% Issue

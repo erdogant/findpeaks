@@ -247,7 +247,7 @@ Let’s load a SAR image, apply denoising techniques and then detect peaks.</p>
 <span class="c1"># Fit</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="c1"># Thousands of peaks are detected at this point.</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -266,7 +266,7 @@ Let’s load a SAR image, apply denoising techniques and then detect peaks.</p>
 <span class="c1"># Import image example</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="c1"># Initializatie</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">31</span><span class="p">},</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;lee_sigma&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">17</span><span class="p">})</span>
 <span class="c1"># Fit</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 </pre></div>
@@ -287,7 +287,7 @@ The final denoised picture does show clear removal of the speckle noise. But is 
 </table>
 <p>In the next step, we can examine the detected peaks (see below). But these peaks are barely visible on the plot. Nevertheless, we seem to removed many peaks compared to the not-preprocessed image.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
@@ -372,7 +372,7 @@ But this information allows to limit the model, and focus only on the peaks that
 <section id="denoising">
 <h2>Denoising<a class="headerlink" href="#denoising" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">()</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">160</span><span class="p">)</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">findpeaks</span>
 

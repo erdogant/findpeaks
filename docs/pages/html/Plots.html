@@ -212,7 +212,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">))</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">])</span>
 <span class="c1"># Import example</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s2">&quot;2dpeaks&quot;</span><span class="p">)</span>
 <span class="c1"># Detect peaks</span>
@@ -240,7 +240,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
 </dd>
 </dl>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
