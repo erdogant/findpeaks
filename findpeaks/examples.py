@@ -9,7 +9,29 @@
 import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
-# %%
+# %% Issue29
+
+# Import library
+import findpeaks
+# Small dataset
+X = [10,11,9,23,21,11,45,20,11,12]
+# Interpolate the data using linear by factor 10
+Xi = findpeaks.interpolate.interpolate_line1d(X, method='linear', n=10, showfig=True)
+# Print message
+print('Input data lenth: %s, interpolated length: %s' %(len(X), len(Xi)))
+# Input data lenth: 10, interpolated length: 100
+
+# Load library
+from findpeaks import findpeaks
+# Data
+X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
+# Initialize
+fp = findpeaks(lookahead=1, interpolate=1)
+results = fp.fit(X)
+# Plot
+fp.plot()
+
+
 # %% Issue
 # Load library
 from findpeaks import findpeaks
@@ -369,10 +391,10 @@ fp.plot_mesh()
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", verbose=3)
+fp = findpeaks(method="topology", verbose=3, limit=1)
 X = fp.import_example("2dpeaks")
 results = fp.fit(X)
-fp.plot()
+fp.plot(figure_order='horizontal')
 
 # %%
 # Load library
