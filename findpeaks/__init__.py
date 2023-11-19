@@ -6,6 +6,12 @@ from findpeaks.findpeaks import (
     interpolate,
     )
 
+from findpeaks.interpolate import (
+    interpolate_line1d,
+    interpolate_line2d,
+    interpolate_nans,
+    )
+
 # Import the denosing filters
 from findpeaks.filters.lee import lee_filter
 from findpeaks.filters.lee_enhanced import lee_enhanced_filter
