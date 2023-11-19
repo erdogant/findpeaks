@@ -108,7 +108,7 @@ Let's load a SAR image, apply denoising techniques and then detect peaks.
     # Fit
     fp.fit(img)
     # Thousands of peaks are detected at this point.
-    fp.plot()
+    fp.plot(figure_order='horizontal')
     fp.plot_mesh()
 
 
@@ -134,7 +134,7 @@ From this point on, we will *pre-process* the image and apply the *topology* met
     # Import image example
     img = fp.import_example('2dpeaks_image')
     # Initializatie
-    fp = findpeaks(scale=True, denoise='fastnl', params={'window': 31}, togray=True, imsize=(300,300))
+    fp = findpeaks(method='topology', limit=160, scale=True, togray=True, imsize=(150, 150), denoise='lee_sigma', params={'window': 17})
     # Fit
     fp.fit(img)
     
@@ -163,7 +163,7 @@ In the next step, we can examine the detected peaks (see below). But these peaks
 .. code:: python
 
     # Plot
-    fp.plot()
+    fp.plot(figure_order='horizontal')
 
 
 .. |figU1| image:: ../figs/sonar_plot.png
@@ -267,7 +267,7 @@ Denoising
 .. code:: python
 
 	from findpeaks import findpeaks
-	fp = findpeaks()
+	fp = findpeaks(limit=160)
 	img = fp.import_example('2dpeaks_image')
 	import findpeaks
 

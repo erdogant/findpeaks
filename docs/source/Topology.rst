@@ -259,7 +259,7 @@ The docstring provide the information regarding the input/output parameters: :fu
     # Import library
     from findpeaks import findpeaks
     # Initialize
-    fp = findpeaks(method='topology')
+    fp = findpeaks(method='topology', whitelist=['peak'])
     # Example 2d image
     X = fp.import_example('2dpeaks')
     # Fit topology method on the 1d-vector
@@ -276,7 +276,7 @@ Plot the image with the detected peaks:
 .. code:: python
 
     # Import library
-    fp.plot()
+    fp.plot(figure_order='horizontal')
 
 .. _Figure_5:
 
