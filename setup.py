@@ -13,7 +13,7 @@ else:
 with open("README.md", "r", encoding='utf8') as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['scipy',
+     install_requires=['scipy==1.11.4',
                        'matplotlib',
                        'numpy',
                        'pandas',

@@ -134,13 +134,13 @@ Each of these steps can be controlled by setting the input parameters.
     # Import library
     from findpeaks import findpeaks
     # Init
-    fp = findpeaks(method="topology", imsize=(50,100), scale=True, togray=True, denoise=None)
+    fp = findpeaks(method="topology", whitelist=['peak'], imsize=(50,100), scale=True, togray=True, denoise=None)
     # Small dataset
     X = fp.import_example("2dpeaks")
 
     # Interpolate the data using linear by factor 10
     results = fp.fit(X)
-    fp.plot()
+    fp.plot(figure_order='horizontal')
     # fp.plot_persistence()
 
 

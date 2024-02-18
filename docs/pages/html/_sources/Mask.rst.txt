@@ -42,7 +42,7 @@ Plot the image with the detected peaks:
 .. code:: python
 
     # Import library
-    fp.plot()
+    fp.plot(figure_order='horizontal')
 
 .. _Figure_6:
 

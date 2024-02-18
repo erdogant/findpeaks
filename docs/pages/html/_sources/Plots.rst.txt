@@ -65,7 +65,7 @@ Depending on the number of user defined pre-processing steps, the plot will add 
     # Import library
     from findpeaks import findpeaks
     # Initialize
-    fp = findpeaks(method='topology', scale=True, denoise='fastnl', window=3, togray=True, imsize=(50,150))
+    fp = findpeaks(method='topology', whitelist=['peak'])
     # Import example
     X = fp.import_example("2dpeaks")
     # Detect peaks
@@ -95,7 +95,7 @@ The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` plots the 3 maj
 .. code:: python
 
     # Plot
-    fp.plot()
+    fp.plot(figure_order='horizontal')
 
 
 .. |figP1| image:: ../figs/plot_example1.png

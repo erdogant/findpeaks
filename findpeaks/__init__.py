@@ -6,6 +6,12 @@ from findpeaks.findpeaks import (
     interpolate,
     )
 
+from findpeaks.interpolate import (
+    interpolate_line1d,
+    interpolate_line2d,
+    interpolate_nans,
+    )
+
 # Import the denosing filters
 from findpeaks.filters.lee import lee_filter
 from findpeaks.filters.lee_enhanced import lee_enhanced_filter
@@ -17,7 +23,7 @@ from findpeaks.filters.mean import mean_filter
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.6.0'
+__version__ = '2.6.2'
 
 # module level doc-string
 __doc__ = """

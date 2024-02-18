@@ -380,7 +380,7 @@ However, there are few parameters that can be used to control the pre-processing
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">])</span>
 <span class="c1"># Example 2d image</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks&#39;</span><span class="p">)</span>
 <span class="c1"># Fit topology method on the 1d-vector</span>
@@ -394,7 +394,7 @@ However, there are few parameters that can be used to control the pre-processing
 The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley). The key <strong>persistence</strong> is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <figure class="align-default" id="figure-5">

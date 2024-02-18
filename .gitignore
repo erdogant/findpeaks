@@ -12,6 +12,8 @@ findpeaks/data/*.csv
 # docs/pages/doctrees/
 # docs/pages/html/
 
+.pypirc
+
 # Distribution / packaging
 .pylint.*
 .Python
