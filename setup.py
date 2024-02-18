@@ -23,6 +23,7 @@ setuptools.setup(
                        'caerus>=0.1.9',
                        'xarray',
                        'joblib'],
+     # dependency_links=['https://github.com/arvinnick/peakdetect/tarball/master#egg=peakdetect-1.2'],
      python_requires='>=3',
      name='findpeaks',
      version=new_version,

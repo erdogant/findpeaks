@@ -72,9 +72,7 @@ class findpeaks():
         * https://erdogant.github.io/findpeaks/
 
     """
-
     def __init__(self,
-                 height=None,
                  method=None,
                  whitelist=['peak', 'valley'],
                  lookahead=200,
@@ -88,6 +86,7 @@ class findpeaks():
                  cu=None,  # DEPRECATED IN LATER VERSIONS: specify in params
                  params_caerus={},  # DEPRECATED IN LATER VERSIONS: use params instead
                  params={'window': 3, 'delta': 0},
+                 # height=None,
                  figsize=(15, 8),
                  verbose=3):
         """Initialize findpeaks parameters.
@@ -209,7 +208,7 @@ class findpeaks():
         self.denoise = denoise
         self.figsize = figsize
         self.verbose = verbose
-        self.height = height
+        # self.height = height
 
         # Store parameters for caerus
         defaults = {}
@@ -331,14 +330,14 @@ class findpeaks():
         result = {}
 
         # Interpolation
-        if self.interpolate is not None:
+        if self.interpolate is not None and self.interpolate>0:
             X = interpolate.interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
 
         # Compute peaks based on method
         if method == 'peakdetect':
             # Peakdetect method
-            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead, delta=self.params['delta'],
-                                              height=self.height)
+            # max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead, delta=self.params['delta'], height=self.height)
+            max_peaks, min_peaks = peakdetect(X, lookahead=self.lookahead, delta=self.params['delta'])
             # Post processing for the peak-detect
             result['peakdetect'] = stats._post_processing(X, Xraw, min_peaks, max_peaks, self.interpolate,
                                                           self.lookahead)

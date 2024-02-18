@@ -91,6 +91,7 @@ class TestFINDPEAKS(unittest.TestCase):
         assert np.all(np.isin(results['persistence'].columns, ['x', 'y', 'birth_level', 'death_level', 'score']))
 
         # CHECK RESULTS METHOD TOPOLOGY
+        # Let op, soms gaat deze ook op 6 vanwege een stochastic components
         assert results['persistence'].shape[0] == 7
 
         # CHECK RESULTS METHOD with LIMIT functionality
@@ -100,7 +101,8 @@ class TestFINDPEAKS(unittest.TestCase):
         assert len(results['Xdetect'][results['Xdetect'] != 0]) == len(results['Xranked'][results['Xranked'] != 0])
 
         # CHECK OUTPUT METHOD PEAKDETECT
-        fp = findpeaks(method="peakdetect", lookahead=1, verbose=3, height=0)
+        # fp = findpeaks(method="peakdetect", lookahead=1, verbose=3, height=0)
+        fp = findpeaks(method="peakdetect", lookahead=1, verbose=3)
         X = fp.import_example('1dpeaks')
         results = fp.fit(X)
         assert fp.type == 'peaks1d'
