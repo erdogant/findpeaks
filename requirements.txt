@@ -1,5 +1,5 @@
 peakdetect==1.1
-scipy
+scipy==1.11.4
 matplotlib
 numpy
 pandas
