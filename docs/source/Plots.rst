@@ -1,10 +1,10 @@
 
-One-dimensional plots
+One-dimensional Plots
 -------------------------------------
 
 Pre-processing
 '''''''''''''''
-The pre-processing in a 1d-vector is based on the interpolation: function: :func:`findpeaks.interpolate.interpolate_line1d`
+The pre-processing in a 1d-vector is based on the interpolation: function: :func:`findpeaks.interpolate.interpolate_line1d`.
 
 .. code:: python
 
@@ -52,10 +52,10 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
    +----------+
    
    
-Two-dimensional plots
+Two-dimensional Plots
 -------------------------------------
 
-Pre-processing plot
+Pre-processing Plot
 '''''''''''''''''''''
 The pre-processing plot is developed for 2D arrays (images) only: function: :func:`findpeaks.findpeaks.findpeaks.plot_preprocessing`
 Depending on the number of user defined pre-processing steps, the plot will add new subplots.
@@ -108,7 +108,7 @@ The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` plots the 3 maj
    +----------+
    
 
-Persistence plot
+Persistence Plot
 ''''''''''''''''''
 
 The persistence plot is called with the function: :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and provides two plots.

@@ -152,7 +152,7 @@ Find peaks using default settings
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-The input image
+The input image:
 
 .. image:: ../figs/plot_example.png
   :width: 600

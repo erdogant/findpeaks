@@ -320,10 +320,10 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
         Xranked: array-like
             detected peaks/valleys in the same shape as the input image. Elements are the ranked peaks (1=best peak and -1 is best valley).
         persistence: DataFrame().
-            * x, y: coordinates
+            * x, y: Coordinates
             * birth: Birth level, tuple(coordinate, rgb value)
             * death: Death level, tuple(coordinate, rgb value)
-            * score: persistence scores
+            * score: Persistence scores
             * peak: True if peak
             * valley: True if valley
 
@@ -405,10 +405,10 @@ def topology(X, limit=None, reverse=True, verbose=3):
         groups0: array-like
             Unstructured results
         persistence: DataFrame()
-            * x, y: coordinates
+            * x, y: Coordinates
             * birth: Birth level, tuple(coordinate, rgb value)
             * death: Death level, tuple(coordinate, rgb value)
-            * score: persistence scores
+            * score: Persistence scores
 
     References
     ----------

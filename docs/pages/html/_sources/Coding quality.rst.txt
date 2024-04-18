@@ -1,5 +1,5 @@
 
-Coding quality
+Coding Quality
 '''''''''''''''''''''
 
 I value software quality. Higher quality software has fewer defects, better security, and better performance, which leads to happier users who can work more effectively.
@@ -7,10 +7,10 @@ Code reviews are an effective method for improving software quality. McConnell (
 While this means that none of these methods are good enough on their own and that they should be combined, clearly code review is an essential tool here.
 
 This library is therefore developed with several techniques, such as coding styling, low complexity, docstrings, reviews, and unit tests.
-Such conventions are helpfull to improve the quality, make the code cleaner and more understandable but alos to trace future bugs, and spot syntax errors.
+Such conventions are helpful to improve the quality, make the code cleaner and more understandable but also to trace future bugs, and spot syntax errors.
 
 
-library
+Library
 -------
 
 The file structure of the generated package looks like:
@@ -57,7 +57,7 @@ Version 2.1.0 of the ``findpeaks`` library scored, according the code analyzer: 
 Developing software with low(er) technical dept may take extra development time, but has many advantages:
 
 * Higher quality code
-* easier maintanable
+* Easier to maintan
 * Less prone to bugs and errors
 * Higher security
 
