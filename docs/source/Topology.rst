@@ -11,7 +11,7 @@ TDA builds upon the observation that data often possesses a certain intrinsic sh
 Persistent homology is probably the most prominent tool in TDA that gives us the means to describe and quantify topological properties of these shapes [1].
 
 
-persistent homology
+Persistent Homology
 ----------------------
 In computational topology the idea of persistent homology leads to an efficient – fast as sorting numbers – solution.
 It does not only detect peaks, it quantifies the "significance" of the peaks in a natural way that allows you to select the peaks that are significant for you[2].
@@ -74,7 +74,7 @@ One-dimensional
 The initialization with contains many variables for which only a few are applicable for the **topology** method.
 The general parameters are *figsize* and *verbose* which are for setting the figure size and printing messages to the screen.
 Specific for the topology method, the method should be set at "topology", and in addition, the parameters *interpolate* and *limit* can be used for some pre-processing, and output adjustments.
-By default, no interpolation is applied and there is no limit on the final results. See here for the details :func:`findpeaks.findpeaks.findpeaks`
+By default, no interpolation is applied and there is no limit on the final results. See here for the details :func:`findpeaks.findpeaks.findpeaks`.
 
 .. code:: python
 
@@ -135,10 +135,10 @@ Note that this DataFrame is *NOT* filtered on *limit* variable as it should be i
     +----+-----+------+--------+--------+---------+----------+--------+
 
 For the homology-persistence, the dataframe **persistence** contains: 
-    * x, y    : coordinates
+    * x, y    : Coordinates
     * birth   : Birth level
     * death   : Death level 
-    * score   : persistence scores
+    * score   : Persistence scores
 
 .. code:: python
 

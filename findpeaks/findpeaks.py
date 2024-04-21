@@ -93,15 +93,15 @@ class findpeaks():
 
         Parameters
         ----------
-        X : array-like (1d-vector or 2d-image)
+        X : array-like (1D-vector or 2D-image)
             Input image data.
         method : String, (default : None).
             Available methods for peak detection. In case method=None, the default is choosen.
-            1d-vector approaches:
+            1D-vector approaches:
                 * 'topology'
                 * 'peakdetect' (default)
                 * 'caerus'
-            2d-array approaches:
+            2D-array approaches:
                 * 'topology' (default)
                 * 'mask'
         whitelist : str or list ['peak','valley']
@@ -272,12 +272,12 @@ class findpeaks():
         Description
         -----------
         This function only eats the input data. Use the .fit() function for more information regarding the input parameters:
-            * method : method to be used for peak detection: 'topology' or 'peakdetect'.
+            * method : Method to be used for peak detection: 'topology' or 'peakdetect'.
             * lookahead : Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
             * interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.
             * limit : Values > limit are set as regions of interest (ROI).
             * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
-            * height: required height of the peaks.
+            * height: Required height of the peaks.
 
         Parameters
         ----------
@@ -294,15 +294,15 @@ class findpeaks():
             * Xdetect     : Similar to the column "score".
             * df          : Is ranked in the same manner as the input data and provides information about the detected peaks and valleys.
         persistence : pd.DataFrame()
-            * x, y    : coordinates
+            * x, y    : Coordinates
             * birth   : Birth level
             * death   : Death level
-            * score   : persistence scores
+            * score   : Persistence scores
         df : pd.DataFrame()
             * x, y    : Coordinates
             * labx    : The label of the peak area
             * rank    : The ranking number of the best performing peaks (1 is best)
-            * score   : persistence score
+            * score   : Persistence score
             * valley  : Whether the point is marked as valley
             * peak    : Whether the point is marked as peak
 
@@ -486,8 +486,8 @@ class findpeaks():
 
         Description
         -----------
-        To handle 2d-arrays or images. Use the .fit() function for more information regarding the input parameters:
-            * method : method to be used for peak detection: 'topology', or 'mask'
+        To handle 2D-arrays or images. Use the .fit() function for more information regarding the input parameters:
+            * method : Method to be used for peak detection: 'topology', or 'mask'
             * limit : Values > limit are set as regions of interest (ROI).
             * scale : Scaling data in range [0-255] by img*(255/max(img))
             * denoise : Remove noise using method:
@@ -502,9 +502,9 @@ class findpeaks():
                 * 'median'
                 * 'mean'
             * window : Denoising window.
-            * cu : noise variation coefficient
+            * cu : Noise variation coefficient.
             * togray : Conversion to gray scale.
-            * imsize : resize image
+            * imsize : Resize image.
             * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
         Parameters
@@ -520,10 +520,10 @@ class findpeaks():
             * Xdetect : The detected peaks with the persistence scores (same shape as the input data)
             * XRanked : The detected peaks but based on the strenght (same shape as the input data)
             * persistence : pd.DataFrame()
-                * x, y    : coordinates
+                * x, y    : Coordinates
                 * birth   : Birth level
                 * death   : Death level
-                * score   : persistence scores
+                * score   : Persistence scores
 
         Examples
         --------
@@ -613,7 +613,7 @@ class findpeaks():
 
         The pre-processing has 4 (optional) steps.
             1. Resizing (to reduce computation time).
-            2. Scaling color pixels between [0-255]
+            2. Scaling color pixels between [0-255].
             3. Conversion to gray-scale. This is required for some analysis.
             4. Denoising of the image.
 
@@ -732,9 +732,9 @@ class findpeaks():
         cmap : object (default : None)
             Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
         text : Bool (default : True)
-            Include text to the 2d-image that shows the peaks (p-number) and valleys (v-number)
+            Include text to the 2D-image that shows the peaks (p-number) and valleys (v-number)
         s : size (default: None)
-            size of the marker.
+            Size of the marker.
             None: Automatically sizes based on peak value
         marker: str (default: 'x')
             Marker type.
@@ -968,7 +968,7 @@ class findpeaks():
                   title='',
                   figsize=None,
                   savepath=None):
-        """Plot the 3d-mesh.
+        """Plot the 3D-mesh.
 
         Parameters
         ----------

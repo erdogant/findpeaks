@@ -28,7 +28,7 @@ A quick example how to learn a model on a given dataset.
 Installation
 ''''''''''''
 
-Create environment
+Create Environment
 ------------------
 
 
@@ -47,7 +47,7 @@ Install via ``pip``:
     # Installation from pypi:
     pip install findpeaks
 
-    # Install directly from github
+    # Install directly from github:
     pip install git+https://github.com/erdogant/findpeaks
 
 
@@ -67,7 +67,7 @@ If you want to remove your ``findpeaks`` installation with your environment, it 
    # List all the active environments. findpeaks should be listed.
    conda env list
 
-   # Remove the findpeaks environment
+   # Remove the findpeaks environment.
    conda env remove --name env_findpeaks
 
    # List all the active environments. findpeaks should be absent.

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coding quality &mdash; findpeaks findpeaks documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <title>Coding Quality &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=816012cb"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -36,7 +38,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.6.0
+                2.6.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -76,8 +78,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional Plots</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -91,8 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Coding quality</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#library">library</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Coding Quality</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#library">Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#style">Style</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#complexity">Complexity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#unit-tests">Unit tests</a></li>
@@ -146,7 +148,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Coding quality</li>
+      <li class="breadcrumb-item active">Coding Quality</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/Coding quality.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -157,14 +159,14 @@
            <div itemprop="articleBody">
              
   <section id="coding-quality">
-<h1>Coding quality<a class="headerlink" href="#coding-quality" title="Link to this heading"></a></h1>
+<h1>Coding Quality<a class="headerlink" href="#coding-quality" title="Link to this heading"></a></h1>
 <p>I value software quality. Higher quality software has fewer defects, better security, and better performance, which leads to happier users who can work more effectively.
 Code reviews are an effective method for improving software quality. McConnell (2004) suggests that unit testing finds approximately 25% of defects, function testing 35%, integration testing 45%, and code review 55-60%.
 While this means that none of these methods are good enough on their own and that they should be combined, clearly code review is an essential tool here.</p>
 <p>This library is therefore developed with several techniques, such as coding styling, low complexity, docstrings, reviews, and unit tests.
-Such conventions are helpfull to improve the quality, make the code cleaner and more understandable but alos to trace future bugs, and spot syntax errors.</p>
+Such conventions are helpful to improve the quality, make the code cleaner and more understandable but also to trace future bugs, and spot syntax errors.</p>
 <section id="library">
-<h2>library<a class="headerlink" href="#library" title="Link to this heading"></a></h2>
+<h2>Library<a class="headerlink" href="#library" title="Link to this heading"></a></h2>
 <p>The file structure of the generated package looks like:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>path/to/findpeaks/
 ├──<span class="w"> </span>.gitignore
@@ -203,7 +205,7 @@ Version 2.1.0 of the <code class="docutils literal notranslate"><span class="pre
 Developing software with low(er) technical dept may take extra development time, but has many advantages:</p>
 <ul class="simple">
 <li><p>Higher quality code</p></li>
-<li><p>easier maintanable</p></li>
+<li><p>Easier to maintan</p></li>
 <li><p>Less prone to bugs and errors</p></li>
 <li><p>Higher security</p></li>
 </ul>

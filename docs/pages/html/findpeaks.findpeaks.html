@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Description &mdash; findpeaks findpeaks documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -15,12 +17,12 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=816012cb"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Coding quality" href="Coding%20quality.html" /> 
+    <link rel="prev" title="Coding Quality" href="Coding%20quality.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,7 +37,7 @@
             findpeaks
           </a>
               <div class="version">
-                2.6.0
+                2.6.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -75,8 +77,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional Plots</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -90,7 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">findpeaks</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#findpeaks.findpeaks.findpeaks.fit"><code class="docutils literal notranslate"><span class="pre">findpeaks.fit()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#findpeaks.findpeaks.findpeaks.import_example"><code class="docutils literal notranslate"><span class="pre">findpeaks.import_example()</span></code></a></li>
@@ -176,7 +178,7 @@ vizualized, such as the preprocessing steps, the persistence of peaks, the maski
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">377</span><span class="p">,</span><span class="mi">985</span><span class="p">,</span><span class="mi">1153</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">501</span><span class="p">,</span><span class="mi">1068</span><span class="p">,</span><span class="mi">1110</span><span class="p">,</span><span class="mi">574</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">252</span><span class="p">,</span><span class="mi">812</span><span class="p">,</span><span class="mi">1182</span><span class="p">,</span><span class="mi">741</span><span class="p">,</span><span class="mi">263</span><span class="p">,</span><span class="mi">33</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span>
@@ -188,7 +190,7 @@ vizualized, such as the preprocessing steps, the persistence of peaks, the maski
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Image example</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">},</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span><span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span><span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
@@ -300,17 +302,18 @@ of findpeaks install location.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="findpeaks.findpeaks.findpeaks.peaks1d">
-<span class="sig-name descname"><span class="pre">peaks1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peakdetect'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.peaks1d" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">peaks1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peakdetect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.peaks1d" title="Link to this definition"></a></dt>
 <dd><p>Detect of peaks in 1D array.</p>
 <section id="id2">
 <h1>Description<a class="headerlink" href="#id2" title="Link to this heading"></a></h1>
 <dl class="simple">
 <dt>This function only eats the input data. Use the .fit() function for more information regarding the input parameters:</dt><dd><ul class="simple">
-<li><p>method : method to be used for peak detection: ‘topology’ or ‘peakdetect’.</p></li>
+<li><p>method : Method to be used for peak detection: ‘topology’ or ‘peakdetect’.</p></li>
 <li><p>lookahead : Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.</p></li>
 <li><p>interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.</p></li>
 <li><p>limit : Values &gt; limit are set as regions of interest (ROI).</p></li>
 <li><p>verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
+<li><p>height: Required height of the peaks.</p></li>
 </ul>
 </dd>
 </dl>
@@ -339,10 +342,10 @@ of findpeaks install location.</p>
 </li>
 <li><p><strong>persistence</strong> (<em>pd.DataFrame()</em>) –</p>
 <ul>
-<li><p>x, y    : coordinates</p></li>
+<li><p>x, y    : Coordinates</p></li>
 <li><p>birth   : Birth level</p></li>
 <li><p>death   : Death level</p></li>
-<li><p>score   : persistence scores</p></li>
+<li><p>score   : Persistence scores</p></li>
 </ul>
 </li>
 <li><p><strong>df</strong> (<em>pd.DataFrame()</em>) –</p>
@@ -350,7 +353,7 @@ of findpeaks install location.</p>
 <li><p>x, y    : Coordinates</p></li>
 <li><p>labx    : The label of the peak area</p></li>
 <li><p>rank    : The ranking number of the best performing peaks (1 is best)</p></li>
-<li><p>score   : persistence score</p></li>
+<li><p>score   : Persistence score</p></li>
 <li><p>valley  : Whether the point is marked as valley</p></li>
 <li><p>peak    : Whether the point is marked as peak</p></li>
 </ul>
@@ -361,7 +364,7 @@ of findpeaks install location.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">377</span><span class="p">,</span><span class="mi">985</span><span class="p">,</span><span class="mi">1153</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">501</span><span class="p">,</span><span class="mi">1068</span><span class="p">,</span><span class="mi">1110</span><span class="p">,</span><span class="mi">574</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">252</span><span class="p">,</span><span class="mi">812</span><span class="p">,</span><span class="mi">1182</span><span class="p">,</span><span class="mi">741</span><span class="p">,</span><span class="mi">263</span><span class="p">,</span><span class="mi">33</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span>
@@ -381,8 +384,8 @@ of findpeaks install location.</p>
 <section id="id3">
 <h1>Description<a class="headerlink" href="#id3" title="Link to this heading"></a></h1>
 <dl class="simple">
-<dt>To handle 2d-arrays or images. Use the .fit() function for more information regarding the input parameters:</dt><dd><ul class="simple">
-<li><p>method : method to be used for peak detection: ‘topology’, or ‘mask’</p></li>
+<dt>To handle 2D-arrays or images. Use the .fit() function for more information regarding the input parameters:</dt><dd><ul class="simple">
+<li><p>method : Method to be used for peak detection: ‘topology’, or ‘mask’</p></li>
 <li><p>limit : Values &gt; limit are set as regions of interest (ROI).</p></li>
 <li><p>scale : Scaling data in range [0-255] by img*(255/max(img))</p></li>
 <li><dl class="simple">
@@ -402,9 +405,9 @@ of findpeaks install location.</p>
 </dl>
 </li>
 <li><p>window : Denoising window.</p></li>
-<li><p>cu : noise variation coefficient</p></li>
+<li><p>cu : Noise variation coefficient.</p></li>
 <li><p>togray : Conversion to gray scale.</p></li>
-<li><p>imsize : resize image</p></li>
+<li><p>imsize : Resize image.</p></li>
 <li><p>verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.</p></li>
 </ul>
 </dd>
@@ -424,10 +427,10 @@ of findpeaks install location.</p>
 <li><p>XRanked : The detected peaks but based on the strenght (same shape as the input data)</p></li>
 <li><dl class="simple">
 <dt>persistence<span class="classifier">pd.DataFrame()</span></dt><dd><ul>
-<li><p>x, y    : coordinates</p></li>
+<li><p>x, y    : Coordinates</p></li>
 <li><p>birth   : Birth level</p></li>
 <li><p>death   : Death level</p></li>
-<li><p>score   : persistence scores</p></li>
+<li><p>score   : Persistence scores</p></li>
 </ul>
 </dd>
 </dl>
@@ -448,7 +451,7 @@ of findpeaks install location.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Image example</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks_image&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">},</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span><span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;fastnl&#39;</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt;</span>
@@ -471,8 +474,8 @@ of findpeaks install location.</p>
 <li><p><strong>legend</strong> (<em>bool</em><em>, </em><em>(</em><em>default: True</em><em>)</em>) – Show the legend.</p></li>
 <li><p><strong>figsize</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em><em>, </em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em>) – (width, height) in inches.</p></li>
 <li><p><strong>cmap</strong> (<em>object</em><em> (</em><em>default : None</em><em>)</em>) – Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.</p></li>
-<li><p><strong>text</strong> (<em>Bool</em><em> (</em><em>default : True</em><em>)</em>) – Include text to the 2d-image that shows the peaks (p-number) and valleys (v-number)</p></li>
-<li><p><strong>s</strong> (<em>size</em><em> (</em><em>default: None</em><em>)</em>) – size of the marker.
+<li><p><strong>text</strong> (<em>Bool</em><em> (</em><em>default : True</em><em>)</em>) – Include text to the 2D-image that shows the peaks (p-number) and valleys (v-number)</p></li>
+<li><p><strong>s</strong> (<em>size</em><em> (</em><em>default: None</em><em>)</em>) – Size of the marker.
 None: Automatically sizes based on peak value</p></li>
 <li><p><strong>marker</strong> (<em>str</em><em> (</em><em>default: 'x'</em><em>)</em>) – Marker type.</p></li>
 <li><p><strong>color</strong> (<em>str</em><em> (</em><em>default: '#FF0000'</em><em>)</em>) – Hex color of the marker.</p></li>
@@ -548,7 +551,7 @@ None: Automatically sizes based on peak value</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="findpeaks.findpeaks.findpeaks.plot_mesh">
 <span class="sig-name descname"><span class="pre">plot_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wireframe=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstride=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cstride=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zlim=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savepath=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#findpeaks.findpeaks.findpeaks.plot_mesh" title="Link to this definition"></a></dt>
-<dd><p>Plot the 3d-mesh.</p>
+<dd><p>Plot the 3D-mesh.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -592,7 +595,7 @@ None: No limit.
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span><span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load example data set</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks&#39;</span><span class="p">)</span>
@@ -657,7 +660,7 @@ None: No limit.
 <dl class="simple">
 <dt>The pre-processing has 4 (optional) steps.</dt><dd><ol class="arabic simple">
 <li><p>Resizing (to reduce computation time).</p></li>
-<li><p>Scaling color pixels between [0-255]</p></li>
+<li><p>Scaling color pixels between [0-255].</p></li>
 <li><p>Conversion to gray-scale. This is required for some analysis.</p></li>
 <li><p>Denoising of the image.</p></li>
 </ol>
@@ -1010,10 +1013,10 @@ For 2d-images, the peaks are detected by setting reverse=True and valleys by rev
 <dt>groups0: array-like</dt><dd><p>Unstructured results</p>
 </dd>
 <dt>persistence: DataFrame()</dt><dd><ul class="simple">
-<li><p>x, y: coordinates</p></li>
+<li><p>x, y: Coordinates</p></li>
 <li><p>birth: Birth level, tuple(coordinate, rgb value)</p></li>
 <li><p>death: Death level, tuple(coordinate, rgb value)</p></li>
-<li><p>score: persistence scores</p></li>
+<li><p>score: Persistence scores</p></li>
 </ul>
 </dd>
 </dl>
@@ -1070,10 +1073,10 @@ The final results is the combined peak and valleys.</p>
 <dt>Xranked: array-like</dt><dd><p>detected peaks/valleys in the same shape as the input image. Elements are the ranked peaks (1=best peak and -1 is best valley).</p>
 </dd>
 <dt>persistence: DataFrame().</dt><dd><ul class="simple">
-<li><p>x, y: coordinates</p></li>
+<li><p>x, y: Coordinates</p></li>
 <li><p>birth: Birth level, tuple(coordinate, rgb value)</p></li>
 <li><p>death: Death level, tuple(coordinate, rgb value)</p></li>
-<li><p>score: persistence scores</p></li>
+<li><p>score: Persistence scores</p></li>
 <li><p>peak: True if peak</p></li>
 <li><p>valley: True if valley</p></li>
 </ul>
@@ -1623,7 +1626,7 @@ coefficient.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Coding%20quality.html" class="btn btn-neutral float-left" title="Coding quality" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Coding%20quality.html" class="btn btn-neutral float-left" title="Coding Quality" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

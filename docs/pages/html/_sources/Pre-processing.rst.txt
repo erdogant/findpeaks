@@ -5,9 +5,9 @@ The input parameter "interpolate" extens the data by this factor and is usefull 
 A smoothed signal can be more robust agains noise, and perform better in the detection of peaks and valleys.
 This step can be seen as pre-processing step before applying any method.
 The input is 1D numpy vector that can be interpolated by various methods for which the default is **linear**. Note that the initialization of ``findpeaks`` is fixed to **linear**.
-If another method is desired, it can be done by directly using the functionality: :func:`findpeaks.interpolate.interpolate_line1d`
+If another method is desired, it can be done by directly using the functionality: :func:`findpeaks.interpolate.interpolate_line1d`.
 
-Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: :func:`findpeaks.interpolate.interpolate_line2d`
+Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: :func:`findpeaks.interpolate.interpolate_line2d`.
 
     Interpolation methods:
         * String or integer
@@ -106,7 +106,7 @@ Scaling data is an import pre-processing step to make sure all data is ranged be
 
 The images are scaled between [0-255] by the following equation:
 
-    Ximg * (255 / max(Ximg) )
+    Ximg * (255 / max(Ximg))
 
 
 Gray
@@ -123,7 +123,7 @@ The preprocessing function is developed to pipeline the above mentioned function
 
 The pre-processing has 4 (optional) steps and are exectued in this order. After the last step, the peak detection method is applied.
     * 1. Resizing (to reduce computation time).
-    * 2. Scaling color pixels between [0-255]
+    * 2. Scaling color pixels between [0-255].
     * 3. Conversion to gray-scale.
     * 4. Denoising of the image.
 
