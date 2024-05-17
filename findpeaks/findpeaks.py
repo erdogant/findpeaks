@@ -86,7 +86,6 @@ class findpeaks():
                  cu=None,  # DEPRECATED IN LATER VERSIONS: specify in params
                  params_caerus={},  # DEPRECATED IN LATER VERSIONS: use params instead
                  params={'window': 3, 'delta': 0},
-                 # height=None,
                  figsize=(15, 8),
                  verbose=3):
         """Initialize findpeaks parameters.
@@ -112,7 +111,7 @@ class findpeaks():
         lookahead : int, (default : 200)
             Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
         interpolate : int, (default : None)
-            Interpolation factor. The higher the number, the less sharp the edges will be.
+            Interpolation factor. This can be used to smooth the line because the higher the number, the less sharp the edges will be.
         limit : float, (default : None)
             In case method='topology'
             Values > limit are active search areas to detect regions of interest (ROI).

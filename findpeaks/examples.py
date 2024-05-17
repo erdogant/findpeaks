@@ -106,10 +106,6 @@ fp.plot_mesh()
 fp.plot(figure_order='horizontal')
 fp.plot_persistence()
 
-# %% Issue
-
-
-
 # %%
 from findpeaks import findpeaks
 X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
@@ -194,6 +190,10 @@ from findpeaks import findpeaks
 X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 
 fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, verbose=3)
+results = fp.fit(X)
+fp.plot()
+
+fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, verbose=3, interpolate=10)
 results = fp.fit(X)
 fp.plot()
 
