@@ -8,7 +8,7 @@
 # ----------------------------------------------------
 
 # import findpeaks
-from peakdetect import peakdetect
+from findpeaks.peakdetect import peakdetect
 from caerus import caerus
 import caerus.utils.csplots as csplots
 import matplotlib.pyplot as plt
@@ -20,15 +20,13 @@ import requests
 from urllib.parse import urlparse
 
 # #### DEBUG ONLY ####
-import stats as stats
-from stats import disable_tqdm
-import interpolate as interpolate
+# import stats as stats
+# from stats import disable_tqdm
+# import interpolate as interpolate
 # #####################
-# import findpeaks.stats as stats
-# from findpeaks.stats import disable_tqdm
-# import findpeaks.interpolate as interpolate
-
-
+import findpeaks.stats as stats
+from findpeaks.stats import disable_tqdm
+import findpeaks.interpolate as interpolate
 # #####################
 
 

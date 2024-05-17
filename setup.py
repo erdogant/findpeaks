@@ -14,7 +14,6 @@ with open("README.md", "r", encoding='utf8') as fh:
     long_description = fh.read()
 setuptools.setup(
      install_requires=['scipy',
-                       # 'peakdetect==1.1',
                        'matplotlib',
                        'numpy',
                        'pandas',
@@ -23,9 +22,7 @@ setuptools.setup(
                        'caerus>=0.1.9',
                        'xarray',
                        'joblib',
-                       'peakdetect @ git+https://github.com/erdogant/peakdetect.git'
                        ],
-     # dependency_links=['https://github.com/erdogant/peakdetect/tarball/master#egg=peakdetect-1.2'],
      python_requires='>=3',
      name='findpeaks',
      version=new_version,

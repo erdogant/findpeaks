@@ -1,4 +1,5 @@
 from findpeaks.findpeaks import findpeaks
+# from findpeaks.peakdetect import peakdetect
 
 from findpeaks.findpeaks import (
     import_example,
