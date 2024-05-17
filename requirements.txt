@@ -1,4 +1,4 @@
-scipy==1.11.4
+scipy
 matplotlib
 numpy
 pandas
@@ -8,5 +8,6 @@ caerus>=0.1.9
 opencv-python
 xarray
 joblib
-peakdetect==1.1
+# peakdetect==1.1
+git+https://github.com/erdogant/peakdetect.git
 # git+https://github.com/arvinnick/peakdetect.git
