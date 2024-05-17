@@ -6,24 +6,24 @@
 # Licence: MIT
 # ----------------------------------------------------
 
-import findpeaks.union_find as union_find
-from findpeaks.filters.lee import lee_filter
-from findpeaks.filters.lee_enhanced import lee_enhanced_filter
-from findpeaks.filters.lee_sigma import lee_sigma_filter
-from findpeaks.filters.kuan import kuan_filter
-from findpeaks.filters.frost import frost_filter
-from findpeaks.filters.median import median_filter
-from findpeaks.filters.mean import mean_filter
+# import findpeaks.union_find as union_find
+# from findpeaks.filters.lee import lee_filter
+# from findpeaks.filters.lee_enhanced import lee_enhanced_filter
+# from findpeaks.filters.lee_sigma import lee_sigma_filter
+# from findpeaks.filters.kuan import kuan_filter
+# from findpeaks.filters.frost import frost_filter
+# from findpeaks.filters.median import median_filter
+# from findpeaks.filters.mean import mean_filter
 
 # #### DEBUG ONLY ####
-# import union_find as union_find
-# from filters.lee import lee_filter
-# from filters.lee_enhanced import lee_enhanced_filter
-# from filters.lee_sigma import lee_sigma_filter
-# from filters.kuan import kuan_filter
-# from filters.frost import frost_filter
-# from filters.median import median_filter
-# from filters.mean import mean_filter
+import union_find as union_find
+from filters.lee import lee_filter
+from filters.lee_enhanced import lee_enhanced_filter
+from filters.lee_sigma import lee_sigma_filter
+from filters.kuan import kuan_filter
+from filters.frost import frost_filter
+from filters.median import median_filter
+from filters.mean import mean_filter
 # ######################
 
 from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
@@ -570,6 +570,8 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labx
         idx_peaks, _ = zip(*max_peaks)
         idx_peaks = np.array(list(idx_peaks)).astype(int)
         idx_valleys, _ = zip(*min_peaks)
+        # Add first and last row
+        # idx_valleys = np.array(idx_valleys)
         idx_valleys = np.append(np.array(list(idx_valleys)), len(X) - 1).astype(int)
         idx_valleys = np.append(0, idx_valleys)
 

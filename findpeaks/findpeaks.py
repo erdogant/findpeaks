@@ -20,13 +20,13 @@ import requests
 from urllib.parse import urlparse
 
 # #### DEBUG ONLY ####
-# import stats as stats
-# from stats import disable_tqdm
-# import interpolate as interpolate
+import stats as stats
+from stats import disable_tqdm
+import interpolate as interpolate
 # #####################
-import findpeaks.stats as stats
-from findpeaks.stats import disable_tqdm
-import findpeaks.interpolate as interpolate
+# import findpeaks.stats as stats
+# from findpeaks.stats import disable_tqdm
+# import findpeaks.interpolate as interpolate
 
 
 # #####################
@@ -346,7 +346,9 @@ class findpeaks():
             # Post processing for the topology method
             result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
         elif method == 'caerus':
-            cs = caerus(**self.params)
+            caerus_params = self.params.copy()
+            if caerus_params.get('delta') is not None: caerus_params.pop('delta')
+            cs = caerus(**caerus_params)
             result = cs.fit(X, return_as_dict=True, verbose=self.verbose)
             # Post processing for the caerus method
             result['caerus'] = stats._post_processing(X, Xraw,

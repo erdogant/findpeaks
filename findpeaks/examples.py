@@ -9,6 +9,33 @@
 import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
+# %%
+# Import library
+from findpeaks import findpeaks
+# Initialize findpeaks with cearus method.
+# The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+# fp = findpeaks(method='caerus',  params={'minperc': 10, 'window': 50})
+fp = findpeaks(method='caerus')
+# Import example data
+X = fp.import_example('facebook')
+# Fit
+results = fp.fit(X)
+# Make the plot
+fp.plot()
+
+# %%
+
+from findpeaks import findpeaks
+# Data
+X = [1153,672,501,1068,1110,574,135,23,3,47,252,812,1182]
+# Initialize
+fp = findpeaks(lookahead=1)
+results = fp.fit(X)
+# Plot
+fp.plot()
+results.get('df')
+
+
 # %% Issue29
 
 # Import library
@@ -258,7 +285,7 @@ from findpeaks import findpeaks
 # fp = findpeaks(method='caerus', params_caerus={'minperc': 5, 'window': 50})
 fp = findpeaks(method='caerus', params={'minperc': 5, 'window': 50})
 results = fp.fit(X)
-
+fp.plot()
 
 # %% Issue 13
 # https://github.com/erdogant/findpeaks/issues/13
@@ -366,7 +393,7 @@ fp = findpeaks(method="peakdetect", lookahead=15, verbose=verbose)
 results = fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method="caerus", interpolate=None, params={'minperc': 100}, verbose=verbose)
+fp = findpeaks(method="caerus", interpolate=None, params={'minperc': 50, 'window':50}, verbose=verbose)
 # Make fit
 results = fp.fit(X)
 ax = fp.plot()
