@@ -433,9 +433,9 @@ def topology(X, limit=None, reverse=True, verbose=3):
     max_peaks, min_peaks = None, None
     groups0 = {}
 
-    # It is important to add random noise to the values because the method sorts the values and the unique values are processed.
-    # Without random noise, peaks with exactly the same height will be skipped.
-    X = np.maximum(X + ((X>0).astype(int) * np.random.rand(X.shape[0], X.shape[1])/10), 0)
+    # It is important to ensure unique values because the method sorts the values and only unique values are processed.
+    # Without adjusting duplicated values, peaks with exactly the same height will be skipped.
+    X = _make_unique(X)
 
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]
@@ -525,10 +525,10 @@ def topology(X, limit=None, reverse=True, verbose=3):
 def reverse_values(image_array):
     # Clip the values to ensure they are between 0 and 255
     clipped_array = np.clip(image_array, np.min(image_array), np.max(image_array))
-    
+
     # Reverse the values
     reversed_array = np.max(image_array) - clipped_array
-    
+
     return reversed_array
 
 def _get_indices(im, p):
@@ -564,7 +564,7 @@ def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labx
     results['labx'] = np.zeros((len(Xraw))) * np.nan
     results['min_peaks'] = None
     results['max_peaks'] = None
-    
+
     if len(min_peaks)>0 and len(max_peaks)>0 and (max_peaks[0][0] is not None):
 
         idx_peaks, _ = zip(*max_peaks)
@@ -648,3 +648,22 @@ def normalize(X, minscale = 0.5, maxscale = 4, scaler: str = 'zscore'):
 def disable_tqdm(verbose):
     """Set the verbosity messages."""
     return  (True if ((verbose<4 or verbose is None) or verbose>5) else False)
+
+
+def _make_unique(arr: np.ndarray):
+    """Method iterates through elements of the input array to ensure all values are unique.
+       Duplicate values are reduced by the smallest possible increment for the given data type.
+       """
+    res = np.empty_like(arr)
+    it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
+    seen = set()
+    with it:
+        while not it.finished:
+            a = it[0].item()
+            while a in seen and np.isfinite(a):
+                a = np.nextafter(a, -np.inf)
+            it[1] = a
+            if a not in seen:
+                seen.add(a)
+            it.iternext()
+    return res
