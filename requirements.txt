@@ -1,6 +1,6 @@
 scipy
 matplotlib
-numpy
+numpy==1.26.4
 pandas
 tqdm
 requests

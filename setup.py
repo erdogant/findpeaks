@@ -15,7 +15,7 @@ with open("README.md", "r", encoding='utf8') as fh:
 setuptools.setup(
      install_requires=['scipy',
                        'matplotlib',
-                       'numpy',
+                       'numpy==1.26.4',
                        'pandas',
                        'tqdm',
                        'requests',

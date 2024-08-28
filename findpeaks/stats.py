@@ -436,6 +436,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
     # It is important to ensure unique values because the method sorts the values and only unique values are processed.
     # Without adjusting duplicated values, peaks with exactly the same height will be skipped.
     X = _make_unique(X)
+    # X = np.maximum(X + ((X>0).astype(int) * np.random.rand(X.shape[0], X.shape[1])/10), 0)
 
     # Get indices orderd by value from high to low
     indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]

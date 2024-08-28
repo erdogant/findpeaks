@@ -82,7 +82,7 @@ from scipy.ndimage import gaussian_filter
 from findpeaks import findpeaks
 rng = np.random.default_rng(42)
 x = rng.normal(size=(50, 50))
-x = gaussian_filter(x, sigma=10.)
+x = gaussian_filter(x, sigma=10)
 # peak and valley
 fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
 results = fp.fit(x)
