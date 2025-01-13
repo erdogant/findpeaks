@@ -41,7 +41,7 @@ def _import_cv2():
         import cv2
         return cv2
     except:
-        raise ImportError('cv2 must be installed manually. Try to: <pip install opencv-python>')
+        raise ImportError('cv2 must be installed manually. Try to: <pip install opencv-python or the light version opencv-python-headless>')
 
 
 # %% Scaling
