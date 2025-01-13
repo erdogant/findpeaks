@@ -114,6 +114,7 @@ class TestFINDPEAKS(unittest.TestCase):
         # CHECK RESULTS METHOD TOPOLOGY
         assert results['df']['peak'].sum() == 2
         assert results['df']['valley'].sum() == 4
+        fp.plot()
 
         # Run over all combinations and make sure no errors are made
         X = [10, 11, 9, 23, 21, 11, 45, 20, 11, 12]
@@ -168,8 +169,7 @@ class TestFINDPEAKS(unittest.TestCase):
         # lee filter
         image_lee = findpeaks.stats.lee_filter(img.copy(), win_size=winsize, cu=cu_value)
         # lee enhanced filter
-        image_lee_enhanced = findpeaks.stats.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2,
-                                                                 cu=cu_lee_enhanced, cmax=cmax_value)
+        image_lee_enhanced = findpeaks.stats.lee_enhanced_filter(img.copy(), win_size=winsize, k=k_value2, cu=cu_lee_enhanced, cmax=cmax_value)
         # lee sigma filter
         image_lee_sigma = findpeaks.stats.lee_sigma_filter(img.copy())
         # mean filter
@@ -188,8 +188,7 @@ class TestFINDPEAKS(unittest.TestCase):
         for getfilter in filters:
             for window in windows:
                 for cu in cus:
-                    fp = findpeaks(method='topology', imsize=None, scale=True, togray=True, denoise=getfilter,
-                                   params={'window': window, 'cu': cu}, verbose=3)
+                    fp = findpeaks(method='topology', imsize=None, scale=True, togray=True, denoise=getfilter, params={'window': window, 'cu': cu}, verbose=3)
                     assert fp.fit(img)
                     # assert fp.plot_mesh(wireframe=False)
                     # plt.close('all')

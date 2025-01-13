@@ -380,8 +380,10 @@ class findpeaks():
             dfint['valley'] = False
             dfint['peak'] = False
             if result['peakdetect']['min_peaks_s'] is not None:
-                dfint.loc[result['peakdetect']['min_peaks_s'][:, 0].astype(int), 'peak'] = True
+                # dfint['valley'].iloc[result['peakdetect']['min_peaks_s'][:, 0].astype(int)] = True
+                dfint.loc[result['peakdetect']['min_peaks_s'][:, 0].astype(int), 'valley'] = True
             if result['peakdetect']['max_peaks_s'] is not None:
+                # dfint['peak'].iloc[result['peakdetect']['max_peaks_s'][:, 0].astype(int)] = True
                 dfint.loc[result['peakdetect']['max_peaks_s'][:, 0].astype(int), 'peak'] = True
         elif self.method == 'topology':
             # Topology
@@ -392,9 +394,11 @@ class findpeaks():
             dfint['peak'] = False
 
             if result['topology']['min_peaks_s'] is not None:
+                # dfint['valley'].iloc[result['topology']['min_peaks_s'][:, 0].astype(int)] = True
                 dfint.loc[result['topology']['min_peaks_s'][:, 0].astype(int), 'valley'] = True
             if result['topology']['max_peaks_s'] is not None:
                 dfint.loc[result['topology']['max_peaks_s'][:, 0].astype(int), 'peak'] = True
+                # dfint['peak'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)] = True
 
             results['persistence'] = result['persistence']
             results['Xdetect'] = result['Xdetect']
@@ -418,6 +422,7 @@ class findpeaks():
         if self.interpolate is not None:
             df = pd.DataFrame()
             df['y'] = Xraw
+
             # Store results for method
             if self.method == 'peakdetect':
                 # peakdetect
@@ -427,8 +432,11 @@ class findpeaks():
                 df['peak'] = False
                 if result['peakdetect']['min_peaks'] is not None:
                     df.loc[result['peakdetect']['min_peaks'][:, 0].astype(int), 'valley'] = True
+                    # df['valley'].iloc[result['peakdetect']['min_peaks'][:, 0].astype(int)] = True
                 if result['peakdetect']['max_peaks'] is not None:
                     df.loc[result['peakdetect']['max_peaks'][:, 0].astype(int), 'peak'] = True
+                    # df['peak'].iloc[result['peakdetect']['max_peaks'][:, 0].astype(int)] = True
+
             elif self.method == 'topology':
                 # Topology
                 df['x'] = result['topology']['xs']
@@ -437,7 +445,9 @@ class findpeaks():
                 df['peak'] = False
                 if result['topology']['min_peaks'] is not None:
                     df.loc[result['topology']['min_peaks'][:, 0].astype(int), 'valley'] = True
+                    # df['valley'].iloc[result['topology']['min_peaks'][:, 0].astype(int)] = True
                 if result['topology']['max_peaks'] is not None:
+                    # df['peak'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = True
                     df.loc[result['topology']['max_peaks'][:, 0].astype(int), 'peak'] = True
 
                 # Store the score and ranking
@@ -448,6 +458,10 @@ class findpeaks():
                     result['topology']['max_peaks_s'][:, 0].astype(int), 'rank'].values
                 df.loc[result['topology']['max_peaks'][:, 0].astype(int), 'score'] = dfint.loc[
                     result['topology']['max_peaks_s'][:, 0].astype(int), 'score'].values
+                # df['rank'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['rank'].iloc[
+                #     result['topology']['max_peaks_s'][:, 0].astype(int)].values
+                # df['score'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['score'].iloc[
+                #     result['topology']['max_peaks_s'][:, 0].astype(int)].values
 
                 # df['rank'].loc[df['peak']] = dfint['rank'].loc[dfint['peak']].values
                 # df['score'].loc[df['peak']] = dfint['score'].loc[dfint['peak']].values
@@ -458,9 +472,11 @@ class findpeaks():
                 df['valley'] = False
                 df['peak'] = False
                 if result['caerus']['min_peaks'] is not None:
-                    df.loc[result['caerus']['min_peaks'][:, 0].astype(int), 'valley'] = True
+                    df['valley'].iloc[result['caerus']['min_peaks'][:, 0].astype(int)] = True
+                   # df.loc[result['caerus']['min_peaks'][:, 0].astype(int), 'valley'] = True
                 if result['caerus']['max_peaks'] is not None:
-                    df.loc[result['caerus']['max_peaks'][:, 0].astype(int), 'peak'] = True
+                    df['peak'].iloc[result['caerus']['max_peaks'][:, 0].astype(int)] = True
+                   # df.loc[result['caerus']['max_peaks'][:, 0].astype(int), 'peak'] = True
 
             # Store in results
             results['df'] = df
