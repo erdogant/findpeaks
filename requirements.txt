@@ -5,6 +5,5 @@ pandas
 tqdm
 requests
 caerus>=0.1.9
-opencv-python
 xarray
 joblib
