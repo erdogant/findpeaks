@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "findpeaks"
+dynamic = ["version"]
+authors = [{ name = "Erdogan Taskesen", email = "erdogant@gmail.com" },]
+description = "findpeaks is for the detection of peaks and valleys in a 1D vector and 2D array (image)."
+readme = "README.md"
+requires-python = ">=3"
+license = { file = "LICENSE" }
+keywords = ["Python", "topology", "mesh", "sonar", "mask", "sar", "topological data analysis", "peak-detection", "denoise images", "peak analysis", "speckle-noise removal"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'scipy',
+    'matplotlib',
+    'numpy==1.26.4',
+    'pandas',
+    'tqdm',
+    'requests',
+    'caerus>=0.1.9',
+    'xarray',
+    'joblib',
+    ]
+
+[project.urls]
+Homepage = "https://erdogant.github.io/findpeaks"
+Download = "https://github.com/erdogant/findpeaks/archive/{version}.tar.gz"
+
+[tool.setuptools]
+packages = ["findpeaks"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "findpeaks.__version__" }
