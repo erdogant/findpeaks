@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
@@ -5,20 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quick Examples &mdash; findpeaks findpeaks documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=816012cb"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=816012cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -37,9 +35,6 @@
           <a href="index.html" class="icon icon-home">
             findpeaks
           </a>
-              <div class="version">
-                2.6.3
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -174,7 +169,7 @@
 <section id="find-peaks-in-low-sampled-dataset">
 <h3>Find peaks in low sampled dataset<a class="headerlink" href="#find-peaks-in-low-sampled-dataset" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
-<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Data</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">377</span><span class="p">,</span><span class="mi">985</span><span class="p">,</span><span class="mi">1153</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">501</span><span class="p">,</span><span class="mi">1068</span><span class="p">,</span><span class="mi">1110</span><span class="p">,</span><span class="mi">574</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">252</span><span class="p">,</span><span class="mi">812</span><span class="p">,</span><span class="mi">1182</span><span class="p">,</span><span class="mi">741</span><span class="p">,</span><span class="mi">263</span><span class="p">,</span><span class="mi">33</span><span class="p">]</span>
 <span class="c1"># Initialize</span>
@@ -184,7 +179,8 @@
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/fig1_raw.png"><img alt="_images/fig1_raw.png" src="_images/fig1_raw.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/fig1_raw.png"><img alt="_images/fig1_raw.png" src="_images/fig1_raw.png" style="width: 600px;" />
+</a>
 </section>
 <section id="interpolation">
 <h3>Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading"></a></h3>
@@ -194,12 +190,13 @@
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/fig1_interpol.png"><img alt="_images/fig1_interpol.png" src="_images/fig1_interpol.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/fig1_interpol.png"><img alt="_images/fig1_interpol.png" src="_images/fig1_interpol.png" style="width: 600px;" />
+</a>
 </section>
 <section id="comparison-peak-detection-methods-1">
 <h3>Comparison peak detection methods (1)<a class="headerlink" href="#comparison-peak-detection-methods-1" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
-<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Data</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
 <span class="c1"># Initialize</span>
@@ -222,7 +219,8 @@
 </tr>
 </tbody>
 </table>
-<a class="reference internal image-reference" href="_images/fig2_persistence.png"><img alt="_images/fig2_persistence.png" src="_images/fig2_persistence.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/fig2_persistence.png"><img alt="_images/fig2_persistence.png" src="_images/fig2_persistence.png" style="width: 600px;" />
+</a>
 </section>
 <section id="comparison-peak-detection-methods-2">
 <h3>Comparison peak detection methods (2)<a class="headerlink" href="#comparison-peak-detection-methods-2" title="Link to this heading"></a></h3>
@@ -248,8 +246,8 @@
 <section id="find-peaks-in-high-sampled-dataset">
 <h3>Find peaks in high sampled dataset<a class="headerlink" href="#find-peaks-in-high-sampled-dataset" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 
 <span class="c1"># Data</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mi">10000</span>
@@ -276,7 +274,8 @@
 </tr>
 </tbody>
 </table>
-<a class="reference internal image-reference" href="_images/fig3_persistence_limit.png"><img alt="_images/fig3_persistence_limit.png" src="_images/fig3_persistence_limit.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/fig3_persistence_limit.png"><img alt="_images/fig3_persistence_limit.png" src="_images/fig3_persistence_limit.png" style="width: 600px;" />
+</a>
 </section>
 </section>
 <section id="d-array-image">
@@ -284,9 +283,10 @@
 <section id="find-peaks-using-default-settings">
 <h3>Find peaks using default settings<a class="headerlink" href="#find-peaks-using-default-settings" title="Link to this heading"></a></h3>
 <p>The input image:</p>
-<a class="reference internal image-reference" href="_images/plot_example.png"><img alt="_images/plot_example.png" src="_images/plot_example.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/plot_example.png"><img alt="_images/plot_example.png" src="_images/plot_example.png" style="width: 600px;" />
+</a>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
-<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 
 <span class="c1"># Import example</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">()</span>
@@ -322,7 +322,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/2dpeaks_mask.png"><img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/2dpeaks_mask.png"><img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" style="width: 600px;" />
+</a>
 <p>Conversion from 2d to 3d mesh plots looks very nice. But there is a rough surface because of the low-resolution input data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
 </pre></div>
@@ -339,12 +340,13 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/2dpeaks_pers.png"><img alt="_images/2dpeaks_pers.png" src="_images/2dpeaks_pers.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/2dpeaks_pers.png"><img alt="_images/2dpeaks_pers.png" src="_images/2dpeaks_pers.png" style="width: 600px;" />
+</a>
 </section>
 <section id="find-peaks-with-pre-processing">
 <h3>Find peaks with pre-processing<a class="headerlink" href="#find-peaks-with-pre-processing" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
-<span class="kn">from</span> <span class="nn">findpeaks</span> <span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 
 <span class="c1"># Import example</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">()</span>
@@ -375,7 +377,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/2dpeaks_mask_proc.png"><img alt="_images/2dpeaks_mask_proc.png" src="_images/2dpeaks_mask_proc.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/2dpeaks_mask_proc.png"><img alt="_images/2dpeaks_mask_proc.png" src="_images/2dpeaks_mask_proc.png" style="width: 600px;" />
+</a>
 <p>The mesh plot has higher resolution because the pre-processing steps caused some smoothing.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
 </pre></div>
@@ -392,7 +395,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/2dpeaks_perss.png"><img alt="_images/2dpeaks_perss.png" src="_images/2dpeaks_perss.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/2dpeaks_perss.png"><img alt="_images/2dpeaks_perss.png" src="_images/2dpeaks_perss.png" style="width: 600px;" />
+</a>
 <hr>
 <center>
         <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
