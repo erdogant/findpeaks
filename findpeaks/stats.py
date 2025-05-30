@@ -438,10 +438,14 @@ def topology(X, limit=None, reverse=True, verbose=3):
     X = _make_unique(X)
     # X = np.maximum(X + ((X>0).astype(int) * np.random.rand(X.shape[0], X.shape[1])/10), 0)
 
-    # Get indices orderd by value from high to low
+    # Get indices orderd by value from high to low. As a tie-breaker, we use
+    # (value, index) as key.
     indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]
-    # indices = [(i, j) for i in range(h) for j in range(w)]
-    indices.sort(key=lambda p: _get_indices(X, p), reverse=reverse)
+
+    # We add p as a secondary key to have an unambiguous total order below when
+    # we enumerate neighboring cells of cells and consistency regarding
+    # "oldest" component.
+    indices.sort(key=lambda p: (_get_indices(X, p), p), reverse=reverse)
 
     # Maintains the growing sets
     uf = union_find.UnionFind()
@@ -453,6 +457,10 @@ def topology(X, limit=None, reverse=True, verbose=3):
     for i, p in tqdm(enumerate(indices), disable=disable_tqdm(verbose)):
         v = _get_indices(X, p)
         ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
+
+        # Sort by (value, index) as key. Note that this is the same sorting
+        # order as for indices. Otherwise, we have an inconsistent notion of
+        # the "older" component!
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
         if i == 0:
