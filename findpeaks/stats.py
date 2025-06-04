@@ -368,7 +368,7 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
 
 
 # %%
-def topology(X, limit=None, reverse=True, verbose=3):
+def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3):
     """Determine peaks using toplogy method.
 
     Description
@@ -456,7 +456,7 @@ def topology(X, limit=None, reverse=True, verbose=3):
     # Process pixels from high to low
     for i, p in tqdm(enumerate(indices), disable=disable_tqdm(verbose)):
         v = _get_indices(X, p)
-        ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
+        ni = [uf[q] for q in _iter_neighbors(p, w, h, neighborhood_generator=neighborhood_generator) if q in uf]
 
         # Sort by (value, index) as key. Note that this is the same sorting
         # order as for indices. Otherwise, we have an inconsistent notion of
@@ -544,21 +544,27 @@ def _get_indices(im, p):
     return im[p[0]][p[1]]
 
 
-def _iter_neighbors(p, w, h):
+def generate_default_neighborhood(p, h, w, eight_neighborship=True):
     y, x = p
 
-    # 8-neighborship
-    neigh = [(y + j, x + i) for i in [-1, 0, 1] for j in [-1, 0, 1]]
-    # 4-neighborship
-    # neigh = [(y-1, x), (y+1, x), (y, x-1), (y, x+1)]
+    if eight_neighborship:
+        neigh = [(y + j, x + i) for i in [-1, 0, 1] for j in [-1, 0, 1]]
+    else:
+        # 4-neighborship
+         neigh = [(y-1, x), (y+1, x), (y, x-1), (y, x+1)]
+
+    neigh = [(j, i) for j, i in neigh if 0 <= j < h or 0 <= i < w or (j != y or i != x)]
+
+    return neigh
+
+
+def _iter_neighbors(p, w, h, neighborhood_generator=None):
+    if neighborhood_generator is None:
+        neighborhood_generator = generate_default_neighborhood
+
+    neigh = neighborhood_generator(p, w, h)
 
     for j, i in neigh:
-        if j < 0 or j >= h:
-            continue
-        if i < 0 or i >= w:
-            continue
-        if j == y and i == x:
-            continue
         yield j, i
 
 
