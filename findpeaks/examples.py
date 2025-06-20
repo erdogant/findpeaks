@@ -10,6 +10,26 @@ import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
 # %%
+from findpeaks import findpeaks
+#smth = your dummy data here
+
+# Load library
+from findpeaks import findpeaks
+# Data
+X = [10,11,9,23,21,11,45,20,11,12]
+# Initialize
+fp = findpeaks(method='peakdetect', lookahead=1)
+results = fp.fit(X)
+# Plot
+fp.plot()
+
+fp = findpeaks(method='topology', lookahead=1)
+results = fp.fit(X)
+fp.plot()
+fp.plot_persistence()
+
+
+# %%
 # Import library
 from findpeaks import findpeaks
 # Initialize findpeaks with cearus method.
