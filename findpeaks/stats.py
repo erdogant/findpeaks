@@ -486,7 +486,11 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3
     # Process pixels from high to low
     for i, p in tqdm(enumerate(indices), disable=disable_tqdm(verbose)):
         v = _get_indices(X, p)
-        ni = [uf[q] for q in _iter_neighbors(p, w, h, neighborhood_generator=neighborhood_generator) if q in uf]
+
+        if neighborhood_generator is None:
+            ni = [uf[q] for q in _iter_neighbors(p, w, h) if q in uf]
+        else:
+            ni = [uf[q] for q in _iter_neighbors_generator(p, w, h)(p, w, h, neighborhood_generator=neighborhood_generator) if q in uf]
 
         # Sort by (value, index) as key. Note that this is the same sorting
         # order as for indices. Otherwise, we have an inconsistent notion of
@@ -588,7 +592,7 @@ def generate_default_neighborhood(p, h, w, eight_neighborship=True):
     return neigh
 
 
-def _iter_neighbors(p, w, h, neighborhood_generator=None):
+def _iter_neighbors_generator(p, w, h, neighborhood_generator=None):
     if neighborhood_generator is None:
         neighborhood_generator = generate_default_neighborhood
 
@@ -597,6 +601,23 @@ def _iter_neighbors(p, w, h, neighborhood_generator=None):
     for j, i in neigh:
         yield j, i
 
+
+def _iter_neighbors(p, w, h):
+    y, x = p
+
+    # 8-neighborship
+    neigh = [(y + j, x + i) for i in [-1, 0, 1] for j in [-1, 0, 1]]
+    # 4-neighborship
+    # neigh = [(y-1, x), (y+1, x), (y, x-1), (y, x+1)]
+
+    for j, i in neigh:
+        if j < 0 or j >= h:
+            continue
+        if i < 0 or i >= w:
+            continue
+        if j == y and i == x:
+            continue
+        yield j, i
 
 def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labxRaw=None, verbose=3):
     if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
@@ -695,10 +716,11 @@ def disable_tqdm(verbose):
     return  (True if ((verbose<4 or verbose is None) or verbose>5) else False)
 
 
-def _make_unique(arr: np.ndarray):
+def _make_unique(arr: np.ndarray, verbose=3):
     """Method iterates through elements of the input array to ensure all values are unique.
        Duplicate values are reduced by the smallest possible increment for the given data type.
        """
+    if verbose>=3: print('[findpeaks] >Making values unique')
     res = np.empty_like(arr)
     it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
     seen = set()
