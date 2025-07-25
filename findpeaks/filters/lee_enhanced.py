@@ -56,14 +56,19 @@ def weighting(pix_value, window, k=K_DEFAULT, cu=CU_DEFAULT, cmax=CMAX_DEFAULT):
 
 
 def assert_parameters(win_size, k, cu, cmax):
+    """Asserts parameters in range.
+    
+    Parameters
+    ----------
+    win_size : int
+        Window size parameter.
+    k : float
+        k parameter in range [0:10].
+    cu : float
+        cu parameter, must be positive.
+    cmax : float
+        cmax parameter, must be positive and greater equal than cu.
     """
-    Asserts parameters in range.
-    Parameters:
-        - k: in [0:10]
-        - cu: positive
-        - cmax: positive and greater equal than cu
-    """
-
     if 0 > k > 10: raise Exception("k parameter out of range 0<= k <= 10, submitted %s" %(k))
     if cu < 0: raise Exception( "cu can't be negative")
     if cmax < 0 and cmax < cu: raise Exception("cmax must be positive and greater equal to cu: %s" %(cu))
