@@ -737,7 +737,8 @@ class findpeaks():
              color='#FF0000',
              xlabel='x-axis',
              ylabel='y-axis',
-             figure_order='vertical'):
+             figure_order='vertical',
+             fontsize=18):
         """Plot results.
 
         Parameters
@@ -757,6 +758,8 @@ class findpeaks():
             Marker type.
         color: str (default: '#FF0000')
             Hex color of the marker.
+        fontsize: int (default: 10)
+            Font size for the text labels on the plot.
 
         Returns
         -------
@@ -770,11 +773,11 @@ class findpeaks():
         figsize = figsize if figsize is not None else self.args['figsize']
 
         if self.args['type'] == 'peaks1d':
-            fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel)
+            fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel, fontsize=fontsize)
         elif self.args['type'] == 'peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
             fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker,
-                                      color=color, figure_order=figure_order)
+                                      color=color, figure_order=figure_order, fontsize=fontsize)
         else:
             if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot for %s' % (self.args['type']))
             return None
@@ -782,7 +785,17 @@ class findpeaks():
         # Return
         return fig_axis
 
-    def plot1d(self, legend=True, figsize=None, xlabel='x-axis', ylabel='y-axis'):
+    def plot1d(
+        self,
+        legend=True,
+        figsize=None,
+        xlabel='x-axis',
+        ylabel='y-axis',
+        fontsize=18,
+        params_line={'color':None, 'linewidth':2},
+        params_peak_marker={'marker': 'x', 'color':'red', 's':120, 'edgecolors':'red', 'linewidths':3}, 
+        params_valley_marker={'marker': 'o', 'color':'blue', 's':120, 'edgecolors':'lightblue', 'linewidths':3}, 
+    ):
         """Plot the 1D results.
 
         Parameters
@@ -791,7 +804,14 @@ class findpeaks():
             Show the legend.
         figsize : (int, int), (default: None)
             (width, height) in inches.
-
+        fontsize: int (default: 10)
+            Font size for the text labels on the plot.
+        params_line: dict (default: {'color':None, 'linewidth':2})
+            Parameters for the line plot.
+        params_peak_marker: dict (default: None)
+            Parameters for the peak markers.
+        params_valley_marker: dict (default: None)
+            Parameters for the valley markers.
         Returns
         -------
         fig_axis : tuple containing axis for each figure.
@@ -821,7 +841,7 @@ class findpeaks():
                 max_peaks = df['x'].loc[df['peak']].values
             ax1 = _plot_original(df['y'].values, df['x'].values, df['labx'].values, min_peaks.astype(int),
                                  max_peaks.astype(int), title=title, figsize=figsize, legend=legend, xlabel=xlabel,
-                                 ylabel=ylabel)
+                                 ylabel=ylabel, fontsize=fontsize, params_line=params_line, params_peak_marker=params_peak_marker, params_valley_marker=params_valley_marker)
 
             # Make interpolated plot
             if self.interpolate is not None:
@@ -833,11 +853,11 @@ class findpeaks():
                     max_peaks = df_interp['x'].loc[df_interp['peak']].values
                 ax2 = _plot_original(df_interp['y'].values, df_interp['x'].values, df_interp['labx'].values,
                                      min_peaks.astype(int), max_peaks.astype(int), title=title + ' (interpolated)',
-                                     figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel)
+                                     figsize=figsize, legend=legend, xlabel=xlabel, ylabel=ylabel, fontsize=fontsize, params_peak_marker=params_peak_marker, params_valley_marker=params_valley_marker)
             # Return axis
             return (ax2, ax1)
 
-    def plot2d(self, figsize=None, limit=None, figure_order='vertical'):
+    def plot2d(self, figsize=None, limit=None, figure_order='vertical', fontsize=18):
         """Plot the 2d results.
 
         Parameters
@@ -860,7 +880,7 @@ class findpeaks():
 
         # Setup figure
         if self.method == 'mask':
-            ax_method = self.plot_mask(figsize=figsize, limit=limit, figure_order=figure_order)
+            ax_method = self.plot_mask(figsize=figsize, limit=limit, figure_order=figure_order, fontsize=fontsize)
         if self.method == 'topology':
             # Plot topology/persistence
             ax_method = self.plot_persistence(figsize=figsize)
@@ -887,7 +907,7 @@ class findpeaks():
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
     def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=None, marker='x', color='#FF0000',
-                  figure_order='vertical'):
+                  figure_order='vertical', fontsize=18):
         """Plot the masking.
 
         Parameters
@@ -898,6 +918,18 @@ class findpeaks():
             (width, height) in inches.
         cmap : object (default : None)
             Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
+        text : Bool (default : True)
+            Include text to the 2D-image that shows the peaks (p-number) and valleys (v-number)
+        s : size (default: None)
+            Size of the marker.
+        marker: str (default: 'x')
+            Marker type.
+        color: str (default: '#FF0000')
+            Hex color of the marker.
+        figure_order: str (default: 'vertical')
+            Order of the subplots ('vertical' or 'horizontal').
+        fontsize: int (default: 10)
+            Font size for the text labels on the plot.
 
         Returns
         -------
@@ -960,12 +992,12 @@ class findpeaks():
 
             if text:
                 for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
-                    ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
-                    ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str))
+                    ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
+                    ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
 
                 for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
-                    ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
-                    ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str))
+                    ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
+                    ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
 
         # Show plot
         plt.show()
@@ -1289,27 +1321,50 @@ class findpeaks():
 
 
 # %%
-def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, ax=None, figsize=(15, 8), xlabel=None,
-                   ylabel=None):
+def _plot_original(X,
+                   xs, 
+                   labx, 
+                   min_peaks, 
+                   max_peaks, 
+                   title=None, 
+                   legend=True, 
+                   ax=None, 
+                   figsize=(15, 8), 
+                   xlabel=None,
+                   ylabel=None, 
+                   fontsize=18,
+                   params_line={'color':None, 'linewidth':2},
+                   params_peak_marker={'marker': 'x', 'color':'red', 's':120, 'edgecolors':'lightred', 'linewidths':2},
+                   params_valley_marker={'marker': 'o', 'color':'blue', 's':120, 'edgecolors':'lightblue', 'linewidths':2},
+                   ):
+
     uilabx = np.unique(labx)
     uilabx = uilabx[~np.isnan(uilabx)]
 
+    # Set the default for the peaks and valleys
+    params_peak_marker_default = dict(color='red', s=120, edgecolors='red', linewidths=3)
+    params_peak_marker = {**params_peak_marker_default, **params_peak_marker}
+    params_valley_marker_default = dict(color='blue', s=100, edgecolors='blue', linewidths=2)
+    params_valley_marker = {**params_valley_marker_default, **params_valley_marker} 
+    params_line_default = dict(color=None, linewidth=2)
+    params_line = {**params_line_default, **params_line} 
+
     if ax is None: fig, ax = plt.subplots(figsize=figsize)
-    ax.plot(xs, X, 'k')
+
+    params_line_black = params_line.copy()
+    params_line_black['color'] = 'black'
+    ax.plot(xs, X, **params_line_black)
+    
     if np.any(max_peaks):
-        ax.plot(max_peaks, X[max_peaks], "x", label='Peak')
-        # for i in max_peaks:
-        # ax.plot(i, X[i])
+        ax.scatter(max_peaks, X[max_peaks], label='Peak',  **params_peak_marker)
     if np.any(min_peaks):
-        ax.plot(min_peaks, X[min_peaks], "o", label='Valley')
-        # for i in min_peaks:
-        # ax.plot(i, X[i])
+        ax.scatter(min_peaks, X[min_peaks], label='Valley',  **params_valley_marker)
 
     # Color each detected label
     s = np.arange(0, len(X))
     for i in uilabx:
         idx = (labx == i)
-        ax.plot(s[idx], X[idx])
+        ax.plot(s[idx], X[idx], **params_line)
         # plt.plot(s[idx], X[idx], label='peak' + str(i))
 
     if legend: ax.legend(loc=0)
@@ -1317,6 +1372,7 @@ def _plot_original(X, xs, labx, min_peaks, max_peaks, title=None, legend=True, a
     if xlabel is not None: ax.set_xlabel(xlabel)
     if ylabel is not None: ax.set_ylabel(ylabel)
     ax.grid(True)
+    ax.tick_params(axis='both', which='major', labelsize=fontsize)
     plt.show()
     return ax
 

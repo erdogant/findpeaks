@@ -369,14 +369,42 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
 
 # %%
 def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3):
-    """Determine peaks using toplogy method.
+    """Determine peaks using topology method based on persistent homology.
 
     Description
     -----------
-    The idea behind the topology method: Consider the function graph of the function that assigns each pixel its level.
-    Now consider a water level that continuously descents to lower levels. At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death). The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands.
-    The persistence of an island is then the difference between the birth- and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
-    This method not only gives the local maxima but also quantifies their "significance" by the above mentioned persistence. One would then filter out all islands with a too low persistence. However, in your example every island (i.e., every local maximum) is a peak you look for.
+    The topology method uses persistent homology to detect peaks and valleys in data. 
+    The core idea is to consider the function graph that assigns each pixel its level,
+    then simulate a water level that continuously descends to lower levels. 
+    
+    At local maxima, islands emerge (birth events). At saddle points, two islands merge;
+    the lower island merges into the higher island (death events). The persistence diagram
+    depicts death-over-birth values of all islands, where persistence is the difference
+    between birth and death levels - the vertical distance from the main diagonal.
+    
+    **Advantages over thresholding methods:**
+    - Naturally handles noise and artifacts that affect simple thresholding
+    - Provides quantitative significance measures (persistence scores)
+    - Mathematically stable and robust
+    - Enables principled filtering based on persistence rather than arbitrary thresholds
+    
+    **Applications:**
+    - **Line Detection**: Particularly effective for Hough Transform applications where
+      traditional voting methods are susceptible to noise. The persistence-based approach
+      significantly outperforms threshold-based methods in synthetic data experiments.
+    - **Peak Detection**: General peak/valley detection in 1D and 2D data
+    - **Feature Detection**: Robust detection of significant features in noisy data
+    
+    **Hough Transform Integration:**
+    This method addresses key limitations of classical Hough transform voting:
+    - Replaces simple thresholding with persistent homology-based peak detection
+    - Enhances robustness against noise and artifacts
+    - Provides mathematical stability guarantees
+    - Enables principled parameter selection based on persistence scores
+    
+    The method not only identifies local maxima but also quantifies their significance
+    through persistence scores, allowing for principled filtering of peaks based on
+    their topological importance rather than arbitrary thresholds.
 
     Parameters
     ----------
@@ -388,6 +416,9 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3
     reverse: bool, (default: True)
         For 1d-vectors, reverse should be True to detect peaks and valleys.
         For 2d-images, the peaks are detected by setting reverse=True and valleys by reverse=False.
+    neighborhood_generator: callable, (default: None)
+        Custom neighborhood generator function. If None, uses default 8-neighborhood.
+        The function should take parameters (p, w, h) and return neighboring coordinates.
     verbose: int (default: 3)
         Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
@@ -412,10 +443,9 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3
 
     References
     ----------
-        * https://www.sthu.org/code/codesnippets/imagepers.html
+        * Johannes Ferner et al, Persistence-based Hough Transform for Line Detection, https://arxiv.org/abs/2504.16114
         * H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.
-        * Initial implementation: Stefan Huber <shuber@sthu.org>
-        * Editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
+        * Initial implementation: Stefan Huber <shuber@sthu.org>, editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
 
     """
     if limit is None: limit = np.min(np.min(X))-1
