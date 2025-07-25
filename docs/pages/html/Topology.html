@@ -101,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise"><code class="docutils literal notranslate"><span class="pre">denoise()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.disable_tqdm"><code class="docutils literal notranslate"><span class="pre">disable_tqdm()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.generate_default_neighborhood"><code class="docutils literal notranslate"><span class="pre">generate_default_neighborhood()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask"><code class="docutils literal notranslate"><span class="pre">mask()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
@@ -363,8 +364,7 @@ The implementation uses a union-find data structure instead of the more efficien
 However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The valleys are stored in the output as negative values.</p>
 <p>The initialization with contains many variables for which only <em>limit</em> is applicable for the <strong>topology</strong> method for <em>2d-peak</em> detection.
 However, there are few parameters that can be used to control the pre-processing steps, such as:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>togray</p></li>
 <li><p>imsize</p></li>
 <li><p>scale</p></li>
@@ -372,7 +372,6 @@ However, there are few parameters that can be used to control the pre-processing
 <li><p>window</p></li>
 <li><p>cu</p></li>
 </ul>
-</div></blockquote>
 <p>The docstring provide the information regarding the input/output parameters: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
@@ -404,6 +403,29 @@ The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in
 </div>
 <figure class="align-default" id="figure-6">
 <img alt="_images/2dpeaks_peristence.png" src="_images/2dpeaks_peristence.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png&#39;</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;lee_sigma&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">]</span>
+<span class="n">peak</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">peak</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
+<span class="c1"># fp.plot_mesh(cmap=plt.cm.hot, view=(40, 180))</span>
+<span class="c1"># fp.plot_mesh(view=(90, 0))</span>
+</pre></div>
+</div>
+<figure class="align-default" id="figure-7">
+<img alt="_images/2dpeaks_complex.png" src="_images/2dpeaks_complex.png" />
+</figure>
+<figure class="align-default">
+<img alt="_images/2dpeaks_complex_persistence.png" src="_images/2dpeaks_complex_persistence.png" />
 </figure>
 </section>
 <section id="references">
