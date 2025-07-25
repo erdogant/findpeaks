@@ -244,12 +244,13 @@ However, there is a differences in the pre-processing steps. Both peaks and vall
 
 The initialization with contains many variables for which only *limit* is applicable for the **topology** method for *2d-peak* detection.
 However, there are few parameters that can be used to control the pre-processing steps, such as:
-    * togray
-    * imsize
-    * scale
-    * denoise
-    * window
-    * cu
+
+* togray
+* imsize
+* scale
+* denoise
+* window
+* cu
 
 The docstring provide the information regarding the input/output parameters: :func:`findpeaks.findpeaks.findpeaks.peaks2d`.
 
@@ -294,6 +295,34 @@ Plot the image with the persistence. Note that the left-bottom figure is the sam
 
 .. figure:: ../figs/2dpeaks_peristence.png
 
+
+A more complex example with an internet image is shown below.
+
+
+
+.. code:: python
+
+    from findpeaks import findpeaks
+    path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
+    fp = findpeaks(method='topology', whitelist='peak', limit=5, denoise='lee_sigma', params={'window': 5})
+    X = fp.imread(path)
+    results = fp.fit(X)
+
+    result_df = results['persistence']
+    peak = result_df.index[result_df['peak']==True].tolist()
+    print(result_df.loc[peak])
+    print(result_df.shape)
+
+    fp.plot_persistence()
+    fp.plot(figsize=(25, 14), text=False, marker='x', color='#ff0000', figure_order='vertical')
+    # fp.plot_mesh(cmap=plt.cm.hot, view=(40, 180))
+    # fp.plot_mesh(view=(90, 0))
+
+.. _Figure_7:
+
+.. figure:: ../figs/2dpeaks_complex.png
+
+.. figure:: ../figs/2dpeaks_complex_persistence.png
 
 
 References
