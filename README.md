@@ -165,13 +165,18 @@ On the [documentation pages](https://erdogant.github.io/findpeaks/) you can find
 * https://www.sthu.org/blog/13-perstopology-peakdetection/index.html
 
 
-### Contribute
-* All kinds of contributions are welcome!
+### Contributors
+Special thanks to the contributors!
 
-### Citation
-Please cite ``findpeaks`` in your publications if this is useful for your research. See column right for citation information.
+<p align="left">
+  <a href="https://github.com/erdogant/findpeaks/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=erdogant/findpeaks" />
+  </a>
+</p>
 
 ### Maintainer
 * Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
 * Contributions are welcome.
-* If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated :)
+* Yes! This library is entirely **free** but it runs on coffee! :) Feel free to support with a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a>.
+
+[![Buy me a coffee](https://img.buymeacoffee.com/button-api/?text=Buy+me+a+coffee&emoji=&slug=erdogant&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/erdogant)
