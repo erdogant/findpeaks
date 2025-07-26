@@ -9,6 +9,16 @@
 import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
+# %%
+from findpeaks import findpeaks
+X = [10,11,9,23,21,11,45,20,11,12]
+fp = findpeaks(method="topology", lookahead=1, verbose='info')
+results = fp.fit(X)
+ax = fp.plot()
+ax = fp.plot_persistence()
+
+# fp.check_logger(verbose='info')
+
 #%%
 # Import library
 from findpeaks import findpeaks
@@ -22,7 +32,7 @@ plt.plot(X); plt.grid(True)
 # Fit topology method on the 1d-vector
 results = fp.fit(X)
 # Plot the results
-fp.plot_persistence()
+ax = fp.plot_persistence()
 
 
 # %%
@@ -129,7 +139,6 @@ fp.plot_persistence()
 fp.plot_mesh()
 
 # %%
-
 from findpeaks import findpeaks
 path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
 fp = findpeaks(method='topology', whitelist='peak', limit=5, denoise='lee_sigma', params={'window': 5})
@@ -149,12 +158,11 @@ fp.plot_mesh(view=(40, 180))
 # %%
 from findpeaks import findpeaks
 path = r'https://user-images.githubusercontent.com/44827483/221152897-133839bb-7364-492a-921b-c9077ab9930b.png'
-fp = findpeaks(method='topology', whitelist='peak', denoise='lee_enhanced', params={'window': 5})
-fp = findpeaks(method='topology', whitelist='peak', denoise='lee_sigma', params={'window': 5})
+fp = findpeaks(method='topology', whitelist='peak', denoise='lee_enhanced', params={'window': 5}, verbose='debug')
 X = fp.imread(path)
 results = fp.fit(X)
-fp.plot_persistence()
-fp.plot()
+ax = fp.plot_persistence()
+ax = fp.plot()
 # fp.plot_mesh()
 
 fp.results['persistence'].iloc[0:10,:]
@@ -512,13 +520,7 @@ for method in methods:
 # fp.results['df_interp']
 fp.results['df']
 
-# %%
-from findpeaks import findpeaks
-X = [10,11,9,23,21,11,45,20,11,12]
-fp = findpeaks(method="topology", lookahead=1, verbose='info')
-results = fp.fit(X)
-fp.plot()
-fp.plot_persistence()
+
 
 
 # %% Run over all methods and many parameters
