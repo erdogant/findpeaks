@@ -33,7 +33,7 @@ class TestFINDPEAKS(unittest.TestCase):
         assert len(results['Xranked'][results['Xranked'] != 0]) > 18
 
         # CHECK OUTPUT METHOD MASK
-        fp = findpeaks(method="mask", verbose=3)
+        fp = findpeaks(method="mask")
         X = fp.import_example('2dpeaks')
         results = fp.fit(X)
         assert fp.type == 'peaks2d'
@@ -54,7 +54,7 @@ class TestFINDPEAKS(unittest.TestCase):
         x = rng.normal(size=(50, 50))
         x = gaussian_filter(x, sigma=10.)
         # peak and valley
-        fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
+        fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None)
         results = fp.fit(x)
 
         fp.plot(figsize=(25, 15), figure_order='horizontal')
@@ -66,13 +66,13 @@ class TestFINDPEAKS(unittest.TestCase):
         assert results['persistence']['valley'][Iloc].sum() == 4
 
         # peaks
-        fp = findpeaks(method="topology", whitelist='peak', denoise=None, verbose=3)
+        fp = findpeaks(method="topology", whitelist='peak', denoise=None)
         fp.plot()
         results = fp.fit(x)
         Iloc = results['persistence']['score'] > 1
         assert results['persistence']['peak'][Iloc].shape[0] == results['persistence']['peak'][Iloc].sum()
 
-        fp = findpeaks(method="topology", whitelist='valley', denoise=None, verbose=3)
+        fp = findpeaks(method="topology", whitelist='valley', denoise=None)
         results = fp.fit(x)
         Iloc = results['persistence']['score'] > 1
         assert results['persistence']['valley'].shape[0] == results['persistence']['valley'].sum()
@@ -102,7 +102,7 @@ class TestFINDPEAKS(unittest.TestCase):
 
         # CHECK OUTPUT METHOD PEAKDETECT
         # fp = findpeaks(method="peakdetect", lookahead=1, verbose=3, height=0)
-        fp = findpeaks(method="peakdetect", lookahead=1, verbose=3)
+        fp = findpeaks(method="peakdetect", lookahead=1)
         X = fp.import_example('1dpeaks')
         results = fp.fit(X)
         assert fp.type == 'peaks1d'
@@ -124,7 +124,7 @@ class TestFINDPEAKS(unittest.TestCase):
         for method in methods:
             for interpolate in interpolates:
                 for lookahead in lookaheads:
-                    fp = findpeaks(method=method, lookahead=lookahead, interpolate=interpolate, verbose=0)
+                    fp = findpeaks(method=method, lookahead=lookahead, interpolate=interpolate)
                     assert fp.fit(X)
 
     def test_denoising(self):
@@ -188,7 +188,7 @@ class TestFINDPEAKS(unittest.TestCase):
         for getfilter in filters:
             for window in windows:
                 for cu in cus:
-                    fp = findpeaks(method='topology', imsize=None, scale=True, togray=True, denoise=getfilter, params={'window': window, 'cu': cu}, verbose=3)
+                    fp = findpeaks(method='topology', imsize=None, scale=True, togray=True, denoise=getfilter, params={'window': window, 'cu': cu})
                     assert fp.fit(img)
                     # assert fp.plot_mesh(wireframe=False)
                     # plt.close('all')

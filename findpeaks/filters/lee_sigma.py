@@ -26,6 +26,11 @@ import numpy as np
 import xarray as xr
 from joblib import Parallel, delayed
 from joblib import parallel_backend
+import logging
+
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 
 sigma_DEFAULT = 0.9 # for general applications

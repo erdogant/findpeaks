@@ -11,6 +11,11 @@ import numpy as np
 from scipy.fft import ifft, fft
 from scipy.optimize import curve_fit
 from scipy.signal import cspline1d_eval, cspline1d
+import logging
+
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 __all__ = [
         "peakdetect",
@@ -727,8 +732,9 @@ def zero_crossings(y_axis, window_len = 11,
             offset = np.mean([y_axis.max(), y_axis.min()])
             return zero_crossings(y_axis-offset, window_len, window_f, True)
         # Invalid zero crossings and the offset has been removed
-        print(diff.std() / diff.mean())
-        print(np.diff(indices))
+        logger.warning(
+            "False zero-crossings found, indicates problem {0!s} or {1!s}".format(
+            "with smoothing window", "unhandled problem with offset"))
         raise ValueError(
             "False zero-crossings found, indicates problem {0!s} or {1!s}".format(
             "with smoothing window", "unhandled problem with offset"))

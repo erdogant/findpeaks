@@ -32,6 +32,11 @@ from scipy.ndimage.filters import maximum_filter
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
+import logging
+
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 
 # %% Import cv2
@@ -45,7 +50,7 @@ def _import_cv2():
 
 
 # %% Scaling
-def scale(X, verbose=3):
+def scale(X):
     """Normalize data (image) by scaling.
 
     Description
@@ -56,8 +61,6 @@ def scale(X, verbose=3):
     ----------
     X: array-like
         Input image data.
-    verbose: int (default: 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -65,7 +68,7 @@ def scale(X, verbose=3):
         Scaled image.
 
     """
-    if verbose>=3: print('[findpeaks] >Scaling image between [0-255] and to uint8')
+    logger.info('Scaling image between [0-255] and to uint8')
     try:
         # Normalizing between 0-255
         X = X - X.min()
@@ -74,12 +77,12 @@ def scale(X, verbose=3):
         # Downscale typing
         X = np.uint8(X)
     except:
-        if verbose>=2: print('[findpeaks] >WARNING: Scaling not possible.')
+        logger.warning('Scaling not possible.')
     return X
 
 
 # %%
-def togray(X, verbose=3):
+def togray(X):
     """Convert color to grey-image.
 
     Description
@@ -90,8 +93,6 @@ def togray(X, verbose=3):
     ----------
     X: array-like
         Input image data.
-    verbose: int (default: 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -102,15 +103,15 @@ def togray(X, verbose=3):
     # Import cv2
     cv2 = _import_cv2()
     try:
-        if verbose>=3: print('[findpeaks] >Conversion to gray image.')
+        logger.info('Conversion to gray image.')
         X = cv2.cvtColor(X, cv2.COLOR_BGR2GRAY)
     except:
-        if verbose>=2: print('[findpeaks] >WARNING: Conversion to gray not possible.')
+        logger.warning('Conversion to gray not possible.')
     return X
 
 
 # %%
-def resize(X, size=None, verbose=3):
+def resize(X, size=None):
     """Resize image.
 
     Parameters
@@ -119,8 +120,6 @@ def resize(X, size=None, verbose=3):
         Input image data.
     size: tuple, (default: None)
         size to desired (width,length).
-    verbose: int (default: 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -131,15 +130,15 @@ def resize(X, size=None, verbose=3):
     cv2 = _import_cv2()
     try:
         if size is not None:
-            if verbose>=3: print('[findpeaks] >Resizing image to %s.' %(str(size)))
+            logger.info('Resizing image to %s.' %(str(size)))
             X = cv2.resize(X, size)
     except:
-        if verbose>=2: print('[findpeaks] >WARNING: Resizing not possible.')
+        logger.warning('Resizing not possible.')
     return X
 
 
 # %%
-def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
+def denoise(X, method='fastnl', window=9, cu=0.25):
     """Denoise input data.
 
     Description
@@ -180,8 +179,6 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
         Number of looks of the SAR img, applies for methods: ['lee_sigma']
     tk: int, (default: 5)
         Threshold of neighbouring pixels outside of the 98th percentile, applies for methods: ['lee_sigma']
-    verbose: int (default: 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -200,12 +197,12 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
 
     # Peform the denoising
     # try:
-    if verbose>=3: print('[findpeaks] >Denoising with [%s], window: [%d].' %(method, window))
+    logger.info('Denoising with [%s], window: [%d].' %(method, window))
     if method=='fastnl':
         if len(X.shape)==2:
             X = cv2.fastNlMeansDenoising(X, h=window)
         if len(X.shape)==3:
-            if verbose>=3: print('[findpeaks] >Denoising color image.')
+            logger.info('Denoising color image.')
             X = cv2.fastNlMeansDenoisingColored(X, h=window)
     elif method=='bilateral':
         X = cv2.bilateralFilter(X, window, 75, 75)
@@ -229,7 +226,7 @@ def denoise(X, method='fastnl', window=9, cu=0.25, verbose=3):
 
 
 # %%
-def mask(X, limit=0, verbose=3):
+def mask(X, limit=0):
     """Determine peaks in 2d-array using a mask.
 
     Description
@@ -261,7 +258,7 @@ def mask(X, limit=0, verbose=3):
     """
     if limit is None: limit=0
 
-    if verbose>=3: print('[findpeaks] >Detect peaks using the mask method with limit=%s.' %(limit))
+    logger.info('Detect peaks using the mask method with limit=%s.' %(limit))
     # define an 8-connected neighborhood
     neighborhood = generate_binary_structure(2, 2)
 
@@ -294,7 +291,7 @@ def mask(X, limit=0, verbose=3):
 
 
 # %%
-def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
+def topology2d(X, limit=None, whitelist=['peak','valley']):
     """Determine peaks and valleys in 2d-array using toplogy method.
 
     Description
@@ -309,8 +306,6 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
         Input data.
     limit: float, (default: None)
         score > limit are set as regions of interest (ROI).
-    verbose: int (default: 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -333,16 +328,16 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
 
     # Detect peaks
     if np.any(np.isin(whitelist, 'peak')):
-        result_peak = topology(X, limit=limit, reverse=True, verbose=verbose)
+        result_peak = topology(X, limit=limit, reverse=True)
         result_peak['persistence']['peak']=True
         result_peak['persistence']['valley']=False
 
     # Compute max value in array to create the negative image
     # max_val = 255 if np.max(X.ravel())>1 else 1
     # Detect valleys
-    # result_valley = topology(max_val-X, limit=limit, verbose=verbose)
+    # result_valley = topology(max_val-X, limit=limit)
     if np.any(np.isin(whitelist, 'valley')):
-        result_valley = topology(X, limit=limit, reverse=False, verbose=verbose)
+        result_valley = topology(X, limit=limit, reverse=False)
         result_valley['persistence']['peak']=False
         result_valley['persistence']['valley']=True
         result_valley['persistence']['death_level'] = result_valley['persistence']['death_level'] * -1
@@ -368,7 +363,7 @@ def topology2d(X, limit=None, whitelist=['peak','valley'], verbose=3):
 
 
 # %%
-def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3):
+def topology(X, limit=None, reverse=True, neighborhood_generator=None):
     """Determine peaks using topology method based on persistent homology.
 
     Description
@@ -419,8 +414,6 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3
     neighborhood_generator: callable, (default: None)
         Custom neighborhood generator function. If None, uses default 8-neighborhood.
         The function should take parameters (p, w, h) and return neighboring coordinates.
-    verbose: int (default: 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -451,8 +444,8 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3
     if limit is None: limit = np.min(np.min(X))-1
     if X.max().max()<limit:
         limit=X.max().max()-1
-        if verbose>=3: print('[findpeaks] >Minimum limit should be %s or smaller.' %(limit))
-    if verbose>=3: print('[findpeaks] >Detect peaks using topology method with limit at %s.' %(limit))
+        logger.info('Minimum limit should be %s or smaller.' %(limit))
+    logger.info('Detect peaks using topology method with limit at %s.' %(limit))
 
     if not reverse:
         X = reverse_values(X.copy())
@@ -484,7 +477,7 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None, verbose=3
         return _get_indices(X, uf[p])
 
     # Process pixels from high to low
-    for i, p in tqdm(enumerate(indices), disable=disable_tqdm(verbose)):
+    for i, p in tqdm(enumerate(indices), disable=disable_tqdm()):
         v = _get_indices(X, p)
 
         if neighborhood_generator is None:
@@ -619,7 +612,7 @@ def _iter_neighbors(p, w, h):
             continue
         yield j, i
 
-def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labxRaw=None, verbose=3):
+def _post_processing(X, Xraw, min_peaks, max_peaks, interpolate, lookahead, labxRaw=None):
     if lookahead<1: raise Exception('[findpeaks] >lookhead parameter should be at least 1.')
     labx_s = np.zeros((len(X))) * np.nan
     results = {}
@@ -711,16 +704,19 @@ def normalize(X, minscale = 0.5, maxscale = 4, scaler: str = 'zscore'):
     return X
 
 # %%
-def disable_tqdm(verbose):
-    """Set the verbosity messages."""
-    return  (True if ((verbose<4 or verbose is None) or verbose>5) else False)
+# def disable_tqdm(verbose):
+    # """Set the verbosity messages."""
+    # return  (True if ((verbose<4 or verbose is None) or verbose>5) else False)
 
+def disable_tqdm():
+    """Set the logger for verbosity messages."""
+    return (True if (logger.getEffectiveLevel()>=30) else False)
 
-def _make_unique(arr: np.ndarray, verbose=3):
+def _make_unique(arr: np.ndarray):
     """Method iterates through elements of the input array to ensure all values are unique.
        Duplicate values are reduced by the smallest possible increment for the given data type.
        """
-    if verbose>=3: print('[findpeaks] >Making values unique')
+    logger.debug('Making values unique')
     res = np.empty_like(arr)
     it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
     seen = set()

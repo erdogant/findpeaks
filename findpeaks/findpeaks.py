@@ -18,6 +18,7 @@ import numpy as np
 import os
 import requests
 from urllib.parse import urlparse
+import logging
 
 # #### DEBUG ONLY ####
 # import stats as stats
@@ -28,6 +29,10 @@ import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
 # #####################
+
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 
 # %%
@@ -85,7 +90,7 @@ class findpeaks():
                  params_caerus={},  # DEPRECATED IN LATER VERSIONS: use params instead
                  params={'window': 3, 'delta': 0},
                  figsize=(15, 8),
-                 verbose=3):
+                 verbose='info'):
         """Initialize findpeaks parameters.
 
         Parameters
@@ -144,8 +149,13 @@ class findpeaks():
                 When omitted delta function causes a 20% decrease in speed. When used Correctly it can double the speed of the function
         togray : bool, (default : False)
             Conversion to gray scale.
-        verbose : int (default : 3)
-            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
+        verbose : str or int, optional, default='info' (20)
+            Logging verbosity level. Possible values:
+            - 0, 60, None, 'silent', 'off', 'no' : no messages.
+            - 10, 'debug' : debug level and above.
+            - 20, 'info' : info level and above.
+            - 30, 'warning' : warning level and above.
+            - 50, 'critical' : critical level and above.
 
         Returns
         -------
@@ -182,17 +192,20 @@ class findpeaks():
         ----------
             * https://erdogant.github.io/findpeaks/
         """
-        if window is not None: print(
+        if window is not None: logger.info(
             'The input parameter "window" will be deprecated in future releases. Please use "params={"window": 5}" '
             'instead.')
-        if cu is not None: print(
+        if cu is not None: logger.info(
             'The input parameter "cu" will be deprecated in future releases. Please use "params={"cu": 3}" instead.')
+
+        # Set the logger
+        set_logger(verbose=verbose)
 
         # Store in object
         if isinstance(whitelist, str): whitelist = [whitelist]
         if lookahead is None: lookahead = 1
         lookahead = np.maximum(1, lookahead)
-        # if method is None: raise Exception('[findpeaks] >Specify the desired method="topology", "peakdetect",
+        # if method is None: raise Exception('Specify the desired method="topology", "peakdetect",
         # or "mask".')
         self.method = method
         self.whitelist = whitelist
@@ -211,7 +224,7 @@ class findpeaks():
         defaults = {}
         if method == 'caerus':
             if len(params_caerus) > 0:
-                print(
+                logger.info(
                     'The input parameter "params_caerus" will be deprecated in future releases. Please use "params" instead.')
                 params = params_caerus
             defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
@@ -273,7 +286,6 @@ class findpeaks():
             * lookahead : Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
             * interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.
             * limit : Values > limit are set as regions of interest (ROI).
-            * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
             * height: Required height of the peaks.
 
         Parameters
@@ -320,7 +332,7 @@ class findpeaks():
         if method is None: method = 'peakdetect'
         self.method = method
         self.type = 'peaks1d'
-        if self.verbose >= 3: print('[findpeaks] >Finding peaks in 1d-vector using [%s] method..' % (self.method))
+        logger.debug('Finding peaks in 1d-vector using [%s] method..' % (self.method))
         # Make numpy array
         X = np.array(X)
         Xraw = X.copy()
@@ -328,7 +340,7 @@ class findpeaks():
 
         # Interpolation
         if self.interpolate is not None and self.interpolate>0:
-            X = interpolate.interpolate_line1d(X, n=self.interpolate, method=2, showfig=False, verbose=self.verbose)
+            X = interpolate.interpolate_line1d(X, n=self.interpolate, method=2, showfig=False)
 
         # Compute peaks based on method
         if method == 'peakdetect':
@@ -340,14 +352,14 @@ class findpeaks():
                                                           self.lookahead)
         elif method == 'topology':
             # Compute persistence using toplogy method
-            result = stats.topology(np.c_[X, X], limit=self.limit, verbose=self.verbose)
+            result = stats.topology(np.c_[X, X], limit=self.limit)
             # Post processing for the topology method
             result['topology'] = stats._post_processing(X, Xraw, result['valley'], result['peak'], self.interpolate, 1)
         elif method == 'caerus':
             caerus_params = self.params.copy()
             if caerus_params.get('delta') is not None: caerus_params.pop('delta')
             cs = caerus(**caerus_params)
-            result = cs.fit(X, return_as_dict=True, verbose=self.verbose)
+            result = cs.fit(X, return_as_dict=True)
             # Post processing for the caerus method
             result['caerus'] = stats._post_processing(X, Xraw,
                                                       np.c_[result['loc_start_best'], result['loc_start_best']],
@@ -355,8 +367,7 @@ class findpeaks():
                                                       self.interpolate, 1, labxRaw=result['df']['labx'].values)
             result['caerus']['model'] = cs
         else:
-            if self.verbose >= 2: print(
-                '[findpeaks] >WARNING: [method="%s"] is not supported in 1d-vector data. <return>' % (self.method))
+            logger.warning('[method="%s"] is not supported in 1d-vector data. <return>' % (self.method))
             return None
         # Store
         self.results, self.args = self._store1d(X, Xraw, x, result)
@@ -452,12 +463,13 @@ class findpeaks():
 
                 # Store the score and ranking
                 df['rank'] = 0
-                df['score'] = 0
+                df['score'] = 0.0  # Ensure float dtype
 
                 df.loc[result['topology']['max_peaks'][:, 0].astype(int), 'rank'] = dfint.loc[
                     result['topology']['max_peaks_s'][:, 0].astype(int), 'rank'].values
-                df.loc[result['topology']['max_peaks'][:, 0].astype(int), 'score'] = dfint.loc[
-                    result['topology']['max_peaks_s'][:, 0].astype(int), 'score'].values
+                df.loc[result['topology']['max_peaks'][:, 0].astype(int), 'score'] = (
+                    dfint.loc[result['topology']['max_peaks_s'][:, 0].astype(int), 'score'].values.astype(float)
+                )
                 # df['rank'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['rank'].iloc[
                 #     result['topology']['max_peaks_s'][:, 0].astype(int)].values
                 # df['score'].iloc[result['topology']['max_peaks'][:, 0].astype(int)] = dfint['score'].iloc[
@@ -522,7 +534,6 @@ class findpeaks():
             * cu : Noise variation coefficient.
             * togray : Conversion to gray scale.
             * imsize : Resize image.
-            * verbose : Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
         Parameters
         ----------
@@ -566,30 +577,30 @@ class findpeaks():
         if method is None: method = 'topology'
         self.method = method
         self.type = 'peaks2d'
-        if self.verbose >= 3: print('[findpeaks] >Finding peaks in 2d-array using %s method..' % (self.method))
-        if (not self.togray) and (len(X.shape) == 3) and (self.method == 'topology'): raise Exception(
-            '[findpeaks] >Error: Topology method requires 2d-array. Your input is 3d. Hint: set togray=True.')
+        logger.debug('Finding peaks in 2d-array using %s method..' % (self.method))
+        if (not self.togray) and (len(X.shape) == 3) and (self.method == 'topology'): logger.error(
+            'Topology method requires 2d-array. Your input is 3d. Hint: set togray=True.')
 
         # Preprocessing the image
         Xproc = self.preprocessing(X, showfig=False)
         # Compute peaks based on method
         if method == 'topology':
             # Compute persistence based on topology method
-            result = stats.topology2d(Xproc, limit=self.limit, whitelist=self.whitelist, verbose=self.verbose)
-            # result = stats.topology(Xproc, limit=self.limit, verbose=self.verbose)
+            result = stats.topology2d(Xproc, limit=self.limit, whitelist=self.whitelist)
+            # result = stats.topology(Xproc, limit=self.limit)
         elif method == 'mask':
             # Compute peaks using local maximum filter.
-            result = stats.mask(Xproc, limit=self.limit, verbose=self.verbose)
+            result = stats.mask(Xproc, limit=self.limit)
         else:
-            if self.verbose >= 2: print(
-                '[findpeaks] >WARNING: [method="%s"] is not supported in 2d-array (image) data. <return>' % (
+            logger.warning(
+                '[method="%s"] is not supported in 2d-array (image) data. <return>' % (
                     self.method))
             return None
 
         # Store
         self.results, self.args = self._store2d(X, Xproc, result)
         # Return
-        if self.verbose >= 3: print('[findpeaks] >Fin.')
+        logger.info('Fin.')
         return self.results
 
     # Store 2D-array
@@ -662,7 +673,7 @@ class findpeaks():
 
         # Resize
         if self.imsize:
-            X = stats.resize(X, size=self.imsize, verbose=self.verbose)
+            X = stats.resize(X, size=self.imsize)
             if showfig:
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
@@ -671,7 +682,7 @@ class findpeaks():
                 iax = iax + 1
         # Scaling color range between [0,255]
         if self.scale:
-            X = stats.scale(X, verbose=self.verbose)
+            X = stats.scale(X)
             if showfig:
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
@@ -680,7 +691,7 @@ class findpeaks():
                 iax = iax + 1
         # Convert to gray image
         if self.togray:
-            X = stats.togray(X, verbose=self.verbose)
+            X = stats.togray(X)
             if showfig:
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
@@ -689,7 +700,7 @@ class findpeaks():
                 iax = iax + 1
         # Denoising
         if self.denoise is not None:
-            X = stats.denoise(X, method=self.denoise, window=self.window, cu=self.cu, verbose=self.verbose)
+            X = stats.denoise(X, method=self.denoise, window=self.window, cu=self.cu)
             if showfig:
                 # plt.figure(figsize=self.figsize)
                 ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
@@ -700,7 +711,7 @@ class findpeaks():
         return X
 
     # Pre-processing
-    def imread(self, path, verbose=3):
+    def imread(self, path):
         """Read file from disk or url.
 
         Parameters
@@ -715,12 +726,12 @@ class findpeaks():
         """
         cv2 = stats._import_cv2()
         if is_url(path):
-            if verbose >= 3: print('[findpeaks] >Downloading from github source: [%s]' % (path))
+            logger.info('Downloading from github source: [%s]' % (path))
             response = requests.get(path)
             img_array = np.asarray(bytearray(response.content), dtype=np.uint8)
             X = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         elif os.path.isfile(path):
-            if verbose >= 3: print('[findpeaks] >Import [%s]' % (path))
+            logger.info('Import [%s]' % (path))
             X = cv2.imread(path)
         # Return
         return X
@@ -767,7 +778,7 @@ class findpeaks():
 
         """
         if not hasattr(self, 'results'):
-            if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot. <return>')
+            logger.warning('Nothing to plot. <return>')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -779,7 +790,7 @@ class findpeaks():
             fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker,
                                       color=color, figure_order=figure_order, fontsize=fontsize)
         else:
-            if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot for %s' % (self.args['type']))
+            logger.warning('Nothing to plot for %s' % (self.args['type']))
             return None
 
         # Return
@@ -818,7 +829,7 @@ class findpeaks():
 
         """
         if not self.args['type'] == 'peaks1d':
-            if self.verbose >= 3: print('[findpeaks] >Requires results of 1D data <return>.')
+            logger.debug('Requires results of 1D data <return>.')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -871,7 +882,7 @@ class findpeaks():
 
         """
         if not self.args['type'] == 'peaks2d':
-            if self.verbose >= 3: print('[findpeaks] >Requires results of 2D data <return>.')
+            logger.debug('Requires results of 2D data <return>.')
             return None
         ax_method, ax_mesh = None, None
         figsize = figsize if figsize is not None else self.args['figsize']
@@ -900,8 +911,8 @@ class findpeaks():
 
         """
         if (not hasattr(self, 'results')) or (self.type == 'peaks1d'):
-            if self.verbose >= 2: print(
-                '[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the (image) data. <return>')
+            logger.warning(
+                'Nothing to plot. Hint: run fit(X), where X is the (image) data. <return>')
             return None
 
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
@@ -937,8 +948,8 @@ class findpeaks():
 
         """
         if (self.type == 'peaks1d'):
-            if self.verbose >= 2: print(
-                '[findpeaks] >WARNING: Nothing to plot. Hint: run fit(X), where X is the 2d-array (image). <return>')
+            logger.warning(
+                'Nothing to plot. Hint: run fit(X), where X is the 2d-array (image). <return>')
             return None
 
         if limit is None: limit = self.limit
@@ -991,11 +1002,11 @@ class findpeaks():
                 ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
 
             if text:
-                for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(self.verbose)):
+                for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm()):
                     ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
                     ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
 
-                for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(self.verbose)):
+                for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm()):
                     ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
                     ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
 
@@ -1061,8 +1072,6 @@ class findpeaks():
             (width, height) in inches.
         savepath : bool (default : None)
             Path with filename to save the figure, eg: './tmp/my_image.png'
-        verbose : int (default : 3)
-            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
         
         Example
         -------
@@ -1089,15 +1098,15 @@ class findpeaks():
 
         """
         if not hasattr(self, 'results'):
-            if self.verbose >= 2: print('[findpeaks] >WARNING: Nothing to plot. Hint: run the fit() function. <return>')
+            logger.warning('Nothing to plot. Hint: run the fit() function. <return>')
             return None
         if self.results.get('Xproc', None) is None:
-            if self.verbose >= 3: print(
-                '[findpeaks] >These analysis do not support mesh plotting. This may be caused because your are analysing 1D.')
+            logger.warning(
+                'These analysis do not support mesh plotting. This may be caused because your are analysing 1D.')
             return None
 
         figsize = figsize if figsize is not None else self.args['figsize']
-        if self.verbose >= 3: print('[findpeaks] >Plotting 3d-mesh..')
+        logger.debug('Plotting 3d-mesh..')
         ax1, ax2 = None, None
         if savepath is not None:
             savepath = str.replace(savepath, ',', '_')
@@ -1136,7 +1145,7 @@ class findpeaks():
 
             plt.show()
             if savepath is not None:
-                if self.verbose >= 3: print('[findpeaks] >Saving wireframe to disk..')
+                logger.info('Saving wireframe to disk..')
                 fig.savefig(savepath)
 
         if surface:
@@ -1157,7 +1166,7 @@ class findpeaks():
             if zlim is not None: ax2.set_zlim3d(zlim[0], zlim[1])
             plt.show()
             if savepath is not None:
-                if self.verbose >= 3: print('[findpeaks] >Saving surface to disk..')
+                logger.info('Saving surface to disk..')
                 fig.savefig(savepath)
 
         # Plot with contours
@@ -1171,8 +1180,7 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis',
-                         verbose=None):
+    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis'):
         """Plot the homology-peristence.
 
         Parameters
@@ -1183,8 +1191,6 @@ class findpeaks():
             Font size for the labels in the left figure. Choose None for no text-labels.
         fontsize_ax2 : int, (default: 14)
             Font size for the labels in the right figure. Choose None for no text-labels.
-        verbose : int (default : 3)
-            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
         Returns
         -------
@@ -1194,11 +1200,10 @@ class findpeaks():
             Figure axis 2.
 
         """
-        if verbose is None: verbose = self.verbose
         if (self.method != 'topology') or (not hasattr(self, 'results')) or len(
                 self.results['persistence']['birth_level'].values) <= 0:
-            if verbose >= 3: print(
-                '[findpeaks] >WARNING: Nothing to plot. Hint: run the .fit(method="topology") function. <return>')
+            logger.warning(
+                'Nothing to plot. Hint: run the .fit(method="topology") function. <return>')
             return None
 
         # Setup figure
@@ -1206,22 +1211,22 @@ class findpeaks():
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
         # Create the persistence ax2
-        ax2 = self._plot_persistence_ax2(fontsize_ax2, ax2, verbose)
+        ax2 = self._plot_persistence_ax2(fontsize_ax2, ax2)
         # Create the persistence ax1
-        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, xlabel, ylabel, verbose)
+        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, xlabel, ylabel)
         # Plot
         plt.show()
         # Return
         return ax1, ax2
 
-    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel, verbose):
+    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel):
         if self.args['type'] == 'peaks1d':
             # Attach the ranking-labels
             if fontsize is not None:
                 y = self.results['df']['y'].values
                 x = self.results['df']['x'].values
                 idx = np.where(self.results['df']['rank'] > 0)[0]
-                for i in tqdm(idx, disable=disable_tqdm(verbose)):
+                for i in tqdm(idx, disable=disable_tqdm()):
                     ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b',
                              fontsize=fontsize)
 
@@ -1247,9 +1252,9 @@ class findpeaks():
             # fig, ax1 = plt.subplots()
             # minpers = 1
             # Plot the detected loci
-            if verbose >= 3: print('[findpeaks] >Plotting loci of birth..')
+            logger.info('Plotting loci of birth..')
             ax1.set_title("Loci of births")
-            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm(verbose)):
+            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm()):
                 p_birth, bl, pers, p_death = homclass
                 if (self.limit is None):
                     y, x = p_birth
@@ -1271,15 +1276,15 @@ class findpeaks():
             ax2.plot([0, 255], [0, 255], '-', c='grey')
         return ax1, ax2
 
-    def _plot_persistence_ax2(self, fontsize, ax2, verbose=3):
+    def _plot_persistence_ax2(self, fontsize, ax2):
         x = self.results['persistence']['birth_level'].values
         y = self.results['persistence']['death_level'].values
         if len(x) <= 0:
-            if verbose >= 3: print('[[findpeaks]> Nothing to plot.')
+            logger.debug('Nothing to plot.')
             return None
         ax2.plot(x, y, '.', c='b')
         if fontsize is not None:
-            for i in tqdm(range(0, len(x)), disable=disable_tqdm(verbose)):
+            for i in tqdm(range(0, len(x)), disable=disable_tqdm()):
                 ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b', fontsize=fontsize)
 
         X = np.c_[x, y]
@@ -1304,8 +1309,6 @@ class findpeaks():
             Name of datasets: "1dpeaks", "2dpeaks", "2dpeaks_image", '2dpeaks_image_2', 'btc', 'facebook'
         url : str
             url link to to dataset.
-        Verbose : int (default : 3)
-            Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
         datadir : path-like
             Directory to store downloaded datasets in. Defaults to data sub-directory
             of findpeaks install location.
@@ -1316,7 +1319,7 @@ class findpeaks():
             Dataset containing mixed features.
 
         """
-        X = import_example(data=data, url=url, sep=sep, verbose=self.verbose, datadir=datadir)
+        X = import_example(data=data, url=url, sep=sep, datadir=datadir)
         return X
 
 
@@ -1378,7 +1381,7 @@ def _plot_original(X,
 
 
 # %% Import example dataset from github.
-def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
+def import_example(data='2dpeaks', url=None, sep=';', datadir=None):
     """Import example dataset from github source.
 
     Description
@@ -1391,8 +1394,6 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
         Name of datasets: "2dpeaks" or "2dpeaks_image" or '2dpeaks_image_2'
     url : str
         url link to to dataset.
-    Verbose : int (default : 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
     datadir : path-like
         Directory to store downloaded datasets in. Defaults to data sub-directory
         of findpeaks install location.
@@ -1406,7 +1407,7 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     if url is not None:
         fn = os.path.basename(urlparse(url).path).strip()
         if not fn:
-            if verbose >= 3: print('[findpeaks] >Could not determine filename to download <return>.')
+            logger.warning('Could not determine filename to download <return>.')
             return None
         data, _ = os.path.splitext(fn)
     elif data == '2dpeaks_image' or data == '2dpeaks_image_2':
@@ -1423,10 +1424,10 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
     elif (data == 'btc') or (data == 'facebook'):
         from caerus import caerus
         cs = caerus()
-        X = cs.download_example(name=data, verbose=verbose)
+        X = cs.download_example(name=data, verbose=0)
         return X
     else:
-        if verbose >= 2: print('[findpeaks] >WARNING: Nothing to download. <return>')
+        logger.warning('WARNING: Nothing to download. <return>')
         return None
 
     if datadir is None: datadir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -1436,14 +1437,14 @@ def import_example(data='2dpeaks', url=None, sep=';', verbose=3, datadir=None):
 
     # Check file exists.
     if not os.path.isfile(PATH_TO_DATA):
-        if verbose >= 3: print('[findpeaks] >Downloading from github source: [%s]' % (url))
+        logger.info('Downloading from github source: [%s]' % (url))
         r = requests.get(url, stream=True)
         with open(PATH_TO_DATA, "wb") as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 fd.write(chunk)
 
     # Import local dataset
-    if verbose >= 3: print('[findpeaks] >Import [%s]' % (PATH_TO_DATA))
+    logger.info('Import [%s]' % (PATH_TO_DATA))
     if data == '2dpeaks_image' or data == '2dpeaks_image_2':
         cv2 = stats._import_cv2()
         X = cv2.imread(PATH_TO_DATA)
@@ -1461,7 +1462,104 @@ def is_url(url):
     except ValueError:
         return False
 
-# %%
-# def disable_tqdm(verbose):
-# """Set the verbosity messages."""
-# return  (True if ((verbose==0 or verbose is None) or verbose>3) else False)
+
+# %% Verbosity
+# =============================================================================
+# Functions for verbosity
+# =============================================================================
+def convert_verbose_to_old(verbose):
+    """Convert new verbosity to the old ones."""
+    # In case the new verbosity is used, convert to the old one.
+    if verbose is None: verbose=0
+    if isinstance(verbose, str) or verbose>=10:
+        status_map = {
+            60: 0, 'silent': 0, 'off': 0, 'no': 0, None: 0,
+            40: 1, 'error': 1, 'critical': 1,
+            30: 2, 'warning': 2,
+            20: 3, 'info': 3,
+            10: 4, 'debug': 4}
+        return status_map.get(verbose, 0)
+    else:
+        return verbose
+
+def convert_verbose_to_new(verbose):
+    """Convert old verbosity to the new."""
+    # In case the new verbosity is used, convert to the old one.
+    if verbose is None: verbose=0
+    if not isinstance(verbose, str) and verbose<10:
+        status_map = {
+            'None': 'silent',
+            0: 'silent',
+            6: 'silent',
+            1: 'critical',
+            2: 'warning',
+            3: 'info',
+            4: 'debug',
+            5: 'debug'}
+        if verbose>=2: print('[findpeaks] WARNING use the standardized verbose status. The status [1-6] will be deprecated in future versions.')
+        return status_map.get(verbose, 0)
+    else:
+        return verbose
+
+def get_logger():
+    return logger.getEffectiveLevel()
+
+
+def set_logger(verbose: [str, int] = 'info', return_status: bool = False):
+    """Set the logger for verbosity messages.
+
+    Parameters
+    ----------
+    verbose : str or int, optional, default='info' (20)
+        Logging verbosity level. Possible values:
+        - 0, 60, None, 'silent', 'off', 'no' : no messages.
+        - 10, 'debug' : debug level and above.
+        - 20, 'info' : info level and above.
+        - 30, 'warning' : warning level and above.
+        - 50, 'critical' : critical level and above.
+
+    Returns
+    -------
+    None.
+
+    > # Set the logger to warning
+    > set_logger(verbose='warning')
+    > # Test with different messages
+    > logger.debug("Hello debug")
+    > logger.info("Hello info")
+    > logger.warning("Hello warning")
+    > logger.critical("Hello critical")
+
+    """
+    # Convert verbose to new
+    verbose = convert_verbose_to_new(verbose)
+    # Set 0 and None as no messages.
+    if (verbose==0) or (verbose is None):
+        verbose=60
+    # Convert str to levels
+    if isinstance(verbose, str):
+        levels = {
+            'silent': logging.CRITICAL + 10,
+            'off': logging.CRITICAL + 10,
+            'no': logging.CRITICAL + 10,
+            'debug': logging.DEBUG,
+            'info': logging.INFO,
+            'warning': logging.WARNING,
+            'error': logging.ERROR,
+            'critical': logging.CRITICAL,
+        }
+        verbose = levels[verbose]
+
+    # Show examples
+    logger.setLevel(verbose)
+
+    if return_status:
+        return verbose
+
+def check_logger(verbose: [str, int] = None):
+    """Check the logger."""
+    if verbose is not None: set_logger(verbose)
+    logger.debug('DEBUG')
+    logger.info('INFO')
+    logger.warning('WARNING')
+    logger.critical('CRITICAL')

@@ -120,7 +120,7 @@ rng = np.random.default_rng(42)
 x = rng.normal(size=(50, 50))
 x = gaussian_filter(x, sigma=10)
 # peak and valley
-fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose=3)
+fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None, verbose='info')
 results = fp.fit(x)
 results['persistence']
 
@@ -188,7 +188,7 @@ fp.plot_persistence()
 from findpeaks import findpeaks
 X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 
-fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, params={'delta': 1}, verbose=3)
+fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, params={'delta': 1}, verbose='info')
 # fp = findpeaks(method='topology')
 results = fp.fit(X)
 fp.plot()
@@ -257,11 +257,11 @@ fp.plot_mesh(xlim=[10, 30], ylim=[4, 10], zlim=[2, 6])
 from findpeaks import findpeaks
 X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 
-fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, verbose=3)
+fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, verbose='info')
 results = fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, verbose=3, interpolate=10)
+fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, interpolate=10)
 results = fp.fit(X)
 fp.plot()
 
@@ -361,7 +361,7 @@ x = rng.normal(size=(50, 50))
 x = gaussian_filter(x, sigma=10.)
 
 # Search for peaks/valleys with a minimum value of 0
-fp = findpeaks(method="topology", limit=0, denoise=None, verbose=3)
+fp = findpeaks(method="topology", limit=0, denoise=None, verbose='info')
 results = fp.fit(x)
 
 results['persistence']
@@ -384,7 +384,7 @@ results['Xdetect']
 
 # %%
 from findpeaks import findpeaks
-verbose=3
+verbose='info'
 
 fp = findpeaks(verbose=verbose)
 # Import example
@@ -415,7 +415,7 @@ import numpy as np
 np.random.seed(200)
 X = np.random.randint(200, size=400)
 
-fp = findpeaks(method='topology', lookahead=1, interpolate=10, verbose=3)
+fp = findpeaks(method='topology', lookahead=1, interpolate=10, verbose='info')
 results = fp.fit(X)
 
 fig=fp.plot()
@@ -423,7 +423,7 @@ fp.plot_mesh()
 
 # %%
 from findpeaks import findpeaks
-fp = findpeaks(method="topology", verbose=3, limit=1)
+fp = findpeaks(method="topology", verbose='info', limit=1)
 X = fp.import_example("2dpeaks")
 results = fp.fit(X)
 fp.plot(figure_order='horizontal')
@@ -434,7 +434,7 @@ from findpeaks import findpeaks
 # Data
 X = [10,11,9,23,21,11,45,20,11,12]
 # Initialize
-fp = findpeaks(method='peakdetect', lookahead=1, verbose=3)
+fp = findpeaks(method='peakdetect', lookahead=1, verbose='info')
 results = fp.fit(X)
 # Plot
 fig=fp.plot()
@@ -446,7 +446,7 @@ from findpeaks import findpeaks
 img = fp.import_example('2dpeaks_image')
 # Initializatie
 fp = findpeaks(whitelist=['peak', 'valley'], imsize=(300, 300), scale=True, togray=True, denoise='fastnl',
-               params={'window': 31}, verbose=3)
+               params={'window': 31}, verbose='info')
 # Fit
 fp.fit(img)
 fp.plot()
@@ -457,7 +457,7 @@ limit = fp.results['persistence'][0:5]['score'].min()
 fp.plot(text=True, limit=limit)
 
 fp = findpeaks(whitelist=['peak', 'valley'], limit=limit, imsize=(300, 300), scale=True, togray=True, denoise='fastnl',
-               params={'window': 31}, verbose=3)
+               params={'window': 31}, verbose='info')
 fp.fit(img)
 
 fp.results["persistence"]
@@ -515,7 +515,7 @@ fp.results['df']
 # %%
 from findpeaks import findpeaks
 X = [10,11,9,23,21,11,45,20,11,12]
-fp = findpeaks(method="topology", lookahead=1, verbose=3)
+fp = findpeaks(method="topology", lookahead=1, verbose='info')
 results = fp.fit(X)
 fp.plot()
 fp.plot_persistence()
@@ -528,7 +528,7 @@ methods = ['mask','topology', None]
 filters = ['fastnl','bilateral','frost','median','mean', None]
 windows = [3, 9, 15, 31, 63]
 cus = [0.25, 0.5, 0.75]
-verbose=3
+verbose='info'
 
 for getfilter in filters:
     for window in windows:
@@ -565,7 +565,7 @@ fp.plot_mesh(view=(90,0))
 # %%
 from findpeaks import findpeaks
 
-fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10, verbose=3)
+fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10, verbose='info')
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
@@ -573,14 +573,14 @@ fp.plot_persistence()
 
 
 from findpeaks import findpeaks
-fp = findpeaks(method='topology', verbose=3)
+fp = findpeaks(method='topology', verbose='info')
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
 fp.plot_persistence()
 
 from findpeaks import findpeaks
-fp = findpeaks(method='topology', interpolate=10, verbose=3)
+fp = findpeaks(method='topology', interpolate=10, verbose='info')
 X = fp.import_example('1dpeaks')
 fp.fit(X)
 fp.plot()
@@ -606,7 +606,7 @@ fp.plot(cmap='hot')
 fp.plot()
 fp.plot_persistence()
 
-fp = findpeaks(method='mask', verbose=3)
+fp = findpeaks(method='mask', verbose='info')
 img = fp.import_example()
 fp.fit(img)
 fp.plot()
@@ -614,7 +614,7 @@ fp.plot()
 
 # 2dpeaks example with other settings
 fp = findpeaks(method='topology', imsize=(300, 300), scale=True, togray=True, denoise='fastnl', params={'window': 31},
-               verbose=3)
+               verbose='info')
 img = fp.import_example('2dpeaks')
 fp.fit(img)
 fp.plot()
@@ -720,7 +720,7 @@ plt.figure(); plt.imshow(image_median, cmap='gray'); plt.title('Median')
 
 
 from findpeaks import findpeaks
-fp = findpeaks(method='topology', imsize=False, scale=False, togray=True, denoise='fastnl', verbose=3)
+fp = findpeaks(method='topology', imsize=False, scale=False, togray=True, denoise='fastnl', verbose='info')
 fp.fit(img)
 fp.plot_persistence()
 fp.plot_mesh(wireframe=False, title='image_lee_enhanced', view=(30,30))

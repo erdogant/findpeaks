@@ -8,10 +8,14 @@
 import numpy as np
 from scipy.interpolate import make_interp_spline, interp1d
 import matplotlib.pyplot as plt
+import logging
 
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 # %%
-def interpolate_line1d(X, n=3, method=2, showfig=False, verbose=3):
+def interpolate_line1d(X, n=3, method=2, showfig=False):
     """Interpolate 1d-vector.
 
     Parameters
@@ -36,8 +40,6 @@ def interpolate_line1d(X, n=3, method=2, showfig=False, verbose=3):
          * 'next'
         showfig : bool, (default : False)
             Show the figure.
-    verbose : int (default : 3)
-        Print to screen. 0: None, 1: Error, 2: Warning, 3: Info, 4: Debug, 5: Trace.
 
     Returns
     -------
@@ -53,7 +55,7 @@ def interpolate_line1d(X, n=3, method=2, showfig=False, verbose=3):
     bootstdata[idx] = X
 
     X = interpolate_nans(bootstdata, method=method)
-    if verbose>=3: print('[findpeaks] >Interpolating 1d-vector by factor %d' %(n))
+    logger.info('Interpolating 1d-vector by factor %d' %(n))
 
     if showfig:
         plot(X, bootstdata, method)
@@ -61,7 +63,7 @@ def interpolate_line1d(X, n=3, method=2, showfig=False, verbose=3):
     return(X)
 
 # %% Smooting of the line
-def interpolate_line2d(xs, ys=None, interpol=3, window=3, verbose=3):
+def interpolate_line2d(xs, ys=None, interpol=3, window=3):
     """interpolate 2D vector.
 
     Description
@@ -79,8 +81,6 @@ def interpolate_line2d(xs, ys=None, interpol=3, window=3, verbose=3):
         The interpolation factor. The data is interpolation by a factor n before the smoothing step.
     window : int, (default : 3)
         Smoothing window that is used to create the convolution and gradually smoothen the line.
-    verbose : int [1-5], default: 3
-        Print information to screen. A higher number will print more.
 
     Returns
     -------
@@ -91,7 +91,7 @@ def interpolate_line2d(xs, ys=None, interpol=3, window=3, verbose=3):
 
     """
     if window is not None:
-        if verbose>=3: print('[findpeaks] >Interpolating 2d-array (image) by factor %d' %(interpol))
+        logger.info('Interpolating 2d-array (image) by factor %d' %(interpol))
         # Specify number of points to interpolate the data
         # Interpolate xs line
         extpoints = np.linspace(0, len(xs), len(xs) * interpol)
@@ -129,7 +129,7 @@ def plot(X, bootstdata, method):
 
 
 # %% interpolatie
-def interpolate_nans(X, method='linear', replace_value_to_nan=None, verbose=3):
+def interpolate_nans(X, method='linear', replace_value_to_nan=None):
     """Interpolate the nan values in an 1D array.
 
     Parameters
@@ -154,8 +154,6 @@ def interpolate_nans(X, method='linear', replace_value_to_nan=None, verbose=3):
          * 'cubic'
          * 'previous'
          * 'next'
-    verbose : int ( default is 3)
-        Print message to screen. A higher number will increase outputs.
 
     Returns
     -------
@@ -179,7 +177,7 @@ def interpolate_nans(X, method='linear', replace_value_to_nan=None, verbose=3):
 
     # Check for nan values
     if len(good) == 0:
-        if verbose>=2: print('[findpeaks] >WARNING: Skipping because nothing to do: No nan values (?)')
+        logger.warning('WARNING: Skipping because nothing to do: No nan values (?)')
         # yhat= np.nan_to_num(X)
         yhat = X
         # np.nan_to_num(X)
