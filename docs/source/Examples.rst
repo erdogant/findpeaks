@@ -33,7 +33,7 @@ This example demonstrates basic peak detection on a small dataset using the defa
 Interpolation for Enhanced Detection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Interpolation via :func:`findpeaks.interpolate.interpolate_line1d` can significantly improve peak detection by creating smoother signals. This example shows how interpolation affects the detection results.
+Interpolation via :func:`findpeaks.interpolate.interpolate_line1d` can improve peak detection by creating smoother signals. This example shows how interpolation affects the detection results.
 
 .. code:: python
 

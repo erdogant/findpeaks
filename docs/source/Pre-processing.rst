@@ -70,7 +70,7 @@ The interpolate functionality is seamlessly integrated into ``findpeaks`` by spe
     # Import library
     from findpeaks import findpeaks
     # Initialize with interpolation
-    fp = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
+    fp = findpeaks(method='peakdetect', interpolate=2, lookahead=1)
     # Small dataset
     X = [10,11,9,23,21,11,45,20,11,12]
     # Detect peaks with interpolation

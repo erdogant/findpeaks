@@ -17,7 +17,7 @@ The pre-processing visualization for 1D data is based on the interpolation funct
     # Import library
     from findpeaks import findpeaks
     # Initialize with interpolation
-    fp = findpeaks(method='topology', interpolate=10)
+    fp = findpeaks(method='topology', interpolate=2)
     # Import example
     X = fp.import_example("1dpeaks")
     # Detect peaks
@@ -90,9 +90,6 @@ The pre-processing plot is specifically designed for 2D arrays (images) using th
    +----------+
    
 
-Main results plot
-'''''''''''''''''''''
-
 The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` displays the three major analysis steps: 
     * Input data visualization
     * Final pre-processed image 
@@ -143,9 +140,9 @@ The mesh plot can be easily created using the function: :func:`findpeaks.findpea
 .. code:: python
 
     # Create 3D mesh plot
-    fp.plot_mesh()
+    fp.plot_mesh(rstride=1, cstride=1)
     # Rotate to create a top-down view
-    fp.plot_mesh(view=(90,0))
+    fp.plot_mesh(view=(90,0), rstride=1, cstride=1)
 
 
 .. |figP7| image:: ../figs/2dpeaks_mesh1_norm.png

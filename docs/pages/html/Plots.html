@@ -84,7 +84,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#main-results-plot">Main results plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#d-mesh-visualization">3D mesh visualization</a></li>
 </ul>
@@ -144,7 +143,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize with interpolation</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="c1"># Import example</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s2">&quot;1dpeaks&quot;</span><span class="p">)</span>
 <span class="c1"># Detect peaks</span>
@@ -203,9 +202,6 @@
 </tr>
 </tbody>
 </table>
-</section>
-<section id="main-results-plot">
-<h1>Main results plot<a class="headerlink" href="#main-results-plot" title="Link to this heading"></a></h1>
 <dl class="simple">
 <dt>The <strong>plot</strong> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a> displays the three major analysis steps:</dt><dd><ul class="simple">
 <li><p>Input data visualization</p></li>
@@ -245,9 +241,9 @@
 <h1>3D mesh visualization<a class="headerlink" href="#d-mesh-visualization" title="Link to this heading"></a></h1>
 <p>The mesh plot can be easily created using the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mesh" title="findpeaks.findpeaks.findpeaks.plot_mesh"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code></a>. It converts the 2D image data into an interactive 3D mesh visualization, providing enhanced spatial understanding of the data structure.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create 3D mesh plot</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># Rotate to create a top-down view</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">view</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">view</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id6">
