@@ -51,8 +51,8 @@ def _import_cv2():
 def scale(X):
     """Normalize data (image) by scaling.
 
-    Description
-    -----------
+    Scaling Description
+    -------------------
     Scaling in range [0-255] by img*(255/max(img))
 
     Parameters
@@ -83,8 +83,8 @@ def scale(X):
 def togray(X):
     """Convert color to grey-image.
 
-    Description
-    -----------
+    Grayscale Conversion Description
+    --------------------------------
     Convert 3d-RGB colors to 2d-grey image.
 
     Parameters
@@ -139,14 +139,14 @@ def resize(X, size=None):
 def denoise(X, method='fastnl', window=9, cu=0.25):
     """Denoise input data.
 
-    Description
-    -----------
+    Denoising Description
+    ---------------------
     Denoising the data is very usefull before detection of peaks. Multiple methods are implemented to denoise the data.
     The bilateral filter uses a Gaussian filter in the space domain,
     but it also uses one more (multiplicative) Gaussian filter component which is a function of pixel intensity differences.
-    The Gaussian function of space makes sure that only pixels are ‘spatial neighbors’ are considered for filtering,
+    The Gaussian function of space makes sure that only pixels are 'spatial neighbors' are considered for filtering,
     while the Gaussian component applied in the intensity domain (a Gaussian function of intensity differences)
-    ensures that only those pixels with intensities similar to that of the central pixel (‘intensity neighbors’)
+    ensures that only those pixels with intensities similar to that of the central pixel ('intensity neighbors')
     are included to compute the blurred intensity value. As a result, this method preserves edges, since for pixels lying near edges,
     neighboring pixels placed on the other side of the edge, and therefore exhibiting large intensity variations when
     compared to the central pixel, will not be included for blurring.
@@ -227,8 +227,8 @@ def denoise(X, method='fastnl', window=9, cu=0.25):
 def mask(X, limit=0):
     """Determine peaks in 2d-array using a mask.
 
-    Description
-    -----------
+    Mask Method Description
+    -----------------------
     Takes an image and detect the peaks using the local maximum filter.
     Returns a boolean mask of the peaks (i.e. 1 when the pixel's value is the neighborhood maximum, 0 otherwise)
 
@@ -292,8 +292,8 @@ def mask(X, limit=0):
 def topology2d(X, limit=None, whitelist=['peak','valley']):
     """Determine peaks and valleys in 2d-array using toplogy method.
 
-    Description
-    -----------
+    Topology 2D Description
+    -----------------------
     This function calls the topology function that ONLY computes peaks in case of 2d-arrays.
     To detect the valleys, the image is inverted and the topology function is called.
     The final results is the combined peak and valleys.
@@ -364,37 +364,41 @@ def topology2d(X, limit=None, whitelist=['peak','valley']):
 def topology(X, limit=None, reverse=True, neighborhood_generator=None):
     """Determine peaks using topology method based on persistent homology.
 
-    Description
-    -----------
-    The topology method uses persistent homology to detect peaks and valleys in data. 
+    Topology Method Description
+    ---------------------------
+    The topology method uses persistent homology to detect peaks and valleys in data.
     The core idea is to consider the function graph that assigns each pixel its level,
-    then simulate a water level that continuously descends to lower levels. 
-    
+    then simulate a water level that continuously descends to lower levels.
+
     At local maxima, islands emerge (birth events). At saddle points, two islands merge;
     the lower island merges into the higher island (death events). The persistence diagram
     depicts death-over-birth values of all islands, where persistence is the difference
     between birth and death levels - the vertical distance from the main diagonal.
-    
+
     **Advantages over thresholding methods:**
+
     - Naturally handles noise and artifacts that affect simple thresholding
     - Provides quantitative significance measures (persistence scores)
     - Mathematically stable and robust
     - Enables principled filtering based on persistence rather than arbitrary thresholds
-    
+
     **Applications:**
+
     - **Line Detection**: Particularly effective for Hough Transform applications where
       traditional voting methods are susceptible to noise. The persistence-based approach
       significantly outperforms threshold-based methods in synthetic data experiments.
     - **Peak Detection**: General peak/valley detection in 1D and 2D data
     - **Feature Detection**: Robust detection of significant features in noisy data
-    
+
     **Hough Transform Integration:**
+
     This method addresses key limitations of classical Hough transform voting:
+
     - Replaces simple thresholding with persistent homology-based peak detection
     - Enhances robustness against noise and artifacts
     - Provides mathematical stability guarantees
     - Enables principled parameter selection based on persistence scores
-    
+
     The method not only identifies local maxima but also quantifies their significance
     through persistence scores, allowing for principled filtering of peaks based on
     their topological importance rather than arbitrary thresholds.
@@ -427,10 +431,12 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
         groups0: array-like
             Unstructured results
         persistence: DataFrame()
-            * x, y: Coordinates
-            * birth: Birth level, tuple(coordinate, rgb value)
-            * death: Death level, tuple(coordinate, rgb value)
-            * score: Persistence scores
+            DataFrame with columns:
+
+            - x, y: Coordinates
+            - birth: Birth level, tuple(coordinate, rgb value)
+            - death: Death level, tuple(coordinate, rgb value)
+            - score: Persistence scores
 
     References
     ----------

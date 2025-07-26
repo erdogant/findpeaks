@@ -64,17 +64,23 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#scale">Scale</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#gray">Gray</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional Plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#main-results-plot">Main results plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
@@ -86,7 +92,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#sar">SAR</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#denoising">Denoising</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plots">Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#find-peaks-on-the-denoised-image">Find peaks on the denoised image</a></li>
 </ul>
 </li>
@@ -97,38 +103,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html"><code class="docutils literal notranslate"><span class="pre">findpeaks</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.import_example"><code class="docutils literal notranslate"><span class="pre">import_example()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise"><code class="docutils literal notranslate"><span class="pre">denoise()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.disable_tqdm"><code class="docutils literal notranslate"><span class="pre">disable_tqdm()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.generate_default_neighborhood"><code class="docutils literal notranslate"><span class="pre">generate_default_neighborhood()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask"><code class="docutils literal notranslate"><span class="pre">mask()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.reverse_values"><code class="docutils literal notranslate"><span class="pre">reverse_values()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale"><code class="docutils literal notranslate"><span class="pre">scale()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray"><code class="docutils literal notranslate"><span class="pre">togray()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology"><code class="docutils literal notranslate"><span class="pre">topology()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d"><code class="docutils literal notranslate"><span class="pre">topology2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d"><code class="docutils literal notranslate"><span class="pre">interpolate_line1d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d"><code class="docutils literal notranslate"><span class="pre">interpolate_line2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_nans"><code class="docutils literal notranslate"><span class="pre">interpolate_nans()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_all_Mi"><code class="docutils literal notranslate"><span class="pre">calculate_all_Mi()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_local_weight_matrix"><code class="docutils literal notranslate"><span class="pre">calculate_local_weight_matrix()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.compute_coef_var"><code class="docutils literal notranslate"><span class="pre">compute_coef_var()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter"><code class="docutils literal notranslate"><span class="pre">frost_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter"><code class="docutils literal notranslate"><span class="pre">lee_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter"><code class="docutils literal notranslate"><span class="pre">kuan_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.assert_parameters"><code class="docutils literal notranslate"><span class="pre">assert_parameters()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="docutils literal notranslate"><span class="pre">lee_enhanced_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.assert_indices_in_range"><code class="docutils literal notranslate"><span class="pre">assert_indices_in_range()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter"><code class="docutils literal notranslate"><span class="pre">mean_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter"><code class="docutils literal notranslate"><span class="pre">median_filter()</span></code></a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -160,7 +136,7 @@
   <section id="stock-markets">
 <h1>Stock Markets<a class="headerlink" href="#stock-markets" title="Link to this heading"></a></h1>
 <p>The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
-The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.</p>
+The use of peak detection techniques such as topology via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a> require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.</p>
 <p>To overcome these challanges, I developed the method <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> and incorporated it in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
 <code class="docutils literal notranslate"><span class="pre">Caerus</span></code> is a python package (<a class="reference external" href="https://github.com/erdogant/caerus">https://github.com/erdogant/caerus</a>) that determines the local-minima with the corresponding local-maxima within the given time-frame.</p>
 <section id="bitcoin">
@@ -236,7 +212,7 @@ The use of peak detection techniques such as topology require a very specific se
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.</p>
 <p>SAR images are corrupted by speckle noise which makes peak detection very challenging or somethimes not even possible.
-Let’s load a SAR image, apply denoising techniques and then detect peaks.</p>
+Let’s load a SAR image, apply denoising techniques via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a> and then detect peaks using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initializatie</span>
@@ -419,8 +395,8 @@ But this information allows to limit the model, and focus only on the peaks that
 </pre></div>
 </div>
 </section>
-<section id="plots">
-<h2>Plots<a class="headerlink" href="#plots" title="Link to this heading"></a></h2>
+<section id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_fastnl</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fastnl&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_bilateral</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Bilateral&#39;</span><span class="p">)</span>
@@ -437,7 +413,7 @@ But this information allows to limit the model, and focus only on the peaks that
 <section id="find-peaks-on-the-denoised-image">
 <h2>Find peaks on the denoised image<a class="headerlink" href="#find-peaks-on-the-denoised-image" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">image_lee_sigma</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">(</span><span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Lee Sigma&#39;</span><span class="p">)</span>

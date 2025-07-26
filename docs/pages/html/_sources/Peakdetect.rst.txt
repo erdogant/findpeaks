@@ -2,30 +2,34 @@
 Peakdetect
 ''''''''''''
 
-The library ``peakdetect`` [1] is based on Billauers work [2] and this gist [3]. The method is directly incorporated in ``findpeaks`` and has a strong advantage to
-find the local maxima and minima in noisy signal. Noisy data is very common in real-life signals, which makes methods such as zero-derivates not applicable.
-The typical solution is to smooth the curve with some low-pass filter but this comes with the trade-off that the peaks in the original signal may be lost.
-This method works only for one-dimensional data.
+The peakdetect method [1] is based on the work of Billauer [2] and incorporates improvements from various implementations [3]. This method excels at finding local maxima and minima in noisy signals using :func:`findpeaks.peakdetect.peakdetect`, making it particularly valuable for real-world applications where data quality varies.
+
+**Key Advantages:**
+    - **Noise robustness**: Handles noisy data effectively without requiring extensive preprocessing
+    - **No smoothing required**: Unlike derivative-based methods, it doesn't require signal smoothing that could lose important peaks
+    - **Efficient processing**: Optimized for one-dimensional data with configurable parameters
+    - **Real-world applicability**: Designed for practical signal processing scenarios
+
+The method works exclusively with one-dimensional data and uses a lookahead approach to distinguish between true peaks and noise-induced fluctuations.
 
 One-dimensional data
 ----------------------------------------------------
 
-For the **peakdetect** method, we need to set the **lookahead** parameter, which is the distance to look ahead from a peak candidate to determine if it is the actual peak.
-The default value is set to 200 but this value is way too large for small datasets (i.e., with <50 data points).
+For the **peakdetect** method, the **lookahead** parameter is crucial for optimal performance. This parameter defines the distance to look ahead from a peak candidate to determine if it represents a true peak. The default value is 200, but this is typically too large for small datasets (i.e., those with <50 data points).
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
-    # Initialize
+    # Initialize with appropriate lookahead for small dataset
     fp = findpeaks(method='peakdetect', lookahead=1, interpolate=None)
     # Example 1d-vector
     X = fp.import_example('1dpeaks')
-    # Fit topology method on the 1d-vector
+    # Fit peakdetect method on the 1d-vector
     results = fp.fit(X)
     # The output contains multiple variables
     print(results.keys())
-    # dict_keys([df'])
+    # dict_keys(['df'])
 
     +----+-----+------+--------+----------+--------+
     |    |   x |    y |   labx | valley   | peak   |
@@ -65,28 +69,28 @@ The default value is set to 200 but this value is way too large for small datase
     | 16 |  16 | 0.01 |      3 | True     | False  |
     +----+-----+------+--------+----------+--------+
 
-The output is a dictionary containing a single dataframe (*df*) that can be of use for follow-up analysis. See: :func:`findpeaks.findpeaks.findpeaks.peaks1d`
+The output is a dictionary containing a single dataframe (*df*) that provides comprehensive information for follow-up analysis. See: :func:`findpeaks.findpeaks.findpeaks.peaks1d`
 
 .. _Figure_7:
 
 .. figure:: ../figs/1dpeaks_peakdetect.png
 
 
-The strength of this approach becomes visible when we use a noisy dataset.
+The method's strength becomes particularly evident when applied to noisy datasets, where it can distinguish between true peaks and noise-induced fluctuations.
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
-    # Initialize
+    # Initialize with appropriate lookahead for large dataset
     fp = findpeaks(method='peakdetect', lookahead=200, interpolate=None)
 
-    # Example 1d-vector
+    # Example 1d-vector with noise
     i = 10000
     xs = np.linspace(0,3.7*np.pi,i)
     X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
 
-    # Fit topology method on the 1d-vector
+    # Fit peakdetect method on the noisy 1d-vector
     results = fp.fit(X)
     # Plot
     fp.plot()

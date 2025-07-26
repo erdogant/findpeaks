@@ -2,8 +2,8 @@ Denoise
 ''''''''''
 
 Images can be corrupted by noise. To suppress and improve the image analysis various filtering techniques have been developed.
-Denoising the image is very usefull before the detection of peaks.
-In ``findpeaks`` we incorporated some well-known filtering methods: *Frost*, *Lee*, and *Kuan*, but also other methods such as *fastnl*, *bilateral*, *mean* and *median* filters.
+Denoising the image is very usefull before the detection of peaks using :func:`findpeaks.findpeaks.findpeaks.preprocessing`.
+In ``findpeaks`` we incorporated some well-known filtering methods: *Frost* via :func:`findpeaks.filters.frost.frost_filter`, *Lee* via :func:`findpeaks.filters.lee.lee_filter`, and *Kuan* via :func:`findpeaks.filters.kuan.kuan_filter`, but also other methods such as *fastnl*, *bilateral*, *mean* via :func:`findpeaks.filters.mean.mean_filter` and *median* via :func:`findpeaks.filters.median.median_filter` filters.
 Some of the methods are adopted from ``pyradar`` [1], for which the code is refactored and rewritten for Python 3. Other methods are adopted from ``python-opencv``.
 
 It is generally known that noise can follow various distributions, and requires different approaches to effectly reduce the noise.

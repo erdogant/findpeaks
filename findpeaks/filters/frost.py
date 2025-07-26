@@ -85,8 +85,8 @@ def calculate_local_weight_matrix(window, factor_A):
 def frost_filter(img, damping_factor=2.0, win_size=3):
     """Frost filter.
     
-    Description
-    -----------
+    Frost Filter Description
+    ------------------------
     Apply frost filter to a numpy matrix containing the image, with a window of win_size x win_size. By default, the window size is 3x3.
 
     Parameters

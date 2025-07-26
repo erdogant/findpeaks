@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interpolate/impute &mdash; findpeaks findpeaks documentation</title>
+  <title>Pre-processing &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
@@ -64,17 +64,23 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Interpolate/impute</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#resize">Resize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#scale">Scale</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#gray">Gray</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#preprocessing">Preprocessing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional Plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#main-results-plot">Main results plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -88,38 +94,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html"><code class="docutils literal notranslate"><span class="pre">findpeaks</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.import_example"><code class="docutils literal notranslate"><span class="pre">import_example()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise"><code class="docutils literal notranslate"><span class="pre">denoise()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.disable_tqdm"><code class="docutils literal notranslate"><span class="pre">disable_tqdm()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.generate_default_neighborhood"><code class="docutils literal notranslate"><span class="pre">generate_default_neighborhood()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask"><code class="docutils literal notranslate"><span class="pre">mask()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.reverse_values"><code class="docutils literal notranslate"><span class="pre">reverse_values()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale"><code class="docutils literal notranslate"><span class="pre">scale()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray"><code class="docutils literal notranslate"><span class="pre">togray()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology"><code class="docutils literal notranslate"><span class="pre">topology()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d"><code class="docutils literal notranslate"><span class="pre">topology2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d"><code class="docutils literal notranslate"><span class="pre">interpolate_line1d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d"><code class="docutils literal notranslate"><span class="pre">interpolate_line2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_nans"><code class="docutils literal notranslate"><span class="pre">interpolate_nans()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_all_Mi"><code class="docutils literal notranslate"><span class="pre">calculate_all_Mi()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_local_weight_matrix"><code class="docutils literal notranslate"><span class="pre">calculate_local_weight_matrix()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.compute_coef_var"><code class="docutils literal notranslate"><span class="pre">compute_coef_var()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter"><code class="docutils literal notranslate"><span class="pre">frost_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter"><code class="docutils literal notranslate"><span class="pre">lee_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter"><code class="docutils literal notranslate"><span class="pre">kuan_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.assert_parameters"><code class="docutils literal notranslate"><span class="pre">assert_parameters()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="docutils literal notranslate"><span class="pre">lee_enhanced_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.assert_indices_in_range"><code class="docutils literal notranslate"><span class="pre">assert_indices_in_range()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter"><code class="docutils literal notranslate"><span class="pre">mean_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter"><code class="docutils literal notranslate"><span class="pre">median_filter()</span></code></a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -138,7 +114,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Interpolate/impute</li>
+      <li class="breadcrumb-item active">Pre-processing</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/Pre-processing.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -148,17 +124,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="interpolate-impute">
-<h1>Interpolate/impute<a class="headerlink" href="#interpolate-impute" title="Link to this heading"></a></h1>
-<p>The input parameter “interpolate” extens the data by this factor and is usefull to “smooth” the signal by a (linear) interpolation. It can also handle missing (nan) data!
-A smoothed signal can be more robust agains noise, and perform better in the detection of peaks and valleys.
-This step can be seen as pre-processing step before applying any method.
-The input is 1D numpy vector that can be interpolated by various methods for which the default is <strong>linear</strong>. Note that the initialization of <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> is fixed to <strong>linear</strong>.
-If another method is desired, it can be done by directly using the functionality: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>.</p>
-<p>Besides the 1d functionality, there is also a 2d functionlity in case you have x and y-cooridinates: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a>.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>Interpolation methods:</dt><dd><ul class="simple">
+  <section id="pre-processing">
+<h1>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading"></a></h1>
+<p>This section provides comprehensive documentation of the preprocessing capabilities in the findpeaks library. Preprocessing is crucial for improving peak detection accuracy, especially when working with noisy or complex data. The main preprocessing pipeline is handled by <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
+</section>
+<section id="interpolation-and-imputation">
+<h1>Interpolation and imputation<a class="headerlink" href="#interpolation-and-imputation" title="Link to this heading"></a></h1>
+<p>The input parameter “interpolate” extends the data by the specified factor and is useful for “smoothing” the signal through linear interpolation via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>. This functionality can also handle missing (NaN) data effectively. A smoothed signal is more robust against noise and typically performs better in peak and valley detection.</p>
+<p>This step serves as a preprocessing step before applying any detection method. The input is a 1D numpy vector that can be interpolated using various methods, with <strong>linear</strong> interpolation as the default. Note that the findpeaks initialization is fixed to <strong>linear</strong> interpolation. If alternative methods are desired, they can be accessed directly through the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>.</p>
+<p>In addition to 1D functionality, there is also 2D interpolation capability for cases with x and y coordinates: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a>.</p>
+<dl class="simple">
+<dt><strong>Available interpolation methods:</strong></dt><dd><ul class="simple">
 <li><p>String or integer</p></li>
 <li><p>0 : order degree</p></li>
 <li><p>1 : order degree</p></li>
@@ -175,16 +151,15 @@ If another method is desired, it can be done by directly using the functionality
 </ul>
 </dd>
 </dl>
-</div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">findpeaks</span>
 <span class="c1"># Small dataset</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
-<span class="c1"># Interpolate the data using linear by factor 10</span>
+<span class="c1"># Interpolate the data using linear method by factor 10</span>
 <span class="n">Xi</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">interpolate_line1d</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># Print message</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Input data lenth: </span><span class="si">%s</span><span class="s1">, interpolated length: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xi</span><span class="p">)))</span>
-<span class="c1"># Input data lenth: 10, interpolated length: 100</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Input data length: </span><span class="si">%s</span><span class="s1">, interpolated length: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xi</span><span class="p">)))</span>
+<span class="c1"># Input data length: 10, interpolated length: 100</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
@@ -194,11 +169,10 @@ If another method is desired, it can be done by directly using the functionality
 </tr>
 </tbody>
 </table>
-<p>As mentioned before, the interpolate function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> can also handle missing data.
-Lets demonstrate this by example:</p>
+<p>As mentioned earlier, the interpolate function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> can also handle missing data effectively. Let’s demonstrate this capability:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">findpeaks</span>
-<span class="c1"># Small dataset</span>
+<span class="c1"># Small dataset with missing values</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
 <span class="c1"># Interpolate the data using linear method and n=1. This would not extend the data but simply impute missing values.</span>
 <span class="n">Xi</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">interpolate_line1d</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -206,22 +180,20 @@ Lets demonstrate this by example:</p>
 <span class="c1"># array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10.])</span>
 </pre></div>
 </div>
-<p>The interpolate functionality is integrated in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> by specifying the <strong>interpolate</strong> as the factor <em>n</em>.
-The advantage of the interpolation integration in findpeaks is the automatic mapping of the results back to the original data and <em>imputing</em> missing data.
-Otherwise, the detected peaks coordinates on the x-axis would always be different then for the input-data as the data is extended by interpolation.</p>
+<p>The interpolate functionality is seamlessly integrated into <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> by specifying the <strong>interpolate</strong> parameter as the factor <em>n</em>. The advantage of this integration is the automatic mapping of results back to the original data coordinates and the ability to impute missing data. Without this integration, the detected peak coordinates on the x-axis would differ from the input data due to the data extension from interpolation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># Init</span>
+<span class="c1"># Initialize with interpolation</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># Small dataset</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
-<span class="c1"># Interpolate the data using linear by factor 10</span>
+<span class="c1"># Detect peaks with interpolation</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<caption><span class="caption-text">Comparison: without interpolation (left) and with interpolation (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP1" src="_images/fig2_peakdetect.png" /></p></td>
 <td><p><img alt="figP2" src="_images/fig2_peakdetect_int.png" /></p></td>
@@ -229,65 +201,62 @@ Otherwise, the detected peaks coordinates on the x-axis would always be differen
 </tbody>
 </table>
 </section>
-<section id="resize">
-<h1>Resize<a class="headerlink" href="#resize" title="Link to this heading"></a></h1>
-<p>The resize function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a> is only applicable for 2D-arrays (images).
-The function resizes the images using functionality of <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code> using default parameter settings.</p>
+<section id="image-resizing">
+<h1>Image resizing<a class="headerlink" href="#image-resizing" title="Link to this heading"></a></h1>
+<p>The resize function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a> is specifically designed for 2D arrays (images). This function resizes images using OpenCV functionality with optimized default parameter settings, providing efficient image scaling capabilities.</p>
 </section>
-<section id="scale">
-<h1>Scale<a class="headerlink" href="#scale" title="Link to this heading"></a></h1>
-<p>The <em>scale</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a> is only applicable for 2D-arrays (images).
-Scaling data is an import pre-processing step to make sure all data is ranged between the minimum and maximum range.</p>
-<p>The images are scaled between [0-255] by the following equation:</p>
+<section id="image-scaling">
+<h1>Image scaling<a class="headerlink" href="#image-scaling" title="Link to this heading"></a></h1>
+<p>The <em>scale</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a> is designed for 2D arrays (images). Scaling is an essential preprocessing step that ensures all data is normalized within a consistent range, improving detection accuracy and computational efficiency.</p>
+<p>Images are scaled to the [0-255] range using the following equation:</p>
 <blockquote>
 <div><p>Ximg * (255 / max(Ximg))</p>
 </div></blockquote>
 </section>
-<section id="gray">
-<h1>Gray<a class="headerlink" href="#gray" title="Link to this heading"></a></h1>
-<p>The <em>gray</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a> is only applicable for 2D-arrays (images).
-The function sets the color to gray using functionality of <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code> using the <code class="docutils literal notranslate"><span class="pre">cv2.COLOR_BGR2GRAY</span></code> settings.</p>
+<section id="grayscale-conversion">
+<h1>Grayscale conversion<a class="headerlink" href="#grayscale-conversion" title="Link to this heading"></a></h1>
+<p>The <em>gray</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a> is designed for 2D arrays (images). This function converts color images to grayscale using OpenCV functionality with the <code class="docutils literal notranslate"><span class="pre">cv2.COLOR_BGR2GRAY</span></code> settings, which is required for certain detection methods.</p>
 </section>
-<section id="preprocessing">
-<h1>Preprocessing<a class="headerlink" href="#preprocessing" title="Link to this heading"></a></h1>
-<p>The preprocessing function is developed to pipeline the above mentioned functionalities <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
+<section id="comprehensive-preprocessing-pipeline">
+<h1>Comprehensive preprocessing pipeline<a class="headerlink" href="#comprehensive-preprocessing-pipeline" title="Link to this heading"></a></h1>
+<p>The preprocessing function is designed to pipeline all the above-mentioned functionalities: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
 <dl class="simple">
-<dt>The pre-processing has 4 (optional) steps and are exectued in this order. After the last step, the peak detection method is applied.</dt><dd><ul class="simple">
+<dt>The preprocessing pipeline consists of 4 optional steps executed in the following order. After the final step, the peak detection method is applied:</dt><dd><ul class="simple">
 <li><ol class="arabic simple">
-<li><p>Resizing (to reduce computation time).</p></li>
+<li><p><strong>Resizing</strong>: Reduces image dimensions for faster computation</p></li>
 </ol>
 </li>
 <li><ol class="arabic simple" start="2">
-<li><p>Scaling color pixels between [0-255].</p></li>
+<li><p><strong>Scaling</strong>: Normalizes pixel values between [0-255]</p></li>
 </ol>
 </li>
 <li><ol class="arabic simple" start="3">
-<li><p>Conversion to gray-scale.</p></li>
+<li><p><strong>Grayscale conversion</strong>: Converts color images to grayscale</p></li>
 </ol>
 </li>
 <li><ol class="arabic simple" start="4">
-<li><p>Denoising of the image.</p></li>
+<li><p><strong>Denoising</strong>: Applies noise reduction filters</p></li>
 </ol>
 </li>
 </ul>
 </dd>
 </dl>
-<p>Each of these steps can be controlled by setting the input parameters.</p>
+<p>Each of these steps can be controlled by setting the appropriate input parameters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># Init</span>
+<span class="c1"># Initialize with preprocessing parameters</span>
 <span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;topology&quot;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">],</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="c1"># Small dataset</span>
+<span class="c1"># Import example dataset</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s2">&quot;2dpeaks&quot;</span><span class="p">)</span>
 
-<span class="c1"># Interpolate the data using linear by factor 10</span>
+<span class="c1"># Apply preprocessing and detect peaks</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
 <span class="c1"># fp.plot_persistence()</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Interpolation example 2d-array (image)</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<caption><span class="caption-text">Preprocessing example for 2D array (image)</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP3" src="_images/2dpeaks_interpolate.png" /></p></td>
 </tr>

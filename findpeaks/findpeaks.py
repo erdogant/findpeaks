@@ -389,8 +389,8 @@ class findpeaks():
     def peaks1d(self, X, x=None, method='peakdetect', height=0):
         """Detect peaks and valleys in 1D array data.
 
-        Description
-        -----------
+        Method Description
+        ------------------
         Performs peak and valley detection on 1D data using the specified method.
         Supports multiple detection algorithms with different characteristics:
         
@@ -656,8 +656,8 @@ class findpeaks():
     def peaks2d(self, X, method='topology'):
         """Detect peaks and valleys in 2D-array or image data.
 
-        Description
-        -----------
+        Detection Description
+        ---------------------
         Performs peak and valley detection on 2D data (images, spatial data, or matrices).
         Applies preprocessing steps including denoising, scaling, and grayscale conversion
         before detection. Supports multiple detection algorithms optimized for 2D data.
@@ -799,8 +799,8 @@ class findpeaks():
     def preprocessing(self, X, showfig=False):
         """Apply preprocessing pipeline to 2D array (image) data.
 
-        Description
-        -----------
+        Preprocessing Description
+        -------------------------
         Performs a series of optional preprocessing steps to prepare 2D data for peak detection.
         The preprocessing pipeline can significantly improve detection quality, especially
         for noisy or complex images.
@@ -943,8 +943,8 @@ class findpeaks():
              fontsize=18):
         """Plot peak detection results.
 
-        Description
-        -----------
+        Plot Description
+        ----------------
         Creates visualizations of peak detection results. Automatically determines
         the appropriate plot type based on the data dimensionality (1D or 2D).
         
@@ -1548,8 +1548,8 @@ class findpeaks():
     def import_example(self, data='2dpeaks', url=None, sep=';', datadir=None):
         """Import example dataset from github source.
 
-        Description
-        -----------
+        Dataset Import Descriptions
+        ---------------------------
         Import one of the few datasets from github source or specify your own download url link.
 
         Parameters
@@ -1644,8 +1644,8 @@ def _plot_original(X,
 def import_example(data='2dpeaks', url=None, sep=';', datadir=None):
     """Import example dataset from github source.
 
-    Description
-    -----------
+    Dataset Import Description
+    --------------------------
     Import one of the few datasets from github source or specify your own download url link.
 
     Parameters

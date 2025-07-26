@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="One-dimensional Plots" href="Plots.html" />
-    <link rel="prev" title="Interpolate/impute" href="Pre-processing.html" /> 
+    <link rel="next" title="Plots" href="Plots.html" />
+    <link rel="prev" title="Pre-processing" href="Pre-processing.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -64,11 +64,12 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#scale">Scale</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#gray">Gray</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Denoise</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lee">Lee</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lee-enhanced">Lee Enhanced</a></li>
@@ -85,8 +86,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional Plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#main-results-plot">Main results plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -100,38 +106,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html"><code class="docutils literal notranslate"><span class="pre">findpeaks</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.import_example"><code class="docutils literal notranslate"><span class="pre">import_example()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise"><code class="docutils literal notranslate"><span class="pre">denoise()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.disable_tqdm"><code class="docutils literal notranslate"><span class="pre">disable_tqdm()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.generate_default_neighborhood"><code class="docutils literal notranslate"><span class="pre">generate_default_neighborhood()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask"><code class="docutils literal notranslate"><span class="pre">mask()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.reverse_values"><code class="docutils literal notranslate"><span class="pre">reverse_values()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale"><code class="docutils literal notranslate"><span class="pre">scale()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray"><code class="docutils literal notranslate"><span class="pre">togray()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology"><code class="docutils literal notranslate"><span class="pre">topology()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d"><code class="docutils literal notranslate"><span class="pre">topology2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d"><code class="docutils literal notranslate"><span class="pre">interpolate_line1d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d"><code class="docutils literal notranslate"><span class="pre">interpolate_line2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_nans"><code class="docutils literal notranslate"><span class="pre">interpolate_nans()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_all_Mi"><code class="docutils literal notranslate"><span class="pre">calculate_all_Mi()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_local_weight_matrix"><code class="docutils literal notranslate"><span class="pre">calculate_local_weight_matrix()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.compute_coef_var"><code class="docutils literal notranslate"><span class="pre">compute_coef_var()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter"><code class="docutils literal notranslate"><span class="pre">frost_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter"><code class="docutils literal notranslate"><span class="pre">lee_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter"><code class="docutils literal notranslate"><span class="pre">kuan_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.assert_parameters"><code class="docutils literal notranslate"><span class="pre">assert_parameters()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="docutils literal notranslate"><span class="pre">lee_enhanced_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.assert_indices_in_range"><code class="docutils literal notranslate"><span class="pre">assert_indices_in_range()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter"><code class="docutils literal notranslate"><span class="pre">mean_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter"><code class="docutils literal notranslate"><span class="pre">median_filter()</span></code></a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -163,8 +139,8 @@
   <section id="denoise">
 <h1>Denoise<a class="headerlink" href="#denoise" title="Link to this heading"></a></h1>
 <p>Images can be corrupted by noise. To suppress and improve the image analysis various filtering techniques have been developed.
-Denoising the image is very usefull before the detection of peaks.
-In <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> we incorporated some well-known filtering methods: <em>Frost</em>, <em>Lee</em>, and <em>Kuan</em>, but also other methods such as <em>fastnl</em>, <em>bilateral</em>, <em>mean</em> and <em>median</em> filters.
+Denoising the image is very usefull before the detection of peaks using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.
+In <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> we incorporated some well-known filtering methods: <em>Frost</em> via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter" title="findpeaks.filters.frost.frost_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></a>, <em>Lee</em> via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter" title="findpeaks.filters.lee.lee_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></a>, and <em>Kuan</em> via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a>, but also other methods such as <em>fastnl</em>, <em>bilateral</em>, <em>mean</em> via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter" title="findpeaks.filters.mean.mean_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.mean.mean_filter()</span></code></a> and <em>median</em> via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter" title="findpeaks.filters.median.median_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.median.median_filter()</span></code></a> filters.
 Some of the methods are adopted from <code class="docutils literal notranslate"><span class="pre">pyradar</span></code> [1], for which the code is refactored and rewritten for Python 3. Other methods are adopted from <code class="docutils literal notranslate"><span class="pre">python-opencv</span></code>.</p>
 <p>It is generally known that noise can follow various distributions, and requires different approaches to effectly reduce the noise.</p>
 <table class="docutils align-center" id="id1">
@@ -410,8 +386,8 @@ neighboring pixels placed on the other side of the edge, and therefore exhibitin
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Pre-processing.html" class="btn btn-neutral float-left" title="Interpolate/impute" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Plots.html" class="btn btn-neutral float-right" title="One-dimensional Plots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Pre-processing.html" class="btn btn-neutral float-left" title="Pre-processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Plots.html" class="btn btn-neutral float-right" title="Plots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

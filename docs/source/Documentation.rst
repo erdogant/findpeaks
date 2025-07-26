@@ -8,7 +8,7 @@ Medium Blog
 ############
 
 .. note::
-	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://towardsdatascience.com/a-step-by-step-guide-to-accurately-detect-peaks-and-valleys-9abc49a2eac3>`_
+	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://erdogant.medium.com>`_
 
 Github
 ############

@@ -80,8 +80,8 @@ def assert_parameters(win_size, k, cu, cmax):
 def lee_enhanced_filter(img, win_size=3, k=K_DEFAULT, cu=CU_DEFAULT, cmax=CMAX_DEFAULT):
     """Lee enhanced filter.
 
-    Description
-    -----------
+    Enhanced Lee Filter Description
+    -------------------------------
     Apply Enhanced Lee filter to a numpy matrix containing the image, with a window of win_size x win_size.
 
     Parameters

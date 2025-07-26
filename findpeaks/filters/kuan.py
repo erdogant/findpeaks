@@ -57,8 +57,8 @@ def weighting(window, cu=0.25):
 def kuan_filter(img, win_size=3, cu=0.25):
     """Kuan filter.
 
-    Description
-    -----------
+    Kuan Filter Description
+    -----------------------
     Apply kuan to a numpy matrix containing the image, with a window of win_size x win_size.
 
     Parameters

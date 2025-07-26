@@ -4,20 +4,28 @@ findpeaks's documentation!
 |python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
 
 
-*findpeaks* is Python package for the detection of peaks and valleys in a 1d-vector and 2d-array (images).
-Peaks and valleys can be detected using **topology**, **mask**, and the **peakdetect** approach. In addition to peak-detection, various functions 
-are readily available for pre-processing the data (denoising, normalizing, resizing), and vizualizing the data (3d-mesh, persistence)
+*findpeaks* is a comprehensive Python library for robust detection and analysis of peaks and valleys in both 1D vectors and 2D arrays (images). The library provides multiple detection algorithms including **topology-based persistent homology** (most robust), **mask-based local maximum filtering**, and traditional **peakdetect** approaches. 
+
+**Key Features:**
+    - **Multiple Detection Methods**: Topology (persistent homology)
+    - **1D and 2D Support**: Works with time series, signals, images, and spatial data
+    - **Advanced Preprocessing**: Denoising, scaling, interpolation, and image preprocessing
+    - **Rich Visualization**: Persistence diagrams, 3D mesh plots, preprocessing steps, and masking plots
+    - **Mathematical Stability**: Topology method provides mathematically grounded peak detection
+    - **Hough Transform Applications**: Enhanced robustness for computer vision applications
+
+The library includes comprehensive preprocessing capabilities (denoising, normalizing, resizing) and advanced visualization tools (3D mesh plots, persistence diagrams, preprocessing pipelines) to help users understand and analyze their data effectively.
 
 
 -----------------------------------
 
 .. note::
-	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://towardsdatascience.com/a-step-by-step-guide-to-accurately-detect-peaks-and-valleys-9abc49a2eac3>`_
+	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://erdogant.medium.com>`_
 
 -----------------------------------
 
 .. note::
-	**Your ❤️ is important to keep maintaining this package.** You can `support <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_ in various ways, have a look at the `sponser page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_.
+	**Your ❤️ is important to keep maintaining this package.** You can `support <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_ in various ways, have a look at the `sponsor page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_.
 	Report bugs, issues and feature extensions at `github <https://github.com/erdogant/findpeaks/>`_ page.
 
 	.. code-block:: console
@@ -82,8 +90,8 @@ Content
   :caption: Documentation
 
   Documentation
+  Function_Reference
   Coding quality
-  findpeaks.findpeaks
 
 
 

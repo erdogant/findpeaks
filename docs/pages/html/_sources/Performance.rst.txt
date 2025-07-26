@@ -2,32 +2,30 @@
 Performance
 '''''''''''
 
-Lets compare the methods and tune the parameters and find out how the peak detection is with and without noisy data.
+This section provides comprehensive performance comparisons between different peak detection methods using :func:`findpeaks.findpeaks.findpeaks.fit`, demonstrating their effectiveness with various parameter configurations and data characteristics. The analysis includes both small and large datasets, with and without noise, to help users choose the most appropriate method for their specific use case.
 
+Comparison of peak detection methods in one-dimensional data
+--------------------------------------------------------------
 
-Comparison peak detection in one-dimensional data
-----------------------------------------------------
+Small dataset analysis
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-Small dataset
-^^^^^^^^^^^^^
-
-For the first scenario we will create a dataset containing some small peaks and some larger ones.
-We will detect peaks using the topology and peakdetect method with and without interpolation.
+For the first scenario, we create a dataset containing both small and large peaks to evaluate detection accuracy across different scales. We compare the topology method via :func:`findpeaks.stats.topology` and peakdetect method via :func:`findpeaks.peakdetect.peakdetect` with and without interpolation via :func:`findpeaks.interpolate.interpolate_line1d` to understand the impact of preprocessing on detection quality.
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
-    # peakdetect
+    # peakdetect without interpolation
     fp_peakdetect = findpeaks(method='peakdetect', interpolate=None, lookahead=1)
     # peakdetect with interpolation
     fp_peakdetect_int = findpeaks(method='peakdetect', interpolate=10, lookahead=1)
-    # topology
+    # topology without interpolation
     fp_topology = findpeaks(method='topology', interpolate=None)
     # topology with interpolation
     fp_topology_int = findpeaks(method='topology', interpolate=10)
 
-    # Example 1d-vector
+    # Example 1d-vector with mixed peak sizes
     X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
 
     # Fit the methods on the 1d-vector
@@ -36,47 +34,44 @@ We will detect peaks using the topology and peakdetect method with and without i
     results_3 = fp_topology.fit(X)
     results_4 = fp_topology_int.fit(X)
 
-    # Plot
+    # Plot results
     fp_peakdetect.plot()
     fp_peakdetect_int.plot()
     fp_topology.plot()
     fp_topology_int.plot()
 
 
-A visual look of the results for the peakdetect with and without interpolation. Note that the interpolated results are readily mapped back to the original plot.
-
+Visual comparison of peakdetect results with and without interpolation. Note that the interpolated results are automatically mapped back to the original coordinate system for consistent visualization.
 
 .. |fig8| image:: ../figs/1dpeaks_perf_peakdetect.png
 
 .. |fig9| image:: ../figs/1dpeaks_perf_peakdetect_int.png
 
 
-.. table:: Peakdetect results without interpolation (left) and with (right)
+.. table:: Peakdetect results: without interpolation (left) and with interpolation (right)
    :align: center
 
    +---------+---------+
    | |fig8|  | |fig9|  |
    +---------+---------+
 
-The differences become clear with and without the use of interpolation
-
-
+The differences in detection quality become clear when comparing results with and without interpolation. Interpolation generally improves detection accuracy by creating smoother signals.
 
 .. |fig10| image:: ../figs/1dpeaks_perf_topology.png
 
 .. |fig11| image:: ../figs/1dpeaks_perf_topology_int.png
 
 
-.. table:: Topology results without interpolation (left) and with (right)
+.. table:: Topology results: without interpolation (left) and with interpolation (right)
    :align: center
 
    +----------+----------+
    | |fig10|  | |fig11|  |
    +----------+----------+
 
-The four approaches results in various diffent peaks and valleys. A simple comparison, by means of a confusion matrix shows that the *interpolation* results in the detection of similar peaks and valleys.
+The four approaches result in various peak and valley detections. A quantitative comparison using confusion matrices shows that interpolation significantly improves detection consistency.
 
-Peaks detected between peakdetect vs topology using interpolation show only 4 differences in detection of peaks.
+Peaks detected between peakdetect vs topology using interpolation show only 4 differences in detection, indicating high agreement between methods.
 
 .. code:: python
 
@@ -85,7 +80,7 @@ Peaks detected between peakdetect vs topology using interpolation show only 4 di
     False [ 3, 25]
        
 
-A comparison between peakdetect vs topology without interpolation show 20 differences in detection of peaks.
+A comparison between peakdetect vs topology without interpolation shows 20 differences in detection, highlighting the importance of preprocessing.
 
 .. code:: python
 
@@ -94,21 +89,21 @@ A comparison between peakdetect vs topology without interpolation show 20 differ
     False [ 7,  6 ]
 
 
-Large dataset
-^^^^^^^^^^^^^^
+Large dataset analysis
+^^^^^^^^^^^^^^^^^^^^^^^
 
-For this scenario we create a large dataset to detect peaks using *peakdetect* and *topology*.
+For this scenario, we create a large, complex dataset to evaluate the performance of *peakdetect* and *topology* methods on challenging real-world data.
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
-    # Initialize peakdetect
+    # Initialize peakdetect with appropriate parameters
     fp1 = findpeaks(method='peakdetect', lookahead=200)
     # Initialize topology
     fp2 = findpeaks(method='topology')
 
-    # Example 1d-vector
+    # Example 1d-vector with multiple frequency components and noise
     i = 10000
     xs = np.linspace(0,3.7*np.pi,i)
     X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
@@ -118,51 +113,49 @@ For this scenario we create a large dataset to detect peaks using *peakdetect* a
     # Fit using topology
     results_2 = fp2.fit(X)
 
-    # Plot peakdetect
+    # Plot peakdetect results
     fp1.plot()
-    # Plot topology
+    # Plot topology results
     fp2.plot()
     fp2.plot_persistence()
 
 
 
-The topology methods detects thousands of local minima and maxima whereas the peakdetect approach finds the correct ones.
+The topology method detects thousands of local minima and maxima, while the peakdetect approach focuses on the most significant peaks, demonstrating different detection philosophies.
 
 .. |fig3| image:: ../figs/fig3.png
 
-.. table:: Peakdetect on a large noisy dataset
+.. table:: Peakdetect performance on large noisy dataset
    :align: center
 
    +---------+
    | |fig3|  |
    +---------+
 
-The homology-persistence plots can help to filter the thousands of hits that are mostly alongside the diagonal and therefore not of interest.
-Only a few points seems to be of interest; numbers one to eight. With this knowledge we can set the *limit* paramater and remove the false positive peaks.
-
+The homology-persistence plots help filter the thousands of detections, with most points lying along the diagonal (indicating low persistence). Only a few points (numbers one to eight) show significant persistence and are therefore of interest. This knowledge can be used to set the *limit* parameter and remove false positive peaks.
 
 .. |fig12| image:: ../figs/fig_persistence_largedataset.png
 
-.. table:: Topology on a large noisy dataset
+.. table:: Topology performance on large noisy dataset
    :align: center
 
    +----------+
    | |fig12|  |
    +----------+
 
-Redo the analysis but now with the *limit* parameter. Note that your should investigate first what your limit is.
+Repeating the analysis with the *limit* parameter demonstrates the importance of persistence thresholding. It's crucial to investigate the appropriate limit value for your specific dataset.
 
 .. code:: python
 
-    # Checkout the limit by looking at the top 10
+    # Determine appropriate limit by examining the top 10 most persistent features
     limit_min = fp2.results['persistence'][0:8]['score'].min()
     
     from findpeaks import findpeaks
-    # Initialize topology
+    # Initialize topology with persistence threshold
     fp2 = findpeaks(method='topology', limit=limit_min)
     # Fit using topology
     results_2 = fp2.fit(X)
-    # Plot topology
+    # Plot topology results
     fp2.plot()
     fp2.plot_persistence()
 

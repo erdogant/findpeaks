@@ -64,8 +64,8 @@ def interpolate_line1d(X, n=3, method=2, showfig=False):
 def interpolate_line2d(xs, ys=None, interpol=3, window=3):
     """interpolate 2D vector.
 
-    Description
-    -----------
+    2D Interpolation Description
+    ----------------------------
     Smoothing a 2d vector can be challanging if the data is low sampled.
     This function contains two steps. First interpolation of the input line followed by a convolution.
 

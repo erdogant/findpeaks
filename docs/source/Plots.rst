@@ -1,16 +1,22 @@
+Plots
+''''''''''''
+
+This section provides comprehensive documentation of the visualization capabilities in the findpeaks library. The library offers rich plotting functionality for both 1D and 2D data analysis, including preprocessing visualization via :func:`findpeaks.findpeaks.findpeaks.plot_preprocessing`, persistence diagrams via :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and 3D mesh plots via :func:`findpeaks.findpeaks.findpeaks.plot_mesh`.
 
 One-dimensional Plots
 -------------------------------------
 
-Pre-processing
-'''''''''''''''
-The pre-processing in a 1d-vector is based on the interpolation: function: :func:`findpeaks.interpolate.interpolate_line1d`.
+The findpeaks library provides specialized plotting functions for 1D data analysis, including preprocessing visualization and persistence diagrams using :func:`findpeaks.findpeaks.findpeaks.plot1d`.
+
+Pre-processing visualization
+''''''''''''''''''''''''''''''
+The pre-processing visualization for 1D data is based on the interpolation function: :func:`findpeaks.interpolate.interpolate_line1d`. This allows users to visualize how interpolation affects the data before peak detection.
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
-    # Initialize
+    # Initialize with interpolation
     fp = findpeaks(method='topology', interpolate=10)
     # Import example
     X = fp.import_example("1dpeaks")
@@ -22,7 +28,7 @@ The pre-processing in a 1d-vector is based on the interpolation: function: :func
 .. |figP4| image:: ../figs/1dpeaks_interpolate_original.png
 .. |figP5| image:: ../figs/1dpeaks_interpolate.png
 
-.. table:: Inerpolation
+.. table:: Interpolation comparison: original data (left) vs interpolated data (right)
    :align: center
 
    +----------+----------+
@@ -30,15 +36,14 @@ The pre-processing in a 1d-vector is based on the interpolation: function: :func
    +----------+----------+
 
 
-Persistence
-''''''''''''
+Persistence diagram
+'''''''''''''''''''''''
 
-The persistence plot is called with the function: :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and provides two plots.
-The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.
+The persistence plot is generated using the function: :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and provides two complementary visualizations. The left plot shows detected peaks with their ranking (1=most significant), while the right plot displays the homology-persistence diagram. See the topology section for detailed explanations of persistence analysis.
 
 .. code:: python
 
-    # Plot
+    # Plot persistence diagram
     fp.plot_persistence()
 
 
@@ -55,28 +60,29 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
 Two-dimensional Plots
 -------------------------------------
 
-Pre-processing Plot
-'''''''''''''''''''''
-The pre-processing plot is developed for 2D arrays (images) only: function: :func:`findpeaks.findpeaks.findpeaks.plot_preprocessing`
-Depending on the number of user defined pre-processing steps, the plot will add new subplots.
+The findpeaks library provides comprehensive visualization tools for 2D data analysis, including preprocessing pipelines via :func:`findpeaks.findpeaks.findpeaks.plot_preprocessing`, detection results via :func:`findpeaks.findpeaks.findpeaks.plot2d`, and 3D mesh visualizations via :func:`findpeaks.findpeaks.findpeaks.plot_mesh`.
+
+2D Pre-processing visualization
+''''''''''''''''''''''''''''''''''
+The pre-processing plot is specifically designed for 2D arrays (images) using the function: :func:`findpeaks.findpeaks.findpeaks.plot_preprocessing`. The plot dynamically adjusts the number of subplots based on the user-defined preprocessing steps, providing a clear visualization of each transformation.
 
 .. code:: python
 
     # Import library
     from findpeaks import findpeaks
-    # Initialize
+    # Initialize with peak detection only
     fp = findpeaks(method='topology', whitelist=['peak'])
     # Import example
     X = fp.import_example("2dpeaks")
     # Detect peaks
     results = fp.fit(X)
-    # Plot
+    # Plot preprocessing steps
     fp.plot_preprocessing()
 
 
 .. |figP0| image:: ../figs/plot_example_norm.png
 
-.. table:: Preprocessing plot
+.. table:: Preprocessing pipeline visualization
    :align: center
 
    +----------+
@@ -84,23 +90,23 @@ Depending on the number of user defined pre-processing steps, the plot will add 
    +----------+
    
 
-Plot
-''''''''''''
+Main results plot
+'''''''''''''''''''''
 
-The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` plots the 3 major steps: 
-    * input data
-    * final pre-processed image 
-    * peak detection.
+The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` displays the three major analysis steps: 
+    * Input data visualization
+    * Final pre-processed image 
+    * Peak detection results
 
 .. code:: python
 
-    # Plot
+    # Plot comprehensive results
     fp.plot(figure_order='horizontal')
 
 
 .. |figP1| image:: ../figs/plot_example1.png
 
-.. table:: Final results
+.. table:: Complete analysis results
    :align: center
 
    +----------+
@@ -108,21 +114,20 @@ The **plot** function :func:`findpeaks.findpeaks.findpeaks.plot` plots the 3 maj
    +----------+
    
 
-Persistence Plot
-''''''''''''''''''
+Persistence diagram for 2D data
+'''''''''''''''''''''''''''''''''''
 
-The persistence plot is called with the function: :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and provides two plots.
-The left is the detected peaks with the ranking of the peaks (1=best), and the right plot the homology-persitence plot. See section topology for more details.
+The persistence plot for 2D data is generated using the function: :func:`findpeaks.findpeaks.findpeaks.plot_persistence`, and provides two complementary visualizations. The left plot shows detected peaks with their ranking (1=most significant), while the right plot displays the homology-persistence diagram. See the topology section for detailed explanations of persistence analysis.
 
 .. code:: python
 
-    # Plot
+    # Plot persistence diagram
     fp.plot_persistence()
 
 
 .. |figP2| image:: ../figs/plot_persistence.png
 
-.. table:: Persistence Plot
+.. table:: Persistence Plot for 2D data
    :align: center
 
    +----------+
@@ -130,17 +135,16 @@ The left is the detected peaks with the ranking of the peaks (1=best), and the r
    +----------+
 
 
-3D-mesh
-''''''''''''
+3D mesh visualization
+'''''''''''''''''''''''
 
-The mesh plot can easily be created using the function: :func:`findpeaks.findpeaks.findpeaks.plot_mesh`.
-It converts the two image into a 3d mesh plot.
+The mesh plot can be easily created using the function: :func:`findpeaks.findpeaks.findpeaks.plot_mesh`. It converts the 2D image data into an interactive 3D mesh visualization, providing enhanced spatial understanding of the data structure.
 
 .. code:: python
 
-    # Plot
+    # Create 3D mesh plot
     fp.plot_mesh()
-    # Rotate to make a top view
+    # Rotate to create a top-down view
     fp.plot_mesh(view=(90,0))
 
 
@@ -149,7 +153,7 @@ It converts the two image into a 3d mesh plot.
 .. |figP9| image:: ../figs/2dpeaks_mesh3_norm.png
 .. |figP10| image:: ../figs/2dpeaks_mesh4_norm.png
 
-.. table:: Mesh plot. Top: 3D mesh. Bottom: top view.
+.. table:: 3D mesh visualization: 3D perspective (top) and top-down view (bottom)
    :align: center
 
    +----------+----------+

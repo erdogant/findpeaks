@@ -2,6 +2,8 @@
 Quickstart
 ''''''''''
 
+This section provides a quick introduction to using the findpeaks library for peak detection and analysis. The example demonstrates the basic workflow from data import to visualization using :func:`findpeaks.findpeaks.findpeaks.fit`, :func:`findpeaks.findpeaks.findpeaks.plot`, and :func:`findpeaks.findpeaks.findpeaks.plot_persistence`.
+
 A quick example how to learn a model on a given dataset.
 
 
@@ -10,7 +12,7 @@ A quick example how to learn a model on a given dataset.
     # Import library
     from findpeaks import findpeaks
 
-    # Initialized
+    # Initialize with topology method (most robust)
     fp = findpeaks(method='topology')
 
     # Example data:
@@ -19,20 +21,21 @@ A quick example how to learn a model on a given dataset.
     # Peak detection
     results = fp.fit(X)
 
-    # Plot
+    # Plot results
     fp.plot()
 
-    # Plot
+    # Plot persistence diagram
     fp.plot_persistence()
 
 Installation
-''''''''''''
+''''''''''''''
+
+This section covers the installation process for the findpeaks library, including environment setup and package management.
 
 Create Environment
 ------------------
 
-
-If desired, install ``findpeaks`` from an isolated Python environment using conda:
+For optimal performance and to avoid dependency conflicts, it's recommended to install ``findpeaks`` in an isolated Python environment using conda:
 
 .. code-block:: python
 
@@ -44,33 +47,33 @@ Install via ``pip``:
 
 .. code-block:: console
 
-    # Installation from pypi:
+    # Installation from PyPI (recommended):
     pip install findpeaks
 
-    # Install directly from github:
+    # Install directly from GitHub (unstable version but it is the latest development version):
     pip install git+https://github.com/erdogant/findpeaks
 
 
 Uninstalling
-''''''''''''
+''''''''''''''
 
-If you want to remove your ``findpeaks`` installation with your environment, it can be as following:
+If you want to remove your ``findpeaks`` installation and clean up your environment, follow these steps:
 
 .. code-block:: console
 
-   # Removing findpeaks.
+   # Remove findpeaks package
    pip uninstall findpeaks
 
-   # Step out the environments.
+   # Deactivate the conda environment
    conda deactivate
 
-   # List all the active environments. findpeaks should be listed.
+   # List all environments to verify
    conda env list
 
-   # Remove the findpeaks environment.
+   # Remove the findpeaks environment
    conda env remove --name env_findpeaks
 
-   # List all the active environments. findpeaks should be absent.
+   # Verify environment removal
    conda env list
 
 

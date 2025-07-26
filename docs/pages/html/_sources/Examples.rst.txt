@@ -2,12 +2,17 @@
 Quick Examples
 ''''''''''''''''
 
-1D-vector
+This section provides comprehensive examples demonstrating the capabilities of the findpeaks library for both 1D and 2D data analysis. Each example showcases different detection methods, preprocessing techniques, and visualization options using functions like :func:`findpeaks.findpeaks.findpeaks.fit`, :func:`findpeaks.findpeaks.findpeaks.plot`, and :func:`findpeaks.findpeaks.findpeaks.plot_persistence`.
+
+1D-vector Analysis
 -------------------------------------
 
+The findpeaks library excels at detecting peaks and valleys in 1D data such as time series, signals, and vector data using :func:`findpeaks.findpeaks.findpeaks.peaks1d`. Below are examples demonstrating various detection methods and preprocessing techniques.
 
 Find peaks in low sampled dataset
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This example demonstrates basic peak detection on a small dataset using the default peakdetect method via :func:`findpeaks.peakdetect.peakdetect`. The lookahead parameter is set to 1 for optimal performance on small datasets.
 
 .. code:: python
 
@@ -25,8 +30,10 @@ Find peaks in low sampled dataset
   :width: 600
 
 
-Interpolation
+Interpolation for Enhanced Detection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Interpolation via :func:`findpeaks.interpolate.interpolate_line1d` can significantly improve peak detection by creating smoother signals. This example shows how interpolation affects the detection results.
 
 .. code:: python
 
@@ -40,8 +47,10 @@ Interpolation
   :width: 600
 
 
-Comparison peak detection methods (1)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Comparison of Peak Detection Methods (1)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This example compares the peakdetect method via :func:`findpeaks.peakdetect.peakdetect` and topology method via :func:`findpeaks.stats.topology` on the same dataset, demonstrating the different characteristics of each approach.
 
 .. code:: python
 
@@ -64,7 +73,7 @@ Comparison peak detection methods (1)
 .. |ex3| image:: ../figs/fig2_peakdetect.png
 .. |ex4| image:: ../figs/fig2_topology.png
 
-.. table:: Comparison methods
+.. table:: Comparison of detection methods: peakdetect (left) vs topology (right)
    :align: center
 
    +----------+----------+
@@ -77,8 +86,10 @@ Comparison peak detection methods (1)
 
 
 
-Comparison peak detection methods (2)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Comparison of Peak Detection Methods with Interpolation (2)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This example demonstrates how interpolation via :func:`findpeaks.interpolate.interpolate_line1d` affects both peakdetect and topology methods, showing the enhanced detection capabilities.
 
 .. code:: python
 
@@ -94,7 +105,7 @@ Comparison peak detection methods (2)
 .. |ex5| image:: ../figs/fig2_peakdetect_int.png
 .. |ex6| image:: ../figs/fig2_topology_int.png
 
-.. table:: Comparison methods
+.. table:: Comparison with interpolation: peakdetect (left) vs topology (right)
    :align: center
 
    +----------+----------+
@@ -105,6 +116,8 @@ Comparison peak detection methods (2)
 
 Find peaks in high sampled dataset
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This example demonstrates peak detection on a large, noisy dataset using :func:`findpeaks.findpeaks.findpeaks.plot1d`, showing how different methods handle complex signals with multiple frequency components.
 
 .. code:: python
 
@@ -132,7 +145,7 @@ Find peaks in high sampled dataset
 .. |ex7| image:: ../figs/fig3.png
 .. |ex8| image:: ../figs/fig3_topology.png
 
-.. table:: Comparison methods
+.. table:: High-sampling comparison: peakdetect (left) vs topology (right)
    :align: center
 
    +----------+----------+
@@ -145,8 +158,10 @@ Find peaks in high sampled dataset
 
 
 
-2D-array (image) 
+2D-array (Image) Analysis
 ---------------------------------------------------
+
+The findpeaks library provides robust peak detection capabilities for 2D data including images, spatial data, and matrices using :func:`findpeaks.findpeaks.findpeaks.peaks2d`. The examples below demonstrate various preprocessing techniques and detection methods.
 
 Find peaks using default settings
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -194,7 +209,7 @@ The input image:
 	fp.fit(X)
 
 
-The masking approach detects the correct peaks.
+The masking approach effectively detects the correct peaks in the image data.
 
 .. code:: python
 
@@ -204,7 +219,7 @@ The masking approach detects the correct peaks.
   :width: 600
 
 
-Conversion from 2d to 3d mesh plots looks very nice. But there is a rough surface because of the low-resolution input data.
+Conversion from 2D to 3D mesh plots provides excellent visualization capabilities. The surface appears rough due to the low-resolution input data.
 
 .. code:: python
 
@@ -213,7 +228,7 @@ Conversion from 2d to 3d mesh plots looks very nice. But there is a rough surfac
 .. |ex9| image:: ../figs/2dpeaks_mesh1.png
 .. |ex10| image:: ../figs/2dpeaks_mesh2.png
 
-.. table:: Comparison methods
+.. table:: 3D mesh visualization: wireframe (left) and surface (right)
    :align: center
 
    +----------+----------+
@@ -221,7 +236,7 @@ Conversion from 2d to 3d mesh plots looks very nice. But there is a rough surfac
    +----------+----------+
 
 
-The persistence plot appears to detect the right peaks.
+The persistence plot demonstrates accurate peak detection with quantitative significance measures.
 
 .. code:: python
 
@@ -231,9 +246,11 @@ The persistence plot appears to detect the right peaks.
   :width: 600
 
 
-Find peaks with pre-processing
+Find peaks with advanced pre-processing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+This example demonstrates the power of preprocessing techniques in improving peak detection accuracy.
 
 .. code:: python
 
@@ -243,8 +260,8 @@ Find peaks with pre-processing
 	# Import example
 	X = fp.import_example()
 
-	# Initialize
-	fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(50,100), verbose=3)
+	# Initialize with preprocessing parameters
+	fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(50,100))
 
 	# Fit
 	results = fp.fit(X)
@@ -260,7 +277,7 @@ Find peaks with pre-processing
 .. |ex12| image:: ../figs/2dpeaks_interpolate.png
 .. |ex13| image:: ../figs/2dpeaks_raw_processed.png
 
-.. table:: Comparison methods
+.. table:: Preprocessing pipeline: raw (left), interpolated (center), processed (right)
    :align: center
 
    +----------+----------+----------+
@@ -268,7 +285,7 @@ Find peaks with pre-processing
    +----------+----------+----------+
 
 
-The masking does not work so well because the pre-processing steps includes some weighted smoothing which is not ideal for the masking approach.
+The masking approach may not perform optimally with preprocessing that includes weighted smoothing, which is not ideal for local maximum detection.
 
 .. code:: python
 	
@@ -279,7 +296,7 @@ The masking does not work so well because the pre-processing steps includes some
   :width: 600
 
 
-The mesh plot has higher resolution because the pre-processing steps caused some smoothing.
+The mesh plot shows higher resolution due to the smoothing effects of preprocessing steps.
 
 .. code:: python
 	
@@ -288,7 +305,7 @@ The mesh plot has higher resolution because the pre-processing steps caused some
 .. |ex14| image:: ../figs/2dpeaks_meshs1.png
 .. |ex15| image:: ../figs/2dpeaks_meshs2.png
 
-.. table:: Comparison methods
+.. table:: Enhanced mesh visualization: wireframe (left) and surface (right)
    :align: center
 
    +----------+----------+
@@ -297,7 +314,7 @@ The mesh plot has higher resolution because the pre-processing steps caused some
 
 
 
-The Persistence plot does show the detection of correct peaks.
+The persistence plot demonstrates accurate detection of significant peaks with proper preprocessing.
 
 .. code:: python
 

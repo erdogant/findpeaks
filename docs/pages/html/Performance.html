@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Interpolate/impute" href="Pre-processing.html" />
+    <link rel="next" title="Pre-processing" href="Pre-processing.html" />
     <link rel="prev" title="Caerus" href="Caerus.html" /> 
 </head>
 
@@ -61,9 +61,9 @@
 <li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Performance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#comparison-peak-detection-in-one-dimensional-data">Comparison peak detection in one-dimensional data</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#small-dataset">Small dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#large-dataset">Large dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comparison-of-peak-detection-methods-in-one-dimensional-data">Comparison of peak detection methods in one-dimensional data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#small-dataset-analysis">Small dataset analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#large-dataset-analysis">Large dataset analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -71,17 +71,23 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Interpolate/impute</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#resize">Resize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#scale">Scale</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#gray">Gray</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#preprocessing">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Plots</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html">One-dimensional Plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#two-dimensional-plots">Two-dimensional Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#main-results-plot">Main results plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -95,38 +101,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html"><code class="docutils literal notranslate"><span class="pre">findpeaks</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.import_example"><code class="docutils literal notranslate"><span class="pre">import_example()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.is_url"><code class="docutils literal notranslate"><span class="pre">is_url()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise"><code class="docutils literal notranslate"><span class="pre">denoise()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.disable_tqdm"><code class="docutils literal notranslate"><span class="pre">disable_tqdm()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.generate_default_neighborhood"><code class="docutils literal notranslate"><span class="pre">generate_default_neighborhood()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask"><code class="docutils literal notranslate"><span class="pre">mask()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.reverse_values"><code class="docutils literal notranslate"><span class="pre">reverse_values()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale"><code class="docutils literal notranslate"><span class="pre">scale()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray"><code class="docutils literal notranslate"><span class="pre">togray()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology"><code class="docutils literal notranslate"><span class="pre">topology()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d"><code class="docutils literal notranslate"><span class="pre">topology2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d"><code class="docutils literal notranslate"><span class="pre">interpolate_line1d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d"><code class="docutils literal notranslate"><span class="pre">interpolate_line2d()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_nans"><code class="docutils literal notranslate"><span class="pre">interpolate_nans()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_all_Mi"><code class="docutils literal notranslate"><span class="pre">calculate_all_Mi()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.calculate_local_weight_matrix"><code class="docutils literal notranslate"><span class="pre">calculate_local_weight_matrix()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.compute_coef_var"><code class="docutils literal notranslate"><span class="pre">compute_coef_var()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter"><code class="docutils literal notranslate"><span class="pre">frost_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter"><code class="docutils literal notranslate"><span class="pre">lee_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter"><code class="docutils literal notranslate"><span class="pre">kuan_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.assert_parameters"><code class="docutils literal notranslate"><span class="pre">assert_parameters()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="docutils literal notranslate"><span class="pre">lee_enhanced_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.weighting"><code class="docutils literal notranslate"><span class="pre">weighting()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.assert_indices_in_range"><code class="docutils literal notranslate"><span class="pre">assert_indices_in_range()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter"><code class="docutils literal notranslate"><span class="pre">mean_filter()</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter"><code class="docutils literal notranslate"><span class="pre">median_filter()</span></code></a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -157,25 +133,24 @@
              
   <section id="performance">
 <h1>Performance<a class="headerlink" href="#performance" title="Link to this heading"></a></h1>
-<p>Lets compare the methods and tune the parameters and find out how the peak detection is with and without noisy data.</p>
-<section id="comparison-peak-detection-in-one-dimensional-data">
-<h2>Comparison peak detection in one-dimensional data<a class="headerlink" href="#comparison-peak-detection-in-one-dimensional-data" title="Link to this heading"></a></h2>
-<section id="small-dataset">
-<h3>Small dataset<a class="headerlink" href="#small-dataset" title="Link to this heading"></a></h3>
-<p>For the first scenario we will create a dataset containing some small peaks and some larger ones.
-We will detect peaks using the topology and peakdetect method with and without interpolation.</p>
+<p>This section provides comprehensive performance comparisons between different peak detection methods using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.fit" title="findpeaks.findpeaks.findpeaks.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.fit()</span></code></a>, demonstrating their effectiveness with various parameter configurations and data characteristics. The analysis includes both small and large datasets, with and without noise, to help users choose the most appropriate method for their specific use case.</p>
+<section id="comparison-of-peak-detection-methods-in-one-dimensional-data">
+<h2>Comparison of peak detection methods in one-dimensional data<a class="headerlink" href="#comparison-of-peak-detection-methods-in-one-dimensional-data" title="Link to this heading"></a></h2>
+<section id="small-dataset-analysis">
+<h3>Small dataset analysis<a class="headerlink" href="#small-dataset-analysis" title="Link to this heading"></a></h3>
+<p>For the first scenario, we create a dataset containing both small and large peaks to evaluate detection accuracy across different scales. We compare the topology method via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a> and peakdetect method via <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.peakdetect.peakdetect()</span></code> with and without interpolation via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> to understand the impact of preprocessing on detection quality.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># peakdetect</span>
+<span class="c1"># peakdetect without interpolation</span>
 <span class="n">fp_peakdetect</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># peakdetect with interpolation</span>
 <span class="n">fp_peakdetect_int</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="c1"># topology</span>
+<span class="c1"># topology without interpolation</span>
 <span class="n">fp_topology</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="c1"># topology with interpolation</span>
 <span class="n">fp_topology_int</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="c1"># Example 1d-vector</span>
+<span class="c1"># Example 1d-vector with mixed peak sizes</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">2.6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="c1"># Fit the methods on the 1d-vector</span>
@@ -184,56 +159,56 @@ We will detect peaks using the topology and peakdetect method with and without i
 <span class="n">results_3</span> <span class="o">=</span> <span class="n">fp_topology</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">results_4</span> <span class="o">=</span> <span class="n">fp_topology_int</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-<span class="c1"># Plot</span>
+<span class="c1"># Plot results</span>
 <span class="n">fp_peakdetect</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">fp_peakdetect_int</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">fp_topology</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">fp_topology_int</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>A visual look of the results for the peakdetect with and without interpolation. Note that the interpolated results are readily mapped back to the original plot.</p>
+<p>Visual comparison of peakdetect results with and without interpolation. Note that the interpolated results are automatically mapped back to the original coordinate system for consistent visualization.</p>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Peakdetect results without interpolation (left) and with (right)</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<caption><span class="caption-text">Peakdetect results: without interpolation (left) and with interpolation (right)</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig8" src="_images/1dpeaks_perf_peakdetect.png" /></p></td>
 <td><p><img alt="fig9" src="_images/1dpeaks_perf_peakdetect_int.png" /></p></td>
 </tr>
 </tbody>
 </table>
-<p>The differences become clear with and without the use of interpolation</p>
+<p>The differences in detection quality become clear when comparing results with and without interpolation. Interpolation generally improves detection accuracy by creating smoother signals.</p>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Topology results without interpolation (left) and with (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<caption><span class="caption-text">Topology results: without interpolation (left) and with interpolation (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig10" src="_images/1dpeaks_perf_topology.png" /></p></td>
 <td><p><img alt="fig11" src="_images/1dpeaks_perf_topology_int.png" /></p></td>
 </tr>
 </tbody>
 </table>
-<p>The four approaches results in various diffent peaks and valleys. A simple comparison, by means of a confusion matrix shows that the <em>interpolation</em> results in the detection of similar peaks and valleys.</p>
-<p>Peaks detected between peakdetect vs topology using interpolation show only 4 differences in detection of peaks.</p>
+<p>The four approaches result in various peak and valley detections. A quantitative comparison using confusion matrices shows that interpolation significantly improves detection consistency.</p>
+<p>Peaks detected between peakdetect vs topology using interpolation show only 4 differences in detection, indicating high agreement between methods.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>      <span class="kc">True</span>  <span class="kc">False</span>
 <span class="kc">True</span>  <span class="p">[</span><span class="mi">45</span><span class="p">,</span>  <span class="mi">1</span><span class="p">]</span>
 <span class="kc">False</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>A comparison between peakdetect vs topology without interpolation show 20 differences in detection of peaks.</p>
+<p>A comparison between peakdetect vs topology without interpolation shows 20 differences in detection, highlighting the importance of preprocessing.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>      <span class="kc">True</span>  <span class="kc">False</span>
 <span class="kc">True</span>  <span class="p">[</span><span class="mi">48</span><span class="p">,</span>  <span class="mi">13</span><span class="p">]</span>
 <span class="kc">False</span> <span class="p">[</span> <span class="mi">7</span><span class="p">,</span>  <span class="mi">6</span> <span class="p">]</span>
 </pre></div>
 </div>
 </section>
-<section id="large-dataset">
-<h3>Large dataset<a class="headerlink" href="#large-dataset" title="Link to this heading"></a></h3>
-<p>For this scenario we create a large dataset to detect peaks using <em>peakdetect</em> and <em>topology</em>.</p>
+<section id="large-dataset-analysis">
+<h3>Large dataset analysis<a class="headerlink" href="#large-dataset-analysis" title="Link to this heading"></a></h3>
+<p>For this scenario, we create a large, complex dataset to evaluate the performance of <em>peakdetect</em> and <em>topology</em> methods on challenging real-world data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># Initialize peakdetect</span>
+<span class="c1"># Initialize peakdetect with appropriate parameters</span>
 <span class="n">fp1</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 <span class="c1"># Initialize topology</span>
 <span class="n">fp2</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
 
-<span class="c1"># Example 1d-vector</span>
+<span class="c1"># Example 1d-vector with multiple frequency components and noise</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mi">10000</span>
 <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.7</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">4.2</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.06</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
@@ -243,40 +218,39 @@ We will detect peaks using the topology and peakdetect method with and without i
 <span class="c1"># Fit using topology</span>
 <span class="n">results_2</span> <span class="o">=</span> <span class="n">fp2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-<span class="c1"># Plot peakdetect</span>
+<span class="c1"># Plot peakdetect results</span>
 <span class="n">fp1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="c1"># Plot topology</span>
+<span class="c1"># Plot topology results</span>
 <span class="n">fp2</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">fp2</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The topology methods detects thousands of local minima and maxima whereas the peakdetect approach finds the correct ones.</p>
+<p>The topology method detects thousands of local minima and maxima, while the peakdetect approach focuses on the most significant peaks, demonstrating different detection philosophies.</p>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Peakdetect on a large noisy dataset</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<caption><span class="caption-text">Peakdetect performance on large noisy dataset</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig3" src="_images/fig3.png" /></p></td>
 </tr>
 </tbody>
 </table>
-<p>The homology-persistence plots can help to filter the thousands of hits that are mostly alongside the diagonal and therefore not of interest.
-Only a few points seems to be of interest; numbers one to eight. With this knowledge we can set the <em>limit</em> paramater and remove the false positive peaks.</p>
+<p>The homology-persistence plots help filter the thousands of detections, with most points lying along the diagonal (indicating low persistence). Only a few points (numbers one to eight) show significant persistence and are therefore of interest. This knowledge can be used to set the <em>limit</em> parameter and remove false positive peaks.</p>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Topology on a large noisy dataset</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<caption><span class="caption-text">Topology performance on large noisy dataset</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="fig12" src="_images/fig_persistence_largedataset.png" /></p></td>
 </tr>
 </tbody>
 </table>
-<p>Redo the analysis but now with the <em>limit</em> parameter. Note that your should investigate first what your limit is.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checkout the limit by looking at the top 10</span>
+<p>Repeating the analysis with the <em>limit</em> parameter demonstrates the importance of persistence thresholding. It’s crucial to investigate the appropriate limit value for your specific dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Determine appropriate limit by examining the top 10 most persistent features</span>
 <span class="n">limit_min</span> <span class="o">=</span> <span class="n">fp2</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="c1"># Initialize topology</span>
+<span class="c1"># Initialize topology with persistence threshold</span>
 <span class="n">fp2</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit_min</span><span class="p">)</span>
 <span class="c1"># Fit using topology</span>
 <span class="n">results_2</span> <span class="o">=</span> <span class="n">fp2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="c1"># Plot topology</span>
+<span class="c1"># Plot topology results</span>
 <span class="n">fp2</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">fp2</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
 </pre></div>
@@ -304,7 +278,7 @@ Only a few points seems to be of interest; numbers one to eight. With this knowl
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Caerus.html" class="btn btn-neutral float-left" title="Caerus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Pre-processing.html" class="btn btn-neutral float-right" title="Interpolate/impute" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Pre-processing.html" class="btn btn-neutral float-right" title="Pre-processing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

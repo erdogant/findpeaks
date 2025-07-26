@@ -2,7 +2,7 @@ Stock Markets
 ''''''''''''''
 
 The detection of peaks and valleys in stockmarket data can be challanging because of its unpredictable behavior.
-The use of peak detection techniques such as topology require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.
+The use of peak detection techniques such as topology via :func:`findpeaks.stats.topology` require a very specific set of input parameters and seem only to work for certain timeframes, scales, or trends (bull/bear/sideways) in the market.
 
 To overcome these challanges, I developed the method ``Caerus`` and incorporated it in ``findpeaks``.
 ``Caerus`` is a python package (https://github.com/erdogant/caerus) that determines the local-minima with the corresponding local-maxima within the given time-frame.
@@ -95,7 +95,7 @@ It is caused by the back-scatter waves from multiple distributed targets. It is 
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
 SAR images are corrupted by speckle noise which makes peak detection very challenging or somethimes not even possible.
-Let's load a SAR image, apply denoising techniques and then detect peaks.
+Let's load a SAR image, apply denoising techniques via :func:`findpeaks.stats.denoise` and then detect peaks using :func:`findpeaks.findpeaks.findpeaks.peaks2d`.
 
 .. code:: python
 
@@ -315,7 +315,7 @@ Denoising
 
 
 
-Plots
+Visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 
 .. code:: python

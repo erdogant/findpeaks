@@ -31,8 +31,8 @@ logger = logging.getLogger(__name__)
 def mean_filter(img, win_size=3):
     """Mean filter.
 
-    Description
-    -----------
+    Mean Filter Description
+    -----------------------
     Apply a 'mean filter' to 'img' with a window size equal to 'win_size'.
 
     Parameters

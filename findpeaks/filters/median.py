@@ -31,8 +31,8 @@ logger = logging.getLogger(__name__)
 def median_filter(img, win_size=3):
     """Median Filter.
     
-    Description
-    -----------
+    Median Filter Description
+    -------------------------
     Apply a 'median filter' to 'img' with a window size equal to 'win_size'.
 
 
