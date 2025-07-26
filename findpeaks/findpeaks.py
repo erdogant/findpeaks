@@ -37,42 +37,62 @@ logger = logging.getLogger(__name__)  # Creates the main logger
 
 # %%
 class findpeaks():
-    """Python library for the detection of peaks and valleys.
+    """Python library for robust detection and analysis of peaks and valleys in 1D and 2D data.
 
-    findpeaks is for the detection and vizualization of peaks and valleys in a 1D-vector and 2D-array.
-    In case of 2D-array, the image can be pre-processed by resizing, scaling, and denoising. For a 1D-vector,
-    pre-processing by interpolation is possible. Peaks can be detected using various methods, and the results can be
-    vizualized, such as the preprocessing steps, the persistence of peaks, the masking plot and a 3d-mesh plot.
+    findpeaks is a comprehensive library for detecting, analyzing, and visualizing peaks and valleys 
+    in both 1D vectors and 2D arrays (images). It provides multiple detection methods including 
+    topology-based persistent homology, traditional peak detection algorithms, and mask-based approaches.
+    
+    **Key Features:**
+    - **Multiple Detection Methods**: Topology (persistent homology), peakdetect, caerus, and mask-based detection
+    - **1D and 2D Support**: Works with time series, signals, images, and spatial data
+    - **Advanced Preprocessing**: Denoising, scaling, interpolation, and image preprocessing
+    - **Rich Visualization**: Persistence diagrams, 3D mesh plots, preprocessing steps, and masking plots
+    - **Robust Analysis**: Mathematically stable methods with quantitative significance measures
+    
+    **Detection Methods:**
+    - **Topology**: Uses persistent homology for robust peak detection with mathematical stability
+    - **Peakdetect**: Traditional algorithm for 1D peak detection with lookahead and delta parameters
+    - **Caerus**: Advanced peak detection with multiple optimization strategies
+    - **Mask**: Local maximum filtering for 2D peak detection
+    
+    **Applications:**
+    - Signal processing and time series analysis
+    - Image processing and feature detection
+    - Hough Transform applications with enhanced robustness
+    - Scientific data analysis and visualization
+    - Peak finding in noisy or complex datasets
 
     Examples
     --------
     >>> from findpeaks import findpeaks
+    >>> 
+    >>> # 1D vector example
     >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-    >>> fp = findpeaks(method='peakdetect',lookahead=1,interpolate=10)
+    >>> fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10)
     >>> results = fp.fit(X)
     >>> fp.plot()
     >>>
     >>> # 2D array example
-    >>> from findpeaks import findpeaks
     >>> X = fp.import_example('2dpeaks')
     >>> results = fp.fit(X)
     >>> fp.plot()
     >>>
-    >>> # Image example
-    >>> from findpeaks import findpeaks
-    >>> fp = findpeaks(method='topology',imsize=(300,300),denoise='fastnl',params={'window': 30})
+    >>> # Image processing example
+    >>> fp = findpeaks(method='topology', imsize=(300,300), denoise='fastnl', params={'window': 30})
     >>> X = fp.import_example('2dpeaks_image')
     >>> results = fp.fit(X)
     >>> fp.plot()
     >>>
-    >>> # Plot each seperately
-    >>> fp.plot_preprocessing()
-    >>> fp.plot_persistence()
-    >>> fp.plot_mesh()
+    >>> # Advanced visualization
+    >>> fp.plot_preprocessing()  # Show preprocessing steps
+    >>> fp.plot_persistence()    # Show persistence diagram
+    >>> fp.plot_mesh()          # Show 3D mesh plot
 
     References
     ----------
-        * https://erdogant.github.io/findpeaks/
+    * https://erdogant.github.io/findpeaks/
+    * Johannes Ferner et al, Persistence-based Hough Transform for Line Detection, https://arxiv.org/abs/2504.16114
 
     """
     def __init__(self,
@@ -91,106 +111,139 @@ class findpeaks():
                  params={'window': 3, 'delta': 0},
                  figsize=(15, 8),
                  verbose='info'):
-        """Initialize findpeaks parameters.
+        """Initialize findpeaks with detection and preprocessing parameters.
 
         Parameters
         ----------
-        X : array-like (1D-vector or 2D-image)
-            Input image data.
-        method : String, (default : None).
-            Available methods for peak detection. In case method=None, the default is choosen.
-            1D-vector approaches:
-                * 'topology'
-                * 'peakdetect' (default)
-                * 'caerus'
-            2D-array approaches:
-                * 'topology' (default)
-                * 'mask'
-        whitelist : str or list ['peak','valley']
-            Choose what to detect:
-                * 'peak'
-                * 'valley'
-                * ['peak','valley']
-        lookahead : int, (default : 200)
-            Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers such as 1 or 2.
-        interpolate : int, (default : None)
-            Interpolation factor. This can be used to smooth the line because the higher the number, the less sharp the edges will be.
-        limit : float, (default : None)
-            In case method='topology'
-            Values > limit are active search areas to detect regions of interest (ROI).
-        imsize : tuple, (default : None)
-            resize to (width,length).
-        scale : bool, (default : False)
-            Scaling in range [0-255] by img*(255/max(img))
-        denoise : string, (default : 'fastnl', None to disable)
-            Filtering method to remove noise:
-                * None
-                * 'fastnl'
-                * 'bilateral'
-                * 'lee'
-                * 'lee_enhanced'
-                * 'lee_sigma'
-                * 'kuan'
-                * 'frost'
-                * 'median'
-                * 'mean'
-        params : dict():
-            Denoising parameters for the methods. If None are defined, the default will be used:
-            * caerus (default): {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
-            * lee_sigma (default): {'window': 7, 'sigma': 0.9, 'num_looks': 1, 'tk': 5}
-                * 'sigma': float, (default: 0.9): Speckle noise standard deviation, applies for methods: ['lee_sigma']
-                * 'num_looks': int, (default: 1): Number of looks of the SAR img, applies for methods: ['lee_sigma']
-                * 'tk': int, (default: 5): Threshold of neighbouring pixels outside of the 98th percentile, applies for methods: ['lee_sigma']
-                * cu : float, (default: 0.25): The noise variation coefficient, applies for methods: ['kuan','lee','lee_enhanced']
-                * window : int, (default : 3): Denoising window. Increasing the window size may removes noise better but may also removes details of image in certain denoising methods.
-            * peakdetect
-                'delta' : int (default: 0): this specifies a minimum difference between a peak and the following points, before a peak may be considered a peak. Useful to hinder the function
-                from picking up false peaks towards to end of the signal. To work well delta should be set to delta >= RMSnoise * 5.
-                When omitted delta function causes a 20% decrease in speed. When used Correctly it can double the speed of the function
-        togray : bool, (default : False)
-            Conversion to gray scale.
-        verbose : str or int, optional, default='info' (20)
-            Logging verbosity level. Possible values:
-            - 0, 60, None, 'silent', 'off', 'no' : no messages.
-            - 10, 'debug' : debug level and above.
-            - 20, 'info' : info level and above.
-            - 30, 'warning' : warning level and above.
-            - 50, 'critical' : critical level and above.
+        method : str, optional (default: None)
+            Peak detection method to use. If None, defaults are chosen based on data type.
+            
+            **1D-vector methods:**
+            - 'topology': Persistent homology-based detection (most robust)
+            - 'peakdetect': Traditional algorithm with lookahead and delta parameters
+            - 'caerus': Advanced peak detection with optimization strategies
+            
+            **2D-array methods:**
+            - 'topology': Persistent homology-based detection (default, most robust)
+            - 'mask': Local maximum filtering for peak detection
+            
+        whitelist : str or list, optional (default: ['peak', 'valley'])
+            Types of features to detect:
+            - 'peak': Detect only peaks (local maxima)
+            - 'valley': Detect only valleys (local minima)
+            - ['peak', 'valley']: Detect both peaks and valleys
+            
+        lookahead : int, optional (default: 200)
+            Number of points to look ahead when detecting peaks (peakdetect method).
+            For small datasets (< 50 points), use values of 1-2.
+            Higher values provide more robust detection but may miss closely spaced peaks.
+            
+        interpolate : int, optional (default: None)
+            Interpolation factor for 1D data smoothing. Higher values create smoother curves
+            with less sharp edges. Useful for noisy data preprocessing.
+            
+        limit : float, optional (default: None)
+            Persistence threshold for topology method. Only features with persistence > limit
+            are considered significant. Lower values detect more features, higher values
+            detect only the most prominent features.
+            
+        imsize : tuple, optional (default: None)
+            Target image size for 2D data preprocessing: (width, height).
+            Useful for reducing computation time on large images.
+            
+        scale : bool, optional (default: True)
+            Scale image values to range [0-255] for consistent processing.
+            
+        togray : bool, optional (default: True)
+            Convert color images to grayscale. Required for topology method.
+            
+        denoise : str, optional (default: 'fastnl')
+            Denoising method for 2D data preprocessing:
+            - None: No denoising
+            - 'fastnl': Fast Non-Local Means (recommended)
+            - 'bilateral': Bilateral filtering (preserves edges)
+            - 'lee': Lee filter for SAR images
+            - 'lee_enhanced': Enhanced Lee filter
+            - 'lee_sigma': Lee filter with sigma parameter
+            - 'kuan': Kuan filter for SAR images
+            - 'frost': Frost filter for SAR images
+            - 'median': Median filtering
+            - 'mean': Mean filtering
+            
+        window : int, optional (default: None, DEPRECATED)
+            Denoising window size. Use params={'window': size} instead.
+            
+        cu : float, optional (default: None, DEPRECATED)
+            Noise variation coefficient. Use params={'cu': value} instead.
+            
+        params_caerus : dict, optional (default: {}, DEPRECATED)
+            Caerus-specific parameters. Use params instead.
+            
+        params : dict, optional (default: {'window': 3, 'delta': 0})
+            Method-specific parameters:
+            
+            **For caerus method:**
+            - 'window': int (default: 50) - Window size for analysis
+            - 'minperc': int (default: 3) - Minimum percentage threshold
+            - 'nlargest': int (default: 10) - Number of largest peaks to return
+            - 'threshold': float (default: 0.25) - Detection threshold
+            
+            **For lee_sigma method:**
+            - 'window': int (default: 7) - Window size
+            - 'sigma': float (default: 0.9) - Speckle noise standard deviation
+            - 'num_looks': int (default: 1) - Number of looks in SAR image
+            - 'tk': int (default: 5) - Threshold for neighboring pixels
+            
+            **For peakdetect method:**
+            - 'delta': int (default: 0) - Minimum difference between peak and following points
+              Set to >= RMSnoise * 5 for optimal performance
+              
+            **For denoising methods:**
+            - 'window': int (default: 3) - Denoising window size
+            - 'cu': float (default: 0.25) - Noise variation coefficient (kuan, lee, lee_enhanced)
+            
+        figsize : tuple, optional (default: (15, 8))
+            Default figure size for plots: (width, height) in inches.
+            
+        verbose : str or int, optional (default: 'info')
+            Logging verbosity level:
+            - 'silent', 'off', 'no': No messages
+            - 'critical': Critical errors only
+            - 'error': Errors and critical messages
+            - 'warning': Warnings and above
+            - 'info': Information messages and above (default)
+            - 'debug': All messages including debug information
 
         Returns
         -------
-        dict()
-            See 1dpeaks and 2dpeaks for more details.
+        findpeaks
+            Initialized findpeaks object ready for peak detection.
 
         Examples
         --------
         >>> from findpeaks import findpeaks
-        >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(method='peakdetect',lookahead=1,interpolate=10)
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # 2D array example
-        >>> from findpeaks import findpeaks
-        >>> X = fp.import_example('2dpeaks')
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # Image example
-        >>> from findpeaks import findpeaks
-        >>> fp = findpeaks(method='topology',imsize=(300,300),denoise='fastnl',params={'window': 30})
-        >>> X = fp.import_example('2dpeaks_image')
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # Plot each seperately
-        >>> fp.plot_preprocessing()
-        >>> fp.plot_persistence()
-        >>> fp.plot_mesh()
+        >>> 
+        >>> # Basic 1D peak detection
+        >>> fp = findpeaks(method='peakdetect', lookahead=1, interpolate=10)
+        >>> 
+        >>> # Advanced 2D detection with preprocessing
+        >>> fp = findpeaks(method='topology', imsize=(300,300), denoise='fastnl', 
+        ...                params={'window': 30}, limit=0.1)
+        >>> 
+        >>> # Custom parameters for specific use case
+        >>> fp = findpeaks(method='caerus', params={'window': 50, 'minperc': 5})
+
+        Notes
+        -----
+        - The topology method provides the most robust detection with mathematical stability
+        - For noisy data, use denoising preprocessing before detection
+        - The limit parameter is crucial for topology method to filter significant features
+        - Interpolation can help with noisy 1D data but may smooth out important features
 
         References
         ----------
-            * https://erdogant.github.io/findpeaks/
+        * https://erdogant.github.io/findpeaks/
+        * Johannes Ferner et al, Persistence-based Hough Transform for Line Detection, https://arxiv.org/abs/2504.16114
         """
         if window is not None: logger.info(
             'The input parameter "window" will be deprecated in future releases. Please use "params={"window": 5}" '
@@ -240,25 +293,82 @@ class findpeaks():
         self.params = params
 
     def fit(self, X, x=None):
-        """Detect peaks and valleys in a 1D vector or 2D-array (image).
+        """Detect peaks and valleys in 1D vector or 2D-array data.
 
         Description
         -----------
-        * Fit the method on your data for the detection of peaks.
-        * See 1dpeaks and 2dpeaks for more details about the input/output parameters.
+        Performs peak and valley detection on the input data using the configured method.
+        Automatically determines whether the input is 1D or 2D and applies appropriate
+        preprocessing and detection algorithms.
 
         Parameters
         ----------
-        X : array-like data.
-            Input data.
-        x : array-like data.
-            Coordinates of the x-axis.
+        X : array-like
+            Input data for peak detection. Can be:
+            - 1D array/list: Time series, signal data, or vector data
+            - 2D array: Image data, spatial data, or matrix data
+            - pandas DataFrame: Will be converted to numpy array
+            
+        x : array-like, optional (default: None)
+            X-coordinates for 1D data. If None, uses sequential indices [0, 1, 2, ...].
+            Only used for 1D data visualization and result mapping.
 
         Returns
         -------
-        dict()
-            * See 1dpeaks and 2dpeaks for more details.
+        dict
+            Dictionary containing detection results with the following keys:
+            
+            **For 1D data:**
+            - 'df': pandas DataFrame with original data coordinates and detection results
+            - 'df_interp': pandas DataFrame with interpolated data (if interpolation used)
+            - 'persistence': pandas DataFrame with persistence scores (topology method only)
+            - 'Xdetect': numpy array with detection scores
+            - 'Xranked': numpy array with ranked peak/valley indices
+            
+            **For 2D data:**
+            - 'Xraw': numpy array of original input data
+            - 'Xproc': numpy array of preprocessed data
+            - 'Xdetect': numpy array with detection scores (same shape as input)
+            - 'Xranked': numpy array with ranked peak/valley indices (same shape as input)
+            - 'persistence': pandas DataFrame with persistence scores (topology method only)
+            - 'groups0': list of homology groups (topology method only)
+            
+            **DataFrame columns (when applicable):**
+            - 'x', 'y': Coordinates of detected features
+            - 'peak': Boolean indicating if point is a peak
+            - 'valley': Boolean indicating if point is a valley
+            - 'score': Persistence or detection score
+            - 'rank': Ranking of feature significance (1 = most significant)
+            - 'labx': Label/group assignment for connected components
 
+        Examples
+        --------
+        >>> from findpeaks import findpeaks
+        >>> 
+        >>> # 1D peak detection
+        >>> X = [1, 2, 5, 3, 2, 1, 4, 6, 4, 2, 1]
+        >>> fp = findpeaks(method='peakdetect', lookahead=1)
+        >>> results = fp.fit(X)
+        >>> print(f"Found {results['df']['peak'].sum()} peaks")
+        >>> 
+        >>> # 2D peak detection
+        >>> X = fp.import_example('2dpeaks')
+        >>> fp = findpeaks(method='topology', limit=0.1)
+        >>> results = fp.fit(X)
+        >>> print(f"Found {len(results['persistence'])} significant features")
+
+        Notes
+        -----
+        - The method automatically handles data type conversion and preprocessing
+        - Results are stored in the object for subsequent plotting and analysis
+        - For topology method, persistence scores provide quantitative significance measures
+        - Interpolation (if enabled) creates smoother data for better detection
+
+        See Also
+        --------
+        peaks1d : 1D peak detection method
+        peaks2d : 2D peak detection method
+        plot : Visualize detection results
         """
         # Check datatype
         if isinstance(X, list):
@@ -277,57 +387,90 @@ class findpeaks():
 
     # Find peaks in 1D vector
     def peaks1d(self, X, x=None, method='peakdetect', height=0):
-        """Detect of peaks in 1D array.
+        """Detect peaks and valleys in 1D array data.
 
         Description
         -----------
-        This function only eats the input data. Use the .fit() function for more information regarding the input parameters:
-            * method : Method to be used for peak detection: 'topology' or 'peakdetect'.
-            * lookahead : Looking ahead for peaks. For very small 1d arrays (such as up to 50 datapoints), use low numbers: 1 or 2.
-            * interpolate : Interpolation factor. The higher the number, the less sharp the edges will be.
-            * limit : Values > limit are set as regions of interest (ROI).
-            * height: Required height of the peaks.
+        Performs peak and valley detection on 1D data using the specified method.
+        Supports multiple detection algorithms with different characteristics:
+        
+        - **topology**: Persistent homology-based detection (most robust, handles noise well)
+        - **peakdetect**: Traditional algorithm with lookahead and delta parameters
+        - **caerus**: Advanced peak detection with optimization strategies
 
         Parameters
         ----------
-        X : array-like 1D vector.
-            Input data.
-        x : array-like 1D vector.
-            Coordinates of the x-axis.
+        X : array-like
+            1D input data (vector, time series, or signal data)
+            
+        x : array-like, optional (default: None)
+            X-coordinates for the data points. If None, uses sequential indices.
+            
+        method : str, optional (default: 'peakdetect')
+            Detection method to use:
+            - 'topology': Persistent homology-based detection
+            - 'peakdetect': Traditional peak detection algorithm
+            - 'caerus': Advanced peak detection with optimization
+            
+        height : float, optional (default: 0)
+            Minimum height requirement for peaks (peakdetect method only)
 
         Returns
         -------
-        dict() : Results in "df" are based on the input-data, whereas "df_interp" are the interpolated results.
-            * persistence : Scores when using topology method.
-            * Xranked     : Similar to column "rank".
-            * Xdetect     : Similar to the column "score".
-            * df          : Is ranked in the same manner as the input data and provides information about the detected peaks and valleys.
-        persistence : pd.DataFrame()
-            * x, y    : Coordinates
-            * birth   : Birth level
-            * death   : Death level
-            * score   : Persistence scores
-        df : pd.DataFrame()
-            * x, y    : Coordinates
-            * labx    : The label of the peak area
-            * rank    : The ranking number of the best performing peaks (1 is best)
-            * score   : Persistence score
-            * valley  : Whether the point is marked as valley
-            * peak    : Whether the point is marked as peak
+        dict
+            Dictionary containing detection results:
+            
+            **Common keys:**
+            - 'df': pandas DataFrame with original data and detection results
+            - 'df_interp': pandas DataFrame with interpolated data (if interpolation used)
+            
+            **For topology method:**
+            - 'persistence': pandas DataFrame with persistence scores and coordinates
+            - 'Xdetect': numpy array with detection scores
+            - 'Xranked': numpy array with ranked peak/valley indices
+            - 'groups0': list of homology groups
+            
+            **For peakdetect method:**
+            - 'peakdetect': dict with peak detection results
+            
+            **For caerus method:**
+            - 'caerus': dict with caerus detection results
+            - 'model': caerus model object
+            
+            **DataFrame columns:**
+            - 'x', 'y': Coordinates and values
+            - 'peak': Boolean indicating peak locations
+            - 'valley': Boolean indicating valley locations
+            - 'score': Detection or persistence scores
+            - 'rank': Feature ranking (1 = most significant)
+            - 'labx': Component labels
 
         Examples
         --------
         >>> from findpeaks import findpeaks
-        >>> X = [9,60,377,985,1153,672,501,1068,1110,574,135,23,3,47,252,812,1182,741,263,33]
-        >>> fp = findpeaks(method='peakdetect',lookahead=1,interpolate=10)
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> fp = findpeaks(method='topology')
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>> fp.plot_persistence()
+        >>> 
+        >>> # Basic peak detection
+        >>> X = [1, 2, 5, 3, 2, 1, 4, 6, 4, 2, 1]
+        >>> fp = findpeaks(method='peakdetect', lookahead=1)
+        >>> results = fp.peaks1d(X)
+        >>> 
+        >>> # Topology-based detection with persistence
+        >>> fp = findpeaks(method='topology', limit=0.1)
+        >>> results = fp.peaks1d(X)
+        >>> print(f"Persistence scores: {results['persistence']['score'].values}")
 
+        Notes
+        -----
+        - The topology method provides the most robust detection with mathematical stability
+        - Interpolation (if enabled) creates smoother data for better detection
+        - Persistence scores quantify the significance of detected features
+        - Results are automatically stored in the object for plotting and analysis
+
+        See Also
+        --------
+        fit : Main detection method for both 1D and 2D data
+        peaks2d : 2D peak detection method
+        plot : Visualize detection results
         """
         if method is None: method = 'peakdetect'
         self.method = method
@@ -511,68 +654,85 @@ class findpeaks():
 
     # Find peaks in 2D-array
     def peaks2d(self, X, method='topology'):
-        """Detect peaks and valleys in a 2D-array or image.
+        """Detect peaks and valleys in 2D-array or image data.
 
         Description
         -----------
-        To handle 2D-arrays or images. Use the .fit() function for more information regarding the input parameters:
-            * method : Method to be used for peak detection: 'topology', or 'mask'
-            * limit : Values > limit are set as regions of interest (ROI).
-            * scale : Scaling data in range [0-255] by img*(255/max(img))
-            * denoise : Remove noise using method:
-                * None
-                * 'fastnl'
-                * 'bilateral'
-                * 'lee'
-                * 'lee_enhanced'
-                * 'lee_sigma'
-                * 'kuan'
-                * 'frost'
-                * 'median'
-                * 'mean'
-            * window : Denoising window.
-            * cu : Noise variation coefficient.
-            * togray : Conversion to gray scale.
-            * imsize : Resize image.
+        Performs peak and valley detection on 2D data (images, spatial data, or matrices).
+        Applies preprocessing steps including denoising, scaling, and grayscale conversion
+        before detection. Supports multiple detection algorithms optimized for 2D data.
+        
+        **Preprocessing Pipeline:**
+        1. **Resizing** (optional): Reduce image size for faster computation
+        2. **Scaling** (optional): Normalize values to [0-255] range
+        3. **Grayscale conversion** (optional): Convert color images to grayscale
+        4. **Denoising** (optional): Apply noise reduction filters
+        
+        **Detection Methods:**
+        - **topology**: Persistent homology-based detection (most robust, handles noise well)
+        - **mask**: Local maximum filtering for peak detection
 
         Parameters
         ----------
-        X : array-like 1D vector.
-            Input data.
+        X : array-like
+            2D input data (image, spatial data, or matrix)
+            
+        method : str, optional (default: 'topology')
+            Detection method to use:
+            - 'topology': Persistent homology-based detection (recommended)
+            - 'mask': Local maximum filtering
 
         Returns
         -------
-        dict()
-            * Xraw    : The RAW input data
-            * Xproc   : The pre-processed data
-            * Xdetect : The detected peaks with the persistence scores (same shape as the input data)
-            * XRanked : The detected peaks but based on the strenght (same shape as the input data)
-            * persistence : pd.DataFrame()
-                * x, y    : Coordinates
-                * birth   : Birth level
-                * death   : Death level
-                * score   : Persistence scores
+        dict
+            Dictionary containing detection results:
+            
+            **Common keys:**
+            - 'Xraw': numpy array of original input data
+            - 'Xproc': numpy array of preprocessed data
+            - 'Xdetect': numpy array with detection scores (same shape as input)
+            - 'Xranked': numpy array with ranked peak/valley indices (same shape as input)
+            
+            **For topology method:**
+            - 'persistence': pandas DataFrame with persistence scores and coordinates
+            - 'groups0': list of homology groups
+            
+            **Persistence DataFrame columns:**
+            - 'x', 'y': Coordinates of detected features
+            - 'birth_level': Birth level in persistence diagram
+            - 'death_level': Death level in persistence diagram
+            - 'score': Persistence scores (higher = more significant)
+            - 'peak': Boolean indicating peak locations
+            - 'valley': Boolean indicating valley locations
 
         Examples
         --------
-        >>> # 2D array example
         >>> from findpeaks import findpeaks
+        >>> 
+        >>> # Basic 2D peak detection
         >>> X = fp.import_example('2dpeaks')
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # Image example
-        >>> from findpeaks import findpeaks
-        >>> X = fp.import_example('2dpeaks_image')
-        >>> fp = findpeaks(imsize=(300,300),denoise='fastnl',params={'window': 30})
-        >>> results = fp.fit(X)
-        >>> fp.plot()
-        >>>
-        >>> # Plot each seperately
-        >>> fp.plot_preprocessing()
-        >>> fp.plot_persistence()
-        >>> fp.plot_mesh()
+        >>> fp = findpeaks(method='topology', limit=0.1)
+        >>> results = fp.peaks2d(X)
+        >>> 
+        >>> # With preprocessing
+        >>> fp = findpeaks(method='topology', imsize=(300,300), denoise='fastnl')
+        >>> results = fp.peaks2d(X)
+        >>> print(f"Found {len(results['persistence'])} significant features")
 
+        Notes
+        -----
+        - The topology method provides the most robust detection with mathematical stability
+        - Preprocessing steps can significantly improve detection quality on noisy data
+        - Persistence scores quantify the significance of detected features
+        - Results are automatically stored in the object for plotting and analysis
+        - Color images are automatically converted to grayscale for topology method
+
+        See Also
+        --------
+        fit : Main detection method for both 1D and 2D data
+        peaks1d : 1D peak detection method
+        preprocessing : Detailed preprocessing pipeline
+        plot : Visualize detection results
         """
         if method is None: method = 'topology'
         self.method = method
@@ -637,26 +797,57 @@ class findpeaks():
 
     # Pre-processing
     def preprocessing(self, X, showfig=False):
-        """Preprocessing steps of the 2D array (image).
+        """Apply preprocessing pipeline to 2D array (image) data.
 
-        The pre-processing has 4 (optional) steps.
-            1. Resizing (to reduce computation time).
-            2. Scaling color pixels between [0-255].
-            3. Conversion to gray-scale. This is required for some analysis.
-            4. Denoising of the image.
+        Description
+        -----------
+        Performs a series of optional preprocessing steps to prepare 2D data for peak detection.
+        The preprocessing pipeline can significantly improve detection quality, especially
+        for noisy or complex images.
+
+        **Preprocessing Steps (in order):**
+        1. **Resizing**: Reduce image dimensions for faster computation
+        2. **Scaling**: Normalize pixel values to [0-255] range for consistent processing
+        3. **Grayscale conversion**: Convert color images to grayscale (required for topology method)
+        4. **Denoising**: Apply noise reduction filters to improve detection quality
 
         Parameters
         ----------
-        X : numpy-array
-            Input data or image.
-        showfig : bool
-            Show the preocessing steps in figures. The default is None.
+        X : numpy.ndarray
+            Input 2D data (image, spatial data, or matrix)
+            
+        showfig : bool, optional (default: False)
+            If True, displays intermediate preprocessing steps as subplots.
+            Useful for understanding how each step affects the data.
 
         Returns
         -------
-        X : numpy-array
-            Processed image.
+        numpy.ndarray
+            Preprocessed 2D array ready for peak detection
 
+        Examples
+        --------
+        >>> from findpeaks import findpeaks
+        >>> 
+        >>> # Basic preprocessing
+        >>> fp = findpeaks(scale=True, togray=True, denoise='fastnl')
+        >>> X_processed = fp.preprocessing(X)
+        >>> 
+        >>> # With visualization
+        >>> fp.preprocessing(X, showfig=True)
+
+        Notes
+        -----
+        - Preprocessing steps are applied in the order listed above
+        - Each step is optional and controlled by initialization parameters
+        - Grayscale conversion is required for topology method
+        - Denoising can significantly improve detection on noisy data
+        - Resizing reduces computation time but may lose fine details
+
+        See Also
+        --------
+        peaks2d : 2D peak detection with automatic preprocessing
+        plot_preprocessing : Visualize preprocessing steps
         """
         if showfig:
             # Number of axis to create:
@@ -750,32 +941,90 @@ class findpeaks():
              ylabel='y-axis',
              figure_order='vertical',
              fontsize=18):
-        """Plot results.
+        """Plot peak detection results.
+
+        Description
+        -----------
+        Creates visualizations of peak detection results. Automatically determines
+        the appropriate plot type based on the data dimensionality (1D or 2D).
+        
+        **For 1D data**: Creates line plots with peak/valley markers
+        **For 2D data**: Creates image plots with peak/valley annotations
 
         Parameters
         ----------
-        legend : bool, (default: True)
-            Show the legend.
-        figsize : (int, int), optional, default: (15, 8)
-            (width, height) in inches.
-        cmap : object (default : None)
-            Colormap. The default is derived wether image is convert to grey or not. Other options are: plt.cm.hot_r.
-        text : Bool (default : True)
-            Include text to the 2D-image that shows the peaks (p-number) and valleys (v-number)
-        s : size (default: None)
-            Size of the marker.
-            None: Automatically sizes based on peak value
-        marker: str (default: 'x')
-            Marker type.
-        color: str (default: '#FF0000')
-            Hex color of the marker.
-        fontsize: int (default: 10)
-            Font size for the text labels on the plot.
+        limit : float, optional (default: None)
+            Persistence threshold for filtering results. Only features with
+            persistence > limit are displayed (topology method only).
+            
+        legend : bool, optional (default: True)
+            Whether to display the plot legend.
+            
+        figsize : tuple, optional (default: None)
+            Figure size as (width, height) in inches. If None, uses default size.
+            
+        cmap : str or matplotlib.colors.Colormap, optional (default: None)
+            Colormap for 2D plots. If None, automatically chooses based on data type.
+            Common options: 'gray', 'hot', 'viridis', plt.cm.hot_r
+            
+        text : bool, optional (default: True)
+            Whether to display peak/valley labels on 2D plots.
+            
+        s : float, optional (default: None)
+            Marker size for peak/valley indicators. If None, automatically sizes
+            based on peak significance.
+            
+        marker : str, optional (default: 'x')
+            Marker style for peaks. Common options: 'x', 'o', '+', '*'
+            
+        color : str, optional (default: '#FF0000')
+            Color for peak/valley markers (hex color code).
+            
+        xlabel : str, optional (default: 'x-axis')
+            Label for the x-axis.
+            
+        ylabel : str, optional (default: 'y-axis')
+            Label for the y-axis.
+            
+        figure_order : str, optional (default: 'vertical')
+            Layout direction for subplots: 'vertical' or 'horizontal'.
+            
+        fontsize : int, optional (default: 18)
+            Font size for text labels and axis labels.
 
         Returns
         -------
-        fig_axis : tuple containing (fig, ax)
+        tuple or None
+            For 1D data: (ax1, ax2) - matplotlib axes objects
+            For 2D data: (ax1, ax2, ax3) - matplotlib axes objects
+            Returns None if no results are available to plot
 
+        Examples
+        --------
+        >>> from findpeaks import findpeaks
+        >>> 
+        >>> # Basic plotting
+        >>> fp = findpeaks(method='topology')
+        >>> results = fp.fit(X)
+        >>> fp.plot()
+        >>> 
+        >>> # Customized plotting
+        >>> fp.plot(limit=0.1, marker='o', color='blue', fontsize=14)
+
+        Notes
+        -----
+        - Must call fit() before plotting
+        - For 1D data, shows both original and interpolated results (if applicable)
+        - For 2D data, shows input, processed, and detection results
+        - Peak/valley markers are automatically sized based on significance
+        - Use limit parameter to filter out low-significance features
+
+        See Also
+        --------
+        plot1d : 1D-specific plotting
+        plot_mask : 2D-specific plotting with masking
+        plot_persistence : Persistence diagram visualization
+        plot_mesh : 3D mesh visualization
         """
         if not hasattr(self, 'results'):
             logger.warning('Nothing to plot. <return>')
