@@ -61,7 +61,7 @@ def calculate_all_Mi(window_flat, factor_A, window):
     """
     N, M = window.shape
     center_pixel = np.float64(window[int(N/2), int(M/2)])
-    window_flat = np.float64(window_flat)
+    window_flat = window_flat.astype(np.float64)
 
     distances = np.abs(window_flat - center_pixel)
 
