@@ -10,6 +10,27 @@ import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
 # %%
+
+
+import numpy as np
+
+# Simulate x-axis
+x = np.linspace(0, 100, 200)
+# Create the primary peak (sharp and high)
+peak1 = np.exp(-(x - 30)**2 / (2 * 3**2)) * 50
+# Add a few smaller bumps
+peak2 = np.exp(-(x - 70)**2 / (2 * 5**2)) * 20
+peak3 = np.exp(-(x - 80)**2 / (2 * 3**2)) * 15
+# Combine and add some randomness
+y = peak1 + peak2 + peak3 + np.random.normal(0, 0.5, size=len(x))
+
+from findpeaks import findpeaks
+fp = findpeaks(method="peakdetect", lookahead=50, verbose='info')
+results = fp.fit(y)
+ax = fp.plot()
+
+
+# %%
 from findpeaks import findpeaks
 X = [10,11,9,23,21,11,45,20,11,12]
 fp = findpeaks(method="topology", lookahead=1, verbose='info')
