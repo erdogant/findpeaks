@@ -1366,10 +1366,13 @@ def _plot_original(X,
     params_line_black['color'] = 'black'
     ax.plot(xs, X, **params_line_black)
     
-    if np.any(max_peaks):
-        ax.scatter(max_peaks, X[max_peaks], label='Peak',  **params_peak_marker)
-    if np.any(min_peaks):
-        ax.scatter(min_peaks, X[min_peaks], label='Valley',  **params_valley_marker)
+    if params_peak_marker.get('marker', 'x') in ['x', '+', '.', '|', '_']:
+        params_peak_marker.pop('edgecolors', None)
+    ax.scatter(max_peaks, X[max_peaks], label='Peak', **params_peak_marker)
+
+    if params_valley_marker.get('marker', 'o') in ['x', '+', '.', '|', '_']:
+        params_valley_marker.pop('edgecolors', None)
+    ax.scatter(min_peaks, X[min_peaks], label='Valley', **params_valley_marker)
 
     # Color each detected label
     s = np.arange(0, len(X))
