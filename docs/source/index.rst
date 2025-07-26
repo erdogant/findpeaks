@@ -6,18 +6,25 @@ findpeaks's documentation!
 -----------------------------------
 
 .. |logo| image:: ../figs/logo.png
+   :width: 125px
+   :height: 125px
 
-.. table::
-   :align: center
+.. container:: logo-description
 
-   +---------------+
-   | |logo|        |
-   +---------------+
+   .. image:: ../figs/logo.png
+      :width: 125px
+      :height: 125px
+      :align: left
+      :alt: findpeaks logo
+
+   *findpeaks* is a comprehensive Python library for robust detection and analysis of peaks and valleys in both 1D vectors and 2D arrays (images). The library provides multiple detection algorithms including **topology-based persistent homology** (most robust), **mask-based local maximum filtering**, and traditional **peakdetect** approaches. 
+
+
+   .. raw:: html
+
+      <div style="clear: both;"></div>
 
 -----------------------------------
-
-*findpeaks* is a comprehensive Python library for robust detection and analysis of peaks and valleys in both 1D vectors and 2D arrays (images). The library provides multiple detection algorithms including **topology-based persistent homology** (most robust), **mask-based local maximum filtering**, and traditional **peakdetect** approaches. 
-The library includes comprehensive preprocessing capabilities (denoising, normalizing, resizing) and advanced visualization tools (3D mesh plots, persistence diagrams, preprocessing pipelines) to help users understand and analyze their data effectively.
 
 **Key Features:**
     - **Multiple Detection Methods**: Topology (persistent homology)
@@ -27,19 +34,24 @@ The library includes comprehensive preprocessing capabilities (denoising, normal
     - **Mathematical Stability**: Topology method provides mathematically grounded peak detection
     - **Hough Transform Applications**: Enhanced robustness for computer vision applications
 
+The library includes comprehensive preprocessing capabilities (denoising, normalizing, resizing) and advanced visualization tools (3D mesh plots, persistence diagrams, preprocessing pipelines) to help users understand and analyze their data effectively.
 
 -----------------------------------
 
 Support
 -----------
-Yes! This library is entirely free but it runs on `coffee <https://buymeacoffee.com/erdogant>`_! :) 
 
 .. raw:: html
 
-    <iframe 
-        srcdoc='<a href="https://www.buymeacoffee.com/erdogant" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&amp;slug=erdogant&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=ffffff" /></a>' 
-        style="border:none; width:250px; height:80px;">
-    </iframe>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <iframe 
+            srcdoc='<a href="https://www.buymeacoffee.com/erdogant" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&amp;slug=erdogant&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=ffffff" /></a>' 
+            style="border:none; width:250px; height:80px; flex-shrink: 0;">
+        </iframe>
+        <div>
+            <p><strong>Yes! This library is entirely free but it runs on coffee. </strong>Your ❤️ is important to keep maintaining this package. You can <a href="https://erdogant.github.io/findpeaks/pages/html/Documentation.html">support</a> in various ways, have a look at the <a href="https://erdogant.github.io/findpeaks/pages/html/Documentation.html">sponsor page</a>.</p>
+        </div>
+    </div>
     
 -----------------------------------
 
@@ -48,15 +60,12 @@ Yes! This library is entirely free but it runs on `coffee <https://buymeacoffee.
 
 -----------------------------------
 
+
 .. note::
-	**Your ❤️ is important to keep maintaining this package.** You can `support <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_ in various ways, have a look at the `sponsor page <https://erdogant.github.io/findpeaks/pages/html/Documentation.html>`_.
-	Report bugs, issues and feature extensions at `github <https://github.com/erdogant/findpeaks/>`_ page.
-
-	.. code-block:: console
-
-	   pip install findpeaks
+    pip install findpeaks
 
 -----------------------------------
+
 
 
 Content
