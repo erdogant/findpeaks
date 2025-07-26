@@ -1561,7 +1561,14 @@ def set_logger(verbose: [str, int] = 'info', return_status: bool = False):
         }
         verbose = levels[verbose]
 
-    # Show examples
+    # Set up basic configuration if not already configured
+    if not logging.getLogger().handlers:
+        logging.basicConfig(level=verbose, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
+    else:
+        # Set the root logger level to control all child loggers
+        logging.getLogger().setLevel(verbose)
+    
+    # Also set the specific logger level
     logger.setLevel(verbose)
 
     if return_status:
