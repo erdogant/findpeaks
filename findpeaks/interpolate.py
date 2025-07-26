@@ -11,8 +11,6 @@ import matplotlib.pyplot as plt
 import logging
 
 logger = logging.getLogger(__name__)
-if not logger.hasHandlers():
-    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 # %%
 def interpolate_line1d(X, n=3, method=2, showfig=False):

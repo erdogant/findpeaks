@@ -30,9 +30,9 @@ from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
 # #####################
 
-logger = logging.getLogger(__name__)
-if not logger.hasHandlers():
-    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
+logger = logging.getLogger(__name__)  # Creates the main logger
+#if not logger.hasHandlers():
+#    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 
 # %%
@@ -1002,11 +1002,11 @@ class findpeaks():
                 ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
 
             if text:
-                for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm()):
+                for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(), desc="[findpeaks] >annotating peaks"):
                     ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
                     ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
 
-                for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm()):
+                for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(), desc="[findpeaks] >annotating valleys"):
                     ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
                     ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
 
@@ -1226,7 +1226,7 @@ class findpeaks():
                 y = self.results['df']['y'].values
                 x = self.results['df']['x'].values
                 idx = np.where(self.results['df']['rank'] > 0)[0]
-                for i in tqdm(idx, disable=disable_tqdm()):
+                for i in tqdm(idx, disable=disable_tqdm(), desc="[findpeaks] >Plotting persistence axis 1"):
                     ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b',
                              fontsize=fontsize)
 
@@ -1254,7 +1254,7 @@ class findpeaks():
             # Plot the detected loci
             logger.info('Plotting loci of birth..')
             ax1.set_title("Loci of births")
-            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm()):
+            for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm(), desc="[findpeaks] >Plotting loci of births"):
                 p_birth, bl, pers, p_death = homclass
                 if (self.limit is None):
                     y, x = p_birth
@@ -1284,7 +1284,7 @@ class findpeaks():
             return None
         ax2.plot(x, y, '.', c='b')
         if fontsize is not None:
-            for i in tqdm(range(0, len(x)), disable=disable_tqdm()):
+            for i in tqdm(range(0, len(x)), disable=disable_tqdm(), desc="[findpeaks] >Plotting persistence axis 2"):
                 ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b', fontsize=fontsize)
 
         X = np.c_[x, y]
@@ -1323,6 +1323,14 @@ class findpeaks():
         return X
 
 
+    def check_logger(self, verbose: [str, int] = None):
+        """Check the logger."""
+        if verbose is not None: set_logger(verbose)
+        logger.debug('DEBUG')
+        logger.info('INFO')
+        logger.warning('WARNING')
+        logger.critical('CRITICAL')
+        
 # %%
 def _plot_original(X,
                    xs, 

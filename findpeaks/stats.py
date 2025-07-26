@@ -35,8 +35,6 @@ import pandas as pd
 import logging
 
 logger = logging.getLogger(__name__)
-if not logger.hasHandlers():
-    logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 
 # %% Import cv2
@@ -477,7 +475,7 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
         return _get_indices(X, uf[p])
 
     # Process pixels from high to low
-    for i, p in tqdm(enumerate(indices), disable=disable_tqdm()):
+    for i, p in tqdm(enumerate(indices), disable=disable_tqdm(), desc="[findpeaks] >Topology"):
         v = _get_indices(X, p)
 
         if neighborhood_generator is None:
@@ -704,10 +702,6 @@ def normalize(X, minscale = 0.5, maxscale = 4, scaler: str = 'zscore'):
     return X
 
 # %%
-# def disable_tqdm(verbose):
-    # """Set the verbosity messages."""
-    # return  (True if ((verbose<4 or verbose is None) or verbose>5) else False)
-
 def disable_tqdm():
     """Set the logger for verbosity messages."""
     return (True if (logger.getEffectiveLevel()>=30) else False)
