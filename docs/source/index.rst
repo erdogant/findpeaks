@@ -3,8 +3,21 @@ findpeaks's documentation!
 
 |python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
 
+-----------------------------------
+
+.. |logo| image:: ../figs/logo.png
+
+.. table::
+   :align: center
+
+   +---------------+
+   | |logo|        |
+   +---------------+
+
+-----------------------------------
 
 *findpeaks* is a comprehensive Python library for robust detection and analysis of peaks and valleys in both 1D vectors and 2D arrays (images). The library provides multiple detection algorithms including **topology-based persistent homology** (most robust), **mask-based local maximum filtering**, and traditional **peakdetect** approaches. 
+The library includes comprehensive preprocessing capabilities (denoising, normalizing, resizing) and advanced visualization tools (3D mesh plots, persistence diagrams, preprocessing pipelines) to help users understand and analyze their data effectively.
 
 **Key Features:**
     - **Multiple Detection Methods**: Topology (persistent homology)
@@ -14,12 +27,23 @@ findpeaks's documentation!
     - **Mathematical Stability**: Topology method provides mathematically grounded peak detection
     - **Hough Transform Applications**: Enhanced robustness for computer vision applications
 
-The library includes comprehensive preprocessing capabilities (denoising, normalizing, resizing) and advanced visualization tools (3D mesh plots, persistence diagrams, preprocessing pipelines) to help users understand and analyze their data effectively.
-
 
 -----------------------------------
 
-.. note::
+Support
+-----------
+Yes! This library is entirely free but it runs on `coffee <https://buymeacoffee.com/erdogant>`_! :) 
+
+.. raw:: html
+
+    <iframe 
+        srcdoc='<a href="https://www.buymeacoffee.com/erdogant" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&amp;emoji=&amp;slug=erdogant&amp;button_colour=FFDD00&amp;font_colour=000000&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=ffffff" /></a>' 
+        style="border:none; width:250px; height:80px;">
+    </iframe>
+    
+-----------------------------------
+
+.. tip::
 	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://erdogant.medium.com>`_
 
 -----------------------------------
