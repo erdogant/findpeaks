@@ -170,15 +170,6 @@ class findpeaks():
             - 'median': Median filtering
             - 'mean': Mean filtering
             
-        window : int, optional (default: None, DEPRECATED)
-            Denoising window size. Use params={'window': size} instead.
-            
-        cu : float, optional (default: None, DEPRECATED)
-            Noise variation coefficient. Use params={'cu': value} instead.
-            
-        params_caerus : dict, optional (default: {}, DEPRECATED)
-            Caerus-specific parameters. Use params instead.
-            
         params : dict, optional (default: {'window': 3, 'delta': 0})
             Method-specific parameters:
             
