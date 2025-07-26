@@ -16,7 +16,7 @@
 [![Donate](https://img.shields.io/badge/Support%20this%20project-grey.svg?logo=github%20sponsors)](https://erdogant.github.io/findpeaks/pages/html/Documentation.html#)
 
 <div>
-<a href="https://erdogant.github.io/findpeaks/"><img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/logo.png" width="100" align="left" /></a>
+<a href="https://erdogant.github.io/findpeaks/"><img src="https://github.com/erdogant/findpeaks/blob/master/docs/figs/logo.png" width="125" align="left" /></a>
 findpeaks is a comprehensive Python library for robust detection and analysis of peaks and valleys in both 1D vectors and 2D arrays (images). The library provides multiple detection algorithms including topology-based persistent homology (most robust), mask-based local maximum filtering, and traditional peakdetect approaches. It can be used for time series analysis, signal processing, image analysis, and spatial data. ⭐️Star it if you like it⭐️
 </div>
 
