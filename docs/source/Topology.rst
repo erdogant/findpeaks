@@ -72,7 +72,7 @@ One-dimensional
 ----------------------------------------------------
 
 The initialization with contains many variables for which only a few are applicable for the **topology** method.
-The general parameters are *figsize* and *verbose* which are for setting the figure size and printing messages to the screen.
+The general parameters are *figsize* which is for setting the figure size. Logging messages are controlled through the Python logging system.
 Specific for the topology method, the method should be set at "topology", and in addition, the parameters *interpolate* and *limit* can be used for some pre-processing, and output adjustments.
 By default, no interpolation is applied and there is no limit on the final results. See here for the details :func:`findpeaks.findpeaks.findpeaks`.
 
@@ -81,7 +81,7 @@ By default, no interpolation is applied and there is no limit on the final resul
     # Import library
     from findpeaks import findpeaks
     # Initialize
-    fp = findpeaks(method='topology', interpolate=None, limit=None, figsize=(15, 8), verbose=3)
+    fp = findpeaks(method='topology', interpolate=None, limit=None, figsize=(15, 8))
     # Fit topology method on the 1d-vector
     results = fp.fit(X)
     # The output contains multiple variables
@@ -170,7 +170,7 @@ Lets set *limit* at 0.0101 and checkout the results:
 
 .. code:: python
 
-    fp = findpeaks(method='topology', interpolate=None, limit=0.0101, verbose=5)
+    fp = findpeaks(method='topology', interpolate=None, limit=0.0101)
     results = fp.fit(X)
     # Print results to screen
     print(results['persistence'])

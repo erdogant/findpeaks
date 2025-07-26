@@ -244,7 +244,7 @@ Find peaks with pre-processing
 	X = fp.import_example()
 
 	# Initialize
-	fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(50,100), verbose=3)
+	fp = findpeaks(method='topology', scale=True, denoise=10, togray=True, imsize=(50,100))
 
 	# Fit
 	results = fp.fit(X)

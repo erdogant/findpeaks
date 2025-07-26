@@ -338,7 +338,7 @@ Find peaks on the denoised image
 .. code:: python
 
 	from findpeaks import findpeaks
-	fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False, verbose=3)
+	fp = findpeaks(scale=False, denoise=None, togray=False, imsize=False)
 	fp.fit(image_lee_sigma)
 	fp.plot_persistence()
 	fp.plot_mesh(wireframe=False, title='Lee Sigma')
