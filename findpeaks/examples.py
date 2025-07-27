@@ -181,11 +181,15 @@ fp.plot_persistence()
 fp.plot_mesh()
 
 # %%
+import time
 from findpeaks import findpeaks
 path = r'https://erdogant.github.io/datasets/images/complex_peaks.png'
 fp = findpeaks(method='topology', whitelist='peak', limit=5, denoise='lee_sigma', params={'window': 5})
 X = fp.imread(path)
+
+start_orig = time.time()
 results = fp.fit(X)
+time_spend = time.time() - start_orig
 
 # result_df = results['persistence']
 # peak = result_df.index[result_df['peak']==True].tolist()
@@ -198,12 +202,12 @@ assert results['persistence'].shape == (47, 7)
 
 # %%
 from findpeaks import findpeaks
-path = r'https://user-images.githubusercontent.com/44827483/221152897-133839bb-7364-492a-921b-c9077ab9930b.png'
+path = r'https://erdogant.github.io/datasets/images/complex_peaks.png'
 fp = findpeaks(method='topology', whitelist='peak', denoise='lee_enhanced', params={'window': 5}, verbose='debug')
 X = fp.imread(path)
 results = fp.fit(X)
 ax = fp.plot_persistence()
-ax = fp.plot()
+ax = fp.plot(text=False)
 # fp.plot_mesh()
 
 fp.results['persistence'].iloc[0:10,:]
