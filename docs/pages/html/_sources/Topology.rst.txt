@@ -303,7 +303,7 @@ A more complex example with an internet image is shown below.
 .. code:: python
 
     from findpeaks import findpeaks
-    path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
+    path = r'https://erdogant.github.io/datasets/images/complex_peaks.png'
     fp = findpeaks(method='topology', whitelist='peak', limit=5, denoise='lee_sigma', params={'window': 5})
     X = fp.imread(path)
     results = fp.fit(X)

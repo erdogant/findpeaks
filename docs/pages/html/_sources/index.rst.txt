@@ -58,10 +58,12 @@ Support
 .. tip::
 	`Medium Blog: A Step-by-Step Guide To Accurately Detect Peaks and Valleys. <https://erdogant.medium.com>`_
 
------------------------------------
 
+Installation
+-------------
 
-.. note::
+.. code-block:: console
+
     pip install findpeaks
 
 -----------------------------------
