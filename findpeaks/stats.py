@@ -464,7 +464,8 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
 
     # It is important to ensure unique values because the method sorts the values and only unique values are processed.
     # Without adjusting duplicated values, peaks with exactly the same height will be skipped.
-    X = _make_unique(X)
+    # X = _make_unique(X)
+    X = _make_unique_fast(X)
     # X = np.maximum(X + ((X > 0).astype(int) * np.random.random(X.shape) / 10), 0)
 
     # Get indices orderd by value from high to low. As a tie-breaker, we use
@@ -711,21 +712,61 @@ def disable_tqdm():
     """Set the logger for verbosity messages."""
     return (True if (logger.getEffectiveLevel()>=30) else False)
 
-def _make_unique(arr: np.ndarray):
-    """Method iterates through elements of the input array to ensure all values are unique.
-       Duplicate values are reduced by the smallest possible increment for the given data type.
-       """
-    logger.debug('Making values unique')
-    res = np.empty_like(arr)
-    it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
-    seen = set()
-    with it:
-        while not it.finished:
-            a = it[0].item()
-            while a in seen and np.isfinite(a):
-                a = np.nextafter(a, -np.inf)
-            it[1] = a
-            if a not in seen:
-                seen.add(a)
-            it.iternext()
-    return res
+def _make_unique_fast(X: np.ndarray) -> np.ndarray:
+    """Add small deterministic noise to make values unique, preserving relative order."""
+    if not np.issubdtype(X.dtype, np.floating):
+        X = X.astype(np.float64)
+    eps = np.finfo(X.dtype).eps
+    noise = np.arange(X.size, dtype=np.float64).reshape(X.shape) * eps
+
+    # Only apply noise where X is not exactly zero
+    return np.where(X != 0, X + noise, X)
+
+# def _make_unique_original(arr: np.ndarray):
+#     """Method iterates through elements of the input array to ensure all values are unique.
+#        Duplicate values are reduced by the smallest possible increment for the given data type.
+#        """
+#     logger.debug('Making values unique')
+#     res = np.empty_like(arr)
+#     it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
+#     seen = set()
+#     with it:
+#         while not it.finished:
+#             a = it[0].item()
+#             while a in seen and np.isfinite(a):
+#                 a = np.nextafter(a, -np.inf)
+#             it[1] = a
+#             if a not in seen:
+#                 seen.add(a)
+#             it.iternext()
+#     return res
+
+# def _make_unique(arr: np.ndarray) -> np.ndarray:
+#     """Make all finite values in the array unique by perturbing duplicates slightly."""
+#     # Convert to float64 if needed
+#     if not np.issubdtype(arr.dtype, np.floating):
+#         arr = arr.astype(np.float64)
+#     dtype = arr.dtype
+
+#     arr_flat = arr.ravel()
+#     res = arr_flat.copy()
+#     is_finite = np.isfinite(res)
+#     finite_vals = res[is_finite]
+#     unique, counts = np.unique(finite_vals, return_counts=True)
+#     dupes = unique[counts > 1]
+#     if dupes.size == 0:
+#         return arr.copy()
+    
+#     seen = {}
+#     mask = np.isin(finite_vals, dupes)
+#     indices = np.where(mask)[0]
+#     values = finite_vals[mask]
+
+#     for i, val in tqdm(zip(indices, values), total=len(values), disable=disable_tqdm(), desc=logger.info("Making values unique")):
+#         count = seen.get(val, 0)
+#         perturbed = np.nextafter(val, -np.inf, dtype=dtype) - count * np.finfo(dtype).eps
+#         finite_vals[i] = perturbed
+#         seen[val] = count + 1
+
+#     res[is_finite] = finite_vals
+#     return res.reshape(arr.shape)
