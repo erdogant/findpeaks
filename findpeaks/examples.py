@@ -182,20 +182,19 @@ fp.plot_mesh()
 
 # %%
 from findpeaks import findpeaks
-path = r'https://user-images.githubusercontent.com/12035402/274193739-cdfd8986-91eb-4211-bef6-ebad041f47ae.png'
+path = r'https://erdogant.github.io/datasets/images/complex_peaks.png'
 fp = findpeaks(method='topology', whitelist='peak', limit=5, denoise='lee_sigma', params={'window': 5})
 X = fp.imread(path)
 results = fp.fit(X)
 
-result_df = results['persistence']
-peak = result_df.index[result_df['peak']==True].tolist()
-print(result_df.loc[peak])
-print(result_df.shape)
+# result_df = results['persistence']
+# peak = result_df.index[result_df['peak']==True].tolist()
 
 fp.plot_persistence()
-fp.plot(figsize=(25, 14), text=False, marker='x', color='#ff0000', figure_order='vertical')
-fp.plot_mesh(view=(40, 180))
+fp.plot(figsize=(25, 14), text=False, marker='x', color='#ff0000', figure_order='vertical', fontsize=14)
+# fp.plot_mesh(view=(40, 180))
 # fp.plot_mesh(view=(90, 0))
+assert results['persistence'].shape == (47, 7)
 
 # %%
 from findpeaks import findpeaks
@@ -268,6 +267,7 @@ axs[1].imshow(img_filtered, cmap='gray'); axs[1].set_title('Lee sigma filter')
 # %%
 # Import library
 from findpeaks import findpeaks
+import matplotlib.pyplot as plt
 
 # Initialize
 fp = findpeaks(method='topology', imsize=(150, 150), scale=True, togray=True, denoise='lee_sigma',
@@ -283,6 +283,7 @@ fp.plot_mesh()
 # Create denoised plot
 fp.plot(limit=80, figure_order='horizontal', cmap=plt.cm.hot_r)
 
+sum(results['persistence']['score']>80)
 
 # %% Issue 18:
 from findpeaks import findpeaks
@@ -310,6 +311,9 @@ X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1
 fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, verbose='info')
 results = fp.fit(X)
 fp.plot()
+assert results['df'].shape == (74, 5)
+assert results['df']['valley'].sum()== 13
+assert results['df']['peak'].sum()== 12
 
 fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=1, interpolate=10)
 results = fp.fit(X)
@@ -336,35 +340,6 @@ X = fp.import_example('1dpeaks')
 results = fp.fit(X)
 # Plot the results
 fp.plot_persistence(fontsize_ax1=12, fontsize_ax2=14)
-
-
-# %% issue in mail
-import numpy as np
-from findpeaks import findpeaks
-
-# Initialize peakdetect
-fp1 = findpeaks(method='peakdetect', whitelist='peak', lookahead=200)
-
-# Initialize topology
-fp2 = findpeaks(method='topology')
-
-# Example 1d-vector
-i = 10000
-xs = np.linspace(0,3.7*np.pi,i)
-X = (0.3*np.sin(xs) + np.sin(1.3 * xs) + 0.9 * np.sin(4.2 * xs) + 0.06 * np.random.randn(i))
-
-# Fit using peakdetect
-results_1 = fp1.fit(X)
-
-# Fit using topology
-results_2 = fp2.fit(X)
-
-# Plot peakdetect
-fp1.plot()
-
-# Plot topology
-fp2.plot()
-fp2.plot_persistence(fontsize_ax1=None)
 
 
 # %% issue #12
@@ -397,7 +372,6 @@ fp = findpeaks(method='topology', whitelist=['valley', 'peak'], lookahead=1, ver
 results = fp.fit(X)
 fp.plot()
 results['df']
-
 
 
 # %%
