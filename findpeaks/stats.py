@@ -466,8 +466,8 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
 
     # It is important to ensure unique values because the method sorts the values and only unique values are processed.
     # Without adjusting duplicated values, peaks with exactly the same height will be skipped.
-    # X = _make_unique(X)
-    X = np.maximum(X + ((X > 0).astype(int) * np.random.random(X.shape) / 10), 0)
+    X = _make_unique(X)
+    # X = np.maximum(X + ((X > 0).astype(int) * np.random.random(X.shape) / 10), 0)
 
     # Get indices orderd by value from high to low. As a tie-breaker, we use
     indices = list(zip(*np.where(X >= limit)))
@@ -731,3 +731,33 @@ def disable_tqdm():
 #                 seen.add(a)
 #             it.iternext()
 #     return res
+
+def _make_unique(arr: np.ndarray) -> np.ndarray:
+    """Return array where duplicate finite values are slightly perturbed to make all values unique."""
+    # Convert to float64 if needed
+    if not np.issubdtype(arr.dtype, np.floating):
+        arr = arr.astype(np.float64)
+    dtype = arr.dtype
+
+    arr_flat = arr.ravel()
+    res = arr_flat.copy()
+    is_finite = np.isfinite(res)
+    finite_vals = res[is_finite]
+    unique, counts = np.unique(finite_vals, return_counts=True)
+    dupes = unique[counts > 1]
+    if dupes.size == 0:
+        return arr.copy()
+    
+    seen = {}
+    mask = np.isin(finite_vals, dupes)
+    indices = np.where(mask)[0]
+    values = finite_vals[mask]
+
+    for i, val in tqdm(zip(indices, values), total=len(values), disable=disable_tqdm(), desc=logger.info("Making values unique")):
+        count = seen.get(val, 0)
+        perturbed = np.nextafter(val, -np.inf, dtype=dtype) - count * np.finfo(dtype).eps
+        finite_vals[i] = perturbed
+        seen[val] = count + 1
+
+    res[is_finite] = finite_vals
+    return res.reshape(arr.shape)
