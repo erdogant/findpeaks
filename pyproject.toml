@@ -13,8 +13,10 @@ license = { file = "LICENSE" }
 keywords = ["Python", "topology", "mesh", "sonar", "mask", "sar", "topological data analysis", "peak-detection", "denoise images", "peak analysis", "speckle-noise removal"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
 ]
 dependencies = [
     'scipy',

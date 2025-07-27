@@ -6,12 +6,10 @@
 # print(findpeaks.__version__)
 
 # pip install opencv-python
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
 # %%
-
-
 import numpy as np
 
 # Simulate x-axis
@@ -25,7 +23,7 @@ peak3 = np.exp(-(x - 80)**2 / (2 * 3**2)) * 15
 y = peak1 + peak2 + peak3 + np.random.normal(0, 0.5, size=len(x))
 
 from findpeaks import findpeaks
-fp = findpeaks(method="peakdetect", lookahead=50, verbose='info')
+fp = findpeaks(method="peakdetect", lookahead=100, interpolate=10)
 results = fp.fit(y)
 ax = fp.plot()
 

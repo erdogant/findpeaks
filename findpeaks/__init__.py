@@ -22,8 +22,8 @@ from findpeaks.filters.frost import frost_filter
 from findpeaks.filters.median import median_filter
 from findpeaks.filters.mean import mean_filter
 
-import logging
 # Setup root logger
+import logging
 _logger = logging.getLogger('findpeaks')
 _log_handler = logging.StreamHandler()
 _fmt = '[{asctime}] [{name}] [{levelname}] {msg}'
@@ -41,7 +41,7 @@ if version.parse(numpy.__version__) < version.parse('1.26.4'):
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.6.7'
+__version__ = '2.7.0'
 
 
 # module level doc-string
