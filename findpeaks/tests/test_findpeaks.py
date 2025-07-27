@@ -9,6 +9,7 @@ class TestFINDPEAKS(unittest.TestCase):
         # CHECK OUTPUT METHOD TOPOLOGY
         import numpy as np
         from findpeaks import findpeaks
+
         fp = findpeaks(method="topology", whitelist=['peak'])
         X = fp.import_example('2dpeaks')
         results = fp.fit(X)
@@ -24,6 +25,7 @@ class TestFINDPEAKS(unittest.TestCase):
         assert len(results['Xdetect'][results['Xdetect'] != 0]) > 18
         assert len(results['Xranked'][results['Xranked'] != 0]) > 18
 
+    def test_topology_limit(self):
         # CHECK RESULTS METHOD with LIMIT functionality
         fp = findpeaks(method="topology", whitelist=['peak'], limit=0)
         X = fp.import_example('2dpeaks')
@@ -32,6 +34,9 @@ class TestFINDPEAKS(unittest.TestCase):
         assert len(results['Xdetect'][results['Xdetect'] != 0]) > 18
         assert len(results['Xranked'][results['Xranked'] != 0]) > 18
 
+    def test_mask_2dpeaks(self):
+        import numpy as np
+        from findpeaks import findpeaks
         # CHECK OUTPUT METHOD MASK
         fp = findpeaks(method="mask")
         X = fp.import_example('2dpeaks')
@@ -46,6 +51,7 @@ class TestFINDPEAKS(unittest.TestCase):
         assert results['Xraw'].shape == results['Xdetect'].shape
         assert results['Xproc'].shape == results['Xdetect'].shape
 
+    def test_whitelist(self):
         # CHECK WHITELIST
         import numpy as np
         from scipy.ndimage import gaussian_filter
@@ -77,6 +83,7 @@ class TestFINDPEAKS(unittest.TestCase):
         Iloc = results['persistence']['score'] > 1
         assert results['persistence']['valley'].shape[0] == results['persistence']['valley'].sum()
 
+    def test_topology(self):
         # CHECK OUTPUT METHOD TOPOLOGY
         fp = findpeaks(method="topology")
         X = fp.import_example('1dpeaks')
@@ -126,6 +133,46 @@ class TestFINDPEAKS(unittest.TestCase):
                 for lookahead in lookaheads:
                     fp = findpeaks(method=method, lookahead=lookahead, interpolate=interpolate)
                     assert fp.fit(X)
+    
+    def detection_1d(self):
+        from findpeaks import findpeaks
+        X = [1,1,1.1,1,0.9,1,1,1.1,1,0.9,1,1.1,1,1,0.9,1,1,1.1,1,1,1,1,1.1,0.9,1,1.1,1,1,0.9,1,1.1,1,1,1.1,1,0.8,0.9,1,1.2,0.9,1,1,1.1,1.2,1,1.5,1,3,2,5,3,2,1,1,1,0.9,1,1,3,2.6,4,3,3.2,2,1,1,0.8,4,4,2,2.5,1,1,1]
+        
+        fp = findpeaks(method='peakdetect', whitelist=['peak', 'valley'], lookahead=2, verbose='info')
+        results = fp.fit(X)
+        fp.plot()
+        assert results['df'].shape == (74, 5)
+        assert results['df']['valley'].sum()== 11
+        assert results['df']['peak'].sum()== 9    
+
+    def detection_2d(self):
+        from findpeaks import findpeaks
+        import matplotlib.pyplot as plt
+        
+        # Initialize
+        fp = findpeaks(method='topology', imsize=(150, 150), scale=True, togray=True, denoise='lee_sigma', params={'window': 17})
+        # Import example image
+        img = fp.import_example('2dpeaks_image')
+        # Denoising and detecting peaks
+        results = fp.fit(img)
+        # Create mesh plot
+        fp.plot_mesh()
+        # Create denoised plot
+        fp.plot(limit=80, figure_order='horizontal', cmap=plt.cm.hot_r)
+        assert sum(results['persistence']['score']>80)==3
+    
+    def detection_2d_url(self):
+        from findpeaks import findpeaks
+        path = r'https://erdogant.github.io/datasets/images/complex_peaks.png'
+        fp = findpeaks(method='topology', whitelist='peak', limit=5, denoise='lee_sigma', params={'window': 5})
+        X = fp.imread(path)
+        results = fp.fit(X)
+        
+        fp.plot_persistence()
+        fp.plot(figsize=(25, 14), text=False, marker='x', color='#ff0000', figure_order='vertical', fontsize=14)
+        # fp.plot_mesh(view=(40, 180))
+        # fp.plot_mesh(view=(90, 0))
+        assert results['persistence'].shape == (47, 7)
 
     def test_denoising(self):
 
