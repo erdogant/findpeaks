@@ -464,6 +464,8 @@ class findpeaks():
         plot : Visualize detection results
         """
         if method is None: method = 'peakdetect'
+        if x is not None: x = x.astype(float)
+        X = X.astype(float)
         self.method = method
         self.type = 'peaks1d'
         logger.debug('Finding peaks in 1d-vector using [%s] method..' % (self.method))
@@ -726,6 +728,7 @@ class findpeaks():
         plot : Visualize detection results
         """
         if method is None: method = 'topology'
+        X = X.astype(float)
         self.method = method
         self.type = 'peaks2d'
         logger.debug('Finding peaks in 2d-array using %s method..' % (self.method))

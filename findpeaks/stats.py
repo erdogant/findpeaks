@@ -445,10 +445,14 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
         * Initial implementation: Stefan Huber <shuber@sthu.org>, editted by: Erdogan Taskesen <erdogant@gmail.com>, 2020
 
     """
-    if limit is None: limit = np.min(np.min(X))-1
+    if limit is None:
+        limit = float(np.min(X)) - 1
+    # np.uint8(0)
+    # np.uint8(255)
     if X.max().max()<limit:
         limit=X.max().max()-1
         logger.info('Minimum limit should be %s or smaller.' %(limit))
+
     logger.info('Detect peaks using topology method with limit at %s.' %(limit))
 
     if not reverse:
@@ -463,11 +467,10 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
     # It is important to ensure unique values because the method sorts the values and only unique values are processed.
     # Without adjusting duplicated values, peaks with exactly the same height will be skipped.
     # X = _make_unique(X)
-    X = np.maximum(X + ((X>0).astype(int) * np.random.rand(X.shape[0], X.shape[1])/10), 0)
+    X = np.maximum(X + ((X > 0).astype(int) * np.random.random(X.shape) / 10), 0)
 
     # Get indices orderd by value from high to low. As a tie-breaker, we use
-    # (value, index) as key.
-    indices = [(i, j) for i in range(h) for j in range(w) if _get_indices(X, (i, j)) is not None and _get_indices(X, (i, j)) >= limit]
+    indices = list(zip(*np.where(X >= limit)))
 
     # We add p as a secondary key to have an unambiguous total order below when
     # we enumerate neighboring cells of cells and consistency regarding
@@ -489,9 +492,7 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
         else:
             ni = [uf[q] for q in _iter_neighbors_generator(p, w, h)(p, w, h, neighborhood_generator=neighborhood_generator) if q in uf]
 
-        # Sort by (value, index) as key. Note that this is the same sorting
-        # order as for indices. Otherwise, we have an inconsistent notion of
-        # the "older" component!
+        # Sort by (value, index) as key. Note that this is the same sorting order as for indices. Otherwise, we have an inconsistent notion of the "older" component!
         nc = sorted([(_get_comp_birth(q), q) for q in set(ni)], reverse=True)
 
         if i == 0:
@@ -572,8 +573,8 @@ def reverse_values(image_array):
     return reversed_array
 
 def _get_indices(im, p):
-    return im[p[0]][p[1]]
-
+    # return im[p[0]][p[1]]
+    return im[p[0], p[1]]
 
 def generate_default_neighborhood(p, h, w, eight_neighborship=True):
     y, x = p
@@ -712,21 +713,21 @@ def disable_tqdm():
     """Set the logger for verbosity messages."""
     return (True if (logger.getEffectiveLevel()>=30) else False)
 
-def _make_unique(arr: np.ndarray):
-    """Method iterates through elements of the input array to ensure all values are unique.
-       Duplicate values are reduced by the smallest possible increment for the given data type.
-       """
-    logger.debug('Making values unique')
-    res = np.empty_like(arr)
-    it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
-    seen = set()
-    with it:
-        while not it.finished:
-            a = it[0].item()
-            while a in seen and np.isfinite(a):
-                a = np.nextafter(a, -np.inf)
-            it[1] = a
-            if a not in seen:
-                seen.add(a)
-            it.iternext()
-    return res
+# def _make_unique(arr: np.ndarray):
+#     """Method iterates through elements of the input array to ensure all values are unique.
+#        Duplicate values are reduced by the smallest possible increment for the given data type.
+#        """
+#     logger.debug('Making values unique')
+#     res = np.empty_like(arr)
+#     it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
+#     seen = set()
+#     with it:
+#         while not it.finished:
+#             a = it[0].item()
+#             while a in seen and np.isfinite(a):
+#                 a = np.nextafter(a, -np.inf)
+#             it[1] = a
+#             if a not in seen:
+#                 seen.add(a)
+#             it.iternext()
+#     return res

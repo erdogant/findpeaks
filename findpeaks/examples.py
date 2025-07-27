@@ -6,8 +6,32 @@
 # print(findpeaks.__version__)
 
 # pip install opencv-python
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
+
+# %% 
+# =============================================================================
+# Issue with numpy > 1.26.4
+# =============================================================================
+
+import numpy as np
+from findpeaks import findpeaks
+
+fp = findpeaks(method="topology", whitelist=['peak'])
+X = fp.import_example('2dpeaks')
+results = fp.fit(X)
+
+assert fp.type == 'peaks2d'
+assert [*results.keys()] == ['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'groups0']
+assert [*fp.args] == ['limit', 'scale', 'denoise', 'togray', 'imsize', 'figsize', 'type']
+assert results['Xraw'].shape == results['Xdetect'].shape
+assert results['Xproc'].shape == results['Xdetect'].shape
+
+fp.plot(figsize=(25, 15), figure_order='horizontal')
+
+assert len(results['Xdetect'][results['Xdetect'] != 0]) > 18
+assert len(results['Xranked'][results['Xranked'] != 0]) > 18
+
 
 # %%
 import numpy as np
@@ -89,7 +113,6 @@ results = fp.fit(X)
 fp.plot()
 
 # %%
-
 from findpeaks import findpeaks
 # Data
 X = [1153,672,501,1068,1110,574,135,23,3,47,252,812,1182]
