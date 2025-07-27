@@ -8,7 +8,6 @@
 # ----------------------------------------------------
 
 # import findpeaks
-from findpeaks.peakdetect import peakdetect
 from caerus import caerus
 import caerus.utils.csplots as csplots
 import matplotlib.pyplot as plt
@@ -21,18 +20,20 @@ from urllib.parse import urlparse
 import logging
 
 # #### DEBUG ONLY ####
+# from peakdetect import peakdetect
 # import stats as stats
 # from stats import disable_tqdm
 # import interpolate as interpolate
 # #####################
+from findpeaks.peakdetect import peakdetect
 import findpeaks.stats as stats
 from findpeaks.stats import disable_tqdm
 import findpeaks.interpolate as interpolate
 # #####################
 
-logger = logging.getLogger(__name__)  # Creates the main logger
-# if not logger.hasHandlers():
-   # logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
+logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+   logging.basicConfig(level=logging.INFO, format='[{asctime}] [{name}] [{levelname}] {msg}', style='{', datefmt='%d-%m-%Y %H:%M:%S')
 
 
 # %%
@@ -268,8 +269,7 @@ class findpeaks():
         defaults = {}
         if method == 'caerus':
             if len(params_caerus) > 0:
-                logger.info(
-                    'The input parameter "params_caerus" will be deprecated in future releases. Please use "params" instead.')
+                logger.info('The input parameter "params_caerus" will be deprecated in future releases. Please use "params" instead.')
                 params = params_caerus
             defaults = {'window': 50, 'minperc': 3, 'nlargest': 10, 'threshold': 0.25}
         elif method == 'lee_sigma':
