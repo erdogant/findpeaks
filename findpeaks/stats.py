@@ -447,8 +447,6 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
     """
     if limit is None:
         limit = float(np.min(X)) - 1
-    # np.uint8(0)
-    # np.uint8(255)
     if X.max().max()<limit:
         limit=X.max().max()-1
         logger.info('Minimum limit should be %s or smaller.' %(limit))
@@ -484,7 +482,7 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
         return _get_indices(X, uf[p])
 
     # Process pixels from high to low
-    for i, p in tqdm(enumerate(indices), disable=disable_tqdm(), desc="[findpeaks] >Topology"):
+    for i, p in tqdm(enumerate(indices), disable=disable_tqdm(), desc=logger.info("Topology")):
         v = _get_indices(X, p)
 
         if neighborhood_generator is None:
