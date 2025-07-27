@@ -26,6 +26,7 @@ class TestFINDPEAKS(unittest.TestCase):
         assert len(results['Xranked'][results['Xranked'] != 0]) > 18
 
     def test_topology_limit(self):
+        from findpeaks import findpeaks
         # CHECK RESULTS METHOD with LIMIT functionality
         fp = findpeaks(method="topology", whitelist=['peak'], limit=0)
         X = fp.import_example('2dpeaks')
