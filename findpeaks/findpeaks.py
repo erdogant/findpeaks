@@ -854,8 +854,6 @@ class findpeaks():
             ax[iax].grid(False)
             ax[iax].set_title('Input\nRange: [%.3g,%.3g]' % (X.min(), X.max()))
             iax = iax + 1
-            # plt.show()
-
         # Resize
         if self.imsize:
             X = stats.resize(X, size=self.imsize)
@@ -866,7 +864,8 @@ class findpeaks():
                 ax[iax].set_title('Resize\n(%s,%s)' % (self.imsize))
                 iax = iax + 1
         # Scaling color range between [0,255]
-        if self.scale:
+        # The or functiona is  necessary because OpenCV's fastNlMeansDenoising and bilateralFilter
+        if self.scale or (self.denoise in ['fastnl', 'bilateral'] and X.dtype != np.uint8):
             X = stats.scale(X)
             if showfig:
                 # plt.figure(figsize=self.figsize)
@@ -883,7 +882,7 @@ class findpeaks():
                 ax[iax].grid(False)
                 ax[iax].set_title('Color conversion\nGray')
                 iax = iax + 1
-        # Denoising
+        # Denoise
         if self.denoise is not None:
             X = stats.denoise(X, method=self.denoise, window=self.window, cu=self.cu)
             if showfig:
