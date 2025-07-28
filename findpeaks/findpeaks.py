@@ -528,10 +528,8 @@ class findpeaks():
             dfint['valley'] = False
             dfint['peak'] = False
             if result['peakdetect']['min_peaks_s'] is not None:
-                # dfint['valley'].iloc[result['peakdetect']['min_peaks_s'][:, 0].astype(int)] = True
                 dfint.loc[result['peakdetect']['min_peaks_s'][:, 0].astype(int), 'valley'] = True
             if result['peakdetect']['max_peaks_s'] is not None:
-                # dfint['peak'].iloc[result['peakdetect']['max_peaks_s'][:, 0].astype(int)] = True
                 dfint.loc[result['peakdetect']['max_peaks_s'][:, 0].astype(int), 'peak'] = True
         elif self.method == 'topology':
             # Topology
@@ -542,11 +540,9 @@ class findpeaks():
             dfint['peak'] = False
 
             if result['topology']['min_peaks_s'] is not None:
-                # dfint['valley'].iloc[result['topology']['min_peaks_s'][:, 0].astype(int)] = True
                 dfint.loc[result['topology']['min_peaks_s'][:, 0].astype(int), 'valley'] = True
             if result['topology']['max_peaks_s'] is not None:
                 dfint.loc[result['topology']['max_peaks_s'][:, 0].astype(int), 'peak'] = True
-                # dfint['peak'].iloc[result['topology']['max_peaks_s'][:, 0].astype(int)] = True
 
             results['persistence'] = result['persistence']
             results['Xdetect'] = result['Xdetect']
