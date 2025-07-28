@@ -3,7 +3,16 @@ Denoise
 
 Images can be corrupted by noise. To suppress and improve the image analysis various filtering techniques have been developed.
 Denoising the image is very usefull before the detection of peaks using :func:`findpeaks.findpeaks.findpeaks.preprocessing`.
-In ``findpeaks`` we incorporated some well-known filtering methods: *Frost* via :func:`findpeaks.filters.frost.frost_filter`, *Lee* via :func:`findpeaks.filters.lee.lee_filter`, and *Kuan* via :func:`findpeaks.filters.kuan.kuan_filter`, but also other methods such as *fastnl*, *bilateral*, *mean* via :func:`findpeaks.filters.mean.mean_filter` and *median* via :func:`findpeaks.filters.median.median_filter` filters.
+In ``findpeaks`` well-known filtering methods are implemented: 
+
+    * *Frost*: :func:`findpeaks.filters.frost.frost_filter`
+    * *Lee*: :func:`findpeaks.filters.lee.lee_filter`, 
+    * *Kuan*: :func:`findpeaks.filters.kuan.kuan_filter`, 
+    * *mean*: :func:`findpeaks.filters.mean.mean_filter`
+    * *median*: :func:`findpeaks.filters.median.median_filter`
+    * *fastnl*
+    * *bilateral*
+
 Some of the methods are adopted from ``pyradar`` [1], for which the code is refactored and rewritten for Python 3. Other methods are adopted from ``python-opencv``.
 
 It is generally known that noise can follow various distributions, and requires different approaches to effectly reduce the noise.
@@ -22,7 +31,7 @@ It is generally known that noise can follow various distributions, and requires 
 It is caused by the back-scatter waves from multiple distributed targets. It is locally strong and it increases the mean Grey level of local area.
 Reducing the noise enhances the resolution but tends to decrease the spatial resolution too.
 
-Lets demonstrate the denoising by example. First we will import the example data:
+Lets demonstrate the denoising by example. First import the example data:
 
 .. code:: python
     

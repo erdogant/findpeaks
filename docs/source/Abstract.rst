@@ -9,7 +9,7 @@ Aim
     To make sure that peaks can be detected across global and local heights, and in noisy data, multiple pre-processing and denoising methods are implemented or utilized.
 
 Results
-    Three peak-detection methods are incorporated into this package, namely *Topology*, *Mask* and *Peakdetect*. The peaks can be ranked with among others **persistence** scores. The pre-processing approaches are among others, **denoising** methods, **interpolation** and **smoothing**, **resizing** and **normalizing** methods. In addition we implemented various plots to easily intepretate the results, such as the conversion of 2d-images to **3d-mesh** plots, **persistence** plot, and **peak detection** plots.
+    Three peak-detection methods are incorporated into this package, namely *Topology*, *Mask* and *Peakdetect*. The peaks can be ranked with among others **persistence** scores. The pre-processing approaches are among others, **denoising** methods, **interpolation** and **smoothing**, **resizing** and **normalizing** methods. In addition various plots are implemented to easily intepretate the results, such as the conversion of 2d-images to **3d-mesh** plots, **persistence** plot, and **peak detection** plots.
 
 
 
