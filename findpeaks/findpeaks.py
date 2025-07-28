@@ -18,6 +18,7 @@ import os
 import requests
 from urllib.parse import urlparse
 import logging
+from adjustText import adjust_text
 
 # #### DEBUG ONLY ####
 # from peakdetect import peakdetect
@@ -144,9 +145,9 @@ class findpeaks():
             with less sharp edges. Useful for noisy data preprocessing.
             
         limit : float, optional (default: None)
-            Persistence threshold for topology method. Only features with persistence > limit
-            are considered significant. Lower values detect more features, higher values
-            detect only the most prominent features.
+            Persistence threshold for topology method. Only peaks with persistence > limit
+            are considered significant. Lower values detect more peaks, higher values
+            detect only the most prominent peaks.
             
         imsize : tuple, optional (default: None)
             Target image size for 2D data preprocessing: (width, height).
@@ -229,8 +230,8 @@ class findpeaks():
         -----
         - The topology method provides the most robust detection with mathematical stability
         - For noisy data, use denoising preprocessing before detection
-        - The limit parameter is crucial for topology method to filter significant features
-        - Interpolation can help with noisy 1D data but may smooth out important features
+        - The limit parameter is crucial for topology method to filter significant peaks
+        - Interpolation can help with noisy 1D data but may smooth out important peaks
 
         References
         ----------
@@ -1029,8 +1030,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel, fontsize=fontsize)
         elif self.args['type'] == 'peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker,
-                                      color=color, figure_order=figure_order, fontsize=fontsize)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color, figure_order=figure_order, fontsize=fontsize)
         else:
             logger.warning('Nothing to plot for %s' % (self.args['type']))
             return None
@@ -1232,26 +1232,50 @@ class findpeaks():
             len(np.where(Xdetect < 0)[0])) + ' valleys)')
         ax3.grid(False)
 
+        # Plot markers for detected peaks and valleys
         if self.results.get('persistence', None) is not None:
-            X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :]
+            # Use persistence data for topology method
+            if limit is not None:
+                X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :]
+            else:
+                X = self.results['persistence']
+
             for i in range(X.shape[0]):
                 if s is None:
                     X['score'] = stats.normalize(X['score'].values, minscale=2, maxscale=10, scaler='minmax')
                 else:
                     X['score'] = s
+
+                # Plot and include marker size
                 ax1.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
                 ax2.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
                 ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+        else:
+            # Plot markers for all detected peaks and valleys
+            marker_size = s if s is not None else 5
+            # Plot peaks
+            for idx in zip(idx_peaks[0], idx_peaks[1]):
+                ax1.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+                ax2.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+                ax3.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+            # Plot valleys
+            for idx in zip(idx_valleys[0], idx_valleys[1]):
+                ax1.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+                ax2.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+                ax3.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
 
-            if text:
-                for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(), desc=logger.info("Annotating peaks")):
-                    ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
-                    ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
-
-                for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(), desc=logger.info("Annotating valleys")):
-                    ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
-                    ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
-
+        if text:
+            texts_ax3 = []
+            # Plot peaks
+            for idx in tqdm(zip(idx_peaks[0], idx_peaks[1]), disable=disable_tqdm(), desc=logger.info("Annotating peaks")):
+                ax2.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
+                texts_ax3.append(ax3.text(idx[1], idx[0], 'p' + self.results['Xranked'][idx].astype(str), fontsize=fontsize))
+            # Plot valleys
+            for idx in tqdm(zip(idx_valleys[0], idx_valleys[1]), disable=disable_tqdm(), desc=logger.info("Annotating valleys")):
+                ax2.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize)
+                texts_ax3.append(ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize))
+            # Adjust text labels on ax3 to prevent overlap
+            if len(texts_ax3)>0: _, _ = adjust_text(texts_ax3)
         # Show plot
         plt.show()
         # Return
@@ -1422,7 +1446,7 @@ class findpeaks():
         # plt.show()
         return ax1, ax2
 
-    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis'):
+    def plot_persistence(self, figsize=(20, 8), fontsize_ax1=14, fontsize_ax2=14, xlabel='x-axis', ylabel='y-axis', s=20, marker='x', color='#FF0000'):
         """Plot the homology-peristence.
 
         Parameters
@@ -1453,24 +1477,25 @@ class findpeaks():
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
 
         # Create the persistence ax2
-        ax2 = self._plot_persistence_ax2(fontsize_ax2, ax2)
+        ax2 = self._plot_persistence_ax2(fontsize_ax2, ax2, s=s, marker=marker, color=color)
         # Create the persistence ax1
-        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, xlabel, ylabel)
+        ax1, ax2 = self._plot_persistence_ax1(fontsize_ax1, ax1, ax2, figsize, xlabel, ylabel, s=s, marker=marker, color=color)
         # Plot
         plt.show()
         # Return
         return ax1, ax2
 
-    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel):
+    def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel, s=20, marker='x', color='#FF0000'):
         if self.args['type'] == 'peaks1d':
             # Attach the ranking-labels
             if fontsize is not None:
-                y = self.results['df']['y'].values
                 x = self.results['df']['x'].values
+                y = self.results['df']['y'].values
                 idx = np.where(self.results['df']['rank'] > 0)[0]
+                texts = []
                 for i in tqdm(idx, disable=disable_tqdm(), desc=logger.info("Plotting persistence axis 1")):
-                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b',
-                             fontsize=fontsize)
+                    texts.append(ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize))
+                if len(texts)>0: _, _ = adjust_text(texts)
 
             # minpers = 0
             min_peaks, max_peaks = np.array([]), np.array([])
@@ -1478,6 +1503,7 @@ class findpeaks():
                 min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
             if np.any('peak' in self.whitelist):
                 max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
+
             # Make the plot
             ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values,
                                  self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int),
@@ -1496,19 +1522,25 @@ class findpeaks():
             # Plot the detected loci
             logger.info('Plotting loci of birth..')
             ax1.set_title("Loci of births")
+            texts = []
             for i, homclass in tqdm(enumerate(self.results['groups0']), disable=disable_tqdm(), desc=logger.info("Plotting loci of births")):
                 p_birth, bl, pers, p_death = homclass
                 if (self.limit is None):
                     y, x = p_birth
                     Xdetect[y, x] = i + 1
-                    ax1.plot([x], [y], '.', c='b')
+                    ax1.scatter(x, y, s=s, marker=marker, c=color)
                     ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize)
+                    # texts.append(ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize))
                 elif pers > self.limit:
                     y, x = p_birth
                     Xdetect[y, x] = i + 1
-                    ax1.plot([x], [y], '.', c='b')
+                    # ax1.plot([x], [y], '.', c='b')
+                    ax1.scatter(x, y, s=s, marker=marker, c=color)
                     ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize)
+                    # texts.append(ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize))
 
+            # Plot the adjusted text labels to prevent overlap. Do not adjust text in 3d plots as it will mess up the locations.
+            # if len(texts)>0: _, _ = adjust_text(texts)
             ax1.set_xlim((0, self.results['Xproc'].shape[1]))
             ax1.set_ylim((0, self.results['Xproc'].shape[0]))
             ax1.invert_yaxis()
@@ -1518,16 +1550,21 @@ class findpeaks():
             ax2.plot([0, 255], [0, 255], '-', c='grey')
         return ax1, ax2
 
-    def _plot_persistence_ax2(self, fontsize, ax2):
+    def _plot_persistence_ax2(self, fontsize, ax2, s=20, marker='x', color='#FF0000'):
         x = self.results['persistence']['birth_level'].values
         y = self.results['persistence']['death_level'].values
         if len(x) <= 0:
             logger.debug('Nothing to plot.')
             return None
-        ax2.plot(x, y, '.', c='b')
+
+        ax2.scatter(x, y, s=s, marker=marker, c=color)
         if fontsize is not None:
+            texts = []
             for i in tqdm(range(0, len(x)), disable=disable_tqdm(), desc=logger.info("Plotting persistence axis 2")):
                 ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b', fontsize=fontsize)
+                texts.append(ax2.text(x[i], (y[i] + y[i] * 0.01), str(i + 1), color='b', fontsize=fontsize))
+            if len(texts)>0: _, _ = adjust_text(texts)
+
 
         X = np.c_[x, y]
         ax2.plot([np.min(X), np.max(X)], [np.min(X), np.max(X)], '-', c='grey')

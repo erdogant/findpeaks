@@ -7,3 +7,4 @@ requests
 caerus>=0.1.9
 xarray
 joblib
+adjustText

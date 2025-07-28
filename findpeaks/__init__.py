@@ -41,7 +41,7 @@ if version.parse(numpy.__version__) < version.parse('1.26.4'):
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.7.1'
+__version__ = '2.7.2'
 
 
 # module level doc-string
