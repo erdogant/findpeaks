@@ -102,9 +102,14 @@ def togray(X):
     cv2 = _import_cv2()
     try:
         logger.info('Conversion to gray image.')
+        if X.dtype != np.uint8:
+            logger.warning(f'Input image dtype is {X.dtype}, converting to uint8.')
+            X = X.astype(np.uint8)
+
         X = cv2.cvtColor(X, cv2.COLOR_BGR2GRAY)
-    except:
-        logger.warning('Conversion to gray not possible.')
+    except Exception as e:
+        logger.error(f'Conversion to gray failed using cv2: {e}')
+
     return X
 
 
@@ -130,8 +135,8 @@ def resize(X, size=None):
         if size is not None:
             logger.info('Resizing image to %s.' %(str(size)))
             X = cv2.resize(X, size)
-    except:
-        logger.warning('Resizing not possible.')
+    except Exception as e:
+        logger.warning('Resizing not possible: {e}')
     return X
 
 

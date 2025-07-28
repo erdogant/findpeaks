@@ -458,15 +458,10 @@ class findpeaks():
         - Persistence scores quantify the significance of detected features
         - Results are automatically stored in the object for plotting and analysis
 
-        See Also
-        --------
-        fit : Main detection method for both 1D and 2D data
-        peaks2d : 2D peak detection method
-        plot : Visualize detection results
         """
         if method is None: method = 'peakdetect'
-        if x is not None: x = x.astype(float)
-        X = X.astype(float)
+        # if x is not None: x = x.astype(float)
+        # X = X.astype(float)
         self.method = method
         self.type = 'peaks1d'
         logger.debug('Finding peaks in 1d-vector using [%s] method..' % (self.method))
@@ -841,13 +836,14 @@ class findpeaks():
         peaks2d : 2D peak detection with automatic preprocessing
         plot_preprocessing : Visualize preprocessing steps
         """
+
         if showfig:
             # Number of axis to create:
             nplots = 1 + (self.imsize is not None) + self.scale + self.togray + (self.denoise is not None)
             fig, ax = plt.subplots(1, nplots, figsize=self.figsize)
             iax = 0
-
             # Plot RAW input image
+            X=(X.astype(np.uint8).copy() if self.togray else X)
             ax[iax].imshow(X, cmap=('gray_r' if self.togray else None))
             ax[iax].grid(False)
             ax[iax].set_title('Input\nRange: [%.3g,%.3g]' % (X.min(), X.max()))
@@ -1044,8 +1040,8 @@ class findpeaks():
         fontsize=18,
         params_line={'color':None, 'linewidth':2},
         params_peak_marker={'marker': 'x', 'color':'red', 's':120, 'edgecolors':'red', 'linewidths':3}, 
-        params_valley_marker={'marker': 'o', 'color':'blue', 's':120, 'edgecolors':'lightblue', 'linewidths':3}, 
-    ):
+        params_valley_marker={'marker': 'o', 'color':'blue', 's':120, 'edgecolors':'lightblue', 'linewidths':3},
+        ):
         """Plot the 1D results.
 
         Parameters
@@ -1211,7 +1207,10 @@ class findpeaks():
             fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=figsize)
 
         # Plot input image
-        ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
+        if self.results['Xraw'].flatten().min()<0:
+            ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
+        else:
+            ax1.imshow(self.results['Xraw'].astype(np.uint8).copy(), cmap, interpolation="nearest")
         ax1.set_title('Input')
         ax1.grid(False)
 
