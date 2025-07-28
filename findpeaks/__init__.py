@@ -35,7 +35,7 @@ _logger.propagate = False
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.7.3'
+__version__ = '2.7.4'
 
 
 # module level doc-string

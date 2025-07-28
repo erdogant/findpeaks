@@ -35,8 +35,10 @@ dependencies = [
 Homepage = "https://erdogant.github.io/findpeaks"
 Download = "https://github.com/erdogant/findpeaks/archive/{version}.tar.gz"
 
+[tool.setuptools.packages.find]
+include = ["findpeaks*"]
+
 [tool.setuptools]
-packages = ["findpeaks"]
 include-package-data = true
 
 [tool.setuptools.dynamic]
