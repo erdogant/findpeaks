@@ -771,6 +771,7 @@ class findpeaks():
             results['Xdetect'] = result['Xdetect']
             results['Xranked'] = result['Xranked']
             results['persistence'] = result['persistence']
+            results['persistence'].reset_index(inplace=True, drop=True)
             # results['peak'] = result['peak'] # These values are incorrect when using 2d
             # results['valley'] = result['valley'] # These values are incorrect when using 2d
             results['groups0'] = result['groups0']
@@ -1236,9 +1237,9 @@ class findpeaks():
         if self.results.get('persistence', None) is not None:
             # Use persistence data for topology method
             if limit is not None:
-                X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :]
+                X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :].copy()
             else:
-                X = self.results['persistence']
+                X = self.results['persistence'].copy()
 
             for i in range(X.shape[0]):
                 if s is None:
@@ -1276,6 +1277,7 @@ class findpeaks():
                 texts_ax3.append(ax3.text(idx[1], idx[0], 'v' + self.results['Xranked'][idx].astype(str), fontsize=fontsize))
             # Adjust text labels on ax3 to prevent overlap
             if len(texts_ax3)>0: _, _ = adjust_text(texts_ax3)
+
         # Show plot
         plt.show()
         # Return
