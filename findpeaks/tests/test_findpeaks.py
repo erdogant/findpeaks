@@ -586,14 +586,14 @@ class TestFINDPEAKS(unittest.TestCase):
         # Test different mask plot parameters
         limit_options = [0, 0.1, 0.5, None]
         for limit in limit_options:
-            fp.plot_mask(limit=limit)
+            ax = fp.plot_mask(limit=limit)
         
         # Test different figure_order options
         for order in ['vertical', 'horizontal']:
-            fp.plot_mask(figure_order=order)
+            ax = fp.plot_mask(figure_order=order)
         
         # Test different marker and color options
-        fp.plot_mask(marker='o', color='blue', s=100)
+        fp.plot_mask(marker='o', color='blue', s=5, fontsize=10)
     
     def test_caerus_method(self):
         """Test caerus method specifically"""
