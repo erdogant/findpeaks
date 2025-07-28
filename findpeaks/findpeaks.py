@@ -1234,8 +1234,13 @@ class findpeaks():
             # Use persistence data for topology method
             if limit is not None:
                 X = self.results['persistence'].loc[self.results['persistence']['score'] > limit, :].copy()
-            else:
+            elif s is not None:
                 X = self.results['persistence'].copy()
+            else:
+                # Make empty dataframe
+                X = pd.DataFrame()
+                if marker is not None and s is None:
+                    logger.warning('Custom marker is not shown when s=None. Set s to show the marker.')
 
             for i in range(X.shape[0]):
                 if s is None:
@@ -1244,7 +1249,7 @@ class findpeaks():
                     X['score'] = s
 
                 # Plot and include marker size
-                ax1.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
+                # ax1.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
                 ax2.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
                 ax3.plot(X['x'].iloc[i], X['y'].iloc[i], markersize=X['score'].iloc[i], color=color, marker=marker)
         else:
@@ -1252,12 +1257,12 @@ class findpeaks():
             marker_size = s if s is not None else 5
             # Plot peaks
             for idx in zip(idx_peaks[0], idx_peaks[1]):
-                ax1.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+                # ax1.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
                 ax2.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
                 ax3.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
             # Plot valleys
             for idx in zip(idx_valleys[0], idx_valleys[1]):
-                ax1.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
+                # ax1.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
                 ax2.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
                 ax3.plot(idx[1], idx[0], markersize=marker_size, color=color, marker=marker)
 
@@ -1490,10 +1495,8 @@ class findpeaks():
                 x = self.results['df']['x'].values
                 y = self.results['df']['y'].values
                 idx = np.where(self.results['df']['rank'] > 0)[0]
-                texts = []
                 for i in tqdm(idx, disable=disable_tqdm(), desc=logger.info("Plotting persistence axis 1")):
-                    texts.append(ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize))
-                if len(texts)>0: _, _ = adjust_text(texts)
+                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize)
 
             # minpers = 0
             min_peaks, max_peaks = np.array([]), np.array([])
@@ -1538,7 +1541,6 @@ class findpeaks():
                     # texts.append(ax1.text(x, y + 0.25, str(i), color='b', fontsize=fontsize))
 
             # Plot the adjusted text labels to prevent overlap. Do not adjust text in 3d plots as it will mess up the locations.
-            # if len(texts)>0: _, _ = adjust_text(texts)
             ax1.set_xlim((0, self.results['Xproc'].shape[1]))
             ax1.set_ylim((0, self.results['Xproc'].shape[0]))
             ax1.invert_yaxis()
