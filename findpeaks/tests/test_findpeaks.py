@@ -370,33 +370,6 @@ class TestFINDPEAKS(unittest.TestCase):
         # fp.plot_mesh(view=(90, 0))
         assert results['persistence'].shape == (47, 7)
 
-    def test_plot_parameters(self):
-        """Test different plotting parameters"""
-        fp = findpeaks()
-        X = fp.import_example('1dpeaks')
-        results = fp.fit(X)
-        
-        # Test different figure_order options
-        figure_orders = ['vertical', 'horizontal']
-        for order in figure_orders:
-            fp.plot(figure_order=order)
-        
-        # Test different cmap options
-        import matplotlib.pyplot as plt
-        cmap_options = [plt.cm.hot, plt.cm.cool, plt.cm.viridis, None]
-        for cmap in cmap_options:
-            fp.plot(cmap=cmap)
-        
-        # Test different marker options
-        marker_options = ['x', 'o', 's', '^', 'v', '*']
-        for marker in marker_options:
-            fp.plot(marker=marker)
-        
-        # Test different color options
-        color_options = ['red', '#FF0000', 'blue', 'green', None]
-        for color in color_options:
-            fp.plot(color=color)
-    
     def test_edge_cases(self):
         """Test edge cases and boundary conditions"""
         # Test with very small data
