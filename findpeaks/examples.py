@@ -195,6 +195,7 @@ time_spend = time.time() - start_orig
 # peak = result_df.index[result_df['peak']==True].tolist()
 
 fp.plot_persistence()
+fp.plot(figsize=(25, 14), text=True, marker='x', color='#ff0000', figure_order='vertical', fontsize=14)
 fp.plot(figsize=(25, 14), text=False, marker='x', color='#ff0000', figure_order='vertical', fontsize=14)
 # fp.plot_mesh(view=(40, 180))
 # fp.plot_mesh(view=(90, 0))
@@ -623,23 +624,24 @@ from findpeaks import findpeaks
 # 2dpeaks example
 fp = findpeaks(method='topology')
 img = fp.import_example('2dpeaks')
-fp.fit(img)
-fp.plot(cmap='hot')
-fp.plot()
+results = fp.fit(img)
+ax = fp.plot(cmap='hot', figure_order='horizontal')
+fp.plot(figure_order='horizontal')
 fp.plot_persistence()
 
 fp = findpeaks(method='mask', verbose='info')
 img = fp.import_example()
 fp.fit(img)
-fp.plot()
+ax = fp.plot(figure_order='horizontal', fontsize=20, marker='x', s=14)
+ax = fp.plot(figure_order='horizontal', fontsize=20)
 
 
 # 2dpeaks example with other settings
-fp = findpeaks(method='topology', imsize=(300, 300), scale=True, togray=True, denoise='fastnl', params={'window': 31},
-               verbose='info')
+fp = findpeaks(method='topology', scale=True, togray=True, denoise='fastnl', params={'window': 31}, verbose='info')
 img = fp.import_example('2dpeaks')
-fp.fit(img)
-fp.plot()
+results = fp.fit(img)
+ax = fp.plot(figure_order='horizontal', fontsize=10)
+ax = fp.plot_persistence(marker='x', s=100)
 
 # %%
 from findpeaks import findpeaks
