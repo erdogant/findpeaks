@@ -33,15 +33,9 @@ _log_handler.setLevel(logging.DEBUG)
 _logger.addHandler(_log_handler)
 _logger.propagate = False
 
-import numpy
-from packaging import version
-if version.parse(numpy.__version__) < version.parse('1.26.4'):
-    raise ImportError(
-        'This release requires numpy version <= 1.26.4. Try: pip install -U numpy==1.26.4')
-
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.7.2'
+__version__ = '2.7.3'
 
 
 # module level doc-string
