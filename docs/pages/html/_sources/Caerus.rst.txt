@@ -20,7 +20,7 @@ This method works only for one-dimensional data.
 Stock market data
 ----------------------------------------------------
 
-For **caerus** method, we can set the minimum percentage (minperc) parameter to declare a starting position with window relevant.
+For the **Caerus** method, the minimum percentage (minperc) parameter can be set to declare a starting position with window relevant.
 The window size is used to determine whether there is an increase in percentage. start location + window.
 The use of smaller window sizes (eg 50) are able to pickup better local-minima, whereas Larger window sizes (eg 1000) will more stress on global minma.
 The default value for minperc is set to 5 and window size is set to 50.
@@ -30,7 +30,7 @@ The default value for minperc is set to 5 and window size is set to 50.
     # Import library
     from findpeaks import findpeaks
     # Initialize findpeaks with cearus method.
-    # The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+    # The default setting is that it only return peaks-vallyes with at least 5% difference. Change this using params
     fp = findpeaks(method='caerus', params={'minperc':5, 'window':50})
     # Import example data
     X = fp.import_example('facebook')
