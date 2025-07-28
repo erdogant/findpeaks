@@ -469,9 +469,11 @@ def topology(X, limit=None, reverse=True, neighborhood_generator=None):
 
     # It is important to ensure unique values because the method sorts the values and only unique values are processed.
     # Without adjusting duplicated values, peaks with exactly the same height will be skipped.
-    # X = _make_unique(X)
-    X = _make_unique_fast(X)
-    # X = np.maximum(X + ((X > 0).astype(int) * np.random.random(X.shape) / 10), 0)
+    if X.shape[1] <=2:
+        X = _make_unique(X)
+    else:
+        X = _make_unique_fast(X)
+        # X = np.maximum(X + ((X > 0).astype(int) * np.random.random(X.shape) / 10), 0)
 
     # Get indices orderd by value from high to low. As a tie-breaker, we use
     indices = list(zip(*np.where(X >= limit)))
@@ -727,24 +729,24 @@ def _make_unique_fast(X: np.ndarray) -> np.ndarray:
     # Only apply noise where X is not exactly zero
     return np.where(X != 0, X + noise, X)
 
-# def _make_unique_original(arr: np.ndarray):
-#     """Method iterates through elements of the input array to ensure all values are unique.
-#        Duplicate values are reduced by the smallest possible increment for the given data type.
-#        """
-#     logger.debug('Making values unique')
-#     res = np.empty_like(arr)
-#     it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
-#     seen = set()
-#     with it:
-#         while not it.finished:
-#             a = it[0].item()
-#             while a in seen and np.isfinite(a):
-#                 a = np.nextafter(a, -np.inf)
-#             it[1] = a
-#             if a not in seen:
-#                 seen.add(a)
-#             it.iternext()
-#     return res
+def _make_unique(arr: np.ndarray):
+    """Method iterates through elements of the input array to ensure all values are unique.
+       Duplicate values are reduced by the smallest possible increment for the given data type.
+       """
+    logger.debug('Making values unique')
+    res = np.empty_like(arr)
+    it = np.nditer([arr, res], [], [['readonly'], ['writeonly', 'allocate']])
+    seen = set()
+    with it:
+        while not it.finished:
+            a = it[0].item()
+            while a in seen and np.isfinite(a):
+                a = np.nextafter(a, -np.inf)
+            it[1] = a
+            if a not in seen:
+                seen.add(a)
+            it.iternext()
+    return res
 
 # def _make_unique(arr: np.ndarray) -> np.ndarray:
 #     """Make all finite values in the array unique by perturbing duplicates slightly."""
