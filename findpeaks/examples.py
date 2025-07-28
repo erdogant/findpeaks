@@ -9,6 +9,60 @@
 import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
+# %%
+
+import matplotlib.pyplot as plt
+# Import library
+from findpeaks import findpeaks
+# Initialize
+fp = findpeaks(method='topology')
+# Example 1d-vector
+X = fp.import_example('1dpeaks')
+
+# Plot
+# plt.figure(figsize=(15, 8), dpi=100)
+# plt.plot(X)
+# plt.grid(True)
+# plt.xlabel('Time')
+# plt.ylabel('Value')
+
+# Fit topology method on the 1D vector
+results = fp.fit(X)
+# Plot the results
+fp.plot_persistence(figsize=(25,8))
+
+
+
+# %%
+import numpy as np
+from scipy.ndimage import gaussian_filter
+from findpeaks import findpeaks
+rng = np.random.default_rng(42)
+x = rng.normal(size=(50, 50))
+x = gaussian_filter(x, sigma=10.)
+# peak and valley
+fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None)
+results = fp.fit(x)
+
+fp.plot(figsize=(25, 15), figure_order='horizontal', marker='x')
+# fp.plot_persistence()
+# fp.plot_mesh()
+
+# %%
+
+# Import library
+from findpeaks import findpeaks
+# Initializatie
+fp = findpeaks(scale=True, denoise=None, togray=True, imsize=(300, 300))
+# Import image example
+img = fp.import_example('2dpeaks_image')
+# Fit
+results = fp.fit(img)
+# Tens of thousands of peaks are detected at this point.
+fp.plot(figure_order='horizontal', text=False)
+# fp.plot_mesh()
+
+
 # %% 
 # =============================================================================
 # Issue with numpy > 1.26.4
@@ -57,7 +111,7 @@ from findpeaks import findpeaks
 X = [10,11,9,23,21,11,45,20,11,12]
 fp = findpeaks(method="topology", lookahead=1, verbose='info')
 results = fp.fit(X)
-ax = fp.plot()
+ax = fp.plot(text=True)
 ax = fp.plot_persistence()
 
 # fp.check_logger(verbose='info')
@@ -204,7 +258,7 @@ assert results['persistence'].shape == (47, 7)
 # %%
 from findpeaks import findpeaks
 path = r'https://erdogant.github.io/datasets/images/complex_peaks.png'
-fp = findpeaks(method='topology', whitelist='peak', denoise='lee_enhanced', params={'window': 5}, verbose='debug')
+fp = findpeaks(method='topology', whitelist='peak', denoise='lee_enhanced', params={'window': 5})
 X = fp.imread(path)
 results = fp.fit(X)
 ax = fp.plot_persistence()
