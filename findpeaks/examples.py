@@ -44,7 +44,7 @@ x = gaussian_filter(x, sigma=10.)
 fp = findpeaks(method="topology", whitelist=['peak', 'valley'], denoise=None)
 results = fp.fit(x)
 
-fp.plot(figsize=(25, 15), figure_order='horizontal', marker='x')
+results = fp.plot(figsize=(25, 15), figure_order='horizontal', marker='x', s=10)
 # fp.plot_persistence()
 # fp.plot_mesh()
 
