@@ -9,15 +9,37 @@ authors = [{ name = "Erdogan Taskesen", email = "erdogant@gmail.com" },]
 description = "findpeaks is for the detection of peaks and valleys in a 1D vector and 2D array (image)."
 readme = "README.md"
 requires-python = ">=3"
-license = { file = "LICENSE" }
-keywords = ["Python", "topology", "mesh", "sonar", "mask", "sar", "topological data analysis", "peak-detection", "denoise images", "peak analysis", "speckle-noise removal"]
+keywords = [
+    "Python",
+    "peak detection",
+    "valley detection",
+    "image processing",
+    "signal processing",
+    "topology",
+    "topological data analysis",
+    "TDA",
+    "denoising",
+    "speckle noise removal",
+    "feature extraction",
+    "1D signal",
+    "2D array",
+    "image analysis",
+    "findpeaks",
+    "peak analysis",
+    "data analysis",
+    "scientific computing"
+]
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
-    "Operating System :: OS Independent",
-    "License :: OSI Approved :: MIT License",
+    "Operating System :: Unix",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
 ]
+
 dependencies = [
     'scipy',
     'matplotlib',
