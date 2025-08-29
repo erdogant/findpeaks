@@ -24,14 +24,14 @@ findpeaks is a comprehensive Python library for robust detection and analysis of
 
 ### Key Features
 
-| Feature | Description |
-|--------|-------------|
-| [**Topology Detection**](https://erdogant.github.io/findpeaks/pages/html/Topology.html) | Mathematically grounded peak detection using persistent homology. |
-| [**Peakdetect Method**](https://erdogant.github.io/findpeaks/pages/html/Peakdetect.html) | Traditional peak detection algorithm for noisy signals. |
-| [**Mask Detection**](https://erdogant.github.io/findpeaks/pages/html/Mask.html) | Local maximum filtering for 2D image analysis. |
-| [**Caerus Method**](https://erdogant.github.io/findpeaks/pages/html/Caerus.html) | Specialized algorithm for financial time series analysis. |
-| [**Preprocessing**](https://erdogant.github.io/findpeaks/pages/html/Pre-processing.html) | Denoising, scaling, interpolation, and image preprocessing. |
-| [**Visualization**](https://erdogant.github.io/findpeaks/pages/html/Plots.html) | Rich plotting capabilities including persistence diagrams and 3D mesh plots. |
+| Feature | Description | Medium | Gumroad & Podcast |
+|--------|-------------| - | - |
+| [**Topology Detection**](https://erdogant.github.io/findpeaks/pages/html/Topology.html) | Mathematically grounded peak detection using persistent homology. | - | - |
+| [**Peakdetect Method**](https://erdogant.github.io/findpeaks/pages/html/Peakdetect.html) | Peak detection algorithm for noisy signals. | [link](https://medium.com/detecting-peaks-and-valleys-learn-the-essentials-for-accurate-analysis) | [link](https://erdogant.gumroad.com/l/detecting-peaks-and-valleys-learn-the-essentials-for-accurate-analysis) |
+| [**Mask Detection**](https://erdogant.github.io/findpeaks/pages/html/Mask.html) | Local maximum filtering for 2D image analysis. | - | - |
+| [**Caerus Method**](https://erdogant.github.io/findpeaks/pages/html/Caerus.html) | Specialized algorithm for financial time series analysis. | - | - |
+| [**Preprocessing**](https://erdogant.github.io/findpeaks/pages/html/Pre-processing.html) | Denoising, scaling, interpolation, and image preprocessing. | - | - |
+| [**Visualization**](https://erdogant.github.io/findpeaks/pages/html/Plots.html) | Rich plotting capabilities including persistence diagrams and 3D mesh plots. | - | - |
 
 ---
 
