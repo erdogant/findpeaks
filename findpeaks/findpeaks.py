@@ -375,7 +375,11 @@ class findpeaks():
         else:
             # 1d-array (vector)
             results = self.peaks1d(X, x=x, method=self.method)
+            # Order by rank
+            # if 'rank' in results['df'].columns:
+            #     results['df'].sort_values(by='rank', key=lambda col: np.where(col==0, np.inf, col), ascending=True, inplace=True)
 
+        # Return
         return results
 
     # Find peaks in 1D vector
@@ -1081,7 +1085,10 @@ class findpeaks():
         else:
             # Make plot
             min_peaks, max_peaks = np.array([]), np.array([])
-            df = self.results['df']
+            #  Sort on index
+            df = self.results['df'].copy()
+            df.sort_index(inplace=True)
+
             if np.any('valley' in self.whitelist):
                 min_peaks = df['x'].loc[df['valley']].values
             if np.any('peak' in self.whitelist):
@@ -1503,28 +1510,32 @@ class findpeaks():
 
     def _plot_persistence_ax1(self, fontsize, ax1, ax2, figsize, xlabel, ylabel, s=20, marker='x', color='#FF0000'):
         if self.args['type'] == 'peaks1d':
+            #  Sort on index
+            df = self.results['df'].copy()
+            df.sort_index(inplace=True)
+
             # Attach the ranking-labels
             if fontsize is not None:
-                x = self.results['df']['x'].values
-                y = self.results['df']['y'].values
-                idx = np.where(self.results['df']['rank'] > 0)[0]
+                x = df['x'].values
+                y = df['y'].values
+                idx = np.where(df['rank'] > 0)[0]
                 for i in tqdm(idx, disable=disable_tqdm(), desc=logger.info("Plotting persistence axis 1")):
-                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(self.results['df']['rank'].iloc[i]), color='b', fontsize=fontsize)
+                    ax1.text(x[i], (y[i] + y[i] * 0.01), str(df['rank'].iloc[i]), color='b', fontsize=fontsize)
 
             # minpers = 0
             min_peaks, max_peaks = np.array([]), np.array([])
             if np.any('valley' in self.whitelist):
-                min_peaks = self.results['df']['x'].loc[self.results['df']['valley']].values
+                min_peaks = df['x'].loc[df['valley']].values
             if np.any('peak' in self.whitelist):
-                max_peaks = self.results['df']['x'].loc[self.results['df']['peak']].values
+                max_peaks = df['x'].loc[df['peak']].values
 
             # Make the plot
-            ax1 = _plot_original(self.results['df']['y'].values, self.results['df']['x'].values,
-                                 self.results['df']['labx'].values, min_peaks.astype(int), max_peaks.astype(int),
+            ax1 = _plot_original(df['y'].values, df['x'].values,
+                                 df['labx'].values, min_peaks.astype(int), max_peaks.astype(int),
                                  title='Persistence', figsize=figsize, legend=True, ax=ax1, xlabel=xlabel,
                                  ylabel=ylabel)
             # Set limits
-            X = np.c_[self.results['df']['x'].values, self.results['df']['y'].values]
+            X = np.c_[df['x'].values, df['y'].values]
             ax1.set_xlim((np.min(X), np.max(X)))
             ax1.set_ylim((np.min(X), np.max(X)))
         else:
