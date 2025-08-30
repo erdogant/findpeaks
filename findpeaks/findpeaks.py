@@ -26,10 +26,16 @@ from adjustText import adjust_text
 # from stats import disable_tqdm
 # import interpolate as interpolate
 # #####################
-from findpeaks.peakdetect import peakdetect
-import findpeaks.stats as stats
-from findpeaks.stats import disable_tqdm
-import findpeaks.interpolate as interpolate
+try:
+    from findpeaks.peakdetect import peakdetect
+    import findpeaks.stats as stats
+    from findpeaks.stats import disable_tqdm
+    import findpeaks.interpolate as interpolate
+except:
+    from peakdetect import peakdetect
+    import stats as stats
+    from stats import disable_tqdm
+    import interpolate as interpolate
 # #####################
 
 logger = logging.getLogger(__name__)
