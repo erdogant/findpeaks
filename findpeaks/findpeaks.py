@@ -932,7 +932,8 @@ class findpeaks():
              xlabel='x-axis',
              ylabel='y-axis',
              figure_order='vertical',
-             fontsize=18):
+             fontsize=18,
+             alpha=0.7):
         """Plot peak detection results.
 
         Plot Description
@@ -984,6 +985,9 @@ class findpeaks():
         fontsize : int, optional (default: 18)
             Font size for text labels and axis labels.
 
+        alpha: Transparancy for the overlay detected points in ax1 for 2d images
+            0.7
+
         Returns
         -------
         tuple or None
@@ -1028,7 +1032,7 @@ class findpeaks():
             fig_axis = self.plot1d(legend=legend, figsize=figsize, xlabel=xlabel, ylabel=ylabel, fontsize=fontsize)
         elif self.args['type'] == 'peaks2d':
             # fig_axis = self.plot2d(figsize=figsize)
-            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color, figure_order=figure_order, fontsize=fontsize)
+            fig_axis = self.plot_mask(figsize=figsize, cmap=cmap, text=text, limit=limit, s=s, marker=marker, color=color, figure_order=figure_order, fontsize=fontsize, alpha=alpha)
         else:
             logger.warning('Nothing to plot for %s' % (self.args['type']))
             return None
@@ -1176,7 +1180,7 @@ class findpeaks():
             Include text to the 2D-image that shows the peaks (p-number) and valleys (v-number)
         s : size (default: None)
             Size of the marker.
-        alpha: Transparancy for the overlay detected points in ax1
+        alpha: Transparancy for the overlay detected points in ax1 for 2d images
             0.7
         marker: str (default: 'x')
             Marker type.
