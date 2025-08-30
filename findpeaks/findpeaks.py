@@ -618,11 +618,9 @@ class findpeaks():
                 df['valley'] = False
                 df['peak'] = False
                 if result['caerus']['min_peaks'] is not None:
-                    df['valley'].iloc[result['caerus']['min_peaks'][:, 0].astype(int)] = True
-                   # df.loc[result['caerus']['min_peaks'][:, 0].astype(int), 'valley'] = True
+                    df.loc[result['caerus']['min_peaks'][:, 0].astype(int), 'valley'] = True
                 if result['caerus']['max_peaks'] is not None:
-                    df['peak'].iloc[result['caerus']['max_peaks'][:, 0].astype(int)] = True
-                   # df.loc[result['caerus']['max_peaks'][:, 0].astype(int), 'peak'] = True
+                    df.loc[result['caerus']['max_peaks'][:, 0].astype(int), 'peak'] = True
 
             # Store in results
             results['df'] = df
