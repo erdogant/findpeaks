@@ -47,10 +47,11 @@ dependencies = [
     'pandas',
     'tqdm',
     'requests',
-    'caerus>=0.1.9',
+    'caerus>=1.0.1',
     'xarray',
     'joblib',
     'adjustText',
+    'opencv-python-headless',
     ]
 
 [project.urls]

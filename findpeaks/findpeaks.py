@@ -1740,7 +1740,7 @@ def import_example(data='2dpeaks', url=None, sep=';', datadir=None):
         # X = np.c_[x, y]
         return y
     elif (data == 'btc') or (data == 'facebook'):
-        cs = caerus(verbose='info')
+        cs = caerus(verbose=get_logger())
         X = cs.download_example(name=data)
         return X
     else:

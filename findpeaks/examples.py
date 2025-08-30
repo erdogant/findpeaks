@@ -9,7 +9,19 @@
 import matplotlib.pyplot as plt
 # from findpeaks import findpeaks
 
-# %%
+# Import library
+from findpeaks import findpeaks
+# Initialize findpeaks with cearus method.
+# The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+# fp = findpeaks(method='caerus',  params={'minperc': 10, 'window': 50})
+fp = findpeaks(method='caerus')
+# Import example data
+X = fp.import_example('facebook')
+# Fit
+results = fp.fit(X)
+# Make the plot
+fp.plot()
+
 
 # %%
 # Import library
@@ -247,18 +259,6 @@ fp.plot_persistence()
 
 
 # %%
-# Import library
-from findpeaks import findpeaks
-# Initialize findpeaks with cearus method.
-# The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
-# fp = findpeaks(method='caerus',  params={'minperc': 10, 'window': 50})
-fp = findpeaks(method='caerus')
-# Import example data
-X = fp.import_example('facebook')
-# Fit
-results = fp.fit(X)
-# Make the plot
-fp.plot()
 
 # %%
 from findpeaks import findpeaks
