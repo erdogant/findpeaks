@@ -71,7 +71,13 @@ def scale(X):
     try:
         # Normalizing between 0-255
         X = X - X.min()
-        X = X / X.max()
+        
+        # Handle division by zero or very small values to prevent RuntimeWarning
+        X_max = X.max()
+        if abs(X_max) < 1e-10:  # Very small threshold to avoid numerical issues
+            X = X * 0  # Set to 0 when max is essentially zero
+        else:
+            X = X / X_max
         X = X * 255
         # Downscale typing
         X = np.uint8(X)
@@ -717,7 +723,12 @@ def normalize(X, minscale = 0.5, maxscale = 4, scaler: str = 'zscore'):
 
     # out-of-scale datapoints.
     if scaler == 'zscore' and len(np.unique(X)) > 3:
-        X = (X.flatten() - np.mean(X)) / np.std(X)
+        # Handle division by zero or very small values to prevent RuntimeWarning
+        X_std = np.std(X)
+        if abs(X_std) < 1e-10:  # Very small threshold to avoid numerical issues
+            X = X.flatten() - np.mean(X)  # Skip division when std is essentially zero
+        else:
+            X = (X.flatten() - np.mean(X)) / X_std
         X = X + (minscale - np.min(X))
     elif scaler == 'minmax':
         min_val = np.min(X)
