@@ -20,18 +20,13 @@ from urllib.parse import urlparse
 import logging
 from adjustText import adjust_text
 
-# #### DEBUG ONLY ####
-# from peakdetect import peakdetect
-# import stats as stats
-# from stats import disable_tqdm
-# import interpolate as interpolate
-# #####################
 try:
     from findpeaks.peakdetect import peakdetect
     import findpeaks.stats as stats
     from findpeaks.stats import disable_tqdm
     import findpeaks.interpolate as interpolate
 except:
+    #### DEBUG ONLY ####
     from peakdetect import peakdetect
     import stats as stats
     from stats import disable_tqdm
@@ -1159,7 +1154,7 @@ class findpeaks():
         _ = self.preprocessing(X=self.results['Xraw'], showfig=True)
 
     def plot_mask(self, limit=None, figsize=None, cmap=None, text=True, s=None, marker='x', color='#FF0000',
-                  figure_order='vertical', fontsize=18):
+                  figure_order='vertical', alpha=0.7, fontsize=18):
         """Plot the masking.
 
         Parameters
@@ -1174,6 +1169,8 @@ class findpeaks():
             Include text to the 2D-image that shows the peaks (p-number) and valleys (v-number)
         s : size (default: None)
             Size of the marker.
+        alpha: Transparancy for the overlay detected points in ax1
+            0.7
         marker: str (default: 'x')
             Marker type.
         color: str (default: '#FF0000')
@@ -1218,12 +1215,15 @@ class findpeaks():
             Xraw = np.clip(self.results['Xraw'], 0, None).copy()
         else:
             Xraw = self.results['Xraw'].astype(np.uint8).copy()
-
+            # imsize
+            # TODO: RESIZE IMAGE
+        
+        Xraw = stats.resize(Xraw, size=self.imsize)
         ax1.imshow(Xraw, cmap, interpolation="nearest")
         # Get coordinates of detections
         y, x = np.where(np.abs(Xdetect) > 0  )
         # Scatter with larger markers (s = size)
-        ax1.scatter(x, y, s=s, c='red', marker=marker) 
+        ax1.scatter(x, y, s=s, c='red', marker=marker, alpha=alpha) 
         ax1.set_title('Input')
         ax1.grid(False)
 
