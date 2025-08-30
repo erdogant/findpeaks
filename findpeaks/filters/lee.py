@@ -38,7 +38,12 @@ def _weighting(window, cu=0.25):
     # ci is the variation coefficient in the window
     window_mean = window.mean()
     window_std = window.std()
-    ci = window_std / window_mean
+    
+    # Handle division by zero or very small values to prevent RuntimeWarning
+    try:
+        ci = window_std / window_mean
+    except:
+        ci = 0
 
     two_ci = ci * ci
 

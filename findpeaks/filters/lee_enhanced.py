@@ -43,7 +43,10 @@ def weighting(pix_value, window, k=K_DEFAULT, cu=CU_DEFAULT, cmax=CMAX_DEFAULT):
     # ci is the variation coefficient in the window
     window_mean = window.mean()
     window_std = window.std()
-    ci = window_std / window_mean
+    try:
+        ci = window_std / window_mean
+    except:
+        ci = 0
 
     if ci <= cu:  # use the mean value
         w_t = 1.0

@@ -158,8 +158,11 @@ def frost_filter(img, damping_factor=2.0, win_size=3):
 
             weighted_values = weights_array * pixels_array
             
-            new_pix_value  = weighted_values.sum() / weights_array.sum()
-            
+            try:
+                new_pix_value  = weighted_values.sum() / weights_array.sum()
+            except:
+                new_pix_value = 0
+
             if (new_pix_value is None) or np.isnan(new_pix_value):
                 new_pix_value = 0
 

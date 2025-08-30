@@ -71,13 +71,10 @@ def scale(X):
     try:
         # Normalizing between 0-255
         X = X - X.min()
-        
-        # Handle division by zero or very small values to prevent RuntimeWarning
-        X_max = X.max()
-        if abs(X_max) < 1e-10:  # Very small threshold to avoid numerical issues
-            X = X * 0  # Set to 0 when max is essentially zero
-        else:
-            X = X / X_max
+        try:
+            X = X / X.max()
+        except:
+            X = X * 0
         X = X * 255
         # Downscale typing
         X = np.uint8(X)

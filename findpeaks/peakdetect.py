@@ -428,7 +428,13 @@ def peakdetect_sine(y_axis, x_axis, points=31, lock_frequency=False):
     # calculate an approximate frequency of the signal
     Hz_h_peak = np.diff(zip(*max_raw)[0]).mean()
     Hz_l_peak = np.diff(zip(*min_raw)[0]).mean()
-    Hz = 1 / np.mean([Hz_h_peak, Hz_l_peak])
+    
+    # Handle division by zero or very small values to prevent RuntimeWarning
+    mean_freq = np.mean([Hz_h_peak, Hz_l_peak])
+    try:
+        Hz = 1 / abs(mean_freq) 
+    except:
+        Hz = 0
 
     # model function
     # if cosine is used then tau could equal the x position of the peak
@@ -813,8 +819,11 @@ def zero_crossings_sine_fit(y_axis, x_axis, fit_window=None, smooth_window=11):
     ext = lambda x: list(zip(*x)[0])
     _diff = map(np.diff, map(ext, raw_peaks))
     
-    Hz = 1 / np.mean(map(np.mean, _diff))
-    # Hz = 1 / np.diff(approx_crossings).mean() #probably bad precision
+    # Handle division by zero or very small values to prevent RuntimeWarning
+    try:
+        Hz = 1 / np.mean(map(np.mean, _diff))
+    except:
+        Hz = 0
     
     # offset model function
     offset_func = lambda x, k, m: k * x + m
