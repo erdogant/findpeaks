@@ -724,7 +724,9 @@ class findpeaks():
         plot : Visualize detection results
         """
         if method is None: method = 'topology'
-        X = X.astype(float)
+        # Set image as float and set negative values to 0
+        X = np.clip(X.astype(float), 0, None)
+        
         self.method = method
         self.type = 'peaks2d'
         logger.debug('Finding peaks in 2d-array using %s method..' % (self.method))
