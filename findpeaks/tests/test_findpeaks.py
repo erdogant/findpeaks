@@ -187,16 +187,30 @@ class TestFINDPEAKS_BLOG(unittest.TestCase):
         # Plot
         fp.plot_preprocessing()
         
-        """
-        [findpeaks] >Import [.\findpeaks\data\2dpeaks_image.png]
-        [findpeaks] >Finding peaks in 2d-array using topology method..
-        [findpeaks] >Resizing image to (300, 300).
-        [findpeaks] >Scaling image between [0-255] and to uint8
-        [findpeaks] >Conversion to gray image.
-        [findpeaks] >Denoising with [fastnl], window: [31].
-        [findpeaks] >Detect peaks using topology method with limit at None.
-        [findpeaks] >Fin.
-        """
+        # Plot the top 15 peaks that are detected and examine the scores
+        fp.results['persistence'][0:5]
+        
+        # Take the minimum score for the top peaks off the diagonal.
+        limit = fp.results['persistence'][0:5]['score'].min()
+        # Plot
+        fp.plot(limit=limit, figure_order='horizontal')
+        # Mesh plot
+        fp.plot_mesh()
+
+    def example9(self):
+        # Import library
+        from findpeaks import findpeaks
+        # Initialize findpeaks with cearus method.
+        # The default setting is that it only return peaks-vallyes with at least 5% difference. We can change this using params
+        # fp = findpeaks(method='caerus',  params={'minperc': 10, 'window': 50})
+        fp = findpeaks(method='caerus')
+        # Import example data
+        X = fp.import_example('facebook')
+        # Fit
+        results = fp.fit(X)
+        # Make the plot
+        fp.plot()
+        
 
 class TestFINDPEAKS(unittest.TestCase):
     
