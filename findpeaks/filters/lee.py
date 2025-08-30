@@ -39,7 +39,6 @@ def _weighting(window, cu=0.25):
     window_mean = window.mean()
     window_std = window.std()
     
-    # Handle division by zero or very small values to prevent RuntimeWarning
     try:
         ci = window_std / window_mean
     except:
