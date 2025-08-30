@@ -103,6 +103,17 @@ def togray(X):
     cv2 = _import_cv2()
     try:
         logger.info('Conversion to gray image.')
+        
+        # Check if image is already grayscale (1 channel)
+        if len(X.shape) == 2:
+            logger.info('Image is already grayscale, no conversion needed.')
+            return X
+        
+        # Check if image has valid number of channels for conversion
+        if len(X.shape) != 3 or X.shape[2] not in [3, 4]:
+            logger.warning(f'Image has {len(X.shape)} dimensions with shape {X.shape}, cannot convert to grayscale.')
+            return X
+            
         if X.dtype != np.uint8:
             logger.warning(f'Input image dtype is {X.dtype}, converting to uint8.')
             X = X.astype(np.uint8)
@@ -110,6 +121,8 @@ def togray(X):
         X = cv2.cvtColor(X, cv2.COLOR_BGR2GRAY)
     except Exception as e:
         logger.error(f'Conversion to gray failed using cv2: {e}')
+        # Return original image if conversion fails
+        return X
 
     return X
 
@@ -137,7 +150,7 @@ def resize(X, size=None):
             logger.info('Resizing image to %s.' %(str(size)))
             X = cv2.resize(X, size)
     except Exception as e:
-        logger.warning('Resizing not possible: {e}')
+        logger.warning(f'Resizing not possible: {e}')
     return X
 
 
@@ -205,9 +218,11 @@ def denoise(X, method='fastnl', window=9, cu=0.25):
     if method=='fastnl':
         if len(X.shape)==2:
             X = cv2.fastNlMeansDenoising(X, h=window)
-        if len(X.shape)==3:
+        elif len(X.shape)==3:
             logger.info('Denoising color image.')
             X = cv2.fastNlMeansDenoisingColored(X, h=window)
+        else:
+            logger.warning(f'Cannot denoise image with {len(X.shape)} dimensions')
     elif method=='bilateral':
         X = cv2.bilateralFilter(X, window, 75, 75)
     elif method=='lee':
