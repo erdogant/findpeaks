@@ -80,10 +80,6 @@ class TestFINDPEAKS_BLOG(unittest.TestCase):
         """
     
     def example3(self):
-        # Import library
-        from findpeaks import findpeaks
-        import matplotlib.pyplot as plt
-        
         # Initialize
         fp = findpeaks(method='mask')
         # Example 2d image
@@ -95,15 +91,10 @@ class TestFINDPEAKS_BLOG(unittest.TestCase):
         # Plot the pre-processing steps
         fp.plot_preprocessing()
         # The output contains multiple variables
-        print(results.keys())
-        # dict_keys(['Xraw', 'Xproc', 'Xdetect'])
-        
         # Plot detected peaks
         fp.plot(figure_order='horizontal', fontsize=14)
-        
         # Create mesh plot from 2D image.
         fp.plot_mesh()
-        
         # Rotate to make a top view
         fp.plot_mesh(view=(90,0))
     

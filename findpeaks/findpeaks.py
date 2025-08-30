@@ -8,8 +8,8 @@
 # ----------------------------------------------------
 
 # import findpeaks
+import caerus.helper as csplots
 from caerus import caerus
-import caerus.utils.csplots as csplots
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import pandas as pd
@@ -1740,9 +1740,8 @@ def import_example(data='2dpeaks', url=None, sep=';', datadir=None):
         # X = np.c_[x, y]
         return y
     elif (data == 'btc') or (data == 'facebook'):
-        from caerus import caerus
-        cs = caerus()
-        X = cs.download_example(name=data, verbose=0)
+        cs = caerus(verbose='info')
+        X = cs.download_example(name=data)
         return X
     else:
         logger.warning('WARNING: Nothing to download. <return>')
