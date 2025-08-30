@@ -913,10 +913,10 @@ class findpeaks():
             logger.info('Downloading from github source: [%s]' % (path))
             response = requests.get(path)
             img_array = np.asarray(bytearray(response.content), dtype=np.uint8)
-            X = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+            X = cv2.imdecode(img_array, cv2.IMREAD_UNCHANGED)
         elif os.path.isfile(path):
             logger.info('Import [%s]' % (path))
-            X = cv2.imread(path)
+            X = cv2.imread(path, cv2.IMREAD_UNCHANGED)
         # Return
         return X
 
