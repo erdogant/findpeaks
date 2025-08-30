@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-processing &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=816012cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Denoise" href="Denoise.html" />
+    <link rel="prev" title="Performance" href="Performance.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pre-processing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Pre-processing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-processing">
+<h1>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading"></a></h1>
+<p>This section provides comprehensive documentation of the preprocessing capabilities in the findpeaks library. Preprocessing is crucial for improving peak detection accuracy, especially when working with noisy or complex data. The main preprocessing pipeline is handled by <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
+</section>
+<section id="interpolation-and-imputation">
+<h1>Interpolation and imputation<a class="headerlink" href="#interpolation-and-imputation" title="Link to this heading"></a></h1>
+<p>The input parameter “interpolate” extends the data by the specified factor and is useful for “smoothing” the signal through linear interpolation via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>. This functionality can also handle missing (NaN) data effectively. A smoothed signal is more robust against noise and typically performs better in peak and valley detection.</p>
+<p>This step serves as a preprocessing step before applying any detection method. The input is a 1D numpy vector that can be interpolated using various methods, with <strong>linear</strong> interpolation as the default. Note that the findpeaks initialization is fixed to <strong>linear</strong> interpolation. If alternative methods are desired, they can be accessed directly through the function: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>.</p>
+<p>In addition to 1D functionality, there is also 2D interpolation capability for cases with x and y coordinates: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a>.</p>
+<dl class="simple">
+<dt><strong>Available interpolation methods:</strong></dt><dd><ul class="simple">
+<li><p>String or integer</p></li>
+<li><p>0 : order degree</p></li>
+<li><p>1 : order degree</p></li>
+<li><p>2 : order degree</p></li>
+<li><p>3 : order degree</p></li>
+<li><p>‘linear’</p></li>
+<li><p>‘nearest’</p></li>
+<li><p>‘zero’</p></li>
+<li><p>‘slinear’</p></li>
+<li><p>‘quadratic’</p></li>
+<li><p>‘cubic’</p></li>
+<li><p>‘previous’</p></li>
+<li><p>‘next’</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">findpeaks</span>
+<span class="c1"># Small dataset</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
+<span class="c1"># Interpolate the data using linear method by factor 10</span>
+<span class="n">Xi</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">interpolate_line1d</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Print message</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Input data length: </span><span class="si">%s</span><span class="s1">, interpolated length: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xi</span><span class="p">)))</span>
+<span class="c1"># Input data length: 10, interpolated length: 100</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Interpolation example</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP0" src="_images/interpolate_example.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>As mentioned earlier, the interpolate function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> can also handle missing data effectively. Let’s demonstrate this capability:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">findpeaks</span>
+<span class="c1"># Small dataset with missing values</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
+<span class="c1"># Interpolate the data using linear method and n=1. This would not extend the data but simply impute missing values.</span>
+<span class="n">Xi</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="o">.</span><span class="n">interpolate_line1d</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Xi</span><span class="p">)</span>
+<span class="c1"># array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10.])</span>
+</pre></div>
+</div>
+<p>The interpolate functionality is seamlessly integrated into <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> by specifying the <strong>interpolate</strong> parameter as the factor <em>n</em>. The advantage of this integration is the automatic mapping of results back to the original data coordinates and the ability to impute missing data. Without this integration, the detected peak coordinates on the x-axis would differ from the input data due to the data extension from interpolation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize with interpolation</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Small dataset</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
+<span class="c1"># Detect peaks with interpolation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Comparison: without interpolation (left) and with interpolation (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP1" src="_images/fig2_peakdetect.png" /></p></td>
+<td><p><img alt="figP2" src="_images/fig2_peakdetect_int.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="image-resizing">
+<h1>Image resizing<a class="headerlink" href="#image-resizing" title="Link to this heading"></a></h1>
+<p>The resize function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a> is specifically designed for 2D arrays (images). This function resizes images using OpenCV functionality with optimized default parameter settings, providing efficient image scaling capabilities.</p>
+</section>
+<section id="image-scaling">
+<h1>Image scaling<a class="headerlink" href="#image-scaling" title="Link to this heading"></a></h1>
+<p>The <em>scale</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a> is designed for 2D arrays (images). Scaling is an essential preprocessing step that ensures all data is normalized within a consistent range, improving detection accuracy and computational efficiency.</p>
+<p>Images are scaled to the [0-255] range using the following equation:</p>
+<blockquote>
+<div><p>Ximg * (255 / max(Ximg))</p>
+</div></blockquote>
+</section>
+<section id="grayscale-conversion">
+<h1>Grayscale conversion<a class="headerlink" href="#grayscale-conversion" title="Link to this heading"></a></h1>
+<p>The <em>gray</em> function <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a> is designed for 2D arrays (images). This function converts color images to grayscale using OpenCV functionality with the <code class="docutils literal notranslate"><span class="pre">cv2.COLOR_BGR2GRAY</span></code> settings, which is required for certain detection methods.</p>
+</section>
+<section id="comprehensive-preprocessing-pipeline">
+<h1>Comprehensive preprocessing pipeline<a class="headerlink" href="#comprehensive-preprocessing-pipeline" title="Link to this heading"></a></h1>
+<p>The preprocessing function is designed to pipeline all the above-mentioned functionalities: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>.</p>
+<dl class="simple">
+<dt>The preprocessing pipeline consists of 4 optional steps executed in the following order. After the final step, the peak detection method is applied:</dt><dd><ul class="simple">
+<li><ol class="arabic simple">
+<li><p><strong>Resizing</strong>: Reduces image dimensions for faster computation</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p><strong>Scaling</strong>: Normalizes pixel values between [0-255]</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="3">
+<li><p><strong>Grayscale conversion</strong>: Converts color images to grayscale</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="4">
+<li><p><strong>Denoising</strong>: Applies noise reduction filters</p></li>
+</ol>
+</li>
+</ul>
+</dd>
+</dl>
+<p>Each of these steps can be controlled by setting the appropriate input parameters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize with preprocessing parameters</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;topology&quot;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">],</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># Import example dataset</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s2">&quot;2dpeaks&quot;</span><span class="p">)</span>
+
+<span class="c1"># Apply preprocessing and detect peaks</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
+<span class="c1"># fp.plot_persistence()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Preprocessing example for 2D array (image)</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP3" src="_images/2dpeaks_interpolate.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
+</center>
+<hr></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Performance.html" class="btn btn-neutral float-left" title="Performance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Denoise.html" class="btn btn-neutral float-right" title="Denoise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

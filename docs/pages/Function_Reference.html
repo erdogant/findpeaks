@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Function Reference &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=816012cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Coding Quality" href="Coding%20quality.html" />
+    <link rel="prev" title="Sponsor" href="Documentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Function Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core-functions">Core Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization-functions">Visualization Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-detection-methods">Peak Detection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocessing-functions">Preprocessing Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#denoising-filters">Denoising Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utility-functions">Utility Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#function-categories-by-use-case">Function Categories by Use Case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-reference-by-method">Quick Reference by Method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Function Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Function_Reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="function-reference">
+<h1>Function Reference<a class="headerlink" href="#function-reference" title="Link to this heading"></a></h1>
+<p>This page provides a comprehensive reference of all functions available in the findpeaks library, organized by category for easy navigation.</p>
+<section id="core-functions">
+<h2>Core Functions<a class="headerlink" href="#core-functions" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Main findpeaks class functions</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks" title="findpeaks.findpeaks.findpeaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks()</span></code></a></p></td>
+<td><p>Main class for peak detection and analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.__init__()</span></code></p></td>
+<td><p>Initialize the findpeaks object with detection parameters</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.fit" title="findpeaks.findpeaks.findpeaks.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.fit()</span></code></a></p></td>
+<td><p>Fit the peak detection model to the input data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a></p></td>
+<td><p>Detect peaks and valleys in 1D data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a></p></td>
+<td><p>Detect peaks and valleys in 2D data (images)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a></p></td>
+<td><p>Apply preprocessing pipeline to the input data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.import_example" title="findpeaks.findpeaks.findpeaks.import_example"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.import_example()</span></code></a></p></td>
+<td><p>Import example datasets for testing and demonstration</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="visualization-functions">
+<h2>Visualization Functions<a class="headerlink" href="#visualization-functions" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Plotting and visualization functions</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a></p></td>
+<td><p>Main plotting function for comprehensive results visualization</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot1d" title="findpeaks.findpeaks.findpeaks.plot1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot1d()</span></code></a></p></td>
+<td><p>Plot results for 1D data analysis</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot2d" title="findpeaks.findpeaks.findpeaks.plot2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot2d()</span></code></a></p></td>
+<td><p>Plot results for 2D data analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a></p></td>
+<td><p>Plot persistence diagrams for topology method</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mesh" title="findpeaks.findpeaks.findpeaks.plot_mesh"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code></a></p></td>
+<td><p>Create 3D mesh visualizations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="findpeaks.findpeaks.findpeaks.plot_preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code></a></p></td>
+<td><p>Visualize preprocessing pipeline steps</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mask" title="findpeaks.findpeaks.findpeaks.plot_mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mask()</span></code></a></p></td>
+<td><p>Plot masking results with customizable font size</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="peak-detection-methods">
+<h2>Peak Detection Methods<a class="headerlink" href="#peak-detection-methods" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Core detection algorithms</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a></p></td>
+<td><p>Topology-based peak detection using persistent homology</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d" title="findpeaks.stats.topology2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology2d()</span></code></a></p></td>
+<td><p>2D topology-based peak detection</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.peakdetect.peakdetect()</span></code></p></td>
+<td><p>Traditional peak detection algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask" title="findpeaks.stats.mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code></a></p></td>
+<td><p>Mask-based local maximum filtering for 2D data</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.caerus()</span></code></p></td>
+<td><p>Caerus method for financial time series analysis</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="preprocessing-functions">
+<h2>Preprocessing Functions<a class="headerlink" href="#preprocessing-functions" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Data preprocessing and transformation functions</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a></p></td>
+<td><p>1D data interpolation with multiple methods</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a></p></td>
+<td><p>2D data interpolation for x,y coordinates</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a></p></td>
+<td><p>Resize 2D arrays (images) using OpenCV</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a></p></td>
+<td><p>Scale data to specified range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a></p></td>
+<td><p>Convert images to grayscale</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a></p></td>
+<td><p>Apply various denoising filters to images</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="denoising-filters">
+<h2>Denoising Filters<a class="headerlink" href="#denoising-filters" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Image denoising filter functions</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter" title="findpeaks.filters.lee.lee_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></a></p></td>
+<td><p>Lee filter for additive noise reduction</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.lee_enhanced_filter" title="findpeaks.filters.lee_enhanced.lee_enhanced_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_enhanced.lee_enhanced_filter()</span></code></a></p></td>
+<td><p>Enhanced Lee filter with improved edge preservation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_sigma.lee_sigma_filter()</span></code></p></td>
+<td><p>Lee Sigma filter for adaptive noise reduction</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter" title="findpeaks.filters.frost.frost_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></a></p></td>
+<td><p>Frost filter for multiplicative noise reduction</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a></p></td>
+<td><p>Kuan filter for speckle noise reduction</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter" title="findpeaks.filters.mean.mean_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.mean.mean_filter()</span></code></a></p></td>
+<td><p>Mean filter for noise smoothing</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter" title="findpeaks.filters.median.median_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.median.median_filter()</span></code></a></p></td>
+<td><p>Median filter for noise reduction while preserving edges</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="utility-functions">
+<h2>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">Utility and helper functions</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats._make_unique()</span></code></p></td>
+<td><p>Make array elements unique with progress tracking</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.union_find.UnionFind()</span></code></p></td>
+<td><p>Union-find data structure for connected components</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee_enhanced.assert_parameters" title="findpeaks.filters.lee_enhanced.assert_parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee_enhanced.assert_parameters()</span></code></a></p></td>
+<td><p>Validate parameters for enhanced Lee filter</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="function-categories-by-use-case">
+<h2>Function Categories by Use Case<a class="headerlink" href="#function-categories-by-use-case" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-text">Functions organized by common use cases</span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Use Case</p></th>
+<th class="head"><p>Relevant Functions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1D Signal Analysis</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.peakdetect.peakdetect()</span></code>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot1d" title="findpeaks.findpeaks.findpeaks.plot1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot1d()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2D Image Analysis</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask" title="findpeaks.stats.mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d" title="findpeaks.stats.topology2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology2d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.togray" title="findpeaks.stats.togray"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.togray()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot2d" title="findpeaks.findpeaks.findpeaks.plot2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot2d()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Financial Time Series</strong></p></td>
+<td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.caerus()</span></code>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.fit" title="findpeaks.findpeaks.findpeaks.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.fit()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>SAR Image Processing</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter" title="findpeaks.filters.lee.lee_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter" title="findpeaks.filters.frost.frost_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Data Visualization</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mesh" title="findpeaks.findpeaks.findpeaks.plot_mesh"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mesh()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_preprocessing" title="findpeaks.findpeaks.findpeaks.plot_preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_preprocessing()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mask" title="findpeaks.findpeaks.findpeaks.plot_mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mask()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Data Preprocessing</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.preprocessing" title="findpeaks.findpeaks.findpeaks.preprocessing"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.preprocessing()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.resize" title="findpeaks.stats.resize"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.resize()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.scale" title="findpeaks.stats.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.scale()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quick-reference-by-method">
+<h2>Quick Reference by Method<a class="headerlink" href="#quick-reference-by-method" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-text">Functions grouped by detection method</span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Functions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Topology</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology2d" title="findpeaks.stats.topology2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology2d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Peakdetect</strong></p></td>
+<td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.peakdetect.peakdetect()</span></code>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Mask</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.mask" title="findpeaks.stats.mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.mask()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_mask" title="findpeaks.findpeaks.findpeaks.plot_mask"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_mask()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Caerus</strong></p></td>
+<td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.caerus()</span></code>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.fit" title="findpeaks.findpeaks.findpeaks.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.fit()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Interpolation</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line2d" title="findpeaks.interpolate.interpolate_line2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line2d()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Denoising</strong></p></td>
+<td><p><a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.denoise" title="findpeaks.stats.denoise"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.denoise()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.lee.lee_filter" title="findpeaks.filters.lee.lee_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.lee.lee_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.frost.frost_filter" title="findpeaks.filters.frost.frost_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.frost.frost_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.kuan.kuan_filter" title="findpeaks.filters.kuan.kuan_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.kuan.kuan_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.mean.mean_filter" title="findpeaks.filters.mean.mean_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.mean.mean_filter()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.filters.median.median_filter" title="findpeaks.filters.median.median_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.filters.median.median_filter()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
+</center>
+<hr></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Documentation.html" class="btn btn-neutral float-left" title="Sponsor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Coding%20quality.html" class="btn btn-neutral float-right" title="Coding Quality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

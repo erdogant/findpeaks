@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=816012cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Topology" href="Topology.html" />
+    <link rel="prev" title="Abstract" href="Abstract.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-environment">Create Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<p>This section provides a quick introduction to using the findpeaks library for peak detection and analysis. The example demonstrates the basic workflow from data import to visualization using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.fit" title="findpeaks.findpeaks.findpeaks.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.fit()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a>, and <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>.</p>
+<p>A quick example how to learn a model on a given dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Initialize with topology method (most robust)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+
+<span class="c1"># Example data:</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;1dpeaks&#39;</span><span class="p">)</span>
+
+<span class="c1"># Peak detection</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Plot persistence diagram</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>This section covers the installation process for the findpeaks library, including environment setup and package management.</p>
+<section id="create-environment">
+<h2>Create Environment<a class="headerlink" href="#create-environment" title="Link to this heading"></a></h2>
+<p>For optimal performance and to avoid dependency conflicts, it’s recommended to install <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> in an isolated Python environment using conda:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">env_findpeaks</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.6</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">env_findpeaks</span>
+</pre></div>
+</div>
+<p>Install via <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Installation<span class="w"> </span>from<span class="w"> </span>PyPI<span class="w"> </span><span class="o">(</span>recommended<span class="o">)</span>:
+<span class="go">pip install findpeaks</span>
+
+<span class="gp"># </span>Install<span class="w"> </span>directly<span class="w"> </span>from<span class="w"> </span>GitHub<span class="w"> </span><span class="o">(</span>unstable<span class="w"> </span>version<span class="w"> </span>but<span class="w"> </span>it<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>latest<span class="w"> </span>development<span class="w"> </span>version<span class="o">)</span>:
+<span class="go">pip install git+https://github.com/erdogant/findpeaks</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="uninstalling">
+<h1>Uninstalling<a class="headerlink" href="#uninstalling" title="Link to this heading"></a></h1>
+<p>If you want to remove your <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> installation and clean up your environment, follow these steps:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Remove<span class="w"> </span>findpeaks<span class="w"> </span>package
+<span class="go">pip uninstall findpeaks</span>
+
+<span class="gp"># </span>Deactivate<span class="w"> </span>the<span class="w"> </span>conda<span class="w"> </span>environment
+<span class="go">conda deactivate</span>
+
+<span class="gp"># </span>List<span class="w"> </span>all<span class="w"> </span>environments<span class="w"> </span>to<span class="w"> </span>verify
+<span class="go">conda env list</span>
+
+<span class="gp"># </span>Remove<span class="w"> </span>the<span class="w"> </span>findpeaks<span class="w"> </span>environment
+<span class="go">conda env remove --name env_findpeaks</span>
+
+<span class="gp"># </span>Verify<span class="w"> </span>environment<span class="w"> </span>removal
+<span class="go">conda env list</span>
+</pre></div>
+</div>
+<hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
+</center>
+<hr></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Abstract.html" class="btn btn-neutral float-left" title="Abstract" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Topology.html" class="btn btn-neutral float-right" title="Topology" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Examples &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=816012cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Stock Markets" href="Use-cases.html" />
+    <link rel="prev" title="Plots" href="Plots.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Topology.html">Topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#d-vector-analysis">1D-vector Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-in-low-sampled-dataset">Find peaks in low sampled dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interpolation-for-enhanced-detection">Interpolation for Enhanced Detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-of-peak-detection-methods-1">Comparison of Peak Detection Methods (1)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-of-peak-detection-methods-with-interpolation-2">Comparison of Peak Detection Methods with Interpolation (2)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-in-high-sampled-dataset">Find peaks in high sampled dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#d-array-image-analysis">2D-array (Image) Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-using-default-settings">Find peaks using default settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-peaks-with-advanced-pre-processing">Find peaks with advanced pre-processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-examples">
+<h1>Quick Examples<a class="headerlink" href="#quick-examples" title="Link to this heading"></a></h1>
+<p>This section provides comprehensive examples demonstrating the capabilities of the findpeaks library for both 1D and 2D data analysis. Each example showcases different detection methods, preprocessing techniques, and visualization options using functions like <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.fit" title="findpeaks.findpeaks.findpeaks.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.fit()</span></code></a>, <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot" title="findpeaks.findpeaks.findpeaks.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot()</span></code></a>, and <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot_persistence" title="findpeaks.findpeaks.findpeaks.plot_persistence"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot_persistence()</span></code></a>.</p>
+<section id="d-vector-analysis">
+<h2>1D-vector Analysis<a class="headerlink" href="#d-vector-analysis" title="Link to this heading"></a></h2>
+<p>The findpeaks library excels at detecting peaks and valleys in 1D data such as time series, signals, and vector data using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a>. Below are examples demonstrating various detection methods and preprocessing techniques.</p>
+<section id="find-peaks-in-low-sampled-dataset">
+<h3>Find peaks in low sampled dataset<a class="headerlink" href="#find-peaks-in-low-sampled-dataset" title="Link to this heading"></a></h3>
+<p>This example demonstrates basic peak detection on a small dataset using the default peakdetect method via <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.peakdetect.peakdetect()</span></code>. The lookahead parameter is set to 1 for optimal performance on small datasets.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">377</span><span class="p">,</span><span class="mi">985</span><span class="p">,</span><span class="mi">1153</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">501</span><span class="p">,</span><span class="mi">1068</span><span class="p">,</span><span class="mi">1110</span><span class="p">,</span><span class="mi">574</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">47</span><span class="p">,</span><span class="mi">252</span><span class="p">,</span><span class="mi">812</span><span class="p">,</span><span class="mi">1182</span><span class="p">,</span><span class="mi">741</span><span class="p">,</span><span class="mi">263</span><span class="p">,</span><span class="mi">33</span><span class="p">]</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fig1_raw.png"><img alt="_images/fig1_raw.png" src="_images/fig1_raw.png" style="width: 600px;" />
+</a>
+</section>
+<section id="interpolation-for-enhanced-detection">
+<h3>Interpolation for Enhanced Detection<a class="headerlink" href="#interpolation-for-enhanced-detection" title="Link to this heading"></a></h3>
+<p>Interpolation via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> can improve peak detection by creating smoother signals. This example shows how interpolation affects the detection results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with interpolation parameter</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fig1_interpol.png"><img alt="_images/fig1_interpol.png" src="_images/fig1_interpol.png" style="width: 600px;" />
+</a>
+</section>
+<section id="comparison-of-peak-detection-methods-1">
+<h3>Comparison of Peak Detection Methods (1)<a class="headerlink" href="#comparison-of-peak-detection-methods-1" title="Link to this heading"></a></h3>
+<p>This example compares the peakdetect method via <code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.peakdetect.peakdetect()</span></code> and topology method via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a> on the same dataset, demonstrating the different characteristics of each approach.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Comparison of detection methods: peakdetect (left) vs topology (right)</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex3" src="_images/fig2_peakdetect.png" /></p></td>
+<td><p><img alt="ex4" src="_images/fig2_topology.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/fig2_persistence.png"><img alt="_images/fig2_persistence.png" src="_images/fig2_persistence.png" style="width: 600px;" />
+</a>
+</section>
+<section id="comparison-of-peak-detection-methods-with-interpolation-2">
+<h3>Comparison of Peak Detection Methods with Interpolation (2)<a class="headerlink" href="#comparison-of-peak-detection-methods-with-interpolation-2" title="Link to this heading"></a></h3>
+<p>This example demonstrates how interpolation via <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.interpolate.interpolate_line1d" title="findpeaks.interpolate.interpolate_line1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.interpolate.interpolate_line1d()</span></code></a> affects both peakdetect and topology methods, showing the enhanced detection capabilities.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with interpolate parameter</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">lookahead</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Comparison with interpolation: peakdetect (left) vs topology (right)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex5" src="_images/fig2_peakdetect_int.png" /></p></td>
+<td><p><img alt="ex6" src="_images/fig2_topology_int.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="find-peaks-in-high-sampled-dataset">
+<h3>Find peaks in high sampled dataset<a class="headerlink" href="#find-peaks-in-high-sampled-dataset" title="Link to this heading"></a></h3>
+<p>This example demonstrates peak detection on a large, noisy dataset using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.plot1d" title="findpeaks.findpeaks.findpeaks.plot1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.plot1d()</span></code></a>, showing how different methods handle complex signals with multiple frequency components.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Data</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.7</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.3</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">4.2</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.06</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;peakdetect&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot1d</span><span class="p">()</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot1d</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">High-sampling comparison: peakdetect (left) vs topology (right)</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex7" src="_images/fig3.png" /></p></td>
+<td><p><img alt="ex8" src="_images/fig3_topology.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<a class="reference internal image-reference" href="_images/fig3_persistence_limit.png"><img alt="_images/fig3_persistence_limit.png" src="_images/fig3_persistence_limit.png" style="width: 600px;" />
+</a>
+</section>
+</section>
+<section id="d-array-image-analysis">
+<h2>2D-array (Image) Analysis<a class="headerlink" href="#d-array-image-analysis" title="Link to this heading"></a></h2>
+<p>The findpeaks library provides robust peak detection capabilities for 2D data including images, spatial data, and matrices using <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>. The examples below demonstrate various preprocessing techniques and detection methods.</p>
+<section id="find-peaks-using-default-settings">
+<h3>Find peaks using default settings<a class="headerlink" href="#find-peaks-using-default-settings" title="Link to this heading"></a></h3>
+<p>The input image:</p>
+<a class="reference internal image-reference" href="_images/plot_example.png"><img alt="_images/plot_example.png" src="_images/plot_example.png" style="width: 600px;" />
+</a>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Import example</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># array([[0. , 0. , 0. , 0. , 0. , 0. , 0. , 0. , 0.4, 0.4],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 0. , 0.7, 1.4, 2.2, 1.8],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 1.1, 4. , 6.5, 4.3, 1.8],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 1.4, 6.1, 7.2, 3.2, 0.7],</span>
+<span class="c1">#        [..., ..., ..., ..., ..., ..., ..., ..., ..., ...],</span>
+<span class="c1">#        [0. , 0.4, 2.9, 7.9, 5.4, 1.4, 0.7, 0.4, 1.1, 1.8],</span>
+<span class="c1">#        [0. , 0. , 1.8, 5.4, 3.2, 1.8, 4.3, 3.6, 2.9, 6.1],</span>
+<span class="c1">#        [0. , 0. , 0.4, 0.7, 0.7, 2.5, 9. , 7.9, 3.6, 7.9],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 1.1, 4.7, 4. , 1.4, 2.9],</span>
+<span class="c1">#        [0. , 0. , 0. , 0. , 0. , 0.4, 0.7, 0.7, 0.4, 0.4]])</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;mask&#39;</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot the pre-processing steps</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
+<span class="c1"># Plot all</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+<span class="c1"># Fit</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The masking approach effectively detects the correct peaks in the image data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_mask.png"><img alt="_images/2dpeaks_mask.png" src="_images/2dpeaks_mask.png" style="width: 600px;" />
+</a>
+<p>Conversion from 2D to 3D mesh plots provides excellent visualization capabilities. The surface appears rough due to the low-resolution input data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">3D mesh visualization: wireframe (left) and surface (right)</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex9" src="_images/2dpeaks_mesh1.png" /></p></td>
+<td><p><img alt="ex10" src="_images/2dpeaks_mesh2.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The persistence plot demonstrates accurate peak detection with quantitative significance measures.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_pers.png"><img alt="_images/2dpeaks_pers.png" src="_images/2dpeaks_pers.png" style="width: 600px;" />
+</a>
+</section>
+<section id="find-peaks-with-advanced-pre-processing">
+<h3>Find peaks with advanced pre-processing<a class="headerlink" href="#find-peaks-with-advanced-pre-processing" title="Link to this heading"></a></h3>
+<p>This example demonstrates the power of preprocessing techniques in improving peak detection accuracy.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+
+<span class="c1"># Import example</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">()</span>
+
+<span class="c1"># Initialize with preprocessing parameters</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">togray</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">imsize</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="c1"># Fit</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot all</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Plot preprocessing</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_preprocessing</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Preprocessing pipeline: raw (left), interpolated (center), processed (right)</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex11" src="_images/2dpeaks_raw.png" /></p></td>
+<td><p><img alt="ex12" src="_images/2dpeaks_interpolate.png" /></p></td>
+<td><p><img alt="ex13" src="_images/2dpeaks_raw_processed.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The masking approach may not perform optimally with preprocessing that includes weighted smoothing, which is not ideal for local maximum detection.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_mask_proc.png"><img alt="_images/2dpeaks_mask_proc.png" src="_images/2dpeaks_mask_proc.png" style="width: 600px;" />
+</a>
+<p>The mesh plot shows higher resolution due to the smoothing effects of preprocessing steps.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id6">
+<caption><span class="caption-text">Enhanced mesh visualization: wireframe (left) and surface (right)</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="ex13" src="_images/2dpeaks_raw_processed.png" /></p></td>
+<td><p><img alt="ex14" src="_images/2dpeaks_meshs1.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The persistence plot demonstrates accurate detection of significant peaks with proper preprocessing.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/2dpeaks_perss.png"><img alt="_images/2dpeaks_perss.png" src="_images/2dpeaks_perss.png" style="width: 600px;" />
+</a>
+<hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
+</center>
+<hr></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Plots.html" class="btn btn-neutral float-left" title="Plots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Use-cases.html" class="btn btn-neutral float-right" title="Stock Markets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

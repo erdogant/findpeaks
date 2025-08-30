@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topology &mdash; findpeaks findpeaks documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=816012cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mask" href="Mask.html" />
+    <link rel="prev" title="Quickstart" href="Installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            findpeaks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Abstract</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Topology</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#persistent-homology">Persistent Homology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#efficiency">Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#one-dimensional">One-dimensional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#two-dimensional">Two-dimensional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Mask.html">Mask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Peakdetect.html">Peakdetect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Caerus.html">Caerus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Performance.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre-processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html">Pre-processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#interpolation-and-imputation">Interpolation and imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-resizing">Image resizing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#image-scaling">Image scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#grayscale-conversion">Grayscale conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Pre-processing.html#comprehensive-preprocessing-pipeline">Comprehensive preprocessing pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Denoise.html">Denoise</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Plots</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html">Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#pre-processing-visualization">Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram">Persistence diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-pre-processing-visualization">2D Pre-processing visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#persistence-diagram-for-2d-data">Persistence diagram for 2D data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#d-mesh-visualization">3D mesh visualization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Quick Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html">Stock Markets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Use-cases.html#sar">SAR</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#medium-blog">Medium Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Function_Reference.html">Function Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding Quality</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">findpeaks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Topology</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Topology.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="topology">
+<h1>Topology<a class="headerlink" href="#topology" title="Link to this heading"></a></h1>
+<p>Topological data analysis applies methods of topology in data analysis and found many applications in data science[1].
+TDA builds upon the observation that data often possesses a certain intrinsic shape such as the shape of a point cloud, the shape of a signal or the shape of a geometric object.
+Persistent homology is probably the most prominent tool in TDA that gives us the means to describe and quantify topological properties of these shapes [1].</p>
+<p>All references are depicted at the bottom of the page. Note that all examples are made with <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code>.
+The function with docstrings for the topology method can be found here <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.stats.topology" title="findpeaks.stats.topology"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.stats.topology()</span></code></a>.</p>
+<section id="persistent-homology">
+<h2>Persistent Homology<a class="headerlink" href="#persistent-homology" title="Link to this heading"></a></h2>
+<p>In computational topology the idea of persistent homology leads to an efficient – fast as sorting numbers – solution.
+It does not only detect peaks, it quantifies the “significance” of the peaks in a natural way that allows you to select the peaks that are significant for you[2].
+The idea of persistent homology is intuitive: Consider the function graph of the function that assigns each pixel its level. It looks like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+<span class="c1"># Example 1d-vector</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;1dpeaks&#39;</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default" id="figure-1">
+<img alt="_images/1dpeaks_example_dataset.png" src="_images/1dpeaks_example_dataset.png" />
+</figure>
+<p>Now consider a water level that continuously descents to lower levels.
+At local maxima islands pop up (birth). At saddle points two islands merge; we consider the lower island to be merged to the higher island (death).
+The so-called persistence diagram (of the 0-th dimensional homology classes, our islands) depicts death- over birth-values of all islands:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit topology method on the 1d-vector</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Plot the results</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default" id="figure-2">
+<img alt="_images/1dpeaks_example_dataset_pers.png" src="_images/1dpeaks_example_dataset_pers.png" />
+</figure>
+<p>The persistence of an island is then the difference between the birth-level and death-level; the vertical distance of a dot to the grey main diagonal. The figure labels the islands by decreasing persistence.
+The right figure shows the locations of births of the islands. This method not only gives the local maxima but also quantifies their “significance” by the above mentioned persistence.
+One would then filter out all islands with a too low persistence, i.e. those at the diagonal.</p>
+<figure class="align-default" id="figure-2a">
+<img alt="_images/1dpeaks_example_dataset_pers_1.png" src="_images/1dpeaks_example_dataset_pers_1.png" />
+</figure>
+</section>
+<section id="efficiency">
+<h2>Efficiency<a class="headerlink" href="#efficiency" title="Link to this heading"></a></h2>
+<p>The topology method is implementated in such a manner that it runs in linear time – in fact it is a single, simple loop – after the function values were sorted. The time complexity is <strong>O(n log n)</strong>.
+So this implementation should be fast in practice and is easily implemented. The original implementation was in Python 2.7 [4], but in <code class="docutils literal notranslate"><span class="pre">findpeaks</span></code> it is (slightly) adjusted and rewritten for python 3.</p>
+</section>
+<section id="one-dimensional">
+<h2>One-dimensional<a class="headerlink" href="#one-dimensional" title="Link to this heading"></a></h2>
+<p>The initialization with contains many variables for which only a few are applicable for the <strong>topology</strong> method.
+The general parameters are <em>figsize</em> which is for setting the figure size. Logging messages are controlled through the Python logging system.
+Specific for the topology method, the method should be set at “topology”, and in addition, the parameters <em>interpolate</em> and <em>limit</em> can be used for some pre-processing, and output adjustments.
+By default, no interpolation is applied and there is no limit on the final results. See here for the details <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks" title="findpeaks.findpeaks.findpeaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="c1"># Fit topology method on the 1d-vector</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># The output contains multiple variables</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="c1"># dict_keys([&#39;persistence&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;groups0&#39;, &#39;df&#39;])</span>
+</pre></div>
+</div>
+<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. See: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a>
+Note that this DataFrame is <em>NOT</em> filtered on <em>limit</em> variable as it should be in line with the input dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print results to screen</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">])</span>
+
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>    <span class="n">y</span> <span class="o">|</span>   <span class="n">labx</span> <span class="o">|</span>   <span class="n">rank</span> <span class="o">|</span>   <span class="n">score</span> <span class="o">|</span> <span class="n">valley</span>   <span class="o">|</span> <span class="n">peak</span>   <span class="o">|</span>
+<span class="o">+====+=====+======+========+========+=========+==========+========+</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>   <span class="mi">0</span> <span class="o">|</span> <span class="mf">1.5</span>  <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>    <span class="mf">1.5</span>  <span class="o">|</span> <span class="kc">True</span>     <span class="o">|</span> <span class="kc">True</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>   <span class="mi">1</span> <span class="o">|</span> <span class="mf">0.8</span>  <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">True</span>     <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span>   <span class="mi">2</span> <span class="o">|</span> <span class="mf">1.2</span>  <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>    <span class="mf">0.4</span>  <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">True</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>   <span class="mi">3</span> <span class="o">|</span> <span class="mf">0.2</span>  <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">True</span>     <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span>   <span class="mi">4</span> <span class="o">|</span> <span class="mf">0.4</span>  <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span>   <span class="mi">5</span> <span class="o">|</span> <span class="mf">0.39</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">6</span> <span class="o">|</span>   <span class="mi">6</span> <span class="o">|</span> <span class="mf">0.42</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>    <span class="mf">0.22</span> <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">True</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">7</span> <span class="o">|</span>   <span class="mi">7</span> <span class="o">|</span> <span class="mf">0.22</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span>   <span class="mi">8</span> <span class="o">|</span> <span class="mf">0.23</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span>   <span class="mi">9</span> <span class="o">|</span> <span class="mf">0.1</span>  <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">10</span> <span class="o">|</span>  <span class="mi">10</span> <span class="o">|</span> <span class="mf">0.11</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">11</span> <span class="o">|</span>  <span class="mi">11</span> <span class="o">|</span> <span class="mf">0.1</span>  <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">True</span>     <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">12</span> <span class="o">|</span>  <span class="mi">12</span> <span class="o">|</span> <span class="mf">0.14</span> <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>    <span class="mf">0.04</span> <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">True</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">13</span> <span class="o">|</span>  <span class="mi">13</span> <span class="o">|</span> <span class="mf">0.09</span> <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">14</span> <span class="o">|</span>  <span class="mi">14</span> <span class="o">|</span> <span class="mf">0.04</span> <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">15</span> <span class="o">|</span>  <span class="mi">15</span> <span class="o">|</span> <span class="mf">0.02</span> <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">16</span> <span class="o">|</span>  <span class="mi">16</span> <span class="o">|</span> <span class="mf">0.01</span> <span class="o">|</span>      <span class="mi">4</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>    <span class="mi">0</span>    <span class="o">|</span> <span class="kc">True</span>     <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>For the homology-persistence, the dataframe <strong>persistence</strong> contains:</dt><dd><ul class="simple">
+<li><p>x, y    : Coordinates</p></li>
+<li><p>birth   : Birth level</p></li>
+<li><p>death   : Death level</p></li>
+<li><p>score   : Persistence scores</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print results to screen</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">])</span>
+
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>    <span class="n">y</span> <span class="o">|</span>   <span class="n">birth_level</span> <span class="o">|</span>   <span class="n">death_level</span> <span class="o">|</span>   <span class="n">score</span>   <span class="o">|</span>
+<span class="o">+====+=====+======+===============+===============+===========+</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>   <span class="mi">0</span> <span class="o">|</span> <span class="mf">1.5</span>  <span class="o">|</span>          <span class="mf">1.5</span>  <span class="o">|</span>          <span class="mi">0</span>    <span class="o">|</span>    <span class="mf">1.5</span>    <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>   <span class="mi">2</span> <span class="o">|</span> <span class="mf">1.2</span>  <span class="o">|</span>          <span class="mf">1.2</span>  <span class="o">|</span>          <span class="mf">0.8</span>  <span class="o">|</span>    <span class="mf">0.4</span>    <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span>   <span class="mi">6</span> <span class="o">|</span> <span class="mf">0.42</span> <span class="o">|</span>          <span class="mf">0.42</span> <span class="o">|</span>          <span class="mf">0.2</span>  <span class="o">|</span>    <span class="mf">0.22</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>  <span class="mi">12</span> <span class="o">|</span> <span class="mf">0.14</span> <span class="o">|</span>          <span class="mf">0.14</span> <span class="o">|</span>          <span class="mf">0.1</span>  <span class="o">|</span>    <span class="mf">0.04</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span>   <span class="mi">4</span> <span class="o">|</span> <span class="mf">0.4</span>  <span class="o">|</span>          <span class="mf">0.4</span>  <span class="o">|</span>          <span class="mf">0.39</span> <span class="o">|</span>    <span class="mf">0.0101</span> <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span>   <span class="mi">8</span> <span class="o">|</span> <span class="mf">0.23</span> <span class="o">|</span>          <span class="mf">0.23</span> <span class="o">|</span>          <span class="mf">0.22</span> <span class="o">|</span>    <span class="mf">0.0101</span> <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">6</span> <span class="o">|</span>  <span class="mi">10</span> <span class="o">|</span> <span class="mf">0.11</span> <span class="o">|</span>          <span class="mf">0.11</span> <span class="o">|</span>          <span class="mf">0.1</span>  <span class="o">|</span>    <span class="mf">0.0099</span> <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+</pre></div>
+</div>
+<p>The input-parameter <em>limit</em> will filter the results based on the score, and keep only those with <strong>score&gt;limit</strong>.
+Limiting becomes very usefull when the data is noisy and many peaks are detected along the diagonal.
+Lets set <em>limit</em> at 0.0101 and checkout the results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mf">0.0101</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Print results to screen</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">])</span>
+
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>    <span class="n">y</span> <span class="o">|</span>   <span class="n">birth_level</span> <span class="o">|</span>   <span class="n">death_level</span> <span class="o">|</span>   <span class="n">score</span>   <span class="o">|</span>
+<span class="o">+====+=====+======+===============+===============+===========+</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>   <span class="mi">0</span> <span class="o">|</span> <span class="mf">1.5</span>  <span class="o">|</span>          <span class="mf">1.5</span>  <span class="o">|</span>          <span class="mi">0</span>    <span class="o">|</span>    <span class="mf">1.5</span>    <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>   <span class="mi">2</span> <span class="o">|</span> <span class="mf">1.2</span>  <span class="o">|</span>          <span class="mf">1.2</span>  <span class="o">|</span>          <span class="mf">0.8</span>  <span class="o">|</span>    <span class="mf">0.4</span>    <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span>   <span class="mi">6</span> <span class="o">|</span> <span class="mf">0.42</span> <span class="o">|</span>          <span class="mf">0.42</span> <span class="o">|</span>          <span class="mf">0.2</span>  <span class="o">|</span>    <span class="mf">0.22</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>  <span class="mi">12</span> <span class="o">|</span> <span class="mf">0.14</span> <span class="o">|</span>          <span class="mf">0.14</span> <span class="o">|</span>          <span class="mf">0.1</span>  <span class="o">|</span>    <span class="mf">0.04</span>   <span class="o">|</span>
+<span class="o">+----+-----+------+---------------+---------------+-----------+</span>
+</pre></div>
+</div>
+<p>The input parameter “interpolate” extens the data by this factor and is usefull to “smooth” the signal by a linear interpolation.
+A smoothed signal can be more robust agains noise, and perform better in the detection of peaks and valleys. This step can be seen as pre-processing step before applying any method.
+The results are based on the <em>interpolated data</em>, and mapped <em>back</em> to the original input data.
+In this use-case, the results are very similar as no-interpolation. However, the persistence scores are slightly different.</p>
+<p>Lets demonstrate by example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize with interpolation</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="c1"># Fit topology method on the interpolated 1d-vector</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># The results for the interpolated data.</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">]</span>
+
+<span class="c1"># Thet output vector is 10 times longer then the input, we expect 170 rows.</span>
+<span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>       <span class="n">y</span> <span class="o">|</span>   <span class="n">labx</span> <span class="o">|</span>   <span class="n">rank</span> <span class="o">|</span>   <span class="n">score</span> <span class="o">|</span> <span class="n">valley</span>   <span class="o">|</span> <span class="n">peak</span>   <span class="o">|</span>
+<span class="o">+====+=====+=========+========+========+=========+==========+========+</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span>   <span class="mi">0</span> <span class="o">|</span> <span class="mf">1.5</span>     <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>     <span class="mf">1.5</span> <span class="o">|</span> <span class="kc">True</span>     <span class="o">|</span> <span class="kc">True</span>   <span class="o">|</span>
+<span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>   <span class="mi">1</span> <span class="o">|</span> <span class="mf">1.36189</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>     <span class="mi">0</span>   <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span>  <span class="o">..|</span>  <span class="o">..</span> <span class="o">|</span> <span class="o">...</span>     <span class="o">|</span>    <span class="o">..</span>  <span class="o">|</span>     <span class="o">..</span> <span class="o">|</span>    <span class="o">..</span>   <span class="o">|</span> <span class="o">...</span>      <span class="o">|</span> <span class="o">...</span>    <span class="o">|</span>
+<span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">168</span><span class="o">|</span>   <span class="mi">3</span> <span class="o">|</span> <span class="mf">0.0107</span>  <span class="o">|</span>      <span class="mi">7</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>     <span class="mi">0</span>   <span class="o">|</span> <span class="kc">False</span>    <span class="o">|</span> <span class="kc">False</span>  <span class="o">|</span>
+<span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
+<span class="o">|</span> <span class="mi">169</span><span class="o">|</span>   <span class="mi">4</span> <span class="o">|</span> <span class="mf">0.0100</span>  <span class="o">|</span>      <span class="mi">7</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>     <span class="mi">0</span>   <span class="o">|</span> <span class="kc">True</span>    <span class="o">|</span> <span class="kc">False</span>   <span class="o">|</span>
+<span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Interpolated data with topology method. Results are mapped to the original input data.</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="fig3" src="_images/1dpeaks_interpolate.png" /></p></td>
+<td><p><img alt="fig4" src="_images/1dpeaks_interpolation_pers.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="two-dimensional">
+<h2>Two-dimensional<a class="headerlink" href="#two-dimensional" title="Link to this heading"></a></h2>
+<p>The 2d-detection peaks persistent homology for 2D images runs through the same function as the 1d-vector.
+The implementation uses a union-find data structure instead of the more efficient implemention used for one-dimensional data.
+However, there is a differences in the pre-processing steps. Both peaks and valleys are detected with the topology method. The valleys are stored in the output as negative values.</p>
+<p>The initialization with contains many variables for which only <em>limit</em> is applicable for the <strong>topology</strong> method for <em>2d-peak</em> detection.
+However, there are few parameters that can be used to control the pre-processing steps, such as:</p>
+<ul class="simple">
+<li><p>togray</p></li>
+<li><p>imsize</p></li>
+<li><p>scale</p></li>
+<li><p>denoise</p></li>
+<li><p>window</p></li>
+<li><p>cu</p></li>
+</ul>
+<p>The docstring provide the information regarding the input/output parameters: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="c1"># Initialize</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">])</span>
+<span class="c1"># Example 2d image</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks&#39;</span><span class="p">)</span>
+<span class="c1"># Fit topology method on the 1d-vector</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># The output contains multiple variables</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="c1"># dict_keys([&#39;Xraw&#39;, &#39;Xproc&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;persistence&#39;, &#39;groups0&#39;])</span>
+</pre></div>
+</div>
+<p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector. Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
+The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley). The key <strong>persistence</strong> is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.</p>
+<p>Plot the image with the detected peaks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default" id="figure-5">
+<img alt="_images/2dpeaks.png" src="_images/2dpeaks.png" />
+</figure>
+<p>Plot the image with the persistence. Note that the left-bottom figure is the same as the top-right figure.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default" id="figure-6">
+<img alt="_images/2dpeaks_peristence.png" src="_images/2dpeaks_peristence.png" />
+</figure>
+<p>A more complex example with an internet image is shown below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
+<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;https://erdogant.github.io/datasets/images/complex_peaks.png&#39;</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;lee_sigma&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">]</span>
+<span class="n">peak</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">peak</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
+<span class="c1"># fp.plot_mesh(cmap=plt.cm.hot, view=(40, 180))</span>
+<span class="c1"># fp.plot_mesh(view=(90, 0))</span>
+</pre></div>
+</div>
+<figure class="align-default" id="figure-7">
+<img alt="_images/2dpeaks_complex.png" src="_images/2dpeaks_complex.png" />
+</figure>
+<figure class="align-default">
+<img alt="_images/2dpeaks_complex_persistence.png" src="_images/2dpeaks_complex_persistence.png" />
+</figure>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>[1] Persistent Homology in Data Science, Proc. 3rd Int. Data Sci. Conf. (iDSC ‘20)</p></li>
+<li><p>[2] <a class="reference external" href="https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data/46680769#46680769">https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data/46680769#46680769</a></p></li>
+<li><p>[3] <a class="reference external" href="https://www.sthu.org/code/codesnippets/imagepers.html">https://www.sthu.org/code/codesnippets/imagepers.html</a></p></li>
+<li><p>[4] <a class="reference external" href="https://git.sthu.org/?p=persistence.git">https://git.sthu.org/?p=persistence.git</a></p></li>
+<li><p>[5] H. Edelsbrunner and J. Harer, Computational Topology. An Introduction, 2010, ISBN 0-8218-4925-5.</p></li>
+</ul>
+<hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
+</center>
+<hr></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Installation.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Mask.html" class="btn btn-neutral float-right" title="Mask" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
