@@ -1214,11 +1214,19 @@ class findpeaks():
 
         # Plot input image
         if self.results['Xraw'].flatten().min()<0:
-            ax1.imshow(self.results['Xraw'], cmap, interpolation="nearest")
+            # If any negative values are found (which if weird though, clip it to 0)
+            Xraw = np.clip(self.results['Xraw'], 0, None).copy()
         else:
-            ax1.imshow(self.results['Xraw'].astype(np.uint8).copy(), cmap, interpolation="nearest")
+            Xraw = self.results['Xraw'].astype(np.uint8).copy()
+
+        ax1.imshow(Xraw, cmap, interpolation="nearest")
+        # Get coordinates of detections
+        y, x = np.where(np.abs(Xdetect) > 0  )
+        # Scatter with larger markers (s = size)
+        ax1.scatter(x, y, s=s, c='red', marker=marker) 
         ax1.set_title('Input')
         ax1.grid(False)
+
 
         # For vizualisation purposes, plot all absolute numbers
         Xproc = self.results['Xproc'].copy()
