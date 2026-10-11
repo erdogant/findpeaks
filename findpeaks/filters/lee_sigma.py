@@ -41,12 +41,19 @@ data_measure_DEFAULT = "intensity"
 def assert_parameters(sigma, win_size, num_looks, tk, data_measure):
     """
     Asserts parameters in range.
-    Parameters:
-        - sigma: in [0.5, 0.6, 0.7, 0.8, 0.9]
-        - win_size: should be odd, at least 3
-        - num_looks: in [1, 2, 3, 4]
-        - tk: in [5, 6, 7]
-        - data_measure: "intensity" or "amplitude"
+
+    Parameters
+    ----------
+    sigma: float
+        In [0.5, 0.6, 0.7, 0.8, 0.9]
+    win_size: odd int
+        Should be odd, at least 3
+    num_looks: int
+        In [1, 2, 3, 4]
+    tk: int
+        In [5, 6, 7]
+    data_measure: str
+        "intensity" or "amplitude"
     """
 
     if sigma not in [0.5, 0.6, 0.7, 0.8, 0.9]: raise Exception("Sigma parameter has to be 0.5, 0.6, 0.7, 0.8, or 0.9, submitted %s" %(sigma))
@@ -59,17 +66,19 @@ def assert_parameters(sigma, win_size, num_looks, tk, data_measure):
 def ptTar(x, y, img, Z98, tk):
     """
     Detect if the pixel is part of a point target of surrounding pixels
-    Parameters:
-        - x: int
-            X-coordinate of the pixel.
-        - y: int
-            Y-coordinate of the pixel.
-        - img: xarray
-            Input image.
-        - Z98: ndarray
-            Threshold of the 98th percentile of the img.
-        - tk: int
-            Threshold for number of K neighbouring pixels > Z98 to classify the pixel as point target, typically 5.
+
+    Parameters
+    ----------
+    x: int
+        X-coordinate of the pixel.
+    y: int
+        Y-coordinate of the pixel.
+    img: xarray
+        Input image.
+    Z98: ndarray
+        Threshold of the 98th percentile of the img.
+    tk: int
+        Threshold for number of K neighbouring pixels > Z98 to classify the pixel as point target, typically 5.
     """
 
     for c in [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]:
