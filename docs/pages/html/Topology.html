@@ -8,15 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Topology &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=816012cb"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -147,9 +147,9 @@ The idea of persistent homology is intuitive: Consider the function graph of the
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'topology'</span><span class="p">)</span>
 <span class="c1"># Example 1d-vector</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;1dpeaks&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">'1dpeaks'</span><span class="p">)</span>
 <span class="c1"># Plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -190,18 +190,18 @@ By default, no interpolation is applied and there is no limit on the final resul
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'topology'</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="c1"># Fit topology method on the 1d-vector</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1"># The output contains multiple variables</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-<span class="c1"># dict_keys([&#39;persistence&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;groups0&#39;, &#39;df&#39;])</span>
+<span class="c1"># dict_keys(['persistence', 'Xdetect', 'Xranked', 'groups0', 'df'])</span>
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. See: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks1d" title="findpeaks.findpeaks.findpeaks.peaks1d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks1d()</span></code></a>
 Note that this DataFrame is <em>NOT</em> filtered on <em>limit</em> variable as it should be in line with the input dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print results to screen</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">'df'</span><span class="p">])</span>
 
 <span class="o">+----+-----+------+--------+--------+---------+----------+--------+</span>
 <span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>    <span class="n">y</span> <span class="o">|</span>   <span class="n">labx</span> <span class="o">|</span>   <span class="n">rank</span> <span class="o">|</span>   <span class="n">score</span> <span class="o">|</span> <span class="n">valley</span>   <span class="o">|</span> <span class="n">peak</span>   <span class="o">|</span>
@@ -252,7 +252,7 @@ Note that this DataFrame is <em>NOT</em> filtered on <em>limit</em> variable as 
 </dd>
 </dl>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print results to screen</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">'persistence'</span><span class="p">])</span>
 
 <span class="o">+----+-----+------+---------------+---------------+-----------+</span>
 <span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>    <span class="n">y</span> <span class="o">|</span>   <span class="n">birth_level</span> <span class="o">|</span>   <span class="n">death_level</span> <span class="o">|</span>   <span class="n">score</span>   <span class="o">|</span>
@@ -276,10 +276,10 @@ Note that this DataFrame is <em>NOT</em> filtered on <em>limit</em> variable as 
 <p>The input-parameter <em>limit</em> will filter the results based on the score, and keep only those with <strong>score&gt;limit</strong>.
 Limiting becomes very usefull when the data is noisy and many peaks are detected along the diagonal.
 Lets set <em>limit</em> at 0.0101 and checkout the results:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mf">0.0101</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'topology'</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mf">0.0101</span><span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1"># Print results to screen</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">'persistence'</span><span class="p">])</span>
 
 <span class="o">+----+-----+------+---------------+---------------+-----------+</span>
 <span class="o">|</span>    <span class="o">|</span>   <span class="n">x</span> <span class="o">|</span>    <span class="n">y</span> <span class="o">|</span>   <span class="n">birth_level</span> <span class="o">|</span>   <span class="n">death_level</span> <span class="o">|</span>   <span class="n">score</span>   <span class="o">|</span>
@@ -302,11 +302,11 @@ In this use-case, the results are very similar as no-interpolation. However, the
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize with interpolation</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'topology'</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="c1"># Fit topology method on the interpolated 1d-vector</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1"># The results for the interpolated data.</span>
-<span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">]</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">'persistence'</span><span class="p">]</span>
 
 <span class="c1"># Thet output vector is 10 times longer then the input, we expect 170 rows.</span>
 <span class="o">+----+-----+---------+--------+--------+---------+----------+--------+</span>
@@ -352,21 +352,21 @@ However, there are few parameters that can be used to control the pre-processing
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">])</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'topology'</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s1">'peak'</span><span class="p">])</span>
 <span class="c1"># Example 2d image</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;2dpeaks&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">'2dpeaks'</span><span class="p">)</span>
 <span class="c1"># Fit topology method on the 1d-vector</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1"># The output contains multiple variables</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-<span class="c1"># dict_keys([&#39;Xraw&#39;, &#39;Xproc&#39;, &#39;Xdetect&#39;, &#39;Xranked&#39;, &#39;persistence&#39;, &#39;groups0&#39;])</span>
+<span class="c1"># dict_keys(['Xraw', 'Xproc', 'Xdetect', 'Xranked', 'persistence', 'groups0'])</span>
 </pre></div>
 </div>
 <p>The output is a dictionary containing multiple variables that can be of use for follow-up analysis. Note thet output is slighty different to that of the 1d-vector. Details about the input/output parameters can be found here: <a class="reference internal" href="findpeaks.findpeaks.html#findpeaks.findpeaks.findpeaks.peaks2d" title="findpeaks.findpeaks.findpeaks.peaks2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">findpeaks.findpeaks.findpeaks.peaks2d()</span></code></a>
 The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in the same shape as the input image and contains the detected peaks/valleys (high=best peak and low=best valley). The key <strong>persistence</strong> is a dataframe containing the x,y coordinates and more information about the peaks/valleys. See api-docstrings for more information.</p>
 <p>Plot the image with the detected peaks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_order</span><span class="o">=</span><span class="s1">'horizontal'</span><span class="p">)</span>
 </pre></div>
 </div>
 <figure class="align-default" id="figure-5">
@@ -382,18 +382,18 @@ The output variables <strong>Xdetect</strong> and <strong>Xranked</strong> is in
 </figure>
 <p>A more complex example with an internet image is shown below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
-<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;https://erdogant.github.io/datasets/images/complex_peaks.png&#39;</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;topology&#39;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="s1">&#39;peak&#39;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">&#39;lee_sigma&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+<span class="n">path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">'https://erdogant.github.io/datasets/images/complex_peaks.png'</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'topology'</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="s1">'peak'</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">denoise</span><span class="o">=</span><span class="s1">'lee_sigma'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'window'</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-<span class="n">result_df</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;persistence&#39;</span><span class="p">]</span>
-<span class="n">peak</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">result_df</span><span class="p">[</span><span class="s1">&#39;peak&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">'persistence'</span><span class="p">]</span>
+<span class="n">peak</span> <span class="o">=</span> <span class="n">result_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">result_df</span><span class="p">[</span><span class="s1">'peak'</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">peak</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
 <span class="n">fp</span><span class="o">.</span><span class="n">plot_persistence</span><span class="p">()</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="n">figure_order</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#ff0000'</span><span class="p">,</span> <span class="n">figure_order</span><span class="o">=</span><span class="s1">'vertical'</span><span class="p">)</span>
 <span class="c1"># fp.plot_mesh(cmap=plt.cm.hot, view=(40, 180))</span>
 <span class="c1"># fp.plot_mesh(view=(90, 0))</span>
 </pre></div>

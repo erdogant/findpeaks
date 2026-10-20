@@ -8,15 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Caerus &mdash; findpeaks findpeaks documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=816012cb"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -149,9 +149,9 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">findpeaks</span><span class="w"> </span><span class="kn">import</span> <span class="n">findpeaks</span>
 <span class="c1"># Initialize findpeaks with cearus method.</span>
 <span class="c1"># The default setting is that it only return peaks-vallyes with at least 5% difference. Change this using params</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;caerus&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minperc&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;window&#39;</span><span class="p">:</span><span class="mi">50</span><span class="p">})</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">findpeaks</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'caerus'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'minperc'</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'window'</span><span class="p">:</span><span class="mi">50</span><span class="p">})</span>
 <span class="c1"># Import example data</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">&#39;facebook&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="s1">'facebook'</span><span class="p">)</span>
 <span class="c1"># Fit</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="c1"># Make the plot</span>
@@ -167,7 +167,7 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 </table>
 <p>Lets print out some of the detected results:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Results</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">'df'</span><span class="p">])</span>
 
 <span class="c1"># index    labx   peak  valley      y     x</span>
 <span class="c1"># 0        0  False   False   38.2318     0</span>
@@ -183,10 +183,10 @@ The default value for minperc is set to 5 and window size is set to 50.</p>
 <span class="c1"># 1471     0  False   False  152.1900  1471</span>
 
 <span class="c1"># Number of peaks</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;peak&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">'df'</span><span class="p">][</span><span class="s1">'peak'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 <span class="c1"># 20</span>
 <span class="c1"># Number of valleys</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;valley&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">'df'</span><span class="p">][</span><span class="s1">'valley'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 <span class="c1"># 23</span>
 </pre></div>
 </div>
