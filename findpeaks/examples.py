@@ -1,3 +1,77 @@
+
+
+import numpy as np
+from findpeaks import findpeaks
+
+# Create a data vector with peaks and valleys
+x = np.linspace(0, 10, 100)
+y = (2 * np.sin(x)
+     + 1.5 * np.sin(3 * x)
+     + 0.8 * np.sin(7 * x)
+     + 0.5 * np.sin(10 * x))
+# Add some noise to make it more realistic
+y += np.random.normal(0, 0.1, len(x))
+
+# Use findpeaks to detect peaks and valleys
+fp = findpeaks(method="peakdetect", lookahead=5)
+# Fit on data
+results = fp.fit(y)
+# Plot the results
+fp.plot()
+
+# Investigate the results
+results['df'].sort_values('peak', ascending=False)
+
+#      x         y  labx  valley   peak
+# 8    8  2.406256   2.0   False   True
+# 21  21  2.765294   3.0   False   True
+# 27  27  2.886073   4.0   False   True
+# 3    3  2.583402   1.0   False   True
+# 64  64  2.424802   6.0   False   True
+# ..  ..       ...   ...     ...    ...
+# 33  33 -1.495308   4.0   False  False
+# 32  32 -0.626709   4.0   False  False
+# 31  31  0.160443   4.0   False  False
+# 30  30  0.942535   4.0   False  False
+# 99  99 -2.090159   9.0    True  False
+
+# [100 rows x 5 columns]
+
+
+
+
+fp = findpeaks(method="peakdetect")
+results = fp.fit(y)
+fp.plot()
+
+
+
+
+
+
+
+fp = findpeaks(method='caerus')
+results = fp.fit(y)
+fp.plot()
+
+
+
+# %%
+
+from findpeaks import findpeaks
+
+fp = findpeaks(method='topology',
+               scale=True,
+               togray=True,
+               imsize=(150, 150),
+               denoise='lee_sigma',
+               params={'window': 17})
+
+img = fp.import_example('2dpeaks_image')
+results = fp.fit(img)
+fp.plot_mesh()
+fp.plot(limit=80, fontsize=12, figure_order='horizontal')
+
 # %%
 # import os
 # os.chdir(os.path.dirname(os.path.abspath('examples.py')))
@@ -257,8 +331,6 @@ results = fp.fit(X)
 fp.plot()
 fp.plot_persistence()
 
-
-# %%
 
 # %%
 from findpeaks import findpeaks
@@ -560,28 +632,47 @@ results['persistence']
 results['Xdetect']
 
 # %%
-from findpeaks import findpeaks
-verbose='info'
 
-fp = findpeaks(verbose=verbose)
+from findpeaks import findpeaks
+
+fp = findpeaks()
 # Import example
 X = fp.import_example("btc")
 
-# Make fit
-fp = findpeaks(method="topology", verbose=verbose)
-results = fp.fit(X)
-fp.plot()
-fp.plot_persistence(fontsize_ax1=4)
-
-fp = findpeaks(method="peakdetect", lookahead=15, verbose=verbose)
+fp = findpeaks(method="peakdetect", lookahead=50)
 # Make fit
 results = fp.fit(X)
 fp.plot()
 
-fp = findpeaks(method="caerus", interpolate=None, params={'minperc': 50, 'window':50}, verbose=verbose)
+fp = findpeaks(method="caerus",
+               params={'minperc': 50, 'window':50})
 # Make fit
 results = fp.fit(X)
 ax = fp.plot()
+
+# Results
+results['df'].sort_values('peak')
+#       labx   peak  valley           y     x
+# 0        0  False   False     5.97000     0
+# 1675     0  False   False   425.08475  1675
+# 1676     0  False   False   429.59250  1676
+# 1677     0  False   False   430.50225  1677
+# 1678     0  False   False   428.08250  1678
+#    ...    ...     ...         ...   ...
+# 2098    11   True   False  2958.77725  2098
+# 338      3   True   False    13.42000   338
+# 846      8   True   False   926.89500   846
+# 309      2   True   False     9.00000   309
+# 2180    12   True   False  4929.22000  2180
+
+# [2522 rows x 5 columns]
+
+
+# Make fit
+# fp = findpeaks(method="topology')
+# results = fp.fit(X)
+# fp.plot()
+# fp.plot_persistence(fontsize_ax1=4)
 
 
 # %%
