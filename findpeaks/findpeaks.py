@@ -42,29 +42,41 @@ if not logger.hasHandlers():
 class findpeaks():
     """Python library for robust detection and analysis of peaks and valleys in 1D and 2D data.
 
-    findpeaks is a comprehensive library for detecting, analyzing, and visualizing peaks and valleys 
+    `findpeaks` is a comprehensive library for detecting, analyzing, and visualizing peaks and valleys 
     in both 1D vectors and 2D arrays (images). It provides multiple detection methods including 
     topology-based persistent homology, traditional peak detection algorithms, and mask-based approaches.
     
-    **Key Features:**
-    - **Multiple Detection Methods**: Topology (persistent homology), peakdetect, caerus, and mask-based detection
-    - **1D and 2D Support**: Works with time series, signals, images, and spatial data
-    - **Advanced Preprocessing**: Denoising, scaling, interpolation, and image preprocessing
-    - **Rich Visualization**: Persistence diagrams, 3D mesh plots, preprocessing steps, and masking plots
-    - **Robust Analysis**: Mathematically stable methods with quantitative significance measures
+    **Key Features**
+
+    * **Multiple Detection Methods**: Topology (persistent homology), peakdetect,
+      caerus, and mask-based detection
+    * **1D and 2D Support**: Works with time series, signals, images, and spatial
+      data
+    * **Advanced Preprocessing**: Denoising, scaling, interpolation, and image
+      preprocessing
+    * **Rich Visualization**: Persistence diagrams, 3D mesh plots, preprocessing
+      steps, and masking plots
+    * **Robust Analysis**: Mathematically stable methods with quantitative
+      significance measures
     
-    **Detection Methods:**
-    - **Topology**: Uses persistent homology for robust peak detection with mathematical stability
-    - **Peakdetect**: Traditional algorithm for 1D peak detection with lookahead and delta parameters
-    - **Caerus**: Advanced peak detection with multiple optimization strategies
-    - **Mask**: Local maximum filtering for 2D peak detection
+    **Detection Methods**
+
+    Topology
+        Uses persistent homology for robust peak detection with mathematical stability
+    Peakdetect
+        Traditional algorithm for 1D peak detection with lookahead and delta parameters
+    Caerus
+        Advanced peak detection with multiple optimization strategies
+    Mask
+        Local maximum filtering for 2D peak detection
     
-    **Applications:**
-    - Signal processing and time series analysis
-    - Image processing and feature detection
-    - Hough Transform applications with enhanced robustness
-    - Scientific data analysis and visualization
-    - Peak finding in noisy or complex datasets
+    **Applications**
+
+    * Signal processing and time series analysis
+    * Image processing and feature detection
+    * Hough Transform applications with enhanced robustness
+    * Scientific data analysis and visualization
+    * Peak finding in noisy or complex datasets
 
     Examples
     --------
@@ -311,28 +323,48 @@ class findpeaks():
         dict
             Dictionary containing detection results with the following keys:
             
-            **For 1D data:**
-            - 'df': pandas DataFrame with original data coordinates and detection results
-            - 'df_interp': pandas DataFrame with interpolated data (if interpolation used)
-            - 'persistence': pandas DataFrame with persistence scores (topology method only)
-            - 'Xdetect': numpy array with detection scores
-            - 'Xranked': numpy array with ranked peak/valley indices
+            **For 1D data**
+
+            df: pd.DataFrame 
+                Original data coordinates and detection results
+            df_interp: pd.DataFrame
+                Interpolated data (if interpolation used)
+            persistence: pd.DataFrame
+                Persistence scores (topology method only)
+            Xdetect: np.array
+                Detection scores
+            Xranked: np.array
+                Ranked peak/valley indices
             
             **For 2D data:**
-            - 'Xraw': numpy array of original input data
-            - 'Xproc': numpy array of preprocessed data
-            - 'Xdetect': numpy array with detection scores (same shape as input)
-            - 'Xranked': numpy array with ranked peak/valley indices (same shape as input)
-            - 'persistence': pandas DataFrame with persistence scores (topology method only)
-            - 'groups0': list of homology groups (topology method only)
+
+            Xraw: np.array 
+                Original input data
+            Xproc: numpy array 
+                Preprocessed data
+            Xdetect: np.array
+                Detection scores (same shape as input)
+            Xranked: np.array
+                Ranked peak/valley indices (same shape as input)
+            persistence: pd.DataFrame
+                Persistence scores (topology method only)
+            groups0: list
+                Homology groups (topology method only)
             
             **DataFrame columns (when applicable):**
-            - 'x', 'y': Coordinates of detected features
-            - 'peak': Boolean indicating if point is a peak
-            - 'valley': Boolean indicating if point is a valley
-            - 'score': Persistence or detection score
-            - 'rank': Ranking of feature significance (1 = most significant)
-            - 'labx': Label/group assignment for connected components
+
+            x, y
+                Coordinates of detected features
+            peak
+                Boolean indicating if point is a peak
+            valley
+                Boolean indicating if point is a valley
+            score
+                Persistence or detection score
+            rank
+                Ranking of feature significance (1 = most significant)
+            labx
+                Label/group assignment for connected components
 
         Examples
         --------
