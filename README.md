@@ -32,7 +32,7 @@ findpeaks is a comprehensive Python library for robust detection and analysis of
 | Feature | Description | Medium | Gumroad & Podcast |
 |--------|-------------| - | - |
 | [**Topology Detection**](https://erdogant.github.io/findpeaks/pages/html/Topology.html) | Mathematically grounded peak detection using persistent homology. | - | - |
-| [**Peakdetect Method**](https://erdogant.github.io/findpeaks/pages/html/Peakdetect.html) | Peak detection algorithm for noisy signals. | [link](https://medium.com/detecting-peaks-and-valleys-learn-the-essentials-for-accurate-analysis) | [link](https://erdogant.gumroad.com/l/detecting-peaks-and-valleys-learn-the-essentials-for-accurate-analysis) |
+| [**Peakdetect Method**](https://erdogant.github.io/findpeaks/pages/html/Peakdetect.html) | Peak detection algorithm for noisy signals. | [link](https://medium.com/data-science-collective/detecting-peaks-and-valleys-learn-the-essentials-for-accurate-analysis-295b2a002f62) | [link](https://erdogant.gumroad.com/l/detecting-peaks-and-valleys-learn-the-essentials-for-accurate-analysis) |
 | [**Mask Detection**](https://erdogant.github.io/findpeaks/pages/html/Mask.html) | Local maximum filtering for 2D image analysis. | - | - |
 | [**Caerus Method**](https://erdogant.github.io/findpeaks/pages/html/Caerus.html) | Specialized algorithm for financial time series analysis. | - | - |
 | [**Preprocessing**](https://erdogant.github.io/findpeaks/pages/html/Pre-processing.html) | Denoising, scaling, interpolation, and image preprocessing. | - | - |
@@ -52,7 +52,7 @@ findpeaks is a comprehensive Python library for robust detection and analysis of
 
 * **Topology Method**: The most robust detection method based on persistent homology from topological data analysis. It quantifies peak significance through persistence scores and provides mathematically stable results even in noisy data.
 
-* **Peakdetect Method**: Traditional algorithm that excels at finding local maxima and minima in noisy signals without requiring extensive preprocessing. Uses a lookahead approach to distinguish between true peaks and noise-induced fluctuations.
+* **Peakdetect Method**: A traditional algorithm that excels at finding local maxima and minima in noisy signals without requiring extensive preprocessing. It uses a lookahead approach to distinguish true peaks from noise-induced fluctuations.
 
 * **Mask Method**: Local maximum filtering approach specifically designed for 2D data (images). Employs 8-connected neighborhood analysis and background removal for spatial peak detection.
 
